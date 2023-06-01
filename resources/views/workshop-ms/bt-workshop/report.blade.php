@@ -48,7 +48,7 @@
                                     <button class="inline-block p-2 border-b-2 rounded-t-lg" id="report-tab" data-tabs-target="#report" type="button" role="tab" aria-controls="report" aria-selected="false">REPORT</button>
                                 </li>
                                 <li class="mr-2" role="presentation">
-                                    <button class="inline-block p-2 border-b-2 rounded-t-lg" id="newunit-tab" data-tabs-target="#newunit" type="button" role="tab" aria-controls="newunit" aria-selected="false">BRAND NEW SHIPMENT</button>
+                                    <button class="inline-block p-2 border-b-2 rounded-t-lg" id="newunit-tab" data-tabs-target="#newunit" type="button" role="tab" aria-controls="newunit" aria-selected="false">BN SHIPMENT</button>
                                 </li>
                                 <li class="mr-2" role="presentation">
                                     <button class="inline-block p-2 border-b-2 rounded-t-lg" id="pounit-tab" data-tabs-target="#pounit" type="button" role="tab" aria-controls="pounit" aria-selected="false">PULL OUT UNIT</button>
@@ -926,7 +926,7 @@
                     <div class="p-2 space-y-6">
                         <form action="" id="formNewUnit">
                             @csrf
-                            <input type="hidden" id="NewUIDe" name="NewUIDe">
+                            <input type="hidden" id="NewUnitIDe" name="NewUnitIDe">
                             <div id="NewUnitbhead" class="">
                                 <div class="grid grid-cols-3">
                                     <div class="grid grid-cols-3 items-center">
@@ -950,7 +950,7 @@
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                 </div>
-                                                <input type="text"  datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="POUArrivalDate" id="POUArrivalDate">
+                                                <input type="text"  datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="NewUnitArrivalDate" id="NewUnitArrivalDate">
                                             </div>
                                         </div>
                                     </div>
@@ -978,10 +978,10 @@
                                     <div class="hidden p-2 rounded-lg" id="UnitDetails" role="tabpanel" aria-labelledby="UnitDetails-tab">
                                         <div class="grid grid-cols-7 items-center">
                                             <div id="label" class="">
-                                                <label for="POUBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                                <label for="NewUnitBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1">
-                                                <select name="POUBrand" id="POUBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <select name="NewUnitBrand" id="NewUnitBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                     <option value="" selected disabled></option>
                                                     @foreach ($brand as $brands)
                                                     <option value="{{$brands->id}}">{{$brands->name}}</option>
@@ -990,10 +990,10 @@
                                             </div>
                                             <div class=""></div>
                                             <div id="label" class="">
-                                                <label for="POUClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
+                                                <label for="NewUnitClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1">
-                                                <select name="POUClassification" id="POUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <select name="NewUnitClassification" id="NewUnitClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                     <option value="" selected disabled></option>
                                                     <option value="1">CLASS A</option>
                                                     <option value="2">CLASS B</option>
@@ -1002,119 +1002,119 @@
                                                 </select>
                                             </div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                                <label for="NewUnitModel" class="block text-sm font-medium text-gray-900">Model:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUModel" id="POUModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitModel" id="NewUnitModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class=""></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                                <label for="NewUnitSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUSerialNum" id="POUSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitSerialNum" id="NewUnitSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                                <label for="NewUnitCode" class="block text-sm font-medium text-gray-900">Code:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUCode" id="POUCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCode" id="NewUnitCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class=""></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUMastType" class="block text-sm font-medium text-gray-900">Mast Type:</label>
+                                                <label for="NewUnitMastType" class="block text-sm font-medium text-gray-900">Mast Type:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUMastType" id="POUMastType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitMastType" id="NewUnitMastType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUForkSize" class="block text-sm font-medium text-gray-900">Fork Size:</label>
+                                                <label for="NewUnitForkSize" class="block text-sm font-medium text-gray-900">Fork Size:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUForkSize" id="POUForkSize" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitForkSize" id="NewUnitForkSize" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class=""></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUMastHeight" class="block text-sm font-medium text-gray-900">Mast Height:</label>
+                                                <label for="NewUnitMastHeight" class="block text-sm font-medium text-gray-900">Mast Height:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUMastHeight" id="POUMastHeight" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitMastHeight" id="NewUnitMastHeight" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-3 mt-2">
-                                                <input type="checkbox" id="POUwAttachment" name="POUwAttachment" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwAttachment" class="ml-2 text-sm font-medium text-gray-900">Unit with Attachment</label>
+                                                <input type="checkbox" id="NewUnitwAttachment" name="NewUnitwAttachment" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="NewUnitwAttachment" class="ml-2 text-sm font-medium text-gray-900">Unit with Attachment</label>
                                             </div>
                                             <div class=""></div>
                                             <div class="col-span-3 mt-2">
-                                                <input type="checkbox" id="POUwAccesories" name="POUwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
+                                                <input type="checkbox" id="NewUnitwAccesories" name="NewUnitwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="NewUnitwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
                                             </div>
                                             <div id="PAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
                                                 <div class="col-span-3">
-                                                    <label for="POUAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
+                                                    <label for="NewUnitAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
                                                 </div>
                                                 <div class=""></div>
                                                 <div class="">
-                                                    <label for="POUAttType" class="block text-sm font-medium text-gray-900">Type:</label>
+                                                    <label for="NewUnitAttType" class="block text-sm font-medium text-gray-900">Type:</label>
                                                 </div>
                                                 <div class="">
-                                                    <input type="text" name="POUAttType" id="POUAttType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitAttType" id="NewUnitAttType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div class="mt-1"></div>
                                                 <div class="mt-1">
-                                                    <label for="POUAttModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                                    <label for="NewUnitAttModel" class="block text-sm font-medium text-gray-900">Model:</label>
                                                 </div>
                                                 <div class="mt-1">
-                                                    <input type="text" name="POUAttModel" id="POUAttModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitAttModel" id="NewUnitAttModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div class="mt-1"></div>
                                                 <div class="mt-1">
-                                                    <label for="POUAttSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                                    <label for="NewUnitAttSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
                                                 </div>
                                                 <div class="mt-1">
-                                                    <input type="text" name="POUAttSerialNum" id="POUAttSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitAttSerialNum" id="NewUnitAttSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                             </div>
                                             <div class=""></div>
                                             <div id="PAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
                                                 <div class="col-span-3">
-                                                    <label for="POUAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
+                                                    <label for="NewUnitAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
                                                 </div>
                                                 <div class=""></div>
                                                 <div class="">
-                                                    <input type="checkbox" id="POUAccISite" name="POUAccISite" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccISite" class="ml-2 text-sm font-medium text-gray-900">I-Site</label>
+                                                    <input type="checkbox" id="NewUnitAccISite" name="NewUnitAccISite" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccISite" class="ml-2 text-sm font-medium text-gray-900">I-Site</label>
                                                 </div>
                                                 <div class="">
-                                                    <input type="checkbox" id="POUAccLiftCam" name="POUAccLiftCam" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccLiftCam" class="ml-2 text-sm font-medium text-gray-900">Lift Cam</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccRedLight" name="POUAccRedLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccRedLight" class="ml-2 text-sm font-medium text-gray-900">Red Light</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccBlueLight" name="POUAccBlueLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccBlueLight" class="ml-2 text-sm font-medium text-gray-900">Blue Light</label>
+                                                    <input type="checkbox" id="NewUnitAccLiftCam" name="NewUnitAccLiftCam" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccLiftCam" class="ml-2 text-sm font-medium text-gray-900">Lift Cam</label>
                                                 </div>
                                                 <div class=""></div>
                                                 <div class="">
-                                                    <input type="checkbox" id="POUAccFireExt" name="POUAccFireExt" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccFireExt" class="ml-2 text-xs font-medium text-gray-900">Fire Extinguisher</label>
+                                                    <input type="checkbox" id="NewUnitAccRedLight" name="NewUnitAccRedLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccRedLight" class="ml-2 text-sm font-medium text-gray-900">Red Light</label>
                                                 </div>
                                                 <div class="">
-                                                    <input type="checkbox" id="POUAccStLight" name="POUAccStLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccStLight" class="ml-2 text-xs font-medium text-gray-900">Strobe Light</label>
+                                                    <input type="checkbox" id="NewUnitAccBlueLight" name="NewUnitAccBlueLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccBlueLight" class="ml-2 text-sm font-medium text-gray-900">Blue Light</label>
+                                                </div>
+                                                <div class=""></div>
+                                                <div class="">
+                                                    <input type="checkbox" id="NewUnitAccFireExt" name="NewUnitAccFireExt" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccFireExt" class="ml-2 text-xs font-medium text-gray-900">Fire Extinguisher</label>
+                                                </div>
+                                                <div class="">
+                                                    <input type="checkbox" id="NewUnitAccStLight" name="NewUnitAccStLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccStLight" class="ml-2 text-xs font-medium text-gray-900">Strobe Light</label>
                                                 </div>
                                                 <div class=""></div>
                                                 <div class="col-span-2">
-                                                    <input type="checkbox" id="POUAccOthers" name="POUAccOthers" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccOthers" class="ml-2 text-sm font-medium text-gray-900">Others</label>
+                                                    <input type="checkbox" id="NewUnitAccOthers" name="NewUnitAccOthers" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                    <label for="NewUnitAccOthers" class="ml-2 text-sm font-medium text-gray-900">Others</label>
                                                 </div>
                                                 <div class=""></div>
                                                 <div class="col-span-2 mt-1 relative">
-                                                    <input type="text" id="POUAccOthersDetail" name="POUAccOthersDetail" class="block rounded-t-lg w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Other Accesories" />
+                                                    <input type="text" id="NewUnitAccOthersDetail" name="NewUnitAccOthersDetail" class="block rounded-t-lg w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Other Accesories" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1123,10 +1123,10 @@
                                     <div class="hidden p-2 rounded-lg" id="OtherDetails" role="tabpanel" aria-labelledby="OtherDetails-tab">
                                         <div class="grid grid-cols-7 items-center">
                                             <div id="label" class="">
-                                                <label for="POUTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
+                                                <label for="NewUnitTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1">
-                                                <select name="POUTechnician1" id="POUTechnician1" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <select name="NewUnitTechnician1" id="NewUnitTechnician1" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                     <option value="" selected disabled></option>
                                                     @foreach ($technician as $technicians)
                                                     <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
@@ -1135,10 +1135,10 @@
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUTechnician2" class="block text-sm font-medium text-gray-900">Technician 2:</label>
+                                                <label for="NewUnitTechnician2" class="block text-sm font-medium text-gray-900">Technician 2:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <select name="POUTechnician2" id="POUTechnician2" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <select name="NewUnitTechnician2" id="NewUnitTechnician2" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                     <option value="" selected></option>
                                                     @foreach ($technician as $technicians)
                                                     <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
@@ -1147,24 +1147,24 @@
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-5">
-                                                <label for="POUSalesman" class="block text-sm font-medium text-gray-900">Salesman:</label>
+                                                <label for="NewUnitSalesman" class="block text-sm font-medium text-gray-900">Salesman:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-5">
-                                                <input type="text" name="POUSalesman" id="POUSalesman" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitSalesman" id="NewUnitSalesman" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-5">
-                                                <label for="POUCustomer" class="block text-sm font-medium text-gray-900">Customer:</label>
+                                                <label for="NewUnitCustomer" class="block text-sm font-medium text-gray-900">Customer:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-5">
-                                                <input type="text" name="POUCustomer" id="POUCustomer" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCustomer" id="NewUnitCustomer" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCustAddress" class="block text-sm font-medium text-gray-900">Customer Address:</label>
+                                                <label for="NewUnitCustAddress" class="block text-sm font-medium text-gray-900">Customer Address:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCustAddress" id="POUCustAddress" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCustAddress" id="NewUnitCustAddress" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                         </div>
@@ -1173,166 +1173,166 @@
                                     <div class="hidden p-2 rounded-lg" id="BatteryDetails" role="tabpanel" aria-labelledby="BatteryDetails-tab">
                                         <div class="grid grid-cols-3 items-center">
                                             <div class="col-span-1 mt-1">
-                                                <label for="POUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
+                                                <label for="NewUnitBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
                                             </div>
                                             <div class="col-span-1 mt-1">
-                                                <input type="checkbox" id="POUwBatSpare1" name="POUwBatSpare1" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwBatSpare1" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 1</label>
+                                                <input type="checkbox" id="NewUnitwBatSpare1" name="NewUnitwBatSpare1" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="NewUnitwBatSpare1" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 1</label>
                                             </div>
                                             <div class="col-span-1 mt-1">
-                                                <input type="checkbox" id="POUwBatSpare2" name="POUwBatSpare2" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwBatSpare2" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 2</label>
+                                                <input type="checkbox" id="NewUnitwBatSpare2" name="NewUnitwBatSpare2" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="NewUnitwBatSpare2" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 2</label>
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-3">
                                             <div id="BatAttached" class="grid grid-cols-3 mr-2 mt-1 items-center">
                                                 <div id="label" class="">
-                                                    <label for="POUBABrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                                    <label for="NewUnitBABrand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2">
-                                                    <input type="text" name="POUBABrand" id="POUBABrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBABrand" id="NewUnitBABrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBABatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                                    <label for="NewUnitBABatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBABatType" id="POUBABatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBABatType" id="NewUnitBABatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBASerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                                    <label for="NewUnitBASerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBASerialNum" id="POUBASerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBASerialNum" id="NewUnitBASerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBACode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                                    <label for="NewUnitBACode" class="block text-sm font-medium text-gray-900">Code:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBACode" id="POUBACode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBACode" id="NewUnitBACode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBAAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                                    <label for="NewUnitBAAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBAAmper" id="POUBAAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBAAmper" id="NewUnitBAAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBAVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                                    <label for="NewUnitBAVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBAVolt" id="POUBAVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBAVolt" id="NewUnitBAVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBACCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                                    <label for="NewUnitBACCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBACCable" id="POUBACCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBACCable" id="NewUnitBACCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUBACTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                                    <label for="NewUnitBACTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBACTable" id="POUBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitBACTable" id="NewUnitBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                             </div>
                                             <div id="SpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
                                                 <div id="label" class="">
-                                                    <label for="POUSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                                    <label for="NewUnitSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2">
-                                                    <input type="text" name="POUSB1Brand" id="POUSB1Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1Brand" id="NewUnitSB1Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                                    <label for="NewUnitSB1BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1BatType" id="POUSB1BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1BatType" id="NewUnitSB1BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                                    <label for="NewUnitSB1SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1SerialNum" id="POUSB1SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1SerialNum" id="NewUnitSB1SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1Code" class="block text-sm font-medium text-gray-900">Code:</label>
+                                                    <label for="NewUnitSB1Code" class="block text-sm font-medium text-gray-900">Code:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1Code" id="POUSB1Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1Code" id="NewUnitSB1Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                                    <label for="NewUnitSB1Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1Amper" id="POUSB1Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1Amper" id="NewUnitSB1Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                                    <label for="NewUnitSB1Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1Volt" id="POUSB1Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1Volt" id="NewUnitSB1Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                                    <label for="NewUnitSB1CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1CCable" id="POUSB1CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1CCable" id="NewUnitSB1CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB1CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                                    <label for="NewUnitSB1CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1CTable" id="POUSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB1CTable" id="NewUnitSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                             </div>
                                             <div id="SpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
                                                 <div id="label" class="">
-                                                    <label for="POUSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                                    <label for="NewUnitSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2">
-                                                    <input type="text" name="POUSB2Brand" id="POUSB2Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2Brand" id="NewUnitSB2Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                                    <label for="NewUnitSB2BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2BatType" id="POUSB2BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2BatType" id="NewUnitSB2BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                                    <label for="NewUnitSB2SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2SerialNum" id="POUSB2SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2SerialNum" id="NewUnitSB2SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2Code" class="block text-sm font-medium text-gray-900">Code:</label>
+                                                    <label for="NewUnitSB2Code" class="block text-sm font-medium text-gray-900">Code:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2Code" id="POUSB2Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2Code" id="NewUnitSB2Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                                    <label for="NewUnitSB2Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2Amper" id="POUSB2Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2Amper" id="NewUnitSB2Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                                    <label for="NewUnitSB2Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2Volt" id="POUSB2Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2Volt" id="NewUnitSB2Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                                    <label for="NewUnitSB2CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2CCable" id="POUSB2CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2CCable" id="NewUnitSB2CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                                 <div id="label" class="mt-1">
-                                                    <label for="POUSB2CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                                    <label for="NewUnitSB2CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
                                                 </div>
                                                 <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2CTable" id="POUSB2CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                    <input type="text" name="NewUnitSB2CTable" id="NewUnitSB2CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                             </div>
                                         </div>
@@ -1341,52 +1341,52 @@
                                     <div class="hidden p-2 rounded-lg" id="ChargerDetails" role="tabpanel" aria-labelledby="ChargerDetails-tab">
                                         <div class="grid grid-cols-7 items-center">
                                             <div id="label" class="">
-                                                <label for="POUCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                                <label for="NewUnitCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1">
-                                                <input type="text" name="POUCBrand" id="POUCBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCBrand" id="NewUnitCBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                                <label for="NewUnitCModel" class="block text-sm font-medium text-gray-900">Model:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCModel" id="POUCModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCModel" id="NewUnitCModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                                <label for="NewUnitCSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCSerialNum" id="POUCSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCSerialNum" id="NewUnitCSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCCode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                                <label for="NewUnitCCode" class="block text-sm font-medium text-gray-900">Code:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCCode" id="POUCCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCCode" id="NewUnitCCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                                <label for="NewUnitCAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCAmper" id="POUCAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCAmper" id="NewUnitCAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                                <label for="NewUnitCVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCVolt" id="POUCVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCVolt" id="NewUnitCVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                             <div id="label" class="mt-2">
-                                                <label for="POUCInput" class="block text-sm font-medium text-gray-900">Input/Phase:</label>
+                                                <label for="NewUnitCInput" class="block text-sm font-medium text-gray-900">Input/Phase:</label>
                                             </div>
                                             <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCInput" id="POUCInput" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <input type="text" name="NewUnitCInput" id="NewUnitCInput" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                             </div>
                                             <div class="col-span-4"></div>
                                         </div>
@@ -1397,10 +1397,10 @@
                             <div id="DUbfoot" class="">
                                 <div class="grid grid-cols-7 items-center">
                                     <div id="label" class="mb-2 ml-1">
-                                        <label for="POURemarks" class="block text-sm font-medium text-gray-900">Remarks:</label>
+                                        <label for="NewUnitRemarks" class="block text-sm font-medium text-gray-900">Remarks:</label>
                                     </div>
                                     <div id="input" class="col-span-5 uppercase mb-2">
-                                        <textarea rows="2" name="POURemarks" id="POURemarks" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                                        <textarea rows="2" name="NewUnitRemarks" id="NewUnitRemarks" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -1408,9 +1408,9 @@
                     </div>
                     <!-- Modal footer -->
                     <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
-                        <button type="button" id="savePullOutH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
-                        <button type="button" id="savePullOut" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
-                        <button type="button" id="clearPullOut" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
+                        <button type="button" id="saveNewUnitH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                        <button type="button" id="saveNewUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                        <button type="button" id="clearNewUnit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
                         <button id="closedPullOut" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
                     </div>
                 </div>
@@ -3184,6 +3184,163 @@
                         }
                     });
                 });
+            
+            // BRAND NEW UNIT
+            // Clear Form on Add - NEW UNIT
+                jQuery(document).on( "click", "#addNewUnit", function(){
+                    if($('#POUIDe').val() != ''){
+                        document.getElementById('formNewUnit').reset()
+                        $('#NewUnitIDe').val('');
+
+                        $("#NewUnit li:first-child button").click();
+                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                        $('#PAttachment').addClass("disabled");
+                        $('#PAccesories').addClass("disabled");
+                        $('#NewUnitAccOthersDetail').prop('disabled', true);
+                        $('#NewUnitTechnician1 option').prop('disabled', false);
+                        $('#NewUnitTechnician2 option').prop('disabled', false);
+                        $('#SpareBat1').addClass("disabled");
+                        $('#SpareBat2').addClass("disabled");
+
+                        
+                        $('input, select, textarea, checkbox').prop('disabled', false);
+                        $("#saveNewUnit").show();
+                        $("#clearNewUnit").show();
+                    }
+                });
+
+            // Automatic Hide of Battery and Charger Details
+                if ($('#NewUnitType').val() == 1) {
+                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                }else{
+                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                }
+
+            // Unit Type Option
+                $("#NewUnitType").on("change", function() {
+                    if ($('#NewUnitType').val() == 1) {
+                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                    }else{
+                        $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                    }
+
+                    // Reset the tabs to the first one
+                    $("#NewUnit li:first-child button").click();
+                });
+
+            // Enable/Disable Attachment
+                $('#PAttachment').addClass("disabled");
+                $('#NewUnitwAttachment').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#PAttachment').removeClass("disabled");
+                    } else {
+                        $('#PAttachment').addClass("disabled");
+                    }
+                });
+    
+            // Enable/Disable Accesories
+                $('#PAccesories').addClass("disabled");
+                $('#NewUnitwAccesories').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#PAccesories').removeClass("disabled");
+                    } else {
+                        $('#PAccesories').addClass("disabled");
+                    }
+                });
+
+            // Enable/Disable Others
+                $('#NewUnitAccOthersDetail').prop('disabled',true);
+                $("#NewUnitAccOthers").on("change", function() {
+                    if($(this).is(":checked")) {
+                        $('#NewUnitAccOthersDetail').prop('disabled',false);
+                    } else {
+                        $('#NewUnitAccOthersDetail').prop('disabled',true);
+                    }
+                });
+
+            // Disable Value if Already Selected
+                $('#NewUnitTechnician1').change(function() {
+                    var selectedValue = $(this).val();
+                    $('#NewUnitTechnician2 option').prop('disabled', false); // enable all options
+                    if (selectedValue) {
+                        $('#NewUnitTechnician2 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
+                    }
+                });
+
+                $('#NewUnitTechnician2').change(function() {
+                    var selectedValue = $(this).val();
+                    $('#NewUnitTechnician1 option').prop('disabled', false); // enable all options
+                    if (selectedValue) {
+                        $('#NewUnitTechnician1 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
+                    }
+                });
+
+            // Enable/Disable Spare 1 and Spare 2
+                $('#SpareBat1').addClass("disabled");
+                $('#NewUnitwBatSpare1').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#SpareBat1').removeClass("disabled");
+                    } else {
+                        $('#SpareBat1').addClass("disabled");
+                    }
+                });
+                
+                $('#SpareBat2').addClass("disabled");
+                $('#NewUnitwBatSpare2').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#SpareBat2').removeClass("disabled");
+                    } else {
+                        $('#SpareBat2').addClass("disabled");
+                    }
+                });
+
+            // Saving of Brand New
+                $('#saveNewUnit').on( "click", function(){
+                    if($('#NewUnitUnitType').val() == 1){
+                        if ($('#NewUnitBrand').val() == '' || $('#NewUnitClassification').val() == '' || $('#NewUnitModel').val() == '' || $('#NewUnitSerialNum').val() == '' || $('#NewUnitCode').val() == '' || $('#NewUnitMastType').val() == '' || $('#NewUnitMastHeight').val() == '' || $('#NewUnitForkSize').val() == '' || $('#NewUnitTechnician1').val() == '' || $('#NewUnitCustomer').val() == '' || $('#NewUnitCustAddress').val() == '' || $('#NewUnitRemarks').val() == '' ){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        } else {
+                            $('#saveNewUnitH').click();
+                        }
+                    }else{
+                        if ($('#NewUnitBrand').val() == '' || $('#NewUnitClassification').val() == '' || $('#NewUnitModel').val() == '' || $('#NewUnitSerialNum').val() == '' || $('#NewUnitCode').val() == '' || $('#NewUnitMastType').val() == '' || $('#NewUnitMastHeight').val() == '' || $('#NewUnitForkSize').val() == '' || $('#NewUnitTechnician1').val() == '' || $('#NewUnitCustomer').val() == '' || $('#NewUnitCustAddress').val() == '' || $('#NewUnitBABrand').val() == '' || $('#NewUnitBABatType').val() == '' || $('#NewUnitBASerialNum').val() == '' || $('#NewUnitBACode').val() == '' || $('#NewUnitBAAmper').val() == '' || $('#NewUnitBAVolt').val() == '' || $('#NewUnitCBrand').val() == '' || $('#NewUnitCModel').val() == '' || $('#NewUnitCSerialNum').val() == '' || $('#NewUnitCCode').val() == '' || $('#NewUnitCAmper').val() == '' || $('#NewUnitCVolt').val() == '' || $('#NewUnitCInput').val() == '' || $('#NewUnitRemarks').val() == '' ){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        } else {
+                            $('#saveNewUnitH').click();
+                        }
+                    }
+                });
+
+                $('#saveNewUnitH').on( "click", function(){
+                    $.ajax({
+                        url: "{{ route('bt-workshop.report.saveBrandNew') }}",
+                        type: "POST",
+                        data: $("#formNewUnit").serialize(),
+                        success: function(result) {
+                            $("#NewUnit li:first-child button").click();
+                            $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                            $('#PAttachment').addClass("disabled");
+                            $('#PAccesories').addClass("disabled");
+                            $('#NewUnitAccOthersDetail').prop('disabled', true);
+                            $('#NewUnitTechnician1 option').prop('disabled', false);
+                            $('#NewUnitTechnician2 option').prop('disabled', false);
+                            $('#SpareBat1').addClass("disabled");
+                            $('#SpareBat2').addClass("disabled");
+                            document.getElementById('formNewUnit').reset()
+                            $('#tableBNewUnit').html(result);
+                            $('#tableBCU').load(location.href + ' #tableBCU>*','')
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                            $("#closedPullOut").click();
+                        },
+                        error: function(error){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        }
+                    });
+    });
         });
     </script>
     

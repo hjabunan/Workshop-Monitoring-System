@@ -105,6 +105,9 @@ Route::group(['middleware' => 'auth'],function(){
         // Workshop
             Route::GET('/workshop-ms/bt-workshop/report/sortBrand', [BTReportController::class, 'sortBrand'])->name('bt-workshop.report.sortBrand');
 
+        // Brand New Unit
+            Route::POST('/workshop-ms/bt-workshop/report/saveBrandNew', [BTReportController::class, 'saveBrandNew'])->name('bt-workshop.report.saveBrandNew');
+
         // Pull Out Unit
             Route::POST('/workshop-ms/bt-workshop/report/savePullOut', [BTReportController::class, 'savePullOut'])->name('bt-workshop.report.savePullOut');
             Route::GET('/workshop-ms/bt-workshop/report/getPOUData', [BTReportController::class, 'getPOUData'])->name('bt-workshop.report.getPOUData');
