@@ -116,31 +116,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
                                                                                 $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -157,6 +157,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -259,9 +279,13 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
@@ -300,6 +324,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -402,9 +446,13 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
@@ -443,6 +491,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -545,9 +613,13 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
@@ -586,6 +658,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -688,31 +780,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
                                                                                 $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -729,6 +821,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -818,66 +930,86 @@
                                                         @if ($x == 1)
                                                             @foreach ($workshop as $WS)
                                                                 @if ($WS->WSBayNum == $bay->id)
-                                                                    {{-- CLASS AND STATUS --}}
-                                                                        @if($WS->POUClassification == 1)
-                                                                            @php
-                                                                                $Classification = "CLASS A";
-                                                                            @endphp
-                                                                        @elseif($WS->POUClassification == 2)
-                                                                            @php
-                                                                                $Classification = "CLASS B";
-                                                                            @endphp
-                                                                        @elseif($WS->POUClassification == 3)
-                                                                            @php
-                                                                                $Classification = "CLASS C";
-                                                                            @endphp
-                                                                        @else
-                                                                            @php
-                                                                                $Classification = "CLASS D";
-                                                                            @endphp
-                                                                        @endif
-                                        
-                                                                        @if($WS->WSStatus == 1)
-                                                                            @php
-                                                                                $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 2)
-                                                                            @php
-                                                                                $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 3)
-                                                                            @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 4)
-                                                                            @php
-                                                                                $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 5)
-                                                                            @php
-                                                                                $Status = "FOR SCRAP UNIT";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 6)
-                                                                            @php
-                                                                                $Status = "FOR SALE UNIT";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 7)
-                                                                            @php
-                                                                                $Status = "WAITING PARTS";
-                                                                            @endphp
-                                                                        @elseif($WS->WSStatus == 8)
-                                                                            @php
-                                                                                $Status = "WAITING BACK ORDER";
-                                                                            @endphp
-                                                                        @else
-                                                                            @php
-                                                                                $Status = "VACANT";
-                                                                            @endphp
-                                                                        @endif
+                                                                {{-- CLASS AND STATUS --}}
+                                                                    @if($WS->POUClassification == 1)
+                                                                        @php
+                                                                            $Classification = "CLASS A";
+                                                                        @endphp
+                                                                    @elseif($WS->POUClassification == 2)
+                                                                        @php
+                                                                            $Classification = "CLASS B";
+                                                                        @endphp
+                                                                    @elseif($WS->POUClassification == 3)
+                                                                        @php
+                                                                            $Classification = "CLASS C";
+                                                                        @endphp
+                                                                    @elseif($WS->POUClassification == 4)
+                                                                        @php
+                                                                            $Classification = "CLASS D";
+                                                                        @endphp
+                                                                    @else
+                                                                        @php
+                                                                            $Classification = "";
+                                                                        @endphp
+                                                                    @endif
+                                    
+                                                                    @if($WS->WSStatus == 1)
+                                                                        @php
+                                                                            $Status = "WAITING FOR REPAIR UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 2)
+                                                                        @php
+                                                                            $Status = "UNDER REPAIR UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 3)
+                                                                        @php
+                                                                            $Status = "GOOD UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 4)
+                                                                        @php
+                                                                            $Status = "SERVICE UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 5)
+                                                                        @php
+                                                                            $Status = "FOR SCRAP UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 6)
+                                                                        @php
+                                                                            $Status = "FOR SALE UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 7)
+                                                                        @php
+                                                                            $Status = "WAITING PARTS";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 8)
+                                                                        @php
+                                                                            $Status = "WAITING BACK ORDER";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 9)
+                                                                        @php
+                                                                            $Status = "WAITING SPARE BATT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 10)
+                                                                        @php
+                                                                            $Status = "STOCK UNIT";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 11)
+                                                                        @php
+                                                                            $Status = "WAITING FOR MCI";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 12)
+                                                                        @php
+                                                                            $Status = "WAITING FOR PDI";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 13)
+                                                                        @php
+                                                                            $Status = "DONE PDI (WFD)";
+                                                                        @endphp
+                                                                    @else
+                                                                        @php
+                                                                            $Status = "VACANT";
+                                                                        @endphp
+                                                                    @endif
                                                                     <div class="">
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
@@ -974,31 +1106,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
                                                                                 $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -1015,6 +1147,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -1117,31 +1269,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
                                                                                 $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -1158,6 +1310,26 @@
                                                                         @elseif($WS->WSStatus == 8)
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
                                                                             @endphp
                                                                         @else
                                                                             @php
@@ -1404,13 +1576,12 @@
                                                     <option value="6">FOR SALE UNIT</option>
                                                     <option value="7">WAITING PARTS</option>
                                                     <option value="8">WAITING BACK ORDER</option>
-                                                    <option value="9">VACANT</option>
-                                                    {{-- <option value="1">ACTIVE</option>
-                                                    <option value="2">STOCK-BRAND NEW</option>
-                                                    <option value="3">STOCK-USED</option>
-                                                    <option value="4">WAITING FOR REPAIR</option>
-                                                    <option value="5">WAITING FOR DELIVERY</option>
-                                                    <option value="6">VACANT</option> --}}
+                                                    <option value="9">WAITING SPARE BATT</option>
+                                                    <option value="10">STOCK UNIT</option>
+                                                    <option value="11">WAITING FOR MCI</option>
+                                                    <option value="12">WAITING FOR PDI</option>
+                                                    <option value="13">DONE PDI (WFD)</option>
+                                                    <option value="14">VACANT</option>
                                                 </select>
                                             </div>
                                             <div class="">
@@ -1874,7 +2045,7 @@
                             $('#UnitInfoToA').val(result.WSToA);
                             $('#UnitInfoJON').val(result.WSID);
                                 if( $('#UnitInfoJON').val() == ""){
-                                    $('#UnitInfoStatus').val(9);
+                                    $('#UnitInfoStatus').val(14);
                                 }else{
                                     $('#UnitInfoStatus').val(result.WSStatus);
                                 }

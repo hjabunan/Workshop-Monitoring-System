@@ -250,34 +250,34 @@
                                             @foreach ($bnunit as $BNU)
                                                 <tr class="bg-white border-b hover:bg-gray-200">
                                                     <td class="w-3.5 p-1 whitespace-nowrap">
-                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->BNUnitType}}" class="btnBNUView" id="btnBNUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
-                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->BNUnitType}}" class="btnBNUEdit" id="btnBNUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
-                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->BNUnitType}}" class="btnBNUDelete" id="btnBNUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
-                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->BNUnitType}}" data-uremarks="{{$BNU->BNURemarks}}" class="btnBNUTransfer" id="btnBNUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button>
+                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->POUUnitType}}" class="btnBNUView" id="btnBNUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
+                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->POUUnitType}}" class="btnBNUEdit" id="btnBNUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->POUUnitType}}" class="btnBNUDelete" id="btnBNUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                                        <button type="button" data-id="{{$BNU->id}}" data-unittype="{{$BNU->POUUnitType}}" data-uremarks="{{$BNU->POURemarks}}" class="btnBNUTransfer" id="btnBNUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button>
                                                     </td>
                                                     <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
-                                                        {{$BNU->BNUArrivalDate}}
+                                                        {{$BNU->POUArrivalDate}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNUCode}}
+                                                        {{$BNU->POUCode}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNUModel}}
+                                                        {{$BNU->POUModel}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNUSerialNum}}
+                                                        {{$BNU->POUSerialNum}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNUMastHeight}}
+                                                        {{$BNU->POUMastHeight}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNUCustomer}}
+                                                        {{$BNU->POUCustomer}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNUCustAddress}}
+                                                        {{$BNU->POUCustAddress}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$BNU->BNURemarks}}
+                                                        {{$BNU->POURemarks}}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -998,16 +998,16 @@
                                             </div>
                                             <div class=""></div>
                                             <div id="label" class="">
-                                                <label for="BNUClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
+                                                {{-- <label for="BNUClassification" class="block text-sm font-medium text-gray-900">Classification:</label> --}}
                                             </div>
                                             <div id="input" class="col-span-2 mr-1">
-                                                <select name="BNUClassification" id="BNUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                {{-- <select name="BNUClassification" id="BNUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                     <option value="" selected disabled></option>
                                                     <option value="1">CLASS A</option>
                                                     <option value="2">CLASS B</option>
                                                     <option value="3">CLASS C</option>
                                                     <option value="4">CLASS D</option>
-                                                </select>
+                                                </select> --}}
                                             </div>
                                             <div id="label" class="mt-2">
                                                 <label for="BNUModel" class="block text-sm font-medium text-gray-900">Model:</label>
@@ -1447,7 +1447,7 @@
                     <!-- Modal header -->
                     <div class="flex items-start justify-between p-4 border-b rounded-t">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            TRANSFER OF BRAND NEW UNIT
+                            TRANSFER TO WAREHOUSE
                         </h3>
                         <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalTransferBNU">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -1482,12 +1482,17 @@
                                         <option value="" selected disabled></option>
                                         <option value="1">WAITING FOR REPAIR UNIT</option>
                                         <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">GOOD UNIT</option>
+                                        <option value="3">USED GOOD UNIT</option>
                                         <option value="4">SERVICE UNIT</option>
                                         <option value="5">FOR SCRAP UNIT</option>
                                         <option value="6">FOR SALE UNIT</option>
                                         <option value="7">WAITING PARTS</option>
                                         <option value="8">WAITING BACK ORDER</option>
+                                        <option value="9">WAITING SPARE BATT</option>
+                                        <option value="10">STOCK UNIT</option>
+                                        <option value="11">WAITING FOR MCI</option>
+                                        <option value="12">WAITING FOR PDI</option>
+                                        <option value="13">DONE PDI (WFD)</option>
                                     </select>
                                 </div>
                                 <div id="input" class="col-span-2">
@@ -2113,6 +2118,11 @@
                                         <option value="6">FOR SALE UNIT</option>
                                         <option value="7">WAITING PARTS</option>
                                         <option value="8">WAITING BACK ORDER</option>
+                                        <option value="9">WAITING SPARE BATT</option>
+                                        <option value="10">STOCK UNIT</option>
+                                        <option value="11">WAITING FOR MCI</option>
+                                        <option value="12">WAITING FOR PDI</option>
+                                        <option value="13">DONE PDI (WFD)</option>
                                     </select>
                                 </div>
                                 <div id="input" class="col-span-2">
@@ -3814,7 +3824,7 @@
                     });
                 });
                 
-            // Delete POU
+            // Delete Brand New
                 jQuery(document).on( "click", ".btnBNUDelete", function(){
                     var id = $(this).data('id');
                     var unittype = $(this).data('unittype');
@@ -3844,22 +3854,6 @@
                         }
                     });
                 });
-            
-            // If Area Change, Data from Bay also changes
-                jQuery(document).on( "change", "#POUArea", function(){
-                    var area = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-                    // alert(area);
-
-                    $.ajax({
-                        url:"{{ route('bt-workshop.report.getBay') }}",
-                        method:"GET",
-                        data:{area: area, _token: _token,},
-                        success:function(result){
-                            $('#POUBay').html(result);
-                        }
-                    });
-                });
                 
             // Clear Form if Button Click Transfer Unit
                 jQuery(document).on( "click", "#btnBNUTransfer", function(){
@@ -3886,18 +3880,33 @@
                     $('#BNUIDx').val(id);
                     $('#BNURemarksO').val(bnuremarks);
                 });
+            
+            // If Area Change, Data from Bay also changes
+                jQuery(document).on( "change", "#BNUArea", function(){
+                    var area = $(this).val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('bt-workshop.report.getBay') }}",
+                        method:"GET",
+                        data:{area: area, _token: _token,},
+                        success:function(result){
+                            $('#BNUBay').html(result);
+                        }
+                    });
+                });
 
             // Transfer POU
-                jQuery(document).on( "click", "#transferPOU", function(){
+                jQuery(document).on( "click", "#transferBNU", function(){
                     
                     $.ajax({
-                        url:"{{ route('bt-workshop.report.transferPullOut') }}",
+                        url:"{{ route('bt-workshop.report.transferNewUnit') }}",
                         method:"POST",
-                        data: $("#formPOUT").serialize(),
+                        data: $("#formBNUT").serialize(),
                         success:function(result){
-                            $('#tableBPOU').html(result);
-                            $('#tableBCU').load(location.href + ' #tableBCU>*','');
-                            $('#tableBWS').load(location.href + ' #tableBWS>*','');
+                            $('#tableBNewUnit').html(result);
+                            // $('#tableBCU').load(location.href + ' #tableBCU>*','');
+                            // $('#tableBWS').load(location.href + ' #tableBWS>*','');
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                             $("#closeTransfer").click();

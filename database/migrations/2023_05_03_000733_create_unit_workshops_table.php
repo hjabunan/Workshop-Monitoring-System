@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('unit_workshops', function (Blueprint $table) {
             $table->id();
+            $table->string('isBrandNew');
             $table->string('WSPOUID');
             $table->string('WSBayNum');
             $table->string('WSToA');

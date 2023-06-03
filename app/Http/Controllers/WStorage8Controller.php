@@ -18,7 +18,7 @@ class WStorage8Controller extends Controller
                 ->orderBy('id', 'asc')
                 ->orderBy('area_name','asc')->get();
         
-        $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
+        $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBNUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                 unit_pull_outs.POUMastHeight, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, 
@@ -62,7 +62,7 @@ class WStorage8Controller extends Controller
         $bay = $request->bay;
         $date = $request->output;
         
-        $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType, 
+        $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBNUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType, 
                                 unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                 unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                 unit_workshops.WSVerifiedBy, unit_workshops.WSUnitCondition,
@@ -81,9 +81,14 @@ class WStorage8Controller extends Controller
 
             if(count($workshop)>0){
                 foreach($workshop as $WS){
+                        if($WS->WSPOUID != '' && $WS->WSBNUID == ''){
+                            $JONum = $WS->WSPOUID;
+                        }else{
+                            $JONum = $WS->WSBNUID;
+                        }
                     $result = array(
                                     'WSID' => $WS->WSID,
-                                    'WSPOUID' => $WS->WSPOUID,
+                                    'WSPOUID' => $JONum,
                                     'WSToA' => $WS->WSToA,
                                     'WSStatus' => $WS->WSStatus,
                                     'WSBayNum' => $WS->WSBayNum,

@@ -109,6 +109,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::POST('/workshop-ms/bt-workshop/report/saveBrandNew', [BTReportController::class, 'saveBrandNew'])->name('bt-workshop.report.saveBrandNew');
             Route::GET('/workshop-ms/bt-workshop/report/getBNUData', [BTReportController::class, 'getBNUData'])->name('bt-workshop.report.getBNUData');
             Route::POST('/workshop-ms/bt-workshop/report/deleteBNU', [BTReportController::class, 'deleteBNU'])->name('bt-workshop.report.deleteBNU');
+            Route::POST('/workshop-ms/bt-workshop/report/transferNewUnit', [BTReportController::class, 'transferNewUnit'])->name('bt-workshop.report.transferNewUnit');
 
         // Pull Out Unit
             Route::POST('/workshop-ms/bt-workshop/report/savePullOut', [BTReportController::class, 'savePullOut'])->name('bt-workshop.report.savePullOut');

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('unit_pull_outs', function (Blueprint $table) {
             $table->id();
+            $table->string('isBrandNew');
             $table->string('POUUnitType');
             $table->string('POUArrivalDate');
             $table->string('POUBrand');
