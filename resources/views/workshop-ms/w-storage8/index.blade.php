@@ -136,7 +136,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
@@ -190,18 +190,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -301,7 +321,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                                 // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
@@ -357,18 +377,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -468,7 +508,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                                 // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
@@ -524,18 +564,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -635,7 +695,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                                 // $Status = "ON GOING-REPAIR";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
@@ -691,18 +751,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -800,7 +880,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
@@ -854,18 +934,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -963,7 +1063,7 @@
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 3)
                                                                         @php
-                                                                            $Status = "GOOD UNIT";
+                                                                            $Status = "USED GOOD UNIT";
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 4)
                                                                         @php
@@ -1017,18 +1117,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1126,7 +1246,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
@@ -1180,18 +1300,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1289,7 +1429,7 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
@@ -1343,18 +1483,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1570,7 +1730,7 @@
                                                     <option value="" selected disabled></option>
                                                     <option value="1">WAITING FOR REPAIR UNIT</option>
                                                     <option value="2">UNDER REPAIR UNIT</option>
-                                                    <option value="3">GOOD UNIT</option>
+                                                    <option value="3">USED GOOD UNIT</option>
                                                     <option value="4">SERVICE UNIT</option>
                                                     <option value="5">FOR SCRAP UNIT</option>
                                                     <option value="6">FOR SALE UNIT</option>

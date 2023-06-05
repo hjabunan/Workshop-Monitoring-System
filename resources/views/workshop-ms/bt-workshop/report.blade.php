@@ -911,6 +911,11 @@
             {{-- <button type="button" id="btnDRMonDeleteH" class="btnDRMonDeleteH hidden" data-modal-target="modalDeleteDRMon" data-modal-toggle="modalDeleteDRMon"></button> --}}
             {{-- D.R. Monitoring Hidden Button for Add DIV --}}
             {{-- <button type="button" id="btnDRMonAddDIVH" class="btnDRMonAddDIVH hidden"></button> --}}
+            
+            {{-- Hidden Button for Success --}}
+            <button type="button" id="btnSuccessH" class="btnSuccessH hidden" data-modal-target="success-modal" data-modal-toggle="success-modal"></button>
+            {{-- Hidden Button for Failed --}}
+            <button type="button" id="btnFailedH" class="btnFailedH hidden" data-modal-target="failed-modal" data-modal-toggle="failed-modal"></button>
     </div>
     
         
@@ -925,7 +930,7 @@
                         <h3 class="text-xl font-medium text-gray-900">
                             NEW UNIT
                         </h3>
-                        <button type="button" id="buttonCloseP" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalNewUnit">
+                        <button type="button" id="buttonCloseN" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalNewUnit">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             <span class="sr-only">Close modal</span>
                         </button>
@@ -968,22 +973,22 @@
                                 <div class="mb-4 border-b border-gray-200">
                                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="NewUnit" data-tabs-toggle="#NewUnitContent" role="tablist">
                                         <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="UnitDetails-tab" data-tabs-target="#UnitDetails" type="button" role="tab" aria-controls="UnitDetails" aria-selected="false">UNIT DETAILS</button>
+                                            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="NUnitDetails-tab" data-tabs-target="#NUnitDetails" type="button" role="tab" aria-controls="NUnitDetails" aria-selected="false">UNIT DETAILS</button>
                                         </li>
                                         <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="OtherDetails-tab" data-tabs-target="#OtherDetails" type="button" role="tab" aria-controls="OtherDetails" aria-selected="false">OTHER DETAILS</button>
+                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NOtherDetails-tab" data-tabs-target="#NOtherDetails" type="button" role="tab" aria-controls="NOtherDetails" aria-selected="false">OTHER DETAILS</button>
                                         </li>
                                         <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BatteryDetails-tab" data-tabs-target="#BatteryDetails" type="button" role="tab" aria-controls="BatteryDetails" aria-selected="false">BATTERY DETAILS</button>
+                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NBatteryDetails-tab" data-tabs-target="#NBatteryDetails" type="button" role="tab" aria-controls="NBatteryDetails" aria-selected="false">BATTERY DETAILS</button>
                                         </li>
                                         <li role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="ChargerDetails-tab" data-tabs-target="#ChargerDetails" type="button" role="tab" aria-controls="ChargerDetails" aria-selected="false">CHARGER DETAILS</button>
+                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NChargerDetails-tab" data-tabs-target="#NChargerDetails" type="button" role="tab" aria-controls="NChargerDetails" aria-selected="false">CHARGER DETAILS</button>
                                         </li>
                                     </ul>
                                 </div>
-                                <div id="NewUnitnitContent">
+                                <div id="NewUnitContent">
                                     {{-- UNIT DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="UnitDetails" role="tabpanel" aria-labelledby="UnitDetails-tab">
+                                    <div class="hidden p-2 rounded-lg" id="NUnitDetails" role="tabpanel" aria-labelledby="NUnitDetails-tab">
                                         <div class="grid grid-cols-7 items-center">
                                             <div id="label" class="">
                                                 <label for="BNUBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
@@ -1057,7 +1062,7 @@
                                                 <input type="checkbox" id="BNUwAccesories" name="BNUwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
                                                 <label for="BNUwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
                                             </div>
-                                            <div id="PAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
+                                            <div id="BAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
                                                 <div class="col-span-3">
                                                     <label for="BNUAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
                                                 </div>
@@ -1084,7 +1089,7 @@
                                                 </div>
                                             </div>
                                             <div class=""></div>
-                                            <div id="PAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
+                                            <div id="BAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
                                                 <div class="col-span-3">
                                                     <label for="BNUAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
                                                 </div>
@@ -1128,7 +1133,7 @@
                                         </div>
                                     </div>
                                     {{-- OTHER DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="OtherDetails" role="tabpanel" aria-labelledby="OtherDetails-tab">
+                                    <div class="hidden p-2 rounded-lg" id="NOtherDetails" role="tabpanel" aria-labelledby="NOtherDetails-tab">
                                         <div class="grid grid-cols-7 items-center">
                                             <div id="label" class="">
                                                 <label for="BNUTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
@@ -1178,7 +1183,7 @@
                                         </div>
                                     </div>
                                     {{-- BATTERY DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="BatteryDetails" role="tabpanel" aria-labelledby="BatteryDetails-tab">
+                                    <div class="hidden p-2 rounded-lg" id="NBatteryDetails" role="tabpanel" aria-labelledby="NBatteryDetails-tab">
                                         <div class="grid grid-cols-3 items-center">
                                             <div class="col-span-1 mt-1">
                                                 <label for="BNUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
@@ -1243,7 +1248,7 @@
                                                     <input type="text" name="BNUBACTable" id="BNUBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                             </div>
-                                            <div id="SpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
+                                            <div id="BSpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
                                                 <div id="label" class="">
                                                     <label for="BNUSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                                 </div>
@@ -1293,7 +1298,7 @@
                                                     <input type="text" name="BNUSB1CTable" id="BNUSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
                                                 </div>
                                             </div>
-                                            <div id="SpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
+                                            <div id="BSpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
                                                 <div id="label" class="">
                                                     <label for="BNUSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
                                                 </div>
@@ -1346,7 +1351,7 @@
                                         </div>
                                     </div>
                                     {{-- CHARGER DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="ChargerDetails" role="tabpanel" aria-labelledby="ChargerDetails-tab">
+                                    <div class="hidden p-2 rounded-lg" id="NChargerDetails" role="tabpanel" aria-labelledby="NChargerDetails-tab">
                                         <div class="grid grid-cols-7 items-center">
                                             <div id="label" class="">
                                                 <label for="BNUCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
@@ -1439,7 +1444,7 @@
                 </div>
             </div>
         </div>
-        {{-- TRANSFER MODAL FOR BRAND UNITS --}}
+        {{-- TRANSFER MODAL FOR BRAND NEW UNITS --}}
         <div id="modalTransferBNU" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
             <div class="relative w-full h-full max-w-2xl md:h-auto">
                 <!-- Modal content -->
@@ -2112,7 +2117,7 @@
                                         <option value="" selected disabled></option>
                                         <option value="1">WAITING FOR REPAIR UNIT</option>
                                         <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">GOOD UNIT</option>
+                                        <option value="3">USED GOOD UNIT</option>
                                         <option value="4">SERVICE UNIT</option>
                                         <option value="5">FOR SCRAP UNIT</option>
                                         <option value="6">FOR SALE UNIT</option>
@@ -2170,7 +2175,7 @@
                     <!-- Modal footer -->
                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
                         <button type="button" id="transferPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
-                        <button data-modal-hide="modalTransferPOU" type="button" id="closeTransfer" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
+                        <button data-modal-hide="modalTransferPOU" type="button" id="closeTransferP" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
                     </div>
                 </div>
             </div>
@@ -2393,13 +2398,11 @@
                             document.getElementById('formPOU').reset()
                             $('#tableBPOU').html(result);
                             $('#tableBCU').load(location.href + ' #tableBCU>*','')
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
+                            $("#btnSuccessH").click();
                             $("#closedPullOut").click();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });
@@ -2758,13 +2761,11 @@
                         method:"POST",
                         data:{id: id, unittype: unittype, _token: _token,},
                         success:function(result){
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
+                            $("#btnSuccessH").click();
                             $('#tableBPOU').html(result);
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });
@@ -2822,13 +2823,11 @@
                             $('#tableBPOU').html(result);
                             $('#tableBCU').load(location.href + ' #tableBCU>*','');
                             $('#tableBWS').load(location.href + ' #tableBWS>*','');
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
-                            $("#closeTransfer").click();
+                            $("#btnSuccessH").click();
+                            $("#closeTransferP").click();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });
@@ -3207,12 +3206,10 @@
                             $('#tableBCU').html(result);
                             $('#tableBPOU').load(location.href + ' #tableBPOU>*','');
                             $('#tableBWS').load(location.href + ' #tableBWS>*','');
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
+                            $("#btnSuccessH").click();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });
@@ -3323,7 +3320,7 @@
             // Close Modal Add and Edit
                 jQuery(document).on( "click", "#closeNewUnit", function(){
                     $('input, select, textarea, checkbox, radio').prop('disabled', false);
-                    $("#buttonCloseP").click();
+                    $("#buttonCloseN").click();
                 });
 
             // Search Pull Out Unit
@@ -3342,13 +3339,13 @@
 
                         $("#NewUnit li:first-child button").click();
                         $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                        $('#PAttachment').addClass("disabled");
-                        $('#PAccesories').addClass("disabled");
+                        $('#BAttachment').addClass("disabled");
+                        $('#BAccesories').addClass("disabled");
                         $('#BNUAccOthersDetail').prop('disabled', true);
                         $('#BNUTechnician1 option').prop('disabled', false);
                         $('#BNUTechnician2 option').prop('disabled', false);
-                        $('#SpareBat1').addClass("disabled");
-                        $('#SpareBat2').addClass("disabled");
+                        $('#BSpareBat1').addClass("disabled");
+                        $('#BSpareBat2').addClass("disabled");
 
                         
                         $('input, select, textarea, checkbox').prop('disabled', false);
@@ -3364,28 +3361,28 @@
 
                     $("#NewUnit li:first-child button").click();
                     $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                    $('#PAttachment').addClass("disabled");
-                    $('#PAccesories').addClass("disabled");
+                    $('#BAttachment').addClass("disabled");
+                    $('#BAccesories').addClass("disabled");
                     $('#BNUAccOthersDetail').prop('disabled', true);
                     $('#BNUTechnician1 option').prop('disabled', false);
                     $('#BNUTechnician2 option').prop('disabled', false);
-                    $('#SpareBat1').addClass("disabled");
-                    $('#SpareBat2').addClass("disabled");
+                    $('#BSpareBat1').addClass("disabled");
+                    $('#BSpareBat2').addClass("disabled");
                 });
 
             // Automatic Hide of Battery and Charger Details
                 if ($('#BNUnitType').val() == 1) {
-                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                 }else{
-                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
                 }
 
             // Unit Type Option
                 $("#BNUnitType").on("change", function() {
                     if ($('#BNUnitType').val() == 1) {
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                        $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                     }else{
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                        $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
                     }
 
                     // Reset the tabs to the first one
@@ -3393,22 +3390,22 @@
                 });
 
             // Enable/Disable Attachment
-                $('#PAttachment').addClass("disabled");
+                $('#BAttachment').addClass("disabled");
                 $('#BNUwAttachment').change(function() {
                     if($(this).is(":checked")) {
-                        $('#PAttachment').removeClass("disabled");
+                        $('#BAttachment').removeClass("disabled");
                     } else {
-                        $('#PAttachment').addClass("disabled");
+                        $('#BAttachment').addClass("disabled");
                     }
                 });
     
             // Enable/Disable Accesories
-                $('#PAccesories').addClass("disabled");
+                $('#BAccesories').addClass("disabled");
                 $('#BNUwAccesories').change(function() {
                     if($(this).is(":checked")) {
-                        $('#PAccesories').removeClass("disabled");
+                        $('#BAccesories').removeClass("disabled");
                     } else {
-                        $('#PAccesories').addClass("disabled");
+                        $('#BAccesories').addClass("disabled");
                     }
                 });
 
@@ -3495,13 +3492,15 @@
                             document.getElementById('formNewUnit').reset()
                             $('#tableBNewUnit').html(result);
                             $('#tableBCU').load(location.href + ' #tableBCU>*','')
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
-                            $("#closedPullOut").click();
+                            // $("#success-modal").removeClass("hidden");
+                            // $("#success-modal").addClass("flex");
+                            $("#btnSuccessH").click();
+                            $("#closeNewUnit").click();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
+                            // $("#failed-modal").removeClass("hidden");
+                            // $("#failed-modal").addClass("flex");
                         }
                     });
                 });
@@ -3844,13 +3843,11 @@
                         method:"POST",
                         data:{id: id, unittype: unittype, _token: _token,},
                         success:function(result){
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
+                            $("#btnSuccessH").click();
                             $('#tableBNewUnit').html(result);
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });
@@ -3905,15 +3902,11 @@
                         data: $("#formBNUT").serialize(),
                         success:function(result){
                             $('#tableBNewUnit').html(result);
-                            // $('#tableBCU').load(location.href + ' #tableBCU>*','');
-                            // $('#tableBWS').load(location.href + ' #tableBWS>*','');
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
+                            $("#btnSuccessH").click();
                             $("#closeTransfer").click();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });

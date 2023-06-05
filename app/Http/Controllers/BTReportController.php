@@ -46,7 +46,7 @@ class BTReportController extends Controller
             //                         INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
             //                     ');
         
-        $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBNUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
+        $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                 unit_pull_outs.POUMastHeight,
@@ -56,7 +56,7 @@ class BTReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                -- WHERE unit_workshops.WSStatus <= 4
+                                -- WHERE unit_workshops.isBrandNew == 0
                             ');
 
 
@@ -1725,9 +1725,9 @@ class BTReportController extends Controller
         $technician = DB::SELECT('SELECT * FROM technicians WHERE status="1"');
         $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" and status="1" ORDER BY bay_areas.id');
 
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
         
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
 
         $cunit = DB::SELECT('SELECT unit_confirms.id, unit_confirms.POUID, unit_confirms.CUTransferDate, unit_confirms.CUTransferRemarks, unit_confirms.CUTransferStatus, unit_confirms.CUTransferArea, unit_confirms.CUTransferBay,
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, 
@@ -1747,6 +1747,7 @@ class BTReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                WHERE unit_workshops.isBrandNew=0
                         ');
 
         return view('workshop-ms.bt-workshop.report',compact('brand','section','technician','bay','bnunit','pounit','cunit', 'workshop'));
@@ -1863,13 +1864,13 @@ class BTReportController extends Controller
 
         $result = '';
         if($UStatus == 'pouRadioPOU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND isBrandNew=0 AND POUBrand=2');
         }else if($UStatus == 'pouRadioCU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus=2 AND POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus=2 AND isBrandNew=0 AND POUBrand=2');
         }else if($UStatus == 'pouRadioDU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus=3 AND POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus=3 AND isBrandNew=0 AND POUBrand=2');
         }else{
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE isBrandNew=0 AND POUBrand=2');
         }
 
         if(count($pounit)>0){
@@ -2091,6 +2092,7 @@ class BTReportController extends Controller
         if($POUIDe == null){
             if($PUnitType == 1){
                 $POU = new UnitPullOut();
+                $POU->isBrandNew = 0;
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
@@ -2216,6 +2218,7 @@ class BTReportController extends Controller
                 $POU->save();
             }else{
                 $POU = new UnitPullOut();
+                $POU->isBrandNew = 0;
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
@@ -2711,7 +2714,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -2907,7 +2910,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3001,15 +3004,17 @@ class BTReportController extends Controller
 
         if($request->POUArea == 7){
             $ToA = "3";
-        }else if(($request->POUArea == 14)){
+        }else if(($request->POUArea >= 14)){
+            $ToA = "1";
+        }else if(($request->POUArea <= 3)){
             $ToA = "1";
         }else{
-            $ToA = "2";
-        }
+            $ToA = "1";
+        }        
 
         $WS = new UnitWorkshop();
+        $WS->isBrandNew = 0;
         $WS->WSPOUID = $request->POUIDx;
-        $WS->WSBNUID = '';
         $WS->WSBayNum = $request->POUBay;
         $WS->WSToA = $ToA;
         $WS->WSStatus = $request->POUStatus;
@@ -3040,7 +3045,7 @@ class BTReportController extends Controller
                 ->UPDATE(['category' => "2"]);
 
         $result = '';
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3828,7 +3833,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
 
         if(count($bnunit)>0){
             foreach ($bnunit as $BNU) {
@@ -3927,7 +3932,7 @@ class BTReportController extends Controller
                 );
         }else{
             $bnunit = DB::TABLE('unit_pull_outs')
-                                                ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 
+                                                ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 
                                                         'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 
                                                         'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUwAttachment', 
                                                         'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 
@@ -3949,7 +3954,7 @@ class BTReportController extends Controller
 
                 $result = array(
                     'BNUnitIDx' => $bnunit->POUnitIDx,
-                    'BNUnitType' => $bnunit->POUnitType,
+                    'BNUnitType' => $bnunit->POUUnitType,
                     'BNUArrivalDate' => $bnunit->POUArrivalDate,
                     'BNUBrand' => $bnunit->POUBrand,
                     'BNUClassification' => $bnunit->POUClassification,
@@ -4028,7 +4033,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
 
         if(count($bnunit)>0){
             foreach ($bnunit as $BNU) {
@@ -4086,15 +4091,15 @@ class BTReportController extends Controller
             $ToA = "3";
         }else if(($request->BNUArea >= 14)){
             $ToA = "1";
-        }else if(($request->BNUArea == 3)){
-            $ToA = "2";
+        // }else if(($request->BNUArea == 3)){
+        //     $ToA = "2";
         }else{
             $ToA = "2";
         }
 
         $WS = new UnitWorkshop();
-        $WS->WSPOUID = '';
-        $WS->WSBNUID = $request->BNUIDx;
+        $WS->isBrandNew = 1;
+        $WS->WSPOUID = $request->BNUIDx;
         $WS->WSBayNum = $request->BNUBay;
         $WS->WSToA = $ToA;
         $WS->WSStatus = $request->BNUStatus;
@@ -4125,7 +4130,7 @@ class BTReportController extends Controller
                 ->UPDATE(['category' => "2"]);
 
         $result = '';
-        $bnunit = DB::SELECT('SELECT * FROM unit_brand_news WHERE BNUStatus="" AND BNUTransferArea="" AND BNUTransferBay="" AND BNUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
 
         if(count($bnunit)>0){
             foreach ($bnunit as $BNU) {

@@ -122,31 +122,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -164,6 +164,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -176,18 +196,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -265,31 +305,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -307,6 +347,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -319,18 +379,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -408,31 +488,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -450,6 +530,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -462,18 +562,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -551,31 +671,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -593,6 +713,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -605,18 +745,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -694,31 +854,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -736,6 +896,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -748,18 +928,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -837,31 +1037,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -879,6 +1079,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -891,18 +1111,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -980,31 +1220,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -1022,6 +1262,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -1034,18 +1294,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1123,31 +1403,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -1165,6 +1445,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -1177,18 +1477,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1266,31 +1586,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -1308,6 +1628,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -1320,18 +1660,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1409,31 +1769,31 @@
                                                                             @php
                                                                                 $Classification = "CLASS C";
                                                                             @endphp
-                                                                        @else
+                                                                        @elseif($WS->POUClassification == 4)
                                                                             @php
                                                                                 $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
                                                                             @endphp
                                                                         @endif
                                         
                                                                         @if($WS->WSStatus == 1)
                                                                             @php
                                                                                 $Status = "WAITING FOR REPAIR UNIT";
-                                                                                // $Status = "ACTIVE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 2)
                                                                             @php
                                                                                 $Status = "UNDER REPAIR UNIT";
-                                                                                // $Status = "ON GOING-INSPECTION";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 3)
                                                                             @php
-                                                                                $Status = "GOOD UNIT";
-                                                                                // $Status = "ON GOING-REPAIR";
+                                                                                $Status = "USED GOOD UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 4)
                                                                             @php
                                                                                 $Status = "SERVICE UNIT";
-                                                                                // $Status = "DONE";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 5)
                                                                             @php
@@ -1451,6 +1811,26 @@
                                                                             @php
                                                                                 $Status = "WAITING BACK ORDER";
                                                                             @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
                                                                         @else
                                                                             @php
                                                                                 $Status = "VACANT";
@@ -1463,18 +1843,38 @@
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
-                                                                                    <div class=""><label class="font-medium">Code:</label></div>
-                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
-                                                                                    <div class=""><label class="font-medium">Model:</label></div>
-                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                                    <div class=""><label class="font-medium">Status:</label></div>
                                                                                 </div>
                                                                                 <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
                                                                                     <div class="text-[10px]"><label class="">{{$Status}}</label></div>
                                                                                 </div>
                                                                             </div>
@@ -1696,7 +2096,12 @@
                                                     <option value="6">FOR SALE UNIT</option>
                                                     <option value="7">WAITING PARTS</option>
                                                     <option value="8">WAITING BACK ORDER</option>
-                                                    <option value="9">VACANT</option>
+                                                    <option value="9">WAITING SPARE BATT</option>
+                                                    <option value="10">STOCK UNIT</option>
+                                                    <option value="11">WAITING FOR MCI</option>
+                                                    <option value="12">WAITING FOR PDI</option>
+                                                    <option value="13">DONE PDI (WFD)</option>
+                                                    <option value="14">VACANT</option>
                                                 </select>
                                             </div>
                                             <div class="">
