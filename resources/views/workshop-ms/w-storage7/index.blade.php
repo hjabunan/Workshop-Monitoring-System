@@ -2368,12 +2368,17 @@
                                             <option value="" selected disabled></option>
                                             <option value="1">WAITING FOR REPAIR UNIT</option>
                                             <option value="2">UNDER REPAIR UNIT</option>
-                                            <option value="3">GOOD UNIT</option>
+                                            <option value="3">USED GOOD UNIT</option>
                                             <option value="4">SERVICE UNIT</option>
                                             <option value="5">FOR SCRAP UNIT</option>
                                             <option value="6">FOR SALE UNIT</option>
                                             <option value="7">WAITING PARTS</option>
                                             <option value="8">WAITING BACK ORDER</option>
+                                            <option value="9">WAITING SPARE BATT</option>
+                                            <option value="10">STOCK UNIT</option>
+                                            <option value="11">WAITING FOR MCI</option>
+                                            <option value="12">WAITING FOR PDI</option>
+                                            <option value="13">DONE PDI (WFD)</option>
                                         </select>
                                     </div>
                                     <div id="input" class="col-span-2">
@@ -2546,7 +2551,7 @@
                             $('#UnitInfoToA').val(result.WSToA);
                             $('#UnitInfoJON').val(result.WSID);
                                 if( $('#UnitInfoJON').val() == ""){
-                                    $('#UnitInfoStatus').val(9);
+                                    $('#UnitInfoStatus').val(14);
                                 }else{
                                     $('#UnitInfoStatus').val(result.WSStatus);
                                 }

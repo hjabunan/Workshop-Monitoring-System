@@ -38,7 +38,7 @@ class OVHLReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.WSStatus <= 4
+                                -- WHERE unit_workshops.WSStatus <= 4
                             ');
 
 
@@ -120,7 +120,7 @@ class OVHLReportController extends Controller
                                     INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
-                                    WHERE WSStatus<=4 AND WSBayNum = ?',[$bay]
+                                    WHERE WSBayNum = ?',[$bay]
                                 );
         
             $DTtable = '';
@@ -328,7 +328,7 @@ class OVHLReportController extends Controller
                                     INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                     INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                    WHERE WSStatus<=4 AND WSBayNum = ?',[$bay]
+                                    WHERE WSBayNum = ?',[$bay]
                                 );
 
             if(count($workshop)>0){
@@ -1676,9 +1676,21 @@ class OVHLReportController extends Controller
                         'POUTransferRemarks' => $request->UnitRemarks,
                     ]);
 
+            if($request->UnitArea == 7){
+                $ToA = "3";
+            }else if(($request->UnitArea >= 14)){
+                $ToA = "1";
+            }else if(($request->UnitArea <= 3)){
+                $ToA = "2";
+            }else{
+                $ToA = "2";
+            }
+
         UnitWorkshop::WHERE('WSPOUID', $request->WSPOUID)
                     ->UPDATE([
+                        'WSToA' => $ToA,
                         'WSBayNum' => $request->UnitBay,
+                        'WSStatus' => $request->UnitStatus,
                     ]);
 
         TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)

@@ -160,6 +160,12 @@ Route::group(['middleware' => 'auth'],function(){
         // Workshop
             Route::GET('/workshop-ms/t-workshop/report/sortBrand', [TReportController::class, 'sortBrand'])->name('t-workshop.report.sortBrand');
 
+        // Brand New Unit
+            Route::POST('/workshop-ms/t-workshop/report/saveBrandNew', [TReportController::class, 'saveBrandNew'])->name('t-workshop.report.saveBrandNew');
+            Route::GET('/workshop-ms/t-workshop/report/getBNUData', [TReportController::class, 'getBNUData'])->name('t-workshop.report.getBNUData');
+            Route::POST('/workshop-ms/t-workshop/report/deleteBNU', [TReportController::class, 'deleteBNU'])->name('t-workshop.report.deleteBNU');
+            Route::POST('/workshop-ms/t-workshop/report/transferNewUnit', [TReportController::class, 'transferNewUnit'])->name('t-workshop.report.transferNewUnit');
+
         // Pull Out Unit
             Route::POST('/workshop-ms/t-workshop/report/savePullOut', [TReportController::class, 'savePullOut'])->name('t-workshop.report.savePullOut');
             Route::GET('/workshop-ms/t-workshop/report/getPOUData', [TReportController::class, 'getPOUData'])->name('t-workshop.report.getPOUData');
@@ -208,6 +214,12 @@ Route::group(['middleware' => 'auth'],function(){
 
         // Workshop
             Route::GET('/workshop-ms/r-workshop/report/sortBrand', [RReportController::class, 'sortBrand'])->name('r-workshop.report.sortBrand');
+
+        // Brand New Unit
+            Route::POST('/workshop-ms/r-workshop/report/saveBrandNew', [RReportController::class, 'saveBrandNew'])->name('r-workshop.report.saveBrandNew');
+            Route::GET('/workshop-ms/r-workshop/report/getBNUData', [RReportController::class, 'getBNUData'])->name('r-workshop.report.getBNUData');
+            Route::POST('/workshop-ms/r-workshop/report/deleteBNU', [RReportController::class, 'deleteBNU'])->name('r-workshop.report.deleteBNU');
+            Route::POST('/workshop-ms/r-workshop/report/transferNewUnit', [RReportController::class, 'transferNewUnit'])->name('r-workshop.report.transferNewUnit');
 
         // Pull Out Unit
             Route::POST('/workshop-ms/r-workshop/report/savePullOut', [RReportController::class, 'savePullOut'])->name('r-workshop.report.savePullOut');

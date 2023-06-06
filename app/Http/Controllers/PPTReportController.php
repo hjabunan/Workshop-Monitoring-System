@@ -1678,9 +1678,21 @@ class PPTReportController extends Controller
                         'POUTransferRemarks' => $request->UnitRemarks,
                     ]);
 
+            if($request->UnitArea == 7){
+                $ToA = "3";
+            }else if(($request->UnitArea >= 14)){
+                $ToA = "1";
+            }else if(($request->UnitArea <= 3)){
+                $ToA = "2";
+            }else{
+                $ToA = "2";
+            }
+
         UnitWorkshop::WHERE('WSPOUID', $request->WSPOUID)
                     ->UPDATE([
+                        'WSToA' => $ToA,
                         'WSBayNum' => $request->UnitBay,
+                        'WSStatus' => $request->UnitStatus,
                     ]);
 
         TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)

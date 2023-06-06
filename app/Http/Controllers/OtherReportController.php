@@ -31,8 +31,8 @@ class OtherReportController extends Controller
         
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
-                                unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
-                                unit_pull_outs.POUMastHeight,
+                                unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
+                                unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POUMastHeight,
                                 unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
@@ -1678,9 +1678,21 @@ class OtherReportController extends Controller
                         'POUTransferRemarks' => $request->UnitRemarks,
                     ]);
 
+            if($request->UnitArea == 7){
+                $ToA = "3";
+            }else if(($request->UnitArea >= 14)){
+                $ToA = "1";
+            }else if(($request->UnitArea <= 3)){
+                $ToA = "2";
+            }else{
+                $ToA = "2";
+            }
+
         UnitWorkshop::WHERE('WSPOUID', $request->WSPOUID)
                     ->UPDATE([
+                        'WSToA' => $ToA,
                         'WSBayNum' => $request->UnitBay,
+                        'WSStatus' => $request->UnitStatus,
                     ]);
 
         TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)

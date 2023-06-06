@@ -1694,9 +1694,21 @@ class RReportController extends Controller
                         'POUTransferRemarks' => $request->UnitRemarks,
                     ]);
 
+            if($request->UnitArea == 7){
+                $ToA = "3";
+            }else if(($request->UnitArea >= 14)){
+                $ToA = "1";
+            }else if(($request->UnitArea <= 3)){
+                $ToA = "2";
+            }else{
+                $ToA = "2";
+            } 
+
         UnitWorkshop::WHERE('WSPOUID', $request->WSPOUID)
                     ->UPDATE([
+                        'WSToA' => $ToA,
                         'WSBayNum' => $request->UnitBay,
+                        'WSStatus' => $request->UnitStatus,
                     ]);
 
         TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
@@ -1724,8 +1736,9 @@ class RReportController extends Controller
         $technician = DB::SELECT('SELECT * FROM technicians WHERE status="1"');
         $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" and status="1" ORDER BY bay_areas.id');
 
-        
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=3');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=3');
+
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=3');
 
         $cunit = DB::SELECT('SELECT unit_confirms.id, unit_confirms.POUID, unit_confirms.CUTransferDate, unit_confirms.CUTransferRemarks, unit_confirms.CUTransferStatus, unit_confirms.CUTransferArea, unit_confirms.CUTransferBay,
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, 
@@ -1745,9 +1758,10 @@ class RReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                WHERE unit_workshops.isBrandNew=0
                         ');
 
-        return view('workshop-ms.r-workshop.report',compact('brand','section','technician','bay','pounit','cunit', 'workshop'));
+        return view('workshop-ms.r-workshop.report',compact('brand','section','technician','bay','bnunit','pounit','cunit', 'workshop'));
     }
 
     public function sortBrand(Request $request){
@@ -2089,6 +2103,7 @@ class RReportController extends Controller
         if($POUIDe == null){
             if($PUnitType == 1){
                 $POU = new UnitPullOut();
+                $POU->isBrandNew = 0;
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
@@ -2214,6 +2229,7 @@ class RReportController extends Controller
                 $POU->save();
             }else{
                 $POU = new UnitPullOut();
+                $POU->isBrandNew = 0;
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
@@ -2709,7 +2725,7 @@ class RReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=3');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=3');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -2733,10 +2749,10 @@ class RReportController extends Controller
                             <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
                                 '.$POU->POUArrivalDate.'
                             </td>
-                            <td class="font-medium px-1 py-0.5 text-center">
+                            <td class="px-1 py-0.5 text-center">
                                 '.$POU->POUCode.'
                             </td>
-                            <td class="font-medium px-1 py-0.5 text-center">
+                            <td class="px-1 py-0.5 text-center">
                                 '.$POU->POUModel.'
                             </td>
                             <td class="px-1 py-0.5 text-center">
@@ -2905,7 +2921,7 @@ class RReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=3');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=3');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -2929,10 +2945,10 @@ class RReportController extends Controller
                             <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
                                 '.$POU->POUArrivalDate.'
                             </td>
-                            <td class="font-medium px-1 py-0.5 text-center">
+                            <td class="px-1 py-0.5 text-center">
                                 '.$POU->POUCode.'
                             </td>
-                            <td class="font-medium px-1 py-0.5 text-center">
+                            <td class="px-1 py-0.5 text-center">
                                 '.$POU->POUModel.'
                             </td>
                             <td class="px-1 py-0.5 text-center">
@@ -2997,15 +3013,18 @@ class RReportController extends Controller
         $CU->CUTransferBay = $request->POUBay;
         $CU->save();
 
-        if($request->POUArea == 7){
+        if($request->UnitArea == 7){
             $ToA = "3";
-        }else if(($request->POUArea == 14)){
+        }else if(($request->UnitArea >= 14)){
             $ToA = "1";
+        }else if(($request->UnitArea <= 3)){
+            $ToA = "2";
         }else{
             $ToA = "2";
-        }        
+        } 
 
         $WS = new UnitWorkshop();
+        $WS->isBrandNew = 0;
         $WS->WSPOUID = $request->POUIDx;
         $WS->WSBayNum = $request->POUBay;
         $WS->WSToA = $ToA;
@@ -3036,7 +3055,7 @@ class RReportController extends Controller
                 ->UPDATE(['category' => "2"]);
 
         $result = '';
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND POUBrand=3');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=3');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3189,6 +3208,986 @@ class RReportController extends Controller
             ';
         }
 
+        echo $result;
+    }
+
+    // BRAND NEW
+    public function saveBrandNew(Request $request){
+        $NewUnitIDe = $request->BNUIDe;
+        $NewUnitType = $request->BNUnitType;
+
+        if($NewUnitIDe == null){
+            if($NewUnitType == 1){
+                $BNU = new UnitPullOut();
+                $BNU->isBrandNew = 1;
+                $BNU->POUUnitType = strtoupper($request->BNUnitType);
+                $BNU->POUArrivalDate = strtoupper($request->BNUArrivalDate);
+                $BNU->POUBrand = strtoupper($request->BNUBrand);
+                $BNU->POUClassification = '';
+                $BNU->POUModel = strtoupper($request->BNUModel);
+                $BNU->POUSerialNum = strtoupper($request->BNUSerialNum);
+                $BNU->POUCode = strtoupper($request->BNUCode);
+                $BNU->POUMastType = strtoupper($request->BNUMastType);
+                $BNU->POUMastHeight = strtoupper($request->BNUMastHeight);
+                $BNU->POUForkSize = strtoupper($request->BNUForkSize);
+                    if($request->has('BNUwAttachment')){
+                        $BNU->POUwAttachment = $request->BNUwAttachment;
+                        if($request->BNUAttType != null){
+                            $BNU->POUAttType = $request->BNUAttType;
+                        }else{
+                            $BNU->POUAttType = "";
+                        }
+
+                        if($request->BNUAttModel != null){
+                            $BNU->POUAttModel = $request->BNUAttModel;
+                        }else{
+                            $BNU->POUAttModel = "";
+                        }
+
+                        if($request->BNUAttSerialNum != null){
+                            $BNU->POUAttSerialNum = $request->BNUAttSerialNum;
+                        }else{
+                            $BNU->POUAttSerialNum = "";
+                        }
+                    }else{
+                        $BNU->POUwAttachment = "";
+                        $BNU->POUAttType = "";
+                        $BNU->POUAttModel = "";
+                        $BNU->POUAttSerialNum = "";
+                    }
+                    
+                    if($request->has('BNUwAccesories')){
+                        $BNU->POUwAccesories = $request->BNUwAccesories;
+                            if($request->has('BNUAccISite')){
+                                $BNU->POUAccISite = $request->BNUAccISite;
+                            }else{
+                                $BNU->POUAccISite = "";
+                            }
+
+                            if($request->has('BNUAccLiftCam')){
+                                $BNU->POUAccLiftCam = $request->BNUAccLiftCam;
+                            }else{
+                                $BNU->POUAccLiftCam = "";
+                            }
+
+                            if($request->has('BNUAccRedLight')){
+                                $BNU->POUAccRedLight = $request->BNUAccRedLight;
+                            }else{
+                                $BNU->POUAccRedLight = "";
+                            }
+
+                            if($request->has('BNUAccBlueLight')){
+                                $BNU->POUAccBlueLight = $request->BNUAccBlueLight;
+                            }else{
+                                $BNU->POUAccBlueLight = "";
+                            }
+
+                            if($request->has('BNUAccFireExt')){
+                                $BNU->POUAccFireExt = $request->BNUAccFireExt;
+                            }else{
+                                $BNU->POUAccFireExt = "";
+                            }
+
+                            if($request->has('BNUAccStLight')){
+                                $BNU->POUAccStLight = $request->BNUAccStLight;
+                            }else{
+                                $BNU->POUAccStLight = "";
+                            }
+
+                            if($request->has('BNUAccOthers')){
+                                $BNU->POUAccOthers = $request->BNUAccOthers;
+                                $BNU->POUAccOthersDetail = $request->BNUAccOthersDetail;
+                            }else{
+                                $BNU->POUAccOthers = "";
+                                $BNU->POUAccOthersDetail = "";
+                            }
+                    }else{
+                        $BNU->POUwAccesories = "";
+                        $BNU->POUAccISite = "";
+                        $BNU->POUAccLiftCam = "";
+                        $BNU->POUAccRedLight = "";
+                        $BNU->POUAccBlueLight = "";
+                        $BNU->POUAccFireExt = "";
+                        $BNU->POUAccStLight = "";
+                        $BNU->POUAccOthers = "";
+                        $BNU->POUAccOthersDetail = "";
+                    }
+                $BNU->POUTechnician1 = $request->BNUTechnician1;
+                    if($request->BNUTechnician2 != null){
+                        $BNU->POUTechnician2 = $request->BNUTechnician2;
+                    }else{
+                        $BNU->POUTechnician2 = "";
+                    }
+
+                    if($request->BNUSalesman != null){
+                        $BNU->POUSalesman = $request->BNUSalesman;
+                    }else{
+                        $BNU->POUSalesman = "";
+                    }
+                    
+                    if($request->BNUCustomer != null){
+                        $BNU->POUCustomer = $request->BNUCustomer;
+                    }else{
+                        $BNU->POUCustomer = "";
+                    }
+
+                    if($request->BNUCustAddress != null){
+                        $BNU->POUCustAddress = $request->BNUCustAddress;
+                    }else{
+                        $BNU->POUCustAddress = "";
+                    }
+
+                $BNU->POURemarks = $request->BNURemarks;
+                $BNU->POUStatus = "";
+                $BNU->POUTransferArea = "";
+                $BNU->POUTransferBay = "";
+                $BNU->POUTransferRemarks = "";
+                $BNU->save();
+            }else{
+                $BNU = new UnitPullOut();
+                $BNU->isBrandNew = 1;
+                $BNU->POUUnitType = strtoupper($request->BNUnitType);
+                $BNU->POUArrivalDate = strtoupper($request->BNUArrivalDate);
+                $BNU->POUBrand = strtoupper($request->BNUBrand);
+                $BNU->POUClassification = '';
+                $BNU->POUModel = strtoupper($request->BNUModel);
+                $BNU->POUSerialNum = strtoupper($request->BNUSerialNum);
+                $BNU->POUCode = strtoupper($request->BNUCode);
+                $BNU->POUMastType = strtoupper($request->BNUMastType);
+                $BNU->POUMastHeight = strtoupper($request->BNUMastHeight);
+                $BNU->POUForkSize = strtoupper($request->BNUForkSize);
+                    if($request->has('BNUwAttachment')){
+                        $BNU->POUwAttachment = $request->BNUwAttachment;
+                        if($request->BNUAttType != null){
+                            $BNU->POUAttType = $request->BNUAttType;
+                        }else{
+                            $BNU->POUAttType = "";
+                        }
+
+                        if($request->BNUAttModel != null){
+                            $BNU->POUAttModel = $request->BNUAttModel;
+                        }else{
+                            $BNU->POUAttModel = "";
+                        }
+
+                        if($request->BNUAttSerialNum != null){
+                            $BNU->POUAttSerialNum = $request->BNUAttSerialNum;
+                        }else{
+                            $BNU->POUAttSerialNum = "";
+                        }
+                    }else{
+                        $BNU->POUwAttachment = "";
+                        $BNU->POUAttType = "";
+                        $BNU->POUAttModel = "";
+                        $BNU->POUAttSerialNum = "";
+                    }
+                    
+                    if($request->has('BNUwAccesories')){
+                        $BNU->POUwAccesories = $request->BNUwAccesories;
+                            if($request->has('BNUAccISite')){
+                                $BNU->POUAccISite = $request->BNUAccISite;
+                            }else{
+                                $BNU->POUAccISite = "";
+                            }
+
+                            if($request->has('BNUAccLiftCam')){
+                                $BNU->POUAccLiftCam = $request->BNUAccLiftCam;
+                            }else{
+                                $BNU->POUAccLiftCam = "";
+                            }
+
+                            if($request->has('BNUAccRedLight')){
+                                $BNU->POUAccRedLight = $request->BNUAccRedLight;
+                            }else{
+                                $BNU->POUAccRedLight = "";
+                            }
+
+                            if($request->has('BNUAccBlueLight')){
+                                $BNU->POUAccBlueLight = $request->BNUAccBlueLight;
+                            }else{
+                                $BNU->POUAccBlueLight = "";
+                            }
+
+                            if($request->has('BNUAccFireExt')){
+                                $BNU->POUAccFireExt = $request->BNUAccFireExt;
+                            }else{
+                                $BNU->POUAccFireExt = "";
+                            }
+
+                            if($request->has('BNUAccStLight')){
+                                $BNU->POUAccStLight = $request->BNUAccStLight;
+                            }else{
+                                $BNU->POUAccStLight = "";
+                            }
+
+                            if($request->has('BNUAccOthers')){
+                                $BNU->POUAccOthers = $request->BNUAccOthers;
+                                $BNU->POUAccOthersDetail = $request->BNUAccOthersDetail;
+                            }else{
+                                $BNU->POUAccOthers = "";
+                                $BNU->POUAccOthersDetail = "";
+                            }
+                    }else{
+                        $BNU->POUwAccesories = "";
+                        $BNU->POUAccISite = "";
+                        $BNU->POUAccLiftCam = "";
+                        $BNU->POUAccRedLight = "";
+                        $BNU->POUAccBlueLight = "";
+                        $BNU->POUAccFireExt = "";
+                        $BNU->POUAccStLight = "";
+                        $BNU->POUAccOthers = "";
+                        $BNU->POUAccOthersDetail = "";
+                    }
+                $BNU->POUTechnician1 = $request->BNUTechnician1;
+                    if($request->BNUTechnician2 != null){
+                        $BNU->POUTechnician2 = $request->BNUTechnician2;
+                    }else{
+                        $BNU->POUTechnician2 = "";
+                    }
+
+                    if($request->BNUSalesman != null){
+                        $BNU->POUSalesman = $request->BNUSalesman;
+                    }else{
+                        $BNU->POUSalesman = "";
+                    }
+                    
+                    if($request->BNUCustomer != null){
+                        $BNU->POUCustomer = $request->BNUCustomer;
+                    }else{
+                        $BNU->POUCustomer = "";
+                    }
+
+                    if($request->BNUCustAddress != null){
+                        $BNU->POUCustAddress = $request->BNUCustAddress;
+                    }else{
+                        $BNU->POUCustAddress = "";
+                    }
+
+                $BNU->POURemarks = $request->BNURemarks;
+                $BNU->POUStatus = "";
+                $BNU->POUTransferArea = "";
+                $BNU->POUTransferBay = "";
+                $BNU->POUTransferRemarks = "";
+                $BNU->save();
+
+                $BNUB = new UnitPullOutBat();
+                $BNUB->POUID = $BNU->id;
+                $BNUB->POUBABrand = strtoupper($request->BNUBABrand);
+                $BNUB->POUBABatType = strtoupper($request->BNUBABatType);
+                $BNUB->POUBASerialNum = strtoupper($request->BNUBASerialNum);
+                $BNUB->POUBACode = strtoupper($request->BNUBACode);
+                $BNUB->POUBAAmper = strtoupper($request->BNUBAAmper);
+                $BNUB->POUBAVolt = strtoupper($request->BNUBAVolt);
+                $BNUB->POUBACCable = strtoupper($request->BNUBACCable);
+                $BNUB->POUBACTable = strtoupper($request->BNUBACTable);
+                
+                if($request->has('BNUwBatSpare1')){
+                    $BNUB->POUwSpareBat1 = strtoupper($request->BNUwBatSpare1);
+                    $BNUB->POUSB1Brand = strtoupper($request->BNUSB1Brand);
+                    $BNUB->POUSB1BatType = strtoupper($request->BNUSB1BatType);
+                    $BNUB->POUSB1SerialNum = strtoupper($request->BNUSB1SerialNum);
+                    $BNUB->POUSB1Code = strtoupper($request->BNUSB1Code);
+                    $BNUB->POUSB1Amper = strtoupper($request->BNUSB1Amper);
+                    $BNUB->POUSB1Volt = strtoupper($request->BNUSB1Volt);
+                    $BNUB->POUSB1CCable = strtoupper($request->BNUSB1CCable);
+                    $BNUB->POUSB1CTable = strtoupper($request->BNUSB1CTable);
+                }else{
+                    $BNUB->POUwSpareBat1 = "";
+                    $BNUB->POUSB1Brand = "";
+                    $BNUB->POUSB1BatType = "";
+                    $BNUB->POUSB1SerialNum = "";
+                    $BNUB->POUSB1Code = "";
+                    $BNUB->POUSB1Amper = "";
+                    $BNUB->POUSB1Volt = "";
+                    $BNUB->POUSB1CCable = "";
+                    $BNUB->POUSB1CTable = "";
+                }
+                
+                if($request->has('BNUwBatSpare2')){
+                    $BNUB->POUwSpareBat2 = strtoupper($request->BNUwBatSpare2);
+                    $BNUB->POUSB2Brand = strtoupper($request->BNUSB2Brand);
+                    $BNUB->POUSB2BatType = strtoupper($request->BNUSB2BatType);
+                    $BNUB->POUSB2SerialNum = strtoupper($request->BNUSB2SerialNum);
+                    $BNUB->POUSB2Code = strtoupper($request->BNUSB2Code);
+                    $BNUB->POUSB2Amper = strtoupper($request->BNUSB2Amper);
+                    $BNUB->POUSB2Volt = strtoupper($request->BNUSB2Volt);
+                    $BNUB->POUSB2CCable = strtoupper($request->BNUSB2CCable);
+                    $BNUB->POUSB2CTable = strtoupper($request->BNUSB2CTable);
+                }else{
+                    $BNUB->POUwSpareBat2 = "";
+                    $BNUB->POUSB2Brand = "";
+                    $BNUB->POUSB2BatType = "";
+                    $BNUB->POUSB2SerialNum = "";
+                    $BNUB->POUSB2Code = "";
+                    $BNUB->POUSB2Amper = "";
+                    $BNUB->POUSB2Volt = "";
+                    $BNUB->POUSB2CCable = "";
+                    $BNUB->POUSB2CTable = "";
+                }
+                $BNUB->POUCBrand = strtoupper($request->BNUCBrand);
+                $BNUB->POUCModel = strtoupper($request->BNUCModel);
+                $BNUB->POUCSerialNum = strtoupper($request->BNUCSerialNum);
+                $BNUB->POUCCode = strtoupper($request->BNUCCode);
+                $BNUB->POUCAmper = strtoupper($request->BNUCAmper);
+                $BNUB->POUCVolt = strtoupper($request->BNUCVolt);
+                $BNUB->POUCInput = strtoupper($request->BNUCInput);
+                $BNUB->save();
+            }
+        }else{
+            if($NewUnitType == 1){
+                $BNU = UnitPullOut::find($NewUnitIDe);
+                $BNU->isBrandNew = 1;
+                $BNU->POUUnitType = strtoupper($request->BNUnitType);
+                $BNU->POUArrivalDate = strtoupper($request->BNUArrivalDate);
+                $BNU->POUBrand = strtoupper($request->BNUBrand);
+                $BNU->POUClassification = '';
+                $BNU->POUModel = strtoupper($request->BNUModel);
+                $BNU->POUSerialNum = strtoupper($request->BNUSerialNum);
+                $BNU->POUCode = strtoupper($request->BNUCode);
+                $BNU->POUMastType = strtoupper($request->BNUMastType);
+                $BNU->POUMastHeight = strtoupper($request->BNUMastHeight);
+                $BNU->POUForkSize = strtoupper($request->BNUForkSize);
+                    if($request->has('BNUwAttachment')){
+                        $BNU->POUwAttachment = $request->BNUwAttachment;
+                        if($request->BNUAttType != null){
+                            $BNU->POUAttType = $request->BNUAttType;
+                        }else{
+                            $BNU->POUAttType = "";
+                        }
+
+                        if($request->BNUAttModel != null){
+                            $BNU->POUAttModel = $request->BNUAttModel;
+                        }else{
+                            $BNU->POUAttModel = "";
+                        }
+
+                        if($request->BNUAttSerialNum != null){
+                            $BNU->POUAttSerialNum = $request->BNUAttSerialNum;
+                        }else{
+                            $BNU->POUAttSerialNum = "";
+                        }
+                    }else{
+                        $BNU->POUwAttachment = "";
+                        $BNU->POUAttType = "";
+                        $BNU->POUAttModel = "";
+                        $BNU->POUAttSerialNum = "";
+                    }
+                    
+                    if($request->has('BNUwAccesories')){
+                        $BNU->POUwAccesories = $request->BNUwAccesories;
+                            if($request->has('BNUAccISite')){
+                                $BNU->POUAccISite = $request->BNUAccISite;
+                            }else{
+                                $BNU->POUAccISite = "";
+                            }
+
+                            if($request->has('BNUAccLiftCam')){
+                                $BNU->POUAccLiftCam = $request->BNUAccLiftCam;
+                            }else{
+                                $BNU->POUAccLiftCam = "";
+                            }
+
+                            if($request->has('BNUAccRedLight')){
+                                $BNU->POUAccRedLight = $request->BNUAccRedLight;
+                            }else{
+                                $BNU->POUAccRedLight = "";
+                            }
+
+                            if($request->has('BNUAccBlueLight')){
+                                $BNU->POUAccBlueLight = $request->BNUAccBlueLight;
+                            }else{
+                                $BNU->POUAccBlueLight = "";
+                            }
+
+                            if($request->has('BNUAccFireExt')){
+                                $BNU->POUAccFireExt = $request->BNUAccFireExt;
+                            }else{
+                                $BNU->POUAccFireExt = "";
+                            }
+
+                            if($request->has('BNUAccStLight')){
+                                $BNU->POUAccStLight = $request->BNUAccStLight;
+                            }else{
+                                $BNU->POUAccStLight = "";
+                            }
+
+                            if($request->has('BNUAccOthers')){
+                                $BNU->POUAccOthers = $request->BNUAccOthers;
+                                $BNU->POUAccOthersDetail = $request->BNUAccOthersDetail;
+                            }else{
+                                $BNU->POUAccOthers = "";
+                                $BNU->POUAccOthersDetail = "";
+                            }
+                    }else{
+                        $BNU->POUwAccesories = "";
+                        $BNU->POUAccISite = "";
+                        $BNU->POUAccLiftCam = "";
+                        $BNU->POUAccRedLight = "";
+                        $BNU->POUAccBlueLight = "";
+                        $BNU->POUAccFireExt = "";
+                        $BNU->POUAccStLight = "";
+                        $BNU->POUAccOthers = "";
+                        $BNU->POUAccOthersDetail = "";
+                    }
+                $BNU->POUTechnician1 = $request->BNUTechnician1;
+                    if($request->BNUTechnician2 != null){
+                        $BNU->POUTechnician2 = $request->BNUTechnician2;
+                    }else{
+                        $BNU->POUTechnician2 = "";
+                    }
+
+                    if($request->BNUSalesman != null){
+                        $BNU->POUSalesman = $request->BNUSalesman;
+                    }else{
+                        $BNU->POUSalesman = "";
+                    }
+                    
+                    if($request->BNUCustomer != null){
+                        $BNU->POUCustomer = $request->BNUCustomer;
+                    }else{
+                        $BNU->POUCustomer = "";
+                    }
+
+                    if($request->BNUCustAddress != null){
+                        $BNU->POUCustAddress = $request->BNUCustAddress;
+                    }else{
+                        $BNU->POUCustAddress = "";
+                    }
+
+                $BNU->POURemarks = $request->BNURemarks;
+                $BNU->update();
+            }else{
+                $BNU = UnitPullOut::find($NewUnitIDe);
+                $BNU->isBrandNew = 1;
+                $BNU->POUUnitType = strtoupper($request->BNUnitType);
+                $BNU->POUArrivalDate = strtoupper($request->BNUArrivalDate);
+                $BNU->POUBrand = strtoupper($request->BNUBrand);
+                $BNU->POUClassification = '';
+                $BNU->POUModel = strtoupper($request->BNUModel);
+                $BNU->POUSerialNum = strtoupper($request->BNUSerialNum);
+                $BNU->POUCode = strtoupper($request->BNUCode);
+                $BNU->POUMastType = strtoupper($request->BNUMastType);
+                $BNU->POUMastHeight = strtoupper($request->BNUMastHeight);
+                $BNU->POUForkSize = strtoupper($request->BNUForkSize);
+                    if($request->has('BNUwAttachment')){
+                        $BNU->POUwAttachment = $request->BNUwAttachment;
+                        if($request->BNUAttType != null){
+                            $BNU->POUAttType = $request->BNUAttType;
+                        }else{
+                            $BNU->POUAttType = "";
+                        }
+
+                        if($request->BNUAttModel != null){
+                            $BNU->POUAttModel = $request->BNUAttModel;
+                        }else{
+                            $BNU->POUAttModel = "";
+                        }
+
+                        if($request->BNUAttSerialNum != null){
+                            $BNU->POUAttSerialNum = $request->BNUAttSerialNum;
+                        }else{
+                            $BNU->POUAttSerialNum = "";
+                        }
+                    }else{
+                        $BNU->POUwAttachment = "0";
+                        $BNU->POUAttType = "";
+                        $BNU->POUAttModel = "";
+                        $BNU->POUAttSerialNum = "";
+                    }
+                    
+                    if($request->has('BNUwAccesories')){
+                        $BNU->POUwAccesories = $request->BNUwAccesories;
+                            if($request->has('BNUAccISite')){
+                                $BNU->POUAccISite = $request->BNUAccISite;
+                            }else{
+                                $BNU->POUAccISite = "0";
+                            }
+
+                            if($request->has('BNUAccLiftCam')){
+                                $BNU->POUAccLiftCam = $request->BNUAccLiftCam;
+                            }else{
+                                $BNU->POUAccLiftCam = "";
+                            }
+
+                            if($request->has('BNUAccRedLight')){
+                                $BNU->POUAccRedLight = $request->BNUAccRedLight;
+                            }else{
+                                $BNU->POUAccRedLight = "";
+                            }
+
+                            if($request->has('BNUAccBlueLight')){
+                                $BNU->POUAccBlueLight = $request->BNUAccBlueLight;
+                            }else{
+                                $BNU->POUAccBlueLight = "";
+                            }
+
+                            if($request->has('BNUAccFireExt')){
+                                $BNU->POUAccFireExt = $request->BNUAccFireExt;
+                            }else{
+                                $BNU->POUAccFireExt = "";
+                            }
+
+                            if($request->has('BNUAccStLight')){
+                                $BNU->POUAccStLight = $request->BNUAccStLight;
+                            }else{
+                                $BNU->POUAccStLight = "";
+                            }
+
+                            if($request->has('BNUAccOthers')){
+                                $BNU->POUAccOthers = $request->BNUAccOthers;
+                                $BNU->POUAccOthersDetail = $request->BNUAccOthersDetail;
+                            }else{
+                                $BNU->POUAccOthers = "";
+                                $BNU->POUAccOthersDetail = "";
+                            }
+                    }else{
+                        $BNU->POUwAccesories = "";
+                        $BNU->POUAccISite = "";
+                        $BNU->POUAccLiftCam = "";
+                        $BNU->POUAccRedLight = "";
+                        $BNU->POUAccBlueLight = "";
+                        $BNU->POUAccFireExt = "";
+                        $BNU->POUAccStLight = "";
+                        $BNU->POUAccOthers = "";
+                        $BNU->POUAccOthersDetail = "";
+                    }
+                $BNU->POUTechnician1 = $request->BNUTechnician1;
+                    if($request->BNUTechnician2 != null){
+                        $BNU->POUTechnician2 = $request->BNUTechnician2;
+                    }else{
+                        $BNU->POUTechnician2 = "";
+                    }
+
+                    if($request->BNUSalesman != null){
+                        $BNU->POUSalesman = $request->BNUSalesman;
+                    }else{
+                        $BNU->POUSalesman = "";
+                    }
+                    
+                    if($request->BNUCustomer != null){
+                        $BNU->POUCustomer = $request->BNUCustomer;
+                    }else{
+                        $BNU->POUCustomer = "";
+                    }
+
+                    if($request->BNUCustAddress != null){
+                        $BNU->POUCustAddress = $request->BNUCustAddress;
+                    }else{
+                        $BNU->POUCustAddress = "";
+                    }
+                $BNU->BNURemarks = $request->BNURemarks;
+                $BNU->update();
+
+                $BNUB = new UnitPullOutBat();
+                $BNUB->POUID = $BNU->id;
+                $BNUB->POUBABrand = strtoupper($request->BNUBABrand);
+                $BNUB->POUBABatType = strtoupper($request->BNUBABatType);
+                $BNUB->POUBASerialNum = strtoupper($request->BNUBASerialNum);
+                $BNUB->POUBACode = strtoupper($request->BNUBACode);
+                $BNUB->POUBAAmper = strtoupper($request->BNUBAAmper);
+                $BNUB->POUBAVolt = strtoupper($request->BNUBAVolt);
+                $BNUB->POUBACCable = strtoupper($request->BNUBACCable);
+                $BNUB->POUBACTable = strtoupper($request->BNUBACTable);
+                
+                if($request->has('BNUBatSpare1')){
+                    $BNUB->POUwSpareBat1 = strtoupper($request->BNUwBatSpare1);
+                    $BNUB->POUSB1Brand = strtoupper($request->BNUSB1Brand);
+                    $BNUB->POUSB1BatType = strtoupper($request->BNUSB1BatType);
+                    $BNUB->POUSB1SerialNum = strtoupper($request->BNUSB1SerialNum);
+                    $BNUB->POUSB1Code = strtoupper($request->BNUSB1Code);
+                    $BNUB->POUSB1Amper = strtoupper($request->BNUSB1Amper);
+                    $BNUB->POUSB1Volt = strtoupper($request->BNUSB1Volt);
+                    $BNUB->POUSB1CCable = strtoupper($request->BNUSB1CCable);
+                    $BNUB->POUSB1CTable = strtoupper($request->BNUSB1CTable);
+                }else{
+                    $BNUB->POUwSpareBat1 = "";
+                    $BNUB->POUSB1Brand = "";
+                    $BNUB->POUSB1BatType = "";
+                    $BNUB->POUSB1SerialNum = "";
+                    $BNUB->POUSB1Code = "";
+                    $BNUB->POUSB1Amper = "";
+                    $BNUB->POUSB1Volt = "";
+                    $BNUB->POUSB1CCable = "";
+                    $BNUB->POUSB1CTable = "";
+                }
+                
+                if($request->has('BNUBatSpare2')){
+                    $BNUB->POUwSpareBat2 = strtoupper($request->BNUwBatSpare2);
+                    $BNUB->POUSB2Brand = strtoupper($request->BNUSB2Brand);
+                    $BNUB->POUSB2BatType = strtoupper($request->BNUSB2BatType);
+                    $BNUB->POUSB2SerialNum = strtoupper($request->BNUSB2SerialNum);
+                    $BNUB->POUSB2Code = strtoupper($request->BNUSB2Code);
+                    $BNUB->POUSB2Amper = strtoupper($request->BNUSB2Amper);
+                    $BNUB->POUSB2Volt = strtoupper($request->BNUSB2Volt);
+                    $BNUB->POUSB2CCable = strtoupper($request->BNUSB2CCable);
+                    $BNUB->POUSB2CTable = strtoupper($request->BNUSB2CTable);
+                }else{
+                    $BNUB->POUwSpareBat2 = "";
+                    $BNUB->POUSB2Brand = "";
+                    $BNUB->POUSB2BatType = "";
+                    $BNUB->POUSB2SerialNum = "";
+                    $BNUB->POUSB2Code = "";
+                    $BNUB->POUSB2Amper = "";
+                    $BNUB->POUSB2Volt = "";
+                    $BNUB->POUSB2CCable = "";
+                    $BNUB->POUSB2CTable = "";
+                }
+                $BNUB->POUCModel = strtoupper($request->BNUCModel);
+                $BNUB->POUCSerialNum = strtoupper($request->BNUCSerialNum);
+                $BNUB->POUCCode = strtoupper($request->BNUCCode);
+                $BNUB->POUCAmper = strtoupper($request->BNUCAmper);
+                $BNUB->POUCVolt = strtoupper($request->BNUCVolt);
+                $BNUB->POUCInput = strtoupper($request->BNUCInput);
+                $BNUB->update();
+            }
+        }
+
+        $result = "";
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=3');
+
+        if(count($bnunit)>0){
+            foreach ($bnunit as $BNU) {
+                
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="w-3.5 p-1 whitespace-nowrap">
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUView" id="btnBNUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUEdit" id="btnBNUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUDelete" id="btnBNUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" data-poremarks="'.$BNU->POURemarks.'" class="btnBNUTransfer" id="btnBNUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button>
+                            </td>
+                            <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
+                                '.$BNU->POUArrivalDate.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUCode.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUModel.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUSerialNum.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUMastHeight.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUCustomer.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUCustAddress.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POURemarks.'
+                            </td>
+                        </tr>
+                ';
+            }
+
+        }else{
+            $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                            No data.
+                        </td>
+                    </tr>
+            ';
+        }
+
+        echo $result;
+    }
+
+    public function getBNUData(Request $request){
+        if($request->utype == 1){
+            $bnunit = DB::TABLE('unit_pull_outs')
+                        ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 
+                                'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUwAttachment', 
+                                'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 
+                                'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthers', 'unit_pull_outs.POUAccOthersDetail', 
+                                'unit_pull_outs.POUTechnician1', 'unit_pull_outs.POUTechnician2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks')
+                        ->WHERE('unit_pull_outs.id', $request->id)
+                        ->first();
+
+                    $result = array(
+                        'BNUnitIDx' => $bnunit->POUnitIDx,
+                        'BNUnitType' => $bnunit->POUUnitType,
+                        'BNUArrivalDate' => $bnunit->POUArrivalDate,
+                        'BNUBrand' => $bnunit->POUBrand,
+                        'BNUClassification' => $bnunit->POUClassification,
+                        'BNUModel' => $bnunit->POUModel,
+                        'BNUSerialNum' => $bnunit->POUSerialNum,
+                        'BNUCode' => $bnunit->POUCode,
+                        'BNUMastType' => $bnunit->POUMastType,
+                        'BNUMastHeight' => $bnunit->POUMastHeight,
+                        'BNUForkSize' => $bnunit->POUForkSize,
+                        'BNUwAttachment' => $bnunit->POUwAttachment,
+                        'BNUAttType' => $bnunit->POUAttType,
+                        'BNUAttModel' => $bnunit->POUAttModel,
+                        'BNUAttSerialNum' => $bnunit->POUAttSerialNum,
+                        'BNUwAccesories' => $bnunit->POUwAccesories,
+                        'BNUAccISite' => $bnunit->POUAccISite,
+                        'BNUAccLiftCam' => $bnunit->POUAccLiftCam,
+                        'BNUAccRedLight' => $bnunit->POUAccRedLight,
+                        'BNUAccBlueLight' => $bnunit->POUAccBlueLight,
+                        'BNUAccFireExt' => $bnunit->POUAccFireExt,
+                        'BNUAccStLight' => $bnunit->POUAccStLight,
+                        'BNUAccOthers' => $bnunit->POUAccOthers,
+                        'BNUAccOthersDetail' => $bnunit->POUAccOthersDetail,
+                        'BNUTechnician1' => $bnunit->POUTechnician1,
+                        'BNUTechnician2' => $bnunit->POUTechnician2,
+                        'BNUSalesman' => $bnunit->POUSalesman,
+                        'BNUCustomer' => $bnunit->POUCustomer,
+                        'BNUCustAddress' => $bnunit->POUCustAddress,
+                        'BNURemarks' => $bnunit->POURemarks,
+                );
+        }else{
+            $bnunit = DB::TABLE('unit_pull_outs')
+                                                ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 
+                                                        'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 
+                                                        'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUwAttachment', 
+                                                        'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 
+                                                        'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 
+                                                        'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthers', 'unit_pull_outs.POUAccOthersDetail', 
+                                                        'unit_pull_outs.POUTechnician1', 'unit_pull_outs.POUTechnician2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 
+                                                        'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks', 'unit_pull_out_bats.id as BatID', 'unit_pull_out_bats.POUID as BatPOUID', 
+                                                        'unit_pull_out_bats.POUBABrand', 'unit_pull_out_bats.POUBABatType', 'unit_pull_out_bats.POUBASerialNum', 'unit_pull_out_bats.POUBACode', 
+                                                        'unit_pull_out_bats.POUBAAmper', 'unit_pull_out_bats.POUBAVolt', 'unit_pull_out_bats.POUBACCable', 'unit_pull_out_bats.POUBACTable', 
+                                                        'unit_pull_out_bats.POUwSpareBat1', 'unit_pull_out_bats.POUSB1Brand', 'unit_pull_out_bats.POUSB1BatType', 'unit_pull_out_bats.POUSB1SerialNum', 
+                                                        'unit_pull_out_bats.POUSB1Code', 'unit_pull_out_bats.POUSB1Amper', 'unit_pull_out_bats.POUSB1Volt', 'unit_pull_out_bats.POUSB1CCable', 
+                                                        'unit_pull_out_bats.POUSB1CTable', 'unit_pull_out_bats.POUwSpareBat2', 'unit_pull_out_bats.POUSB2Brand', 'unit_pull_out_bats.POUSB2BatType', 
+                                                        'unit_pull_out_bats.POUSB2SerialNum', 'unit_pull_out_bats.POUSB2Code', 'unit_pull_out_bats.POUSB2Amper', 'unit_pull_out_bats.POUSB2Volt', 
+                                                        'unit_pull_out_bats.POUSB2CCable', 'unit_pull_out_bats.POUSB2CTable', 'unit_pull_out_bats.POUCBrand', 'unit_pull_out_bats.POUCModel', 
+                                                        'unit_pull_out_bats.POUCSerialNum', 'unit_pull_out_bats.POUCCode', 'unit_pull_out_bats.POUCAmper', 'unit_pull_out_bats.POUCVolt', 'unit_pull_out_bats.POUCInput')
+                                                ->join('unit_pull_out_bats', 'unit_pull_outs.id', '=', 'unit_pull_out_bats.POUID')
+                                                ->WHERE('unit_pull_outs.id', $request->id)
+                                                ->first();
+
+                $result = array(
+                    'BNUnitIDx' => $bnunit->POUnitIDx,
+                    'BNUnitType' => $bnunit->POUUnitType,
+                    'BNUArrivalDate' => $bnunit->POUArrivalDate,
+                    'BNUBrand' => $bnunit->POUBrand,
+                    'BNUClassification' => $bnunit->POUClassification,
+                    'BNUModel' => $bnunit->POUModel,
+                    'BNUSerialNum' => $bnunit->POUSerialNum,
+                    'BNUCode' => $bnunit->POUCode,
+                    'BNUMastType' => $bnunit->POUMastType,
+                    'BNUMastHeight' => $bnunit->POUMastHeight,
+                    'BNUForkSize' => $bnunit->POUForkSize,
+                    'BNUwAttachment' => $bnunit->POUwAttachment,
+                    'BNUAttType' => $bnunit->POUAttType,
+                    'BNUAttModel' => $bnunit->POUAttModel,
+                    'BNUAttSerialNum' => $bnunit->POUAttSerialNum,
+                    'BNUwAccesories' => $bnunit->POUwAccesories,
+                    'BNUAccISite' => $bnunit->POUAccISite,
+                    'BNUAccLiftCam' => $bnunit->POUAccLiftCam,
+                    'BNUAccRedLight' => $bnunit->POUAccRedLight,
+                    'BNUAccBlueLight' => $bnunit->POUAccBlueLight,
+                    'BNUAccFireExt' => $bnunit->POUAccFireExt,
+                    'BNUAccStLight' => $bnunit->POUAccStLight,
+                    'BNUAccOthers' => $bnunit->POUAccOthers,
+                    'BNUAccOthersDetail' => $bnunit->POUAccOthersDetail,
+                    'BNUTechnician1' => $bnunit->POUTechnician1,
+                    'BNUTechnician2' => $bnunit->POUTechnician2,
+                    'BNUSalesman' => $bnunit->POUSalesman,
+                    'BNUCustomer' => $bnunit->POUCustomer,
+                    'BNUCustAddress' => $bnunit->POUCustAddress,
+                    'BNUBABrand' => $bnunit->POUBABrand,
+                    'BNUBABatType' => $bnunit->POUBABatType,
+                    'BNUBASerialNum' => $bnunit->POUBASerialNum,
+                    'BNUBACode' => $bnunit->POUBACode,
+                    'BNUBAAmper' => $bnunit->POUBAAmper,
+                    'BNUBAVolt' => $bnunit->POUBAVolt,
+                    'BNUBACCable' => $bnunit->POUBACCable,
+                    'BNUBACTable' => $bnunit->POUBACTable,
+                    'BNUwSpareBat1' => $bnunit->POUwSpareBat1,
+                    'BNUSB1Brand' => $bnunit->POUSB1Brand,
+                    'BNUSB1BatType' => $bnunit->POUSB1BatType,
+                    'BNUSB1SerialNum' => $bnunit->POUSB1SerialNum,
+                    'BNUSB1Code' => $bnunit->POUSB1Code,
+                    'BNUSB1Amper' => $bnunit->POUSB1Amper,
+                    'BNUSB1Volt' => $bnunit->POUSB1Volt,
+                    'BNUSB1CCable' => $bnunit->POUSB1CCable,
+                    'BNUSB1CTable' => $bnunit->POUSB1CTable,
+                    'BNUwSpareBat2' => $bnunit->POUwSpareBat2,
+                    'BNUSB2Brand' => $bnunit->POUSB2Brand,
+                    'BNUSB2BatType' => $bnunit->POUSB2BatType,
+                    'BNUSB2SerialNum' => $bnunit->POUSB2SerialNum,
+                    'BNUSB2Code' => $bnunit->POUSB2Code,
+                    'BNUSB2Amper' => $bnunit->POUSB2Amper,
+                    'BNUSB2Volt' => $bnunit->POUSB2Volt,
+                    'BNUSB2CCable' => $bnunit->POUSB2CCable,
+                    'BNUSB2CTable' => $bnunit->POUSB2CTable,
+                    'BNUCBrand' => $bnunit->POUCBrand,
+                    'BNUCModel' => $bnunit->POUCModel,
+                    'BNUCSerialNum' => $bnunit->POUCSerialNum,
+                    'BNUCCode' => $bnunit->POUCCode,
+                    'BNUCAmper' => $bnunit->POUCAmper,
+                    'BNUCVolt' => $bnunit->POUCVolt,
+                    'BNUCInput' => $bnunit->POUCInput,
+                    'BNURemarks' => $bnunit->POURemarks,
+            );
+        }
+        return json_encode($result);
+    }
+
+    public function deleteBNU(Request $request){
+        if($request->unittype == 1){
+            $BNU = UnitPullOut::find($request->id);
+            $BNU->DELETE();
+        }else{
+            $BNU = UnitPullOut::find($request->id);
+            $BNU->DELETE();
+
+            UnitPullOutBat::WHERE('POUUID', $request->id)->DELETE();
+        }
+
+        $result = "";
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=3');
+
+        if(count($bnunit)>0){
+            foreach ($bnunit as $BNU) {
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="w-3.5 p-1 whitespace-nowrap">
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUView" id="btnBNUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUEdit" id="btnBNUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUDelete" id="btnBNUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" data-poremarks="'.$BNU->POURemarks.'" class="btnBNUTransfer" id="btnBNUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button>
+                            </td>
+                            <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
+                                '.$BNU->POUArrivalDate.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUCode.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUModel.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUSerialNum.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUMastHeight.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUCustomer.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POUCustAddress.'
+                            </td>
+                            <td class="px-1 py-0.5 text-center">
+                                '.$BNU->POURemarks.'
+                            </td>
+                        </tr>
+                ';
+            }
+        }else{
+            $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                            No data.
+                        </td>
+                    </tr>
+            ';
+        }
+
+        echo $result;
+    }
+
+    public function transferNewUnit(Request $request){
+
+        if($request->BNUArea == 7){
+            $ToA = "3";
+        }else if(($request->BNUArea >= 14)){
+            $ToA = "1";
+        // }else if(($request->BNUArea == 3)){
+        //     $ToA = "2";
+        }else{
+            $ToA = "2";
+        }
+
+        $WS = new UnitWorkshop();
+        $WS->isBrandNew = 1;
+        $WS->WSPOUID = $request->BNUIDx;
+        $WS->WSBayNum = $request->BNUBay;
+        $WS->WSToA = $ToA;
+        $WS->WSStatus = $request->BNUStatus;
+        // $WS->WSStatus = "1";
+        $WS->WSUnitType = "";
+        $WS->WSVerifiedBy = "";
+        $WS->WSUnitCondition = "1";
+        $WS->WSATIDS = "";
+        $WS->WSATIDE = "";
+        $WS->WSATRDS = "";
+        $WS->WSATRDE = "";
+        $WS->WSAAIDS = "";
+        $WS->WSAAIDE = "";
+        $WS->WSAARDS = "";
+        $WS->WSAARDE = "";
+        $WS->WSRemarks = "";
+        $WS->save();
+
+        UnitPullOut::WHERE('id', $request->BNUIDx)
+                    ->UPDATE([
+                        'POUStatus' => $request->BNUStatus,
+                        'POUTransferArea' => $request->BNUArea,
+                        'POUTransferBay' => $request->BNUBay,
+                        'POUTransferRemarks' => $request->BNURemarksT
+                        ]);
+
+        BayArea::WHERE('id', $request->BNUBay)
+                ->UPDATE(['category' => "2"]);
+
+        $result = '';
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=3');
+
+        if(count($bnunit)>0){
+            foreach ($bnunit as $BNU) {
+                $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-3.5 p-1 whitespace-nowrap">
+                            <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUView" id="btnBNUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
+                            <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUEdit" id="btnBNUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" class="btnBNUDelete" id="btnBNUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                            <button type="button" data-id="'.$BNU->id.'" data-unittype="'.$BNU->POUUnitType.'" data-poremarks="'.$BNU->POURemarks.'" class="btnBNUTransfer" id="btnBNUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
+                            '.$BNU->POUArrivalDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POUCode.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POUModel.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POUSerialNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POUMastHeight.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POUCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POUCustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$BNU->POURemarks.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                            No data.
+                        </td>
+                    </tr>
+            ';
+        }
         echo $result;
     }
 }

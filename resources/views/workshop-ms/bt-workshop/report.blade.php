@@ -879,7 +879,7 @@
             <button type="button" id="btnBNUEditH" class="btnBNUEditH hidden" data-modal-target="modalNewUnit" data-modal-toggle="modalNewUnit"></button>
             {{-- Brand New Hidden Button for Delete --}}
             <button type="button" id="btnBNUDeleteH" class="btnBNUDeleteH hidden" data-modal-target="modalDeleteBNU" data-modal-toggle="modalDeleteBNU"></button>
-            {{-- POU Hidden Button for Transfer --}}
+            {{-- Brand New Hidden Button for Transfer --}}
             <button type="button" id="btnBNUTransferH" class="btnBNUTransferH hidden" data-modal-target="modalTransferBNU" data-modal-toggle="modalTransferBNU"></button>
             {{-- POU Hidden Button for Edit --}}
             <button type="button" id="btnPOUEditH" class="btnPOUEditH hidden" data-modal-target="modalPOU" data-modal-toggle="modalPOU"></button>
