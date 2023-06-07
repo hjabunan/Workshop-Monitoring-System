@@ -173,10 +173,10 @@
                                                     {{$WS->POUMastType}}
                                                 </td>
                                                 <td class="px-1 py-0.5 text-center">
-                                                    {{$WS->WSAAIDS}}
+                                                    
                                                 </td>
                                                 <td class="px-1 py-0.5 text-center">
-                                                    {{$WS->WSATIDS}}
+                                                    
                                                 </td>
                                                 <td class="px-1 py-0.5 text-center">
                                                     {{$WS->initials}}
@@ -1060,7 +1060,7 @@
 
                 $('#savePullOutH').on( "click", function(){
                     $.ajax({
-                        url: "{{ route('t-workshop.report.savePullOut') }}",
+                        url: "{{ route('r-workshop.report.savePullOut') }}",
                         type: "POST",
                         data: $("#formPOU").serialize(),
                         success: function(result) {
@@ -1111,7 +1111,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getPOUData') }}",
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -1252,14 +1252,9 @@
                             $('#POURemarks').val(result.POURemarks);
 
                             $("#btnPOUViewH").click();
-                            $('input, select, textarea, checkbox, radio').prop('disabled', true);
-                            // $("#formPOU").addClass('pointer-event-none');
+                            $('input, select, textarea, checkbox').prop('disabled', true);
                             $("#savePullOut").hide();
                             $("#clearPullOut").hide();
-
-                            // $(document).click(function() {
-                            //     $('input, select, textarea, checkbox, radio').prop('disabled', false);
-                            // });
                         }
                     });
                 });
@@ -1272,7 +1267,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getPOUData') }}",
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -1419,7 +1414,7 @@
                             $('#POURemarks').val(result.POURemarks);
 
                             $("#btnPOUEditH").click();
-                            $('input, select, textarea, checkbox, radio').prop('disabled', false);
+                            $('input, select, textarea, checkbox').prop('disabled', false);
                             $("#savePullOut").show();
                             $("#clearPullOut").show();
                         }
@@ -1442,7 +1437,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.deletePOU') }}",
+                        url:"{{ route('r-workshop.report.deletePOU') }}",
                         method:"POST",
                         data:{id: id, unittype: unittype, _token: _token,},
                         success:function(result){
@@ -1464,7 +1459,7 @@
                     // alert(area);
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getBay') }}",
+                        url:"{{ route('r-workshop.report.getBay') }}",
                         method:"GET",
                         data:{area: area, _token: _token,},
                         success:function(result){
@@ -1481,7 +1476,7 @@
                         var _token = $('input[name="_token"]').val();
 
                         $.ajax({
-                            url:"{{ route('t-workshop.report.getBay') }}",
+                            url:"{{ route('r-workshop.report.getBay') }}",
                             method:"GET",
                             data:{area: area, _token: _token,},
                             success:function(result){
@@ -1503,20 +1498,18 @@
                 jQuery(document).on( "click", "#transferPOU", function(){
                     
                     $.ajax({
-                        url:"{{ route('t-workshop.report.transferPullOut') }}",
+                        url:"{{ route('r-workshop.report.transferPullOut') }}",
                         method:"POST",
                         data: $("#formPOUT").serialize(),
                         success:function(result){
                             $('#tableBPOU').html(result);
                             $('#tableBCU').load(location.href + ' #tableBCU>*','');
                             $('#tableBWS').load(location.href + ' #tableBWS>*','');
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
                             $("#closeTransfer").click();
+                            $("#btnSuccessH").click();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
+                            $("#btnFailedH").click();
                         }
                     });
                 });
@@ -1562,7 +1555,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getPOUData') }}",
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -1724,7 +1717,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getPOUData') }}",
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -1888,7 +1881,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.deleteCU') }}",
+                        url:"{{ route('r-workshop.report.deleteCU') }}",
                         method:"POST",
                         data:{id: id, cubay: cubay, _token: _token,},
                         success:function(result){
@@ -1945,7 +1938,31 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 });
-            
+
+            // Filter by Classification Pull Out Unit
+                $(".RadioBrand").on("change", function() {
+                    alert('HI!');
+                    // var input, filter, table, tr, td, i, txtValue;
+                    // input = document.getElementById("PUnitClassification");
+                    // filter = input.value.toUpperCase();
+                    // table = document.getElementById("tableBPOU");
+                    // tr = table.getElementsByTagName("tr");
+
+                    // for (i = 0; i < tr.length; i++) {
+                    //     td = tr[i].getElementsByTagName("td")[9];
+                    //     if (td) {
+                    //         txtValue = td.textContent || td.innerText;
+                    //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    //             tr[i].style.display = "";
+                    //         } else {
+                    //             tr[i].style.display = "none";
+                    //         }
+                    //     }
+                    // }
+                    
+                    // $('#PTableSearch').val('');
+                });
+
             // Filter by Brand Workshop Unit
                 $('input[name="RadioBrand"]').change(function() {
                     var unitBrand = $('input[name="RadioBrand"]:checked').val();
@@ -1954,7 +1971,7 @@
                     $('#WSTableSearch').val('');
 
                     $.ajax({
-                        url: "{{ route('t-workshop.report.sortBrand') }}",
+                        url: "{{ route('r-workshop.report.sortBrand') }}",
                         type: "GET",
                         data: {unitBrand: unitBrand, _token: _token},
                         success: function(result) {
@@ -1972,7 +1989,7 @@
                     $('#PUnitClassification').val('');
 
                     $.ajax({
-                        url: "{{ route('t-workshop.report.sortPullOut') }}",
+                        url: "{{ route('r-workshop.report.sortPullOut') }}",
                         type: "GET",
                         data: {unitStatus: unitStatus, _token: _token},
                         success: function(result) {
@@ -1981,7 +1998,7 @@
                     });
                 });
             
-        // BRAND NEW UNIT
+    // BRAND NEW UNIT
             // Close Modal Add and Edit
                 jQuery(document).on( "click", "#closeNewUnit", function(){
                     $('input, select, textarea, checkbox, radio').prop('disabled', false);
@@ -2141,7 +2158,7 @@
 
                 $('#saveNewUnitH').on( "click", function(){
                     $.ajax({
-                        url: "{{ route('t-workshop.report.saveBrandNew') }}",
+                        url: "{{ route('r-workshop.report.saveBrandNew') }}",
                         type: "POST",
                         data: $("#formNewUnit").serialize(),
                         success: function(result) {
@@ -2174,7 +2191,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getBNUData') }}",
+                        url:"{{ route('r-workshop.report.getBNUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -2330,7 +2347,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getBNUData') }}",
+                        url:"{{ route('r-workshop.report.getBNUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -2500,7 +2517,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.deleteBNU') }}",
+                        url:"{{ route('r-workshop.report.deleteBNU') }}",
                         method:"POST",
                         data:{id: id, unittype: unittype, _token: _token,},
                         success:function(result){
@@ -2521,7 +2538,7 @@
                         var _token = $('input[name="_token"]').val();
 
                         $.ajax({
-                            url:"{{ route('t-workshop.report.getBay') }}",
+                            url:"{{ route('r-workshop.report.getBay') }}",
                             method:"GET",
                             data:{area: area, _token: _token,},
                             success:function(result){
@@ -2545,7 +2562,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('t-workshop.report.getBay') }}",
+                        url:"{{ route('r-workshop.report.getBay') }}",
                         method:"GET",
                         data:{area: area, _token: _token,},
                         success:function(result){
@@ -2558,7 +2575,7 @@
                 jQuery(document).on( "click", "#transferBNU", function(){
                     
                     $.ajax({
-                        url:"{{ route('t-workshop.report.transferNewUnit') }}",
+                        url:"{{ route('r-workshop.report.transferNewUnit') }}",
                         method:"POST",
                         data: $("#formBNUT").serialize(),
                         success:function(result){
@@ -2571,7 +2588,6 @@
                         }
                     });
                 });
-
         });
     </script>
     
@@ -3711,7 +3727,7 @@
                         <button type="button" id="savePullOutH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="savePullOut" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="clearPullOut" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
-                        <button type="button" id="closedPullOut" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
+                        <button data-modal-hide="modalPOU" id="closedPullOut" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
                     </div>
                 </div>
             </div>
@@ -3774,7 +3790,7 @@
                                         <option value="" selected disabled></option>
                                         <option value="1">WAITING FOR REPAIR UNIT</option>
                                         <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">USED GOOD UNIT</option>
+                                        <option value="3">GOOD UNIT</option>
                                         <option value="4">SERVICE UNIT</option>
                                         <option value="5">FOR SCRAP UNIT</option>
                                         <option value="6">FOR SALE UNIT</option>
@@ -3837,7 +3853,7 @@
                 </div>
             </div>
         </div>
-        {{-- DELETE MODAL FOR PULL OUT UNITS --}}
+        {{-- DELETE MODAL FOR CONFIRM UNITS --}}
         <div id="modalDeleteCU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">

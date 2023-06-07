@@ -215,16 +215,14 @@
                                                         <input type="hidden" id="hddnJONum" value="0">
                                                         <div class="grid grid-cols-7 text-xs">
                                                             <div class="col-span-3 text-gray-500 text-left">
+                                                                <div class=""><label class="font-medium">Class:</label></div>
                                                                 <div class=""><label class="font-medium">Code:</label></div>
-                                                                <div class=""><label class="font-medium">Brand:</label></div>
                                                                 <div class=""><label class="font-medium">Serial Number:</label></div>
                                                                 <div class=""><label class="font-medium">Model:</label></div>
                                                                 <div class=""><label class="font-medium">Mast Height:</label></div>
-                                                                <div class=""><label class="font-medium">Technician:</label></div>
                                                                 <div class=""><label class="font-medium">Status:</label></div>
                                                             </div>
                                                             <div class="col-span-4">
-                                                                <div class=""><label class=""></label></div>
                                                                 <div class=""><label class=""></label></div>
                                                                 <div class=""><label class=""></label></div>
                                                                 <div class=""><label class=""></label></div>
