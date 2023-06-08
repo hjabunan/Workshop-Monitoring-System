@@ -24,6 +24,8 @@ use App\Http\Controllers\TReportController;
 use App\Http\Controllers\TWorkshop;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WStorage1Controller;
+use App\Http\Controllers\WStorage5BController;
+use App\Http\Controllers\WStorage5CController;
 use App\Http\Controllers\WStorage6Controller;
 use App\Http\Controllers\WStorage7Controller;
 use App\Http\Controllers\WStorage8Controller;
@@ -345,7 +347,20 @@ Route::group(['middleware' => 'auth'],function(){
 
 
     // START OF ADMIN MONITORING > TECHNICIAN SCHEDULE
+        // Workshop
         Route::get('/workshop-ms/admin_monitoring', [AdminMonitor::class, 'index'])->name('admin_monitoring.index');
+
+        // Report
+        Route::GET('/workshop-ms/admin_monitoring/report', [AdminMonitor::class, 'indexR'])->name('admin_monitoring.report');
+            // Workshop
+            Route::GET('/workshop-ms/admin_monitoring/report/sortBrand', [AdminMonitor::class, 'sortBrand'])->name('admin_monitoring.report.sortBrand');
+
+            // Pull Out Unit
+                Route::POST('/workshop-ms/admin_monitoring/report/savePullOut', [AdminMonitor::class, 'savePullOut'])->name('admin_monitoring.report.savePullOut');
+                Route::GET('/workshop-ms/admin_monitoring/report/getPOUData', [AdminMonitor::class, 'getPOUData'])->name('admin_monitoring.report.getPOUData');
+                Route::GET('/workshop-ms/admin_monitoring/report/deletePOU', [AdminMonitor::class, 'deletePOU'])->name('admin_monitoring.report.deletePOU');
+
+        // Technician Schedule
         Route::get('/workshop-ms/admin_monitoring', [TechnicianScheduleController::class, 'index'])->name('admin_monitoring.tech_schedule');
         Route::POST('/workshop-ms/admin_monitoring/saveSchedule', [TechnicianScheduleController::class, 'saveSchedule'])->name('admin_monitoring.tech_schedule.saveSchedule');
         Route::post('/workshop-ms/admin_monitoring/getSchedule', [TechnicianScheduleController::class, 'getSchedule'])->name('admin_monitoring.tech_schedule.getSchedule');
@@ -357,6 +372,22 @@ Route::group(['middleware' => 'auth'],function(){
     // START OF ADMIN MONITORING > WAREHOUSE
         // WAREHOUSE 1
             Route::GET('/workshop-ms/w-storage1', [WStorage1Controller::class, 'index'])->name('w-storage1.index');
+            Route::GET('/workshop-ms/w-storage1/getBayData', [WStorage1Controller::class, 'getBayData'])->name('w-storage1.getBayData');
+            Route::GET('/workshop-ms/w-storage1/getBay', [WStorage1Controller::class, 'getBay'])->name('w-storage1.getBay');
+            Route::GET('/workshop-ms/w-storage1/getTransferData', [WStorage1Controller::class, 'getTransferData'])->name('w-storage1.getTransferData');
+            Route::POST('/workshop-ms/w-storage1/saveTransferData', [WStorage1Controller::class, 'saveTransferData'])->name('w-storage1.saveTransferData');
+            Route::POST('/workshop-ms/w-storage1/saveUnitData', [WStorage1Controller::class, 'saveUnitData'])->name('w-storage1.saveUnitData');
+
+        // WAREHOUSE 5B
+            Route::GET('/workshop-ms/w-storage5b', [WStorage5BController::class, 'index'])->name('w-storage5b.index');
+            Route::GET('/workshop-ms/w-storage1/getBayData', [WStorage1Controller::class, 'getBayData'])->name('w-storage1.getBayData');
+            Route::GET('/workshop-ms/w-storage1/getBay', [WStorage1Controller::class, 'getBay'])->name('w-storage1.getBay');
+            Route::GET('/workshop-ms/w-storage1/getTransferData', [WStorage1Controller::class, 'getTransferData'])->name('w-storage1.getTransferData');
+            Route::POST('/workshop-ms/w-storage1/saveTransferData', [WStorage1Controller::class, 'saveTransferData'])->name('w-storage1.saveTransferData');
+            Route::POST('/workshop-ms/w-storage1/saveUnitData', [WStorage1Controller::class, 'saveUnitData'])->name('w-storage1.saveUnitData');
+    
+        // WAREHOUSE 5C
+            Route::GET('/workshop-ms/w-storage5c', [WStorage5CController::class, 'index'])->name('w-storage5c.index');
             Route::GET('/workshop-ms/w-storage1/getBayData', [WStorage1Controller::class, 'getBayData'])->name('w-storage1.getBayData');
             Route::GET('/workshop-ms/w-storage1/getBay', [WStorage1Controller::class, 'getBay'])->name('w-storage1.getBay');
             Route::GET('/workshop-ms/w-storage1/getTransferData', [WStorage1Controller::class, 'getTransferData'])->name('w-storage1.getTransferData');

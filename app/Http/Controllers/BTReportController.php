@@ -3032,7 +3032,7 @@ class BTReportController extends Controller
         $WS->WSStatus = $request->POUStatus;
         $WS->WSUnitType = "";
         $WS->WSVerifiedBy = "";
-        $WS->WSUnitCondition = "";
+        $WS->WSUnitCondition = "2";
         $WS->WSATIDS = "";
         $WS->WSATIDE = "";
         $WS->WSATRDS = "";

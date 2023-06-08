@@ -2915,7 +2915,7 @@ class TReportController extends Controller
         $WS->WSToA = $ToA;
         $WS->WSStatus = $request->POUStatus;
         $WS->WSVerifiedBy = "";
-        $WS->WSUnitCondition = "";
+        $WS->WSUnitCondition = "2";
         $WS->WSUnitType = "";
         $WS->WSATIDS = "";
         $WS->WSATIDE = "";

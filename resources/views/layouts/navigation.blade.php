@@ -70,6 +70,12 @@
                                 <a href="{{route('w-storage1.index')}}" class="block px-4 py-2 hover:bg-gray-100 ">Warehouse 1 -  Monitoring</a>
                             </li>
                             <li>
+                                <a href="{{route('w-storage5b.index')}}" class="block px-4 py-2 hover:bg-gray-100 ">Warehouse 5B -  Monitoring</a>
+                            </li>
+                            <li>
+                                <a href="{{route('w-storage5c.index')}}" class="block px-4 py-2 hover:bg-gray-100 ">Warehouse 5C -  Monitoring</a>
+                            </li>
+                            <li>
                                 <a href="{{route('w-storage6.index')}}" class="block px-4 py-2 hover:bg-gray-100 ">Warehouse 6 -  Monitoring</a>
                             </li>
                             <li>
@@ -86,7 +92,7 @@
                                         <a href="" class="block px-4 py-2 hover:bg-gray-100">Administrator Monitoring</a>
                                       </li>
                                       <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Report</a>
+                                        <a href="{{route('admin_monitoring.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
                                       </li>
                                       <li>
                                         <a href="#" class="block px-4 py-2 hover:bg-gray-100">File Maintenance</a>

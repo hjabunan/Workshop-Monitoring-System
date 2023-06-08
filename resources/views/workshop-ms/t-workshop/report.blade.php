@@ -994,12 +994,12 @@
                 });
             
             // Enable/Disable Others
-                $('#POUAccOthersDetail').prop('disabled',true);
+                $('#POUAccOthersDetail').addClass("disabled");
                 $("#POUAccOthers").on("change", function() {
                     if($(this).is(":checked")) {
-                        $('#POUAccOthersDetail').prop('disabled',false);
+                        $('#POUAccOthersDetail').removeClass("disabled");
                     } else {
-                        $('#POUAccOthersDetail').prop('disabled',true);
+                        $('#POUAccOthersDetail').addClass("disabled");
                     }
                 });
 
@@ -1350,10 +1350,10 @@
                                 
                                 if(result.POUAccOthers == 1) {
                                     $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').prop('disabled',false);
+                                    $('#POUAccOthersDetail').removeClass('disabled');
                                 }else{
                                     $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').prop('disabled',true);
+                                    $('#POUAccOthersDetail').addClass('disabled');
                                 }
                             $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
                             $('#POUTechnician1').val(result.POUTechnician1);
@@ -1998,25 +1998,23 @@
 
             // Clear Form on Add - NEW UNIT
                 jQuery(document).on( "click", "#addNewUnit", function(){
-                    if($('#BNUIDe').val() != ''){
-                        document.getElementById('formNewUnit').reset()
-                        $('#BNUIDe').val('');
+                    document.getElementById('formNewUnit').reset()
+                    $('#BNUIDe').val('');
 
-                        $("#NewUnit li:first-child button").click();
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                        $('#BAttachment').addClass("disabled");
-                        $('#BAccesories').addClass("disabled");
-                        $('#BNUAccOthersDetail').prop('disabled', true);
-                        $('#BNUTechnician1 option').prop('disabled', false);
-                        $('#BNUTechnician2 option').prop('disabled', false);
-                        $('#BSpareBat1').addClass("disabled");
-                        $('#BSpareBat2').addClass("disabled");
+                    $("#NewUnit li:first-child button").click();
+                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
+                    $('#BAttachment').addClass("disabled");
+                    $('#BAccesories').addClass("disabled");
+                    $('#BNUAccOthersDetail').prop('disabled', true);
+                    $('#BNUTechnician1 option').prop('disabled', false);
+                    $('#BNUTechnician2 option').prop('disabled', false);
+                    $('#BSpareBat1').addClass("disabled");
+                    $('#BSpareBat2').addClass("disabled");
 
-                        
-                        $('input, select, textarea, checkbox').prop('disabled', false);
-                        $("#saveNewUnit").show();
-                        $("#clearNewUnit").show();
-                    }
+                    
+                    $('input, select, textarea, checkbox').prop('disabled', false);
+                    $("#saveNewUnit").show();
+                    $("#clearNewUnit").show();
                 });
 
             // Clear Form New Unit
@@ -2075,12 +2073,12 @@
                 });
 
             // Enable/Disable Others
-                $('#BNUAccOthersDetail').prop('disabled',true);
+                $('#BNUAccOthersDetail').addClass('disabled');
                 $("#BNUAccOthers").on("change", function() {
                     if($(this).is(":checked")) {
-                        $('#BNUAccOthersDetail').prop('disabled',false);
+                        $('#BNUAccOthersDetail').removeClass('disabled');
                     } else {
-                        $('#BNUAccOthersDetail').prop('disabled',true);
+                        $('#BNUAccOthersDetail').addClass('disabled');
                     }
                 });
 
@@ -2102,21 +2100,21 @@
                 });
 
             // Enable/Disable Spare 1 and Spare 2
-                $('#SpareBat1').addClass("disabled");
+                $('#BSpareBat1').addClass("disabled");
                 $('#BNUwBatSpare1').change(function() {
                     if($(this).is(":checked")) {
-                        $('#SpareBat1').removeClass("disabled");
+                        $('#BSpareBat1').removeClass("disabled");
                     } else {
-                        $('#SpareBat1').addClass("disabled");
+                        $('#BSpareBat1').addClass("disabled");
                     }
                 });
                 
-                $('#SpareBat2').addClass("disabled");
+                $('#BSpareBat2').addClass("disabled");
                 $('#BNUwBatSpare2').change(function() {
                     if($(this).is(":checked")) {
-                        $('#SpareBat2').removeClass("disabled");
+                        $('#BSpareBat2').removeClass("disabled");
                     } else {
-                        $('#SpareBat2').addClass("disabled");
+                        $('#BSpareBat2').addClass("disabled");
                     }
                 });
 

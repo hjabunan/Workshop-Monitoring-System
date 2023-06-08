@@ -1830,18 +1830,20 @@
                                                 </div>
                                                 <div class=" mt-2"></div>
                                                 <div class="col-span-3">
-                                                    <div class="grid grid-cols-3 mt-2">
-                                                        <div class="col-span-1 text-left flex items-center">
-                                                            <label for="WHClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
-                                                        </div>
-                                                        <div class="col-span-2">
-                                                            <select name="WHClassification" id="WHClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                                <option value="" selected disabled></option>
-                                                                <option value="1">CLASS A</option>
-                                                                <option value="2">CLASS B</option>
-                                                                <option value="3">CLASS C</option>
-                                                                <option value="4">CLASS D</option>
-                                                            </select>
+                                                    <div class="h-[38px]">
+                                                        <div id="UClass" class="grid grid-cols-3 mt-2">
+                                                            <div class="col-span-1 text-left flex items-center">
+                                                                <label for="WHClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
+                                                            </div>
+                                                            <div class="col-span-2">
+                                                                <select name="WHClassification" id="WHClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                                    <option value="" selected disabled></option>
+                                                                    <option value="1">CLASS A</option>
+                                                                    <option value="2">CLASS B</option>
+                                                                    <option value="3">CLASS C</option>
+                                                                    <option value="4">CLASS D</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="grid grid-cols-3 mt-2">
@@ -1867,14 +1869,6 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="grid grid-cols-3 mt-2">
-                                                        <div class="col-span-1 text-left flex items-center">
-                                                            <label for="WHSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                                        </div>
-                                                        <div class="col-span-2">
-                                                            <input type="text" name="WHSerialNum" id="WHSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                        </div>
-                                                    </div> --}}
                                                     <div class="grid grid-cols-3 mt-2">
                                                         <div class="col-span-1 text-left flex items-center">
                                                             <label for="WHAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
@@ -1925,18 +1919,14 @@
                                             </div>
                                         </div>
                                         <div class="">
-                                            <div class="grid grid-cols-3 gap-1 place-items-center mt-4">
+                                            <div class="grid grid-cols-2 gap-1 place-items-center mt-4">
                                                 <div class="flex items-center mr-4">
                                                     <input id="UnitNew" type="radio" value="1" name="Radio_Unit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
                                                     <label for="UnitNew" class="ml-2 text-sm font-medium text-gray-900">New Unit</label>
                                                 </div>
                                                 <div class="flex items-center mr-4">
-                                                    <input id="UnitOld" type="radio" value="2" name="Radio_Unit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                                    <label for="UnitOld" class="ml-2 text-sm font-medium text-gray-900">Old Unit</label>
-                                                </div>
-                                                <div class="flex items-center mr-4">
-                                                    <input id="UnitRepair" type="radio" value="3" name="Radio_Unit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                                    <label for="UnitRepair" class="ml-2 text-sm font-medium text-gray-900">Repair Unit</label>
+                                                    <input id="UnitUsed" type="radio" value="2" name="Radio_Unit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                                    <label for="UnitUsed" class="ml-2 text-sm font-medium text-gray-900">Used Unit</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -2247,12 +2237,13 @@
                                     var uCondition = result.WSUnitCondition;
                                 if (uCondition == 1) {
                                     $('#UnitNew').prop('checked', true);
+                                    $('#UClass').addClass("hidden");
                                 } else if (uCondition == 2) {
-                                    $('#UnitOld').prop('checked', true);
-                                } else if ($('#UnitInfoJON').val() == "" || uCondition == '') {
-                                    $('input[name="Radio_Unit"]').prop('checked', false);
+                                    $('#UnitUsed').prop('checked', true);
+                                    $('#UClass').removeClass("hidden");
                                 } else {
-                                    $('#UnitRepair').prop('checked', true);
+                                    $('input[name="Radio_Unit"]').prop('checked', false);
+                                    $('#UClass').removeClass("hidden");
                                 }
                             // $('#UnitInfoPOUID').val(result.WSUnitCondition);
                         }

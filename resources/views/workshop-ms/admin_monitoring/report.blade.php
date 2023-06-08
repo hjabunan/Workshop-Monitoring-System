@@ -911,6 +911,1320 @@
             {{-- Hidden Button for Failed --}}
             <button type="button" id="btnFailedH" class="btnFailedH hidden" data-modal-target="failed-modal" data-modal-toggle="failed-modal"></button>
     </div>
+     
+{{-- MODALS --}}
+    {{-- ADD AND EDIT MODAL FOR NEW UNITS --}}
+    <div id="modalNewUnit" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-4xl md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-medium text-gray-900">
+                        NEW UNIT
+                    </h3>
+                    <button type="button" id="buttonCloseN" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalNewUnit">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-2 space-y-6">
+                    <form action="" id="formNewUnit">
+                        @csrf
+                        <input type="hidden" id="BNUIDe" name="BNUIDe">
+                        <div id="NewUnitbhead" class="">
+                            <div class="grid grid-cols-3">
+                                <div class="grid grid-cols-3 items-center">
+                                    <div id="label" class="">
+                                        <label for="BNUnitType" class="block text-sm font-medium text-gray-900">Unit Type:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mr-1">
+                                        <select name="BNUnitType" id="BNUnitType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                            <option value="1">DIESEL/GASOLINE/LPG</option>
+                                            <option value="2">BATTERY</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class=""></div>
+                                <div class="grid grid-cols-3 items-center">
+                                    <div id="label" class="">
+                                        <label for="BNUArrivalDate" class="block text-sm font-medium text-gray-900">Arrival Date:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text"  datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="BNUArrivalDate" id="BNUArrivalDate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dataNewUnit" style="height: calc(100vh - 350px);" class="mt-2">
+                            <div class="mb-4 border-b border-gray-200">
+                                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="NewUnit" data-tabs-toggle="#NewUnitContent" role="tablist">
+                                    <li class="mr-2" role="presentation">
+                                        <button class="inline-block p-4 border-b-2 rounded-t-lg" id="NUnitDetails-tab" data-tabs-target="#NUnitDetails" type="button" role="tab" aria-controls="NUnitDetails" aria-selected="false">UNIT DETAILS</button>
+                                    </li>
+                                    <li class="mr-2" role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NOtherDetails-tab" data-tabs-target="#NOtherDetails" type="button" role="tab" aria-controls="NOtherDetails" aria-selected="false">OTHER DETAILS</button>
+                                    </li>
+                                    <li class="mr-2" role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NBatteryDetails-tab" data-tabs-target="#NBatteryDetails" type="button" role="tab" aria-controls="NBatteryDetails" aria-selected="false">BATTERY DETAILS</button>
+                                    </li>
+                                    <li role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NChargerDetails-tab" data-tabs-target="#NChargerDetails" type="button" role="tab" aria-controls="NChargerDetails" aria-selected="false">CHARGER DETAILS</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="NewUnitContent">
+                                {{-- UNIT DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="NUnitDetails" role="tabpanel" aria-labelledby="NUnitDetails-tab">
+                                    <div class="grid grid-cols-7 items-center">
+                                        <div id="label" class="">
+                                            <label for="BNUBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <select name="BNUBrand" id="BNUBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected disabled></option>
+                                                @foreach ($brand as $brands)
+                                                <option value="{{$brands->id}}">{{$brands->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="">
+                                            {{-- <label for="BNUClassification" class="block text-sm font-medium text-gray-900">Classification:</label> --}}
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            {{-- <select name="BNUClassification" id="BNUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected disabled></option>
+                                                <option value="1">CLASS A</option>
+                                                <option value="2">CLASS B</option>
+                                                <option value="3">CLASS C</option>
+                                                <option value="4">CLASS D</option>
+                                            </select> --}}
+                                        </div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="BNUModel" id="BNUModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="BNUSerialNum" id="BNUSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="BNUCode" id="BNUCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUMastType" class="block text-sm font-medium text-gray-900">Mast Type:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="BNUMastType" id="BNUMastType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUForkSize" class="block text-sm font-medium text-gray-900">Fork Size:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="BNUForkSize" id="BNUForkSize" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUMastHeight" class="block text-sm font-medium text-gray-900">Mast Height:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="BNUMastHeight" id="BNUMastHeight" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-3 mt-2">
+                                            <input type="checkbox" id="BNUwAttachment" name="BNUwAttachment" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="BNUwAttachment" class="ml-2 text-sm font-medium text-gray-900">Unit with Attachment</label>
+                                        </div>
+                                        <div class=""></div>
+                                        <div class="col-span-3 mt-2">
+                                            <input type="checkbox" id="BNUwAccesories" name="BNUwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="BNUwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
+                                        </div>
+                                        <div id="BAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
+                                            <div class="col-span-3">
+                                                <label for="BNUAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <label for="BNUAttType" class="block text-sm font-medium text-gray-900">Type:</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="text" name="BNUAttType" id="BNUAttType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div class="mt-1"></div>
+                                            <div class="mt-1">
+                                                <label for="BNUAttModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                            </div>
+                                            <div class="mt-1">
+                                                <input type="text" name="BNUAttModel" id="BNUAttModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div class="mt-1"></div>
+                                            <div class="mt-1">
+                                                <label for="BNUAttSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div class="mt-1">
+                                                <input type="text" name="BNUAttSerialNum" id="BNUAttSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="BAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
+                                            <div class="col-span-3">
+                                                <label for="BNUAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <input type="checkbox" id="BNUAccISite" name="BNUAccISite" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccISite" class="ml-2 text-sm font-medium text-gray-900">I-Site</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" id="BNUAccLiftCam" name="BNUAccLiftCam" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccLiftCam" class="ml-2 text-sm font-medium text-gray-900">Lift Cam</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <input type="checkbox" id="BNUAccRedLight" name="BNUAccRedLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccRedLight" class="ml-2 text-sm font-medium text-gray-900">Red Light</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" id="BNUAccBlueLight" name="BNUAccBlueLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccBlueLight" class="ml-2 text-sm font-medium text-gray-900">Blue Light</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <input type="checkbox" id="BNUAccFireExt" name="BNUAccFireExt" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccFireExt" class="ml-2 text-xs font-medium text-gray-900">Fire Extinguisher</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" id="BNUAccStLight" name="BNUAccStLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccStLight" class="ml-2 text-xs font-medium text-gray-900">Strobe Light</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="col-span-2">
+                                                <input type="checkbox" id="BNUAccOthers" name="BNUAccOthers" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="BNUAccOthers" class="ml-2 text-sm font-medium text-gray-900">Others</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="col-span-2 mt-1 relative">
+                                                <input type="text" id="BNUAccOthersDetail" name="BNUAccOthersDetail" class="block rounded-t-lg w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Other Accesories" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- OTHER DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="NOtherDetails" role="tabpanel" aria-labelledby="NOtherDetails-tab">
+                                    <div class="grid grid-cols-7 items-center">
+                                        <div id="label" class="">
+                                            <label for="BNUTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <select name="BNUTechnician1" id="BNUTechnician1" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected disabled></option>
+                                                @foreach ($technician as $technicians)
+                                                <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUTechnician2" class="block text-sm font-medium text-gray-900">Technician 2:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <select name="BNUTechnician2" id="BNUTechnician2" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected></option>
+                                                @foreach ($technician as $technicians)
+                                                <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-5">
+                                            <label for="BNUSalesman" class="block text-sm font-medium text-gray-900">Salesman:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-5">
+                                            <input type="text" name="BNUSalesman" id="BNUSalesman" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-5">
+                                            <label for="BNUCustomer" class="block text-sm font-medium text-gray-900">Customer:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-5">
+                                            <input type="text" name="BNUCustomer" id="BNUCustomer" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCustAddress" class="block text-sm font-medium text-gray-900">Customer Address:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCustAddress" id="BNUCustAddress" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                    </div>
+                                </div>
+                                {{-- BATTERY DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="NBatteryDetails" role="tabpanel" aria-labelledby="NBatteryDetails-tab">
+                                    <div class="grid grid-cols-3 items-center">
+                                        <div class="col-span-1 mt-1">
+                                            <label for="BNUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
+                                        </div>
+                                        <div class="col-span-1 mt-1">
+                                            <input type="checkbox" id="BNUwBatSpare1" name="BNUwBatSpare1" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="BNUwBatSpare1" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 1</label>
+                                        </div>
+                                        <div class="col-span-1 mt-1">
+                                            <input type="checkbox" id="BNUwBatSpare2" name="BNUwBatSpare2" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="BNUwBatSpare2" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3">
+                                        <div id="BatAttached" class="grid grid-cols-3 mr-2 mt-1 items-center">
+                                            <div id="label" class="">
+                                                <label for="BNUBABrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2">
+                                                <input type="text" name="BNUBABrand" id="BNUBABrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBABatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBABatType" id="BNUBABatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBASerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBASerialNum" id="BNUBASerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBACode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBACode" id="BNUBACode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBAAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBAAmper" id="BNUBAAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBAVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBAVolt" id="BNUBAVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBACCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBACCable" id="BNUBACCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUBACTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUBACTable" id="BNUBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                        <div id="BSpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
+                                            <div id="label" class="">
+                                                <label for="BNUSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2">
+                                                <input type="text" name="BNUSB1Brand" id="BNUSB1Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1BatType" id="BNUSB1BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1SerialNum" id="BNUSB1SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1Code" class="block text-sm font-medium text-gray-900">Code:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1Code" id="BNUSB1Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1Amper" id="BNUSB1Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1Volt" id="BNUSB1Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1CCable" id="BNUSB1CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB1CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB1CTable" id="BNUSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                        <div id="BSpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
+                                            <div id="label" class="">
+                                                <label for="BNUSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2">
+                                                <input type="text" name="BNUSB2Brand" id="BNUSB2Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2BatType" id="BNUSB2BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2SerialNum" id="BNUSB2SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2Code" class="block text-sm font-medium text-gray-900">Code:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2Code" id="BNUSB2Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2Amper" id="BNUSB2Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2Volt" id="BNUSB2Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2CCable" id="BNUSB2CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="BNUSB2CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="BNUSB2CTable" id="BNUSB2CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- CHARGER DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="NChargerDetails" role="tabpanel" aria-labelledby="NChargerDetails-tab">
+                                    <div class="grid grid-cols-7 items-center">
+                                        <div id="label" class="">
+                                            <label for="BNUCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <input type="text" name="BNUCBrand" id="BNUCBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCModel" id="BNUCModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCSerialNum" id="BNUCSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCCode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCCode" id="BNUCCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCAmper" id="BNUCAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCVolt" id="BNUCVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="BNUCInput" class="block text-sm font-medium text-gray-900">Input/Phase:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="BNUCInput" id="BNUCInput" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-2 mb-2">
+                        <div id="DUbfoot" class="">
+                            <div class="grid grid-cols-7 items-center">
+                                <div id="label" class="mb-2 ml-1">
+                                    <label for="BNURemarks" class="block text-sm font-medium text-gray-900">Remarks:</label>
+                                </div>
+                                <div id="input" class="col-span-5 uppercase mb-2">
+                                    <textarea rows="2" name="BNURemarks" id="BNURemarks" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
+                    <button type="button" id="saveNewUnitH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                    <button type="button" id="saveNewUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                    <button type="button" id="clearNewUnit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
+                    <button id="closeNewUnit" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- DELETE MODAL FOR BRAND NEW UNITS --}}
+    <div id="modalDeleteBNU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-md md:h-auto">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
+                    <button type="button" id="deleteConfirmBNU"  data-modal-hide="modalDeleteBNU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                        Yes, I'm sure.
+                    </button>
+                    <button data-modal-hide="modalDeleteBNU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- TRANSFER MODAL FOR BRAND NEW UNITS --}}
+    <div id="modalTransferBNU" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-2xl md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        TRANSFER TO WAREHOUSE
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalTransferBNU">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                    <form action="" id="formBNUT">
+                        @csrf
+                        <div class="grid grid-cols-5 items-center">
+                            <div class="col-span-5 mb-2">
+                                <input type="hidden" id="BNUIDx" name="BNUIDx">
+                            </div>
+                            <div id="label" class="uppercase mb-2">
+                                <label for="BNUTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="relative max-w-sm">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="BNUTransferDate" id="BNUTransferDate">
+                                </div>
+                            </div>
+                            <div class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-5">
+                                <label for="BNUStatus" class="block text-sm font-medium text-gray-900">Status:</label>
+                            </div>
+                            <div id="input" class="col-span-2 uppercase mt-5">
+                                <select name="BNUStatus" id="BNUStatus" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                    <option value="" selected disabled></option>
+                                    <option value="1">WAITING FOR REPAIR UNIT</option>
+                                    <option value="2">UNDER REPAIR UNIT</option>
+                                    <option value="3">USED GOOD UNIT</option>
+                                    <option value="4">SERVICE UNIT</option>
+                                    <option value="5">FOR SCRAP UNIT</option>
+                                    <option value="6">FOR SALE UNIT</option>
+                                    <option value="7">WAITING PARTS</option>
+                                    <option value="8">WAITING BACK ORDER</option>
+                                    <option value="9">WAITING SPARE BATT</option>
+                                    <option value="10">STOCK UNIT</option>
+                                    <option value="11">WAITING FOR MCI</option>
+                                    <option value="12">WAITING FOR PDI</option>
+                                    <option value="13">DONE PDI (WFD)</option>
+                                </select>
+                            </div>
+                            <div id="input" class="col-span-2">
+                            </div>
+                            <div id="label" class="uppercase mt-2">
+                                <label for="BNUArea" class="block text-sm font-medium text-gray-900">Area:</label>
+                            </div>
+                            <div id="input" class="col-span-2 uppercase mt-2">
+                                <select name="BNUArea" id="BNUArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                    <option value="" selected></option>
+                                    @foreach ($section as $sections)
+                                    <option value="{{$sections->id}}">{{$sections->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="input" class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-2">
+                                <label for="BNUBay" class="block text-sm font-medium text-gray-900">Bay:</label>
+                            </div>
+                            <div id="input" class="col-span-2 uppercase mt-2">
+                                <select name="BNUBay" id="BNUBay" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                    <option value="" selected></option>
+                                    @foreach ($bay as $bays)
+                                    <option value="{{$bays->id}}">{{$bays->area_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="input" class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-5">
+                                <label for="BNURemarksO" class="block text-sm font-medium text-gray-900">Unit Remarks:</label>
+                            </div>
+                            <div id="input" class="uppercase mt-5 col-span-2">
+                                <textarea rows="3" name="BNURemarksO" id="BNURemarksO" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 pointer-events-none uppercase"></textarea>
+                            </div>
+                            <div id="input" class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-5">
+                                <label for="BNURemarksT" class="block text-sm font-medium text-gray-900">Transfer Remarks:</label>
+                            </div>
+                            <div id="input" class="uppercase mt-5 col-span-2">
+                                <textarea rows="3" name="BNURemarksT" id="BNURemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                    <button type="button" id="transferBNU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
+                    <button data-modal-hide="modalTransferBNU" type="button" id="closeBNTransfer" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- ADD AND EDIT MODAL FOR PULL OUT UNITS --}}
+    <div id="modalPOU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-4xl md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-medium text-gray-900">
+                        PULL OUT UNIT
+                    </h3>
+                    <button type="button" id="buttonCloseP" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalPOU">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-2 space-y-6">
+                    <form action="" id="formPOU">
+                        @csrf
+                        <input type="hidden" id="POUIDe" name="POUIDe">
+                        <div id="POUbhead" class="">
+                            <div class="grid grid-cols-3">
+                                <div class="grid grid-cols-3 items-center">
+                                    <div id="label" class="">
+                                        <label for="POUUnitType" class="block text-sm font-medium text-gray-900">Unit Type:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mr-1">
+                                        <select name="POUUnitType" id="POUUnitType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                            <option value="1">DIESEL/GASOLINE/LPG</option>
+                                            <option value="2">BATTERY</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class=""></div>
+                                <div class="grid grid-cols-3 items-center">
+                                    <div id="label" class="">
+                                        <label for="POUArrivalDate" class="block text-sm font-medium text-gray-900">Arrival Date:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text"  datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="POUArrivalDate" id="POUArrivalDate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dataPOU" style="height: calc(100vh - 350px);" class="mt-2">
+                            <div class="mb-4 border-b border-gray-200">
+                                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="POUnit" data-tabs-toggle="#POUnitContent" role="tablist">
+                                    <li class="mr-2" role="presentation">
+                                        <button class="inline-block p-4 border-b-2 rounded-t-lg" id="UnitDetails-tab" data-tabs-target="#UnitDetails" type="button" role="tab" aria-controls="UnitDetails" aria-selected="false">UNIT DETAILS</button>
+                                    </li>
+                                    <li class="mr-2" role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="OtherDetails-tab" data-tabs-target="#OtherDetails" type="button" role="tab" aria-controls="OtherDetails" aria-selected="false">OTHER DETAILS</button>
+                                    </li>
+                                    <li class="mr-2" role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BatteryDetails-tab" data-tabs-target="#BatteryDetails" type="button" role="tab" aria-controls="BatteryDetails" aria-selected="false">BATTERY DETAILS</button>
+                                    </li>
+                                    <li role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="ChargerDetails-tab" data-tabs-target="#ChargerDetails" type="button" role="tab" aria-controls="ChargerDetails" aria-selected="false">CHARGER DETAILS</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="POUnitContent">
+                                {{-- UNIT DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="UnitDetails" role="tabpanel" aria-labelledby="UnitDetails-tab">
+                                    <div class="grid grid-cols-7 items-center">
+                                        <div id="label" class="">
+                                            <label for="POUBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <select name="POUBrand" id="POUBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected disabled></option>
+                                                @foreach ($brand as $brands)
+                                                <option value="{{$brands->id}}">{{$brands->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="">
+                                            <label for="POUClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <select name="POUClassification" id="POUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected disabled></option>
+                                                <option value="1">CLASS A</option>
+                                                <option value="2">CLASS B</option>
+                                                <option value="3">CLASS C</option>
+                                                <option value="4">CLASS D</option>
+                                            </select>
+                                        </div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="POUModel" id="POUModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="POUSerialNum" id="POUSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="POUCode" id="POUCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUMastType" class="block text-sm font-medium text-gray-900">Mast Type:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="POUMastType" id="POUMastType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUForkSize" class="block text-sm font-medium text-gray-900">Fork Size:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="POUForkSize" id="POUForkSize" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUMastHeight" class="block text-sm font-medium text-gray-900">Mast Height:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mt-2 mr-1">
+                                            <input type="text" name="POUMastHeight" id="POUMastHeight" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-3 mt-2">
+                                            <input type="checkbox" id="POUwAttachment" name="POUwAttachment" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="POUwAttachment" class="ml-2 text-sm font-medium text-gray-900">Unit with Attachment</label>
+                                        </div>
+                                        <div class=""></div>
+                                        <div class="col-span-3 mt-2">
+                                            <input type="checkbox" id="POUwAccesories" name="POUwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="POUwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
+                                        </div>
+                                        <div id="PAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
+                                            <div class="col-span-3">
+                                                <label for="POUAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <label for="POUAttType" class="block text-sm font-medium text-gray-900">Type:</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="text" name="POUAttType" id="POUAttType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div class="mt-1"></div>
+                                            <div class="mt-1">
+                                                <label for="POUAttModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                            </div>
+                                            <div class="mt-1">
+                                                <input type="text" name="POUAttModel" id="POUAttModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div class="mt-1"></div>
+                                            <div class="mt-1">
+                                                <label for="POUAttSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div class="mt-1">
+                                                <input type="text" name="POUAttSerialNum" id="POUAttSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                        <div class=""></div>
+                                        <div id="PAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
+                                            <div class="col-span-3">
+                                                <label for="POUAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <input type="checkbox" id="POUAccISite" name="POUAccISite" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccISite" class="ml-2 text-sm font-medium text-gray-900">I-Site</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" id="POUAccLiftCam" name="POUAccLiftCam" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccLiftCam" class="ml-2 text-sm font-medium text-gray-900">Lift Cam</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <input type="checkbox" id="POUAccRedLight" name="POUAccRedLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccRedLight" class="ml-2 text-sm font-medium text-gray-900">Red Light</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" id="POUAccBlueLight" name="POUAccBlueLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccBlueLight" class="ml-2 text-sm font-medium text-gray-900">Blue Light</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="">
+                                                <input type="checkbox" id="POUAccFireExt" name="POUAccFireExt" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccFireExt" class="ml-2 text-xs font-medium text-gray-900">Fire Extinguisher</label>
+                                            </div>
+                                            <div class="">
+                                                <input type="checkbox" id="POUAccStLight" name="POUAccStLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccStLight" class="ml-2 text-xs font-medium text-gray-900">Strobe Light</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="col-span-2">
+                                                <input type="checkbox" id="POUAccOthers" name="POUAccOthers" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <label for="POUAccOthers" class="ml-2 text-sm font-medium text-gray-900">Others</label>
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="col-span-2 mt-1 relative">
+                                                <input type="text" id="POUAccOthersDetail" name="POUAccOthersDetail" class="block rounded-t-lg w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Other Accesories" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- OTHER DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="OtherDetails" role="tabpanel" aria-labelledby="OtherDetails-tab">
+                                    <div class="grid grid-cols-7 items-center">
+                                        <div id="label" class="">
+                                            <label for="POUTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <select name="POUTechnician1" id="POUTechnician1" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected disabled></option>
+                                                @foreach ($technician as $technicians)
+                                                <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUTechnician2" class="block text-sm font-medium text-gray-900">Technician 2:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <select name="POUTechnician2" id="POUTechnician2" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                                <option value="" selected></option>
+                                                @foreach ($technician as $technicians)
+                                                <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-5">
+                                            <label for="POUSalesman" class="block text-sm font-medium text-gray-900">Salesman:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-5">
+                                            <input type="text" name="POUSalesman" id="POUSalesman" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-5">
+                                            <label for="POUCustomer" class="block text-sm font-medium text-gray-900">Customer:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-5">
+                                            <input type="text" name="POUCustomer" id="POUCustomer" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCustAddress" class="block text-sm font-medium text-gray-900">Customer Address:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCustAddress" id="POUCustAddress" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                    </div>
+                                </div>
+                                {{-- BATTERY DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="BatteryDetails" role="tabpanel" aria-labelledby="BatteryDetails-tab">
+                                    <div class="grid grid-cols-3 items-center">
+                                        <div class="col-span-1 mt-1">
+                                            <label for="POUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
+                                        </div>
+                                        <div class="col-span-1 mt-1">
+                                            <input type="checkbox" id="POUwBatSpare1" name="POUwBatSpare1" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="POUwBatSpare1" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 1</label>
+                                        </div>
+                                        <div class="col-span-1 mt-1">
+                                            <input type="checkbox" id="POUwBatSpare2" name="POUwBatSpare2" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="POUwBatSpare2" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3">
+                                        <div id="BatAttached" class="grid grid-cols-3 mr-2 mt-1 items-center">
+                                            <div id="label" class="">
+                                                <label for="POUBABrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2">
+                                                <input type="text" name="POUBABrand" id="POUBABrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBABatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBABatType" id="POUBABatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBASerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBASerialNum" id="POUBASerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBACode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBACode" id="POUBACode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBAAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBAAmper" id="POUBAAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBAVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBAVolt" id="POUBAVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBACCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBACCable" id="POUBACCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUBACTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUBACTable" id="POUBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                        <div id="SpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
+                                            <div id="label" class="">
+                                                <label for="POUSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2">
+                                                <input type="text" name="POUSB1Brand" id="POUSB1Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1BatType" id="POUSB1BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1SerialNum" id="POUSB1SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1Code" class="block text-sm font-medium text-gray-900">Code:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1Code" id="POUSB1Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1Amper" id="POUSB1Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1Volt" id="POUSB1Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1CCable" id="POUSB1CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB1CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB1CTable" id="POUSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                        <div id="SpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
+                                            <div id="label" class="">
+                                                <label for="POUSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2">
+                                                <input type="text" name="POUSB2Brand" id="POUSB2Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2BatType" id="POUSB2BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2SerialNum" id="POUSB2SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2Code" class="block text-sm font-medium text-gray-900">Code:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2Code" id="POUSB2Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2Amper" id="POUSB2Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2Volt" id="POUSB2Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2CCable" id="POUSB2CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                            <div id="label" class="mt-1">
+                                                <label for="POUSB2CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mt-1">
+                                                <input type="text" name="POUSB2CTable" id="POUSB2CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- CHARGER DETAILS --}}
+                                <div class="hidden p-2 rounded-lg" id="ChargerDetails" role="tabpanel" aria-labelledby="ChargerDetails-tab">
+                                    <div class="grid grid-cols-7 items-center">
+                                        <div id="label" class="">
+                                            <label for="POUCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1">
+                                            <input type="text" name="POUCBrand" id="POUCBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCModel" class="block text-sm font-medium text-gray-900">Model:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCModel" id="POUCModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCSerialNum" id="POUCSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCCode" class="block text-sm font-medium text-gray-900">Code:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCCode" id="POUCCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCAmper" id="POUCAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCVolt" id="POUCVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                        <div id="label" class="mt-2">
+                                            <label for="POUCInput" class="block text-sm font-medium text-gray-900">Input/Phase:</label>
+                                        </div>
+                                        <div id="input" class="col-span-2 mr-1 mt-2">
+                                            <input type="text" name="POUCInput" id="POUCInput" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                        </div>
+                                        <div class="col-span-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-2 mb-2">
+                        <div id="DUbfoot" class="">
+                            <div class="grid grid-cols-7 items-center">
+                                <div id="label" class="mb-2 ml-1">
+                                    <label for="POURemarks" class="block text-sm font-medium text-gray-900">Remarks:</label>
+                                </div>
+                                <div id="input" class="col-span-5 uppercase mb-2">
+                                    <textarea rows="2" name="POURemarks" id="POURemarks" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
+                    <button type="button" id="savePullOutH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                    <button type="button" id="savePullOut" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                    <button type="button" id="clearPullOut" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
+                    <button data-modal-hide="modalPOU" id="closedPullOut" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- DELETE MODAL FOR PULL OUT UNITS --}}
+    <div id="modalDeletePOU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-md md:h-auto">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
+                    <button type="button" id="deleteConfirmPOU"  data-modal-hide="modalDeletePOU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                        Yes, I'm sure.
+                    </button>
+                    <button data-modal-hide="modalDeletePOU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- TRANSFER MODAL FOR PULL OUT UNITS --}}
+    <div id="modalTransferPOU" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-2xl md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        TRANSFER OF PULL OUT UNIT
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalTransferPOU">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                    <form action="" id="formPOUT">
+                        @csrf
+                        <div class="grid grid-cols-5 items-center">
+                            <div class="col-span-5 mb-2">
+                                <input type="hidden" id="POUIDx" name="POUIDx">
+                            </div>
+                            <div id="label" class="uppercase mb-2">
+                                <label for="POUTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="relative max-w-sm">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="POUTransferDate" id="POUTransferDate">
+                                </div>
+                            </div>
+                            <div class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-5">
+                                <label for="POUStatus" class="block text-sm font-medium text-gray-900">Status:</label>
+                            </div>
+                            <div id="input" class="col-span-2 uppercase mt-5">
+                                <select name="POUStatus" id="POUStatus" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                    <option value="" selected disabled></option>
+                                    <option value="1">WAITING FOR REPAIR UNIT</option>
+                                    <option value="2">UNDER REPAIR UNIT</option>
+                                    <option value="3">GOOD UNIT</option>
+                                    <option value="4">SERVICE UNIT</option>
+                                    <option value="5">FOR SCRAP UNIT</option>
+                                    <option value="6">FOR SALE UNIT</option>
+                                    <option value="7">WAITING PARTS</option>
+                                    <option value="8">WAITING BACK ORDER</option>
+                                    <option value="9">WAITING SPARE BATT</option>
+                                    <option value="10">STOCK UNIT</option>
+                                    <option value="11">WAITING FOR MCI</option>
+                                    <option value="12">WAITING FOR PDI</option>
+                                    <option value="13">DONE PDI (WFD)</option>
+                                </select>
+                            </div>
+                            <div id="input" class="col-span-2">
+                            </div>
+                            <div id="label" class="uppercase mt-2">
+                                <label for="POUArea" class="block text-sm font-medium text-gray-900">Area:</label>
+                            </div>
+                            <div id="input" class="col-span-2 uppercase mt-2">
+                                <select name="POUArea" id="POUArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                    <option value="" selected></option>
+                                    @foreach ($section as $sections)
+                                    <option value="{{$sections->id}}">{{$sections->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="input" class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-2">
+                                <label for="POUBay" class="block text-sm font-medium text-gray-900">Bay:</label>
+                            </div>
+                            <div id="input" class="col-span-2 uppercase mt-2">
+                                <select name="POUBay" id="POUBay" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                    <option value="" selected></option>
+                                    @foreach ($bay as $bays)
+                                    <option value="{{$bays->id}}">{{$bays->area_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="input" class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-5">
+                                <label for="POURemarksO" class="block text-sm font-medium text-gray-900">Pull Out Remarks:</label>
+                            </div>
+                            <div id="input" class="uppercase mt-5 col-span-2">
+                                <textarea rows="3" name="POURemarksO" id="POURemarksO" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 pointer-events-none uppercase"></textarea>
+                            </div>
+                            <div id="input" class="col-span-2"></div>
+                            <div id="label" class="uppercase mt-5">
+                                <label for="POURemarksT" class="block text-sm font-medium text-gray-900">Transfer Remarks:</label>
+                            </div>
+                            <div id="input" class="uppercase mt-5 col-span-2">
+                                <textarea rows="3" name="POURemarksT" id="POURemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                    <button type="button" id="transferPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
+                    <button data-modal-hide="modalTransferPOU" type="button" id="closeTransfer" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- DELETE MODAL FOR CONFIRM UNITS --}}
+    <div id="modalDeleteCU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-md md:h-auto">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
+                    <button type="button" id="deleteConfirmCU" data-modal-hide="modalDeleteCU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                        Yes, I'm sure.
+                    </button>
+                    <button data-modal-hide="modalDeleteCU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- SUCCESS MODAL --}}
+    <div id="success-modal" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="bg-green-200 rounded-lg shadow-xl border border-gray-200 w-80 mx-auto p-4">
+            <div class="flex justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-12 w-12">
+                    <circle cx="12" cy="12" r="11" fill="#4CAF50"/>
+                    <path fill="#FFFFFF" d="M9.25 15.25L5.75 11.75L4.75 12.75L9.25 17.25L19.25 7.25L18.25 6.25L9.25 15.25Z"/>
+                    </svg>
+            </div>
+            <div class="mt-4 text-center">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Success!</h3>
+                <p class="text-sm text-gray-500">Your changes have been saved.</p>
+            </div>
+            <div class="mt-5 sm:mt-6">
+                <button id="SCloseButton" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:text-sm" data-modal-hide="success-modal">Close</button>
+            </div>
+        </div>
+    </div>
+    {{-- FAILED MODAL --}}
+    <div id="failed-modal" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="bg-red-200 rounded-lg shadow-lg w-80 mx-auto p-4">
+            <div class="flex justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-12 w-12">
+                <circle cx="12" cy="12" r="10" fill="#f44336"/>
+                <path d="M8.46 8.46L15.54 15.54M8.46 15.54L15.54 8.46" stroke="#fff" stroke-width="2"/>
+            </svg>
+            </div>
+            <div class="mt-4 text-center">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Failed!</h3>
+            <p class="text-xs text-gray-900">Your changes could not be saved. Please try again.</p>
+            </div>
+            <div class="mt-5 sm:mt-6">
+            <button id="FCloseButton" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm" data-modal-hide="failed-modal">Close</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
         $(document).ready(function () {
             // 
@@ -994,12 +2308,12 @@
                 });
             
             // Enable/Disable Others
-                $('#POUAccOthersDetail').prop('disabled',true);
+                $('#POUAccOthersDetail').addClass("disabled");
                 $("#POUAccOthers").on("change", function() {
                     if($(this).is(":checked")) {
-                        $('#POUAccOthersDetail').prop('disabled',false);
+                        $('#POUAccOthersDetail').removeClass("disabled");
                     } else {
-                        $('#POUAccOthersDetail').prop('disabled',true);
+                        $('#POUAccOthersDetail').addClass("disabled");
                     }
                 });
 
@@ -1060,7 +2374,7 @@
 
                 $('#savePullOutH').on( "click", function(){
                     $.ajax({
-                        url: "{{ route('r-workshop.report.savePullOut') }}",
+                        url: "{{ route('admin_monitoring.report.savePullOut') }}",
                         type: "POST",
                         data: $("#formPOU").serialize(),
                         success: function(result) {
@@ -1111,7 +2425,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        url:"{{ route('admin_monitoring.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -1183,10 +2497,10 @@
                                 
                                 if(result.POUAccOthers == 1) {
                                     $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').prop('disabled',false);
+                                    $('#POUAccOthersDetail').removeClass('disabled');
                                 }else{
                                     $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').prop('disabled',true);
+                                    $('#POUAccOthersDetail').addClass('disabled');
                                 }
                             $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
                             $('#POUTechnician1').val(result.POUTechnician1);
@@ -1267,12 +2581,12 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        url:"{{ route('admin_monitoring.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
                         success:function(result){
-                            $('#POUIDe').val(id);
+                            $('#POUIDe').val(result.POUnitIDx);
                                 if(result.POUUnitType == 1) {
                                     $('#POUUnitType').val(result.POUUnitType);
                                     $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
@@ -1345,10 +2659,10 @@
                                 
                                 if(result.POUAccOthers == 1) {
                                     $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').prop('disabled',false);
+                                    $('#POUAccOthersDetail').removeClass('disabled');
                                 }else{
                                     $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').prop('disabled',true);
+                                    $('#POUAccOthersDetail').addClass('disabled');
                                 }
                             $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
                             $('#POUTechnician1').val(result.POUTechnician1);
@@ -1971,7 +3285,7 @@
                     $('#WSTableSearch').val('');
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.sortBrand') }}",
+                        url: "{{ route('admin_monitoring.report.sortBrand') }}",
                         type: "GET",
                         data: {unitBrand: unitBrand, _token: _token},
                         success: function(result) {
@@ -2015,12 +3329,11 @@
 
             // Clear Form on Add - NEW UNIT
                 jQuery(document).on( "click", "#addNewUnit", function(){
-                    if($('#BNUIDe').val() != ''){
                         document.getElementById('formNewUnit').reset()
                         $('#BNUIDe').val('');
 
                         $("#NewUnit li:first-child button").click();
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                        $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                         $('#BAttachment').addClass("disabled");
                         $('#BAccesories').addClass("disabled");
                         $('#BNUAccOthersDetail').prop('disabled', true);
@@ -2033,7 +3346,6 @@
                         $('input, select, textarea, checkbox').prop('disabled', false);
                         $("#saveNewUnit").show();
                         $("#clearNewUnit").show();
-                    }
                 });
 
             // Clear Form New Unit
@@ -2092,12 +3404,12 @@
                 });
 
             // Enable/Disable Others
-                $('#BNUAccOthersDetail').prop('disabled',true);
+                $('#BNUAccOthersDetail').addClass('disabled');
                 $("#BNUAccOthers").on("change", function() {
                     if($(this).is(":checked")) {
-                        $('#BNUAccOthersDetail').prop('disabled',false);
+                        $('#BNUAccOthersDetail').removeClass('disabled');
                     } else {
-                        $('#BNUAccOthersDetail').prop('disabled',true);
+                        $('#BNUAccOthersDetail').addClass('disabled');
                     }
                 });
 
@@ -2119,21 +3431,21 @@
                 });
 
             // Enable/Disable Spare 1 and Spare 2
-                $('#SpareBat1').addClass("disabled");
+                $('#BSpareBat1').addClass("disabled");
                 $('#BNUwBatSpare1').change(function() {
                     if($(this).is(":checked")) {
-                        $('#SpareBat1').removeClass("disabled");
+                        $('#BSpareBat1').removeClass("disabled");
                     } else {
-                        $('#SpareBat1').addClass("disabled");
+                        $('#BSpareBat1').addClass("disabled");
                     }
                 });
                 
-                $('#SpareBat2').addClass("disabled");
+                $('#BSpareBat2').addClass("disabled");
                 $('#BNUwBatSpare2').change(function() {
                     if($(this).is(":checked")) {
-                        $('#SpareBat2').removeClass("disabled");
+                        $('#BSpareBat2').removeClass("disabled");
                     } else {
-                        $('#SpareBat2').addClass("disabled");
+                        $('#BSpareBat2').addClass("disabled");
                     }
                 });
 
@@ -2590,1319 +3902,4 @@
                 });
         });
     </script>
-    
-        
-    {{-- MODALS --}}
-        {{-- ADD AND EDIT MODAL FOR NEW UNITS --}}
-        <div id="modalNewUnit" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-4xl md:h-auto">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow">
-                    <!-- Modal header -->
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-medium text-gray-900">
-                            NEW UNIT
-                        </h3>
-                        <button type="button" id="buttonCloseN" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalNewUnit">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-2 space-y-6">
-                        <form action="" id="formNewUnit">
-                            @csrf
-                            <input type="hidden" id="BNUIDe" name="BNUIDe">
-                            <div id="NewUnitbhead" class="">
-                                <div class="grid grid-cols-3">
-                                    <div class="grid grid-cols-3 items-center">
-                                        <div id="label" class="">
-                                            <label for="BNUnitType" class="block text-sm font-medium text-gray-900">Unit Type:</label>
-                                        </div>
-                                        <div id="input" class="col-span-2 uppercase mr-1">
-                                            <select name="BNUnitType" id="BNUnitType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
-                                                <option value="1">DIESEL/GASOLINE/LPG</option>
-                                                <option value="2">BATTERY</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class=""></div>
-                                    <div class="grid grid-cols-3 items-center">
-                                        <div id="label" class="">
-                                            <label for="BNUArrivalDate" class="block text-sm font-medium text-gray-900">Arrival Date:</label>
-                                        </div>
-                                        <div id="input" class="col-span-2">
-                                            <div class="relative max-w-sm">
-                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                </div>
-                                                <input type="text"  datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="BNUArrivalDate" id="BNUArrivalDate">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="dataNewUnit" style="height: calc(100vh - 350px);" class="mt-2">
-                                <div class="mb-4 border-b border-gray-200">
-                                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="NewUnit" data-tabs-toggle="#NewUnitContent" role="tablist">
-                                        <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="NUnitDetails-tab" data-tabs-target="#NUnitDetails" type="button" role="tab" aria-controls="NUnitDetails" aria-selected="false">UNIT DETAILS</button>
-                                        </li>
-                                        <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NOtherDetails-tab" data-tabs-target="#NOtherDetails" type="button" role="tab" aria-controls="NOtherDetails" aria-selected="false">OTHER DETAILS</button>
-                                        </li>
-                                        <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NBatteryDetails-tab" data-tabs-target="#NBatteryDetails" type="button" role="tab" aria-controls="NBatteryDetails" aria-selected="false">BATTERY DETAILS</button>
-                                        </li>
-                                        <li role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="NChargerDetails-tab" data-tabs-target="#NChargerDetails" type="button" role="tab" aria-controls="NChargerDetails" aria-selected="false">CHARGER DETAILS</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div id="NewUnitContent">
-                                    {{-- UNIT DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="NUnitDetails" role="tabpanel" aria-labelledby="NUnitDetails-tab">
-                                        <div class="grid grid-cols-7 items-center">
-                                            <div id="label" class="">
-                                                <label for="BNUBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <select name="BNUBrand" id="BNUBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected disabled></option>
-                                                    @foreach ($brand as $brands)
-                                                    <option value="{{$brands->id}}">{{$brands->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="">
-                                                {{-- <label for="BNUClassification" class="block text-sm font-medium text-gray-900">Classification:</label> --}}
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                {{-- <select name="BNUClassification" id="BNUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected disabled></option>
-                                                    <option value="1">CLASS A</option>
-                                                    <option value="2">CLASS B</option>
-                                                    <option value="3">CLASS C</option>
-                                                    <option value="4">CLASS D</option>
-                                                </select> --}}
-                                            </div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUModel" class="block text-sm font-medium text-gray-900">Model:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="BNUModel" id="BNUModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="BNUSerialNum" id="BNUSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCode" class="block text-sm font-medium text-gray-900">Code:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="BNUCode" id="BNUCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUMastType" class="block text-sm font-medium text-gray-900">Mast Type:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="BNUMastType" id="BNUMastType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUForkSize" class="block text-sm font-medium text-gray-900">Fork Size:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="BNUForkSize" id="BNUForkSize" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUMastHeight" class="block text-sm font-medium text-gray-900">Mast Height:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="BNUMastHeight" id="BNUMastHeight" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-3 mt-2">
-                                                <input type="checkbox" id="BNUwAttachment" name="BNUwAttachment" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="BNUwAttachment" class="ml-2 text-sm font-medium text-gray-900">Unit with Attachment</label>
-                                            </div>
-                                            <div class=""></div>
-                                            <div class="col-span-3 mt-2">
-                                                <input type="checkbox" id="BNUwAccesories" name="BNUwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="BNUwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
-                                            </div>
-                                            <div id="BAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
-                                                <div class="col-span-3">
-                                                    <label for="BNUAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <label for="BNUAttType" class="block text-sm font-medium text-gray-900">Type:</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="text" name="BNUAttType" id="BNUAttType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div class="mt-1"></div>
-                                                <div class="mt-1">
-                                                    <label for="BNUAttModel" class="block text-sm font-medium text-gray-900">Model:</label>
-                                                </div>
-                                                <div class="mt-1">
-                                                    <input type="text" name="BNUAttModel" id="BNUAttModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div class="mt-1"></div>
-                                                <div class="mt-1">
-                                                    <label for="BNUAttSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div class="mt-1">
-                                                    <input type="text" name="BNUAttSerialNum" id="BNUAttSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="BAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
-                                                <div class="col-span-3">
-                                                    <label for="BNUAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="BNUAccISite" name="BNUAccISite" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccISite" class="ml-2 text-sm font-medium text-gray-900">I-Site</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="BNUAccLiftCam" name="BNUAccLiftCam" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccLiftCam" class="ml-2 text-sm font-medium text-gray-900">Lift Cam</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="BNUAccRedLight" name="BNUAccRedLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccRedLight" class="ml-2 text-sm font-medium text-gray-900">Red Light</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="BNUAccBlueLight" name="BNUAccBlueLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccBlueLight" class="ml-2 text-sm font-medium text-gray-900">Blue Light</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="BNUAccFireExt" name="BNUAccFireExt" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccFireExt" class="ml-2 text-xs font-medium text-gray-900">Fire Extinguisher</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="BNUAccStLight" name="BNUAccStLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccStLight" class="ml-2 text-xs font-medium text-gray-900">Strobe Light</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="col-span-2">
-                                                    <input type="checkbox" id="BNUAccOthers" name="BNUAccOthers" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="BNUAccOthers" class="ml-2 text-sm font-medium text-gray-900">Others</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="col-span-2 mt-1 relative">
-                                                    <input type="text" id="BNUAccOthersDetail" name="BNUAccOthersDetail" class="block rounded-t-lg w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Other Accesories" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- OTHER DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="NOtherDetails" role="tabpanel" aria-labelledby="NOtherDetails-tab">
-                                        <div class="grid grid-cols-7 items-center">
-                                            <div id="label" class="">
-                                                <label for="BNUTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <select name="BNUTechnician1" id="BNUTechnician1" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected disabled></option>
-                                                    @foreach ($technician as $technicians)
-                                                    <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUTechnician2" class="block text-sm font-medium text-gray-900">Technician 2:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <select name="BNUTechnician2" id="BNUTechnician2" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected></option>
-                                                    @foreach ($technician as $technicians)
-                                                    <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-5">
-                                                <label for="BNUSalesman" class="block text-sm font-medium text-gray-900">Salesman:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-5">
-                                                <input type="text" name="BNUSalesman" id="BNUSalesman" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-5">
-                                                <label for="BNUCustomer" class="block text-sm font-medium text-gray-900">Customer:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-5">
-                                                <input type="text" name="BNUCustomer" id="BNUCustomer" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCustAddress" class="block text-sm font-medium text-gray-900">Customer Address:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCustAddress" id="BNUCustAddress" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                        </div>
-                                    </div>
-                                    {{-- BATTERY DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="NBatteryDetails" role="tabpanel" aria-labelledby="NBatteryDetails-tab">
-                                        <div class="grid grid-cols-3 items-center">
-                                            <div class="col-span-1 mt-1">
-                                                <label for="BNUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
-                                            </div>
-                                            <div class="col-span-1 mt-1">
-                                                <input type="checkbox" id="BNUwBatSpare1" name="BNUwBatSpare1" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="BNUwBatSpare1" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 1</label>
-                                            </div>
-                                            <div class="col-span-1 mt-1">
-                                                <input type="checkbox" id="BNUwBatSpare2" name="BNUwBatSpare2" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="BNUwBatSpare2" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 2</label>
-                                            </div>
-                                        </div>
-                                        <div class="grid grid-cols-3">
-                                            <div id="BatAttached" class="grid grid-cols-3 mr-2 mt-1 items-center">
-                                                <div id="label" class="">
-                                                    <label for="BNUBABrand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2">
-                                                    <input type="text" name="BNUBABrand" id="BNUBABrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBABatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBABatType" id="BNUBABatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBASerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBASerialNum" id="BNUBASerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBACode" class="block text-sm font-medium text-gray-900">Code:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBACode" id="BNUBACode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBAAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBAAmper" id="BNUBAAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBAVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBAVolt" id="BNUBAVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBACCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBACCable" id="BNUBACCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUBACTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUBACTable" id="BNUBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                            <div id="BSpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
-                                                <div id="label" class="">
-                                                    <label for="BNUSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2">
-                                                    <input type="text" name="BNUSB1Brand" id="BNUSB1Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1BatType" id="BNUSB1BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1SerialNum" id="BNUSB1SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1Code" class="block text-sm font-medium text-gray-900">Code:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1Code" id="BNUSB1Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1Amper" id="BNUSB1Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1Volt" id="BNUSB1Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1CCable" id="BNUSB1CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB1CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB1CTable" id="BNUSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                            <div id="BSpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
-                                                <div id="label" class="">
-                                                    <label for="BNUSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2">
-                                                    <input type="text" name="BNUSB2Brand" id="BNUSB2Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2BatType" id="BNUSB2BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2SerialNum" id="BNUSB2SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2Code" class="block text-sm font-medium text-gray-900">Code:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2Code" id="BNUSB2Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2Amper" id="BNUSB2Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2Volt" id="BNUSB2Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2CCable" id="BNUSB2CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="BNUSB2CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="BNUSB2CTable" id="BNUSB2CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- CHARGER DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="NChargerDetails" role="tabpanel" aria-labelledby="NChargerDetails-tab">
-                                        <div class="grid grid-cols-7 items-center">
-                                            <div id="label" class="">
-                                                <label for="BNUCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <input type="text" name="BNUCBrand" id="BNUCBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCModel" class="block text-sm font-medium text-gray-900">Model:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCModel" id="BNUCModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCSerialNum" id="BNUCSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCCode" class="block text-sm font-medium text-gray-900">Code:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCCode" id="BNUCCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCAmper" id="BNUCAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCVolt" id="BNUCVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="BNUCInput" class="block text-sm font-medium text-gray-900">Input/Phase:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="BNUCInput" id="BNUCInput" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div id="DUbfoot" class="">
-                                <div class="grid grid-cols-7 items-center">
-                                    <div id="label" class="mb-2 ml-1">
-                                        <label for="BNURemarks" class="block text-sm font-medium text-gray-900">Remarks:</label>
-                                    </div>
-                                    <div id="input" class="col-span-5 uppercase mb-2">
-                                        <textarea rows="2" name="BNURemarks" id="BNURemarks" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
-                        <button type="button" id="saveNewUnitH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
-                        <button type="button" id="saveNewUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
-                        <button type="button" id="clearNewUnit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
-                        <button id="closeNewUnit" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- DELETE MODAL FOR BRAND NEW UNITS --}}
-        <div id="modalDeleteBNU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-md md:h-auto">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="p-6 text-center">
-                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
-                        <button type="button" id="deleteConfirmBNU"  data-modal-hide="modalDeleteBNU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                            Yes, I'm sure.
-                        </button>
-                        <button data-modal-hide="modalDeleteBNU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- TRANSFER MODAL FOR BRAND NEW UNITS --}}
-        <div id="modalTransferBNU" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-2xl md:h-auto">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            TRANSFER TO WAREHOUSE
-                        </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalTransferBNU">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-6 space-y-6">
-                        <form action="" id="formBNUT">
-                            @csrf
-                            <div class="grid grid-cols-5 items-center">
-                                <div class="col-span-5 mb-2">
-                                    <input type="hidden" id="BNUIDx" name="BNUIDx">
-                                </div>
-                                <div id="label" class="uppercase mb-2">
-                                    <label for="BNUTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="relative max-w-sm">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="BNUTransferDate" id="BNUTransferDate">
-                                    </div>
-                                </div>
-                                <div class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="BNUStatus" class="block text-sm font-medium text-gray-900">Status:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-5">
-                                    <select name="BNUStatus" id="BNUStatus" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected disabled></option>
-                                        <option value="1">WAITING FOR REPAIR UNIT</option>
-                                        <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">USED GOOD UNIT</option>
-                                        <option value="4">SERVICE UNIT</option>
-                                        <option value="5">FOR SCRAP UNIT</option>
-                                        <option value="6">FOR SALE UNIT</option>
-                                        <option value="7">WAITING PARTS</option>
-                                        <option value="8">WAITING BACK ORDER</option>
-                                        <option value="9">WAITING SPARE BATT</option>
-                                        <option value="10">STOCK UNIT</option>
-                                        <option value="11">WAITING FOR MCI</option>
-                                        <option value="12">WAITING FOR PDI</option>
-                                        <option value="13">DONE PDI (WFD)</option>
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2">
-                                </div>
-                                <div id="label" class="uppercase mt-2">
-                                    <label for="BNUArea" class="block text-sm font-medium text-gray-900">Area:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-2">
-                                    <select name="BNUArea" id="BNUArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected></option>
-                                        @foreach ($section as $sections)
-                                        <option value="{{$sections->id}}">{{$sections->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-2">
-                                    <label for="BNUBay" class="block text-sm font-medium text-gray-900">Bay:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-2">
-                                    <select name="BNUBay" id="BNUBay" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected></option>
-                                        @foreach ($bay as $bays)
-                                        <option value="{{$bays->id}}">{{$bays->area_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="BNURemarksO" class="block text-sm font-medium text-gray-900">Unit Remarks:</label>
-                                </div>
-                                <div id="input" class="uppercase mt-5 col-span-2">
-                                    <textarea rows="3" name="BNURemarksO" id="BNURemarksO" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 pointer-events-none uppercase"></textarea>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="BNURemarksT" class="block text-sm font-medium text-gray-900">Transfer Remarks:</label>
-                                </div>
-                                <div id="input" class="uppercase mt-5 col-span-2">
-                                    <textarea rows="3" name="BNURemarksT" id="BNURemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                        <button type="button" id="transferBNU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
-                        <button data-modal-hide="modalTransferBNU" type="button" id="closeBNTransfer" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- ADD AND EDIT MODAL FOR PULL OUT UNITS --}}
-        <div id="modalPOU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-4xl md:h-auto">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow">
-                    <!-- Modal header -->
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-medium text-gray-900">
-                            PULL OUT UNIT
-                        </h3>
-                        <button type="button" id="buttonCloseP" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalPOU">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-2 space-y-6">
-                        <form action="" id="formPOU">
-                            @csrf
-                            <input type="hidden" id="POUIDe" name="POUIDe">
-                            <div id="POUbhead" class="">
-                                <div class="grid grid-cols-3">
-                                    <div class="grid grid-cols-3 items-center">
-                                        <div id="label" class="">
-                                            <label for="POUUnitType" class="block text-sm font-medium text-gray-900">Unit Type:</label>
-                                        </div>
-                                        <div id="input" class="col-span-2 uppercase mr-1">
-                                            <select name="POUUnitType" id="POUUnitType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
-                                                <option value="1">DIESEL/GASOLINE/LPG</option>
-                                                <option value="2">BATTERY</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class=""></div>
-                                    <div class="grid grid-cols-3 items-center">
-                                        <div id="label" class="">
-                                            <label for="POUArrivalDate" class="block text-sm font-medium text-gray-900">Arrival Date:</label>
-                                        </div>
-                                        <div id="input" class="col-span-2">
-                                            <div class="relative max-w-sm">
-                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                </div>
-                                                <input type="text"  datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="POUArrivalDate" id="POUArrivalDate">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="dataPOU" style="height: calc(100vh - 350px);" class="mt-2">
-                                <div class="mb-4 border-b border-gray-200">
-                                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="POUnit" data-tabs-toggle="#POUnitContent" role="tablist">
-                                        <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="UnitDetails-tab" data-tabs-target="#UnitDetails" type="button" role="tab" aria-controls="UnitDetails" aria-selected="false">UNIT DETAILS</button>
-                                        </li>
-                                        <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="OtherDetails-tab" data-tabs-target="#OtherDetails" type="button" role="tab" aria-controls="OtherDetails" aria-selected="false">OTHER DETAILS</button>
-                                        </li>
-                                        <li class="mr-2" role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BatteryDetails-tab" data-tabs-target="#BatteryDetails" type="button" role="tab" aria-controls="BatteryDetails" aria-selected="false">BATTERY DETAILS</button>
-                                        </li>
-                                        <li role="presentation">
-                                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="ChargerDetails-tab" data-tabs-target="#ChargerDetails" type="button" role="tab" aria-controls="ChargerDetails" aria-selected="false">CHARGER DETAILS</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div id="POUnitContent">
-                                    {{-- UNIT DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="UnitDetails" role="tabpanel" aria-labelledby="UnitDetails-tab">
-                                        <div class="grid grid-cols-7 items-center">
-                                            <div id="label" class="">
-                                                <label for="POUBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <select name="POUBrand" id="POUBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected disabled></option>
-                                                    @foreach ($brand as $brands)
-                                                    <option value="{{$brands->id}}">{{$brands->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="">
-                                                <label for="POUClassification" class="block text-sm font-medium text-gray-900">Classification:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <select name="POUClassification" id="POUClassification" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected disabled></option>
-                                                    <option value="1">CLASS A</option>
-                                                    <option value="2">CLASS B</option>
-                                                    <option value="3">CLASS C</option>
-                                                    <option value="4">CLASS D</option>
-                                                </select>
-                                            </div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUModel" class="block text-sm font-medium text-gray-900">Model:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUModel" id="POUModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUSerialNum" id="POUSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCode" class="block text-sm font-medium text-gray-900">Code:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUCode" id="POUCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUMastType" class="block text-sm font-medium text-gray-900">Mast Type:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUMastType" id="POUMastType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUForkSize" class="block text-sm font-medium text-gray-900">Fork Size:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUForkSize" id="POUForkSize" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUMastHeight" class="block text-sm font-medium text-gray-900">Mast Height:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mt-2 mr-1">
-                                                <input type="text" name="POUMastHeight" id="POUMastHeight" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-3 mt-2">
-                                                <input type="checkbox" id="POUwAttachment" name="POUwAttachment" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwAttachment" class="ml-2 text-sm font-medium text-gray-900">Unit with Attachment</label>
-                                            </div>
-                                            <div class=""></div>
-                                            <div class="col-span-3 mt-2">
-                                                <input type="checkbox" id="POUwAccesories" name="POUwAccesories" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwAccesories" class="ml-2 text-sm font-medium text-gray-900">Unit with Accesories</label>
-                                            </div>
-                                            <div id="PAttachment" class="col-span-3 grid grid-cols-3 mt-2 items-center justify-self-center">
-                                                <div class="col-span-3">
-                                                    <label for="POUAttachment" class="block text-sm font-medium text-gray-900">Attachment:</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <label for="POUAttType" class="block text-sm font-medium text-gray-900">Type:</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="text" name="POUAttType" id="POUAttType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div class="mt-1"></div>
-                                                <div class="mt-1">
-                                                    <label for="POUAttModel" class="block text-sm font-medium text-gray-900">Model:</label>
-                                                </div>
-                                                <div class="mt-1">
-                                                    <input type="text" name="POUAttModel" id="POUAttModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div class="mt-1"></div>
-                                                <div class="mt-1">
-                                                    <label for="POUAttSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div class="mt-1">
-                                                    <input type="text" name="POUAttSerialNum" id="POUAttSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                            <div class=""></div>
-                                            <div id="PAccesories" class="col-span-3 grid grid-cols-3 mt-2 items-start">
-                                                <div class="col-span-3">
-                                                    <label for="POUAccesories" class="block text-sm font-medium text-gray-900">Accesories:</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccISite" name="POUAccISite" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccISite" class="ml-2 text-sm font-medium text-gray-900">I-Site</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccLiftCam" name="POUAccLiftCam" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccLiftCam" class="ml-2 text-sm font-medium text-gray-900">Lift Cam</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccRedLight" name="POUAccRedLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccRedLight" class="ml-2 text-sm font-medium text-gray-900">Red Light</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccBlueLight" name="POUAccBlueLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccBlueLight" class="ml-2 text-sm font-medium text-gray-900">Blue Light</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccFireExt" name="POUAccFireExt" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccFireExt" class="ml-2 text-xs font-medium text-gray-900">Fire Extinguisher</label>
-                                                </div>
-                                                <div class="">
-                                                    <input type="checkbox" id="POUAccStLight" name="POUAccStLight" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccStLight" class="ml-2 text-xs font-medium text-gray-900">Strobe Light</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="col-span-2">
-                                                    <input type="checkbox" id="POUAccOthers" name="POUAccOthers" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                    <label for="POUAccOthers" class="ml-2 text-sm font-medium text-gray-900">Others</label>
-                                                </div>
-                                                <div class=""></div>
-                                                <div class="col-span-2 mt-1 relative">
-                                                    <input type="text" id="POUAccOthersDetail" name="POUAccOthersDetail" class="block rounded-t-lg w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Other Accesories" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- OTHER DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="OtherDetails" role="tabpanel" aria-labelledby="OtherDetails-tab">
-                                        <div class="grid grid-cols-7 items-center">
-                                            <div id="label" class="">
-                                                <label for="POUTechnician1" class="block text-sm font-medium text-gray-900">Technician 1:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <select name="POUTechnician1" id="POUTechnician1" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected disabled></option>
-                                                    @foreach ($technician as $technicians)
-                                                    <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUTechnician2" class="block text-sm font-medium text-gray-900">Technician 2:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <select name="POUTechnician2" id="POUTechnician2" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                    <option value="" selected></option>
-                                                    @foreach ($technician as $technicians)
-                                                    <option value="{{$technicians->id}}">{{$technicians->initials}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-5">
-                                                <label for="POUSalesman" class="block text-sm font-medium text-gray-900">Salesman:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-5">
-                                                <input type="text" name="POUSalesman" id="POUSalesman" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-5">
-                                                <label for="POUCustomer" class="block text-sm font-medium text-gray-900">Customer:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-5">
-                                                <input type="text" name="POUCustomer" id="POUCustomer" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCustAddress" class="block text-sm font-medium text-gray-900">Customer Address:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCustAddress" id="POUCustAddress" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                        </div>
-                                    </div>
-                                    {{-- BATTERY DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="BatteryDetails" role="tabpanel" aria-labelledby="BatteryDetails-tab">
-                                        <div class="grid grid-cols-3 items-center">
-                                            <div class="col-span-1 mt-1">
-                                                <label for="POUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
-                                            </div>
-                                            <div class="col-span-1 mt-1">
-                                                <input type="checkbox" id="POUwBatSpare1" name="POUwBatSpare1" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwBatSpare1" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 1</label>
-                                            </div>
-                                            <div class="col-span-1 mt-1">
-                                                <input type="checkbox" id="POUwBatSpare2" name="POUwBatSpare2" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                                <label for="POUwBatSpare2" class="ml-2 text-sm font-medium text-gray-900">Spare Battery 2</label>
-                                            </div>
-                                        </div>
-                                        <div class="grid grid-cols-3">
-                                            <div id="BatAttached" class="grid grid-cols-3 mr-2 mt-1 items-center">
-                                                <div id="label" class="">
-                                                    <label for="POUBABrand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2">
-                                                    <input type="text" name="POUBABrand" id="POUBABrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBABatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBABatType" id="POUBABatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBASerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBASerialNum" id="POUBASerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBACode" class="block text-sm font-medium text-gray-900">Code:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBACode" id="POUBACode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBAAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBAAmper" id="POUBAAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBAVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBAVolt" id="POUBAVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBACCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBACCable" id="POUBACCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUBACTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUBACTable" id="POUBACTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                            <div id="SpareBat1" class="grid grid-cols-3 mr-2 ml-2 mt-1 items-center">
-                                                <div id="label" class="">
-                                                    <label for="POUSB1Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2">
-                                                    <input type="text" name="POUSB1Brand" id="POUSB1Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1BatType" id="POUSB1BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1SerialNum" id="POUSB1SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1Code" class="block text-sm font-medium text-gray-900">Code:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1Code" id="POUSB1Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1Amper" id="POUSB1Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1Volt" id="POUSB1Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1CCable" id="POUSB1CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB1CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB1CTable" id="POUSB1CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                            <div id="SpareBat2" class="grid grid-cols-3 ml-2 mt-1 items-center">
-                                                <div id="label" class="">
-                                                    <label for="POUSB2Brand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2">
-                                                    <input type="text" name="POUSB2Brand" id="POUSB2Brand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2BatType" class="block text-xs font-medium text-gray-900">Battery Type:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2BatType" id="POUSB2BatType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2SerialNum" class="block text-xs font-medium text-gray-900">Serial Number:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2SerialNum" id="POUSB2SerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2Code" class="block text-sm font-medium text-gray-900">Code:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2Code" id="POUSB2Code" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2Amper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2Amper" id="POUSB2Amper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2Volt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2Volt" id="POUSB2Volt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2CCable" class="block text-xs font-medium text-gray-900">Change Cable:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2CCable" id="POUSB2CCable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                                <div id="label" class="mt-1">
-                                                    <label for="POUSB2CTable" class="block text-xs font-medium text-gray-900">Change Table:</label>
-                                                </div>
-                                                <div id="input" class="col-span-2 mt-1">
-                                                    <input type="text" name="POUSB2CTable" id="POUSB2CTable" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- CHARGER DETAILS --}}
-                                    <div class="hidden p-2 rounded-lg" id="ChargerDetails" role="tabpanel" aria-labelledby="ChargerDetails-tab">
-                                        <div class="grid grid-cols-7 items-center">
-                                            <div id="label" class="">
-                                                <label for="POUCBrand" class="block text-sm font-medium text-gray-900">Brand:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1">
-                                                <input type="text" name="POUCBrand" id="POUCBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCModel" class="block text-sm font-medium text-gray-900">Model:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCModel" id="POUCModel" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCSerialNum" class="block text-sm font-medium text-gray-900">Serial Number:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCSerialNum" id="POUCSerialNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCCode" class="block text-sm font-medium text-gray-900">Code:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCCode" id="POUCCode" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCAmper" class="block text-sm font-medium text-gray-900">Amper:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCAmper" id="POUCAmper" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCVolt" class="block text-sm font-medium text-gray-900">Volt:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCVolt" id="POUCVolt" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                            <div id="label" class="mt-2">
-                                                <label for="POUCInput" class="block text-sm font-medium text-gray-900">Input/Phase:</label>
-                                            </div>
-                                            <div id="input" class="col-span-2 mr-1 mt-2">
-                                                <input type="text" name="POUCInput" id="POUCInput" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                            </div>
-                                            <div class="col-span-4"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="mt-2 mb-2">
-                            <div id="DUbfoot" class="">
-                                <div class="grid grid-cols-7 items-center">
-                                    <div id="label" class="mb-2 ml-1">
-                                        <label for="POURemarks" class="block text-sm font-medium text-gray-900">Remarks:</label>
-                                    </div>
-                                    <div id="input" class="col-span-5 uppercase mb-2">
-                                        <textarea rows="2" name="POURemarks" id="POURemarks" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
-                        <button type="button" id="savePullOutH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
-                        <button type="button" id="savePullOut" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
-                        <button type="button" id="clearPullOut" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
-                        <button data-modal-hide="modalPOU" id="closedPullOut" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- DELETE MODAL FOR PULL OUT UNITS --}}
-        <div id="modalDeletePOU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-md md:h-auto">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="p-6 text-center">
-                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
-                        <button type="button" id="deleteConfirmPOU"  data-modal-hide="modalDeletePOU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                            Yes, I'm sure.
-                        </button>
-                        <button data-modal-hide="modalDeletePOU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- TRANSFER MODAL FOR PULL OUT UNITS --}}
-        <div id="modalTransferPOU" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-2xl md:h-auto">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            TRANSFER OF PULL OUT UNIT
-                        </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalTransferPOU">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-6 space-y-6">
-                        <form action="" id="formPOUT">
-                            @csrf
-                            <div class="grid grid-cols-5 items-center">
-                                <div class="col-span-5 mb-2">
-                                    <input type="hidden" id="POUIDx" name="POUIDx">
-                                </div>
-                                <div id="label" class="uppercase mb-2">
-                                    <label for="POUTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="relative max-w-sm">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="POUTransferDate" id="POUTransferDate">
-                                    </div>
-                                </div>
-                                <div class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="POUStatus" class="block text-sm font-medium text-gray-900">Status:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-5">
-                                    <select name="POUStatus" id="POUStatus" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected disabled></option>
-                                        <option value="1">WAITING FOR REPAIR UNIT</option>
-                                        <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">GOOD UNIT</option>
-                                        <option value="4">SERVICE UNIT</option>
-                                        <option value="5">FOR SCRAP UNIT</option>
-                                        <option value="6">FOR SALE UNIT</option>
-                                        <option value="7">WAITING PARTS</option>
-                                        <option value="8">WAITING BACK ORDER</option>
-                                        <option value="9">WAITING SPARE BATT</option>
-                                        <option value="10">STOCK UNIT</option>
-                                        <option value="11">WAITING FOR MCI</option>
-                                        <option value="12">WAITING FOR PDI</option>
-                                        <option value="13">DONE PDI (WFD)</option>
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2">
-                                </div>
-                                <div id="label" class="uppercase mt-2">
-                                    <label for="POUArea" class="block text-sm font-medium text-gray-900">Area:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-2">
-                                    <select name="POUArea" id="POUArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected></option>
-                                        @foreach ($section as $sections)
-                                        <option value="{{$sections->id}}">{{$sections->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-2">
-                                    <label for="POUBay" class="block text-sm font-medium text-gray-900">Bay:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-2">
-                                    <select name="POUBay" id="POUBay" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected></option>
-                                        @foreach ($bay as $bays)
-                                        <option value="{{$bays->id}}">{{$bays->area_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="POURemarksO" class="block text-sm font-medium text-gray-900">Pull Out Remarks:</label>
-                                </div>
-                                <div id="input" class="uppercase mt-5 col-span-2">
-                                    <textarea rows="3" name="POURemarksO" id="POURemarksO" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 pointer-events-none uppercase"></textarea>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="POURemarksT" class="block text-sm font-medium text-gray-900">Transfer Remarks:</label>
-                                </div>
-                                <div id="input" class="uppercase mt-5 col-span-2">
-                                    <textarea rows="3" name="POURemarksT" id="POURemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                        <button type="button" id="transferPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
-                        <button data-modal-hide="modalTransferPOU" type="button" id="closeTransfer" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- DELETE MODAL FOR CONFIRM UNITS --}}
-        <div id="modalDeleteCU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative w-full h-full max-w-md md:h-auto">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="p-6 text-center">
-                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
-                        <button type="button" id="deleteConfirmCU" data-modal-hide="modalDeleteCU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                            Yes, I'm sure.
-                        </button>
-                        <button data-modal-hide="modalDeleteCU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- SUCCESS MODAL --}}
-        <div id="success-modal" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="bg-green-200 rounded-lg shadow-xl border border-gray-200 w-80 mx-auto p-4">
-                <div class="flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-12 w-12">
-                        <circle cx="12" cy="12" r="11" fill="#4CAF50"/>
-                        <path fill="#FFFFFF" d="M9.25 15.25L5.75 11.75L4.75 12.75L9.25 17.25L19.25 7.25L18.25 6.25L9.25 15.25Z"/>
-                        </svg>
-                </div>
-                <div class="mt-4 text-center">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Success!</h3>
-                    <p class="text-sm text-gray-500">Your changes have been saved.</p>
-                </div>
-                <div class="mt-5 sm:mt-6">
-                    <button id="SCloseButton" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:text-sm" data-modal-hide="success-modal">Close</button>
-                </div>
-            </div>
-        </div>
-        {{-- FAILED MODAL --}}
-        <div id="failed-modal" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="bg-red-200 rounded-lg shadow-lg w-80 mx-auto p-4">
-              <div class="flex justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-12 w-12">
-                    <circle cx="12" cy="12" r="10" fill="#f44336"/>
-                    <path d="M8.46 8.46L15.54 15.54M8.46 15.54L15.54 8.46" stroke="#fff" stroke-width="2"/>
-                </svg>
-              </div>
-              <div class="mt-4 text-center">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Failed!</h3>
-                <p class="text-xs text-gray-900">Your changes could not be saved. Please try again.</p>
-              </div>
-              <div class="mt-5 sm:mt-6">
-                <button id="FCloseButton" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm" data-modal-hide="failed-modal">Close</button>
-              </div>
-            </div>
-        </div>
-    
 </x-app-layout>
