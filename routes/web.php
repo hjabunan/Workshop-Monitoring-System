@@ -380,19 +380,19 @@ Route::group(['middleware' => 'auth'],function(){
 
         // WAREHOUSE 5B
             Route::GET('/workshop-ms/w-storage5b', [WStorage5BController::class, 'index'])->name('w-storage5b.index');
-            Route::GET('/workshop-ms/w-storage1/getBayData', [WStorage1Controller::class, 'getBayData'])->name('w-storage1.getBayData');
-            Route::GET('/workshop-ms/w-storage1/getBay', [WStorage1Controller::class, 'getBay'])->name('w-storage1.getBay');
-            Route::GET('/workshop-ms/w-storage1/getTransferData', [WStorage1Controller::class, 'getTransferData'])->name('w-storage1.getTransferData');
-            Route::POST('/workshop-ms/w-storage1/saveTransferData', [WStorage1Controller::class, 'saveTransferData'])->name('w-storage1.saveTransferData');
-            Route::POST('/workshop-ms/w-storage1/saveUnitData', [WStorage1Controller::class, 'saveUnitData'])->name('w-storage1.saveUnitData');
+            Route::GET('/workshop-ms/w-storage5b/getBayData', [WStorage5BController::class, 'getBayData'])->name('w-storage5b.getBayData');
+            Route::GET('/workshop-ms/w-storage5b/getBay', [WStorage5BController::class, 'getBay'])->name('w-storage5b.getBay');
+            Route::GET('/workshop-ms/w-storage5b/getTransferData', [WStorage5BController::class, 'getTransferData'])->name('w-storage5b.getTransferData');
+            Route::POST('/workshop-ms/w-storage5b/saveTransferData', [WStorage5BController::class, 'saveTransferData'])->name('w-storage5b.saveTransferData');
+            Route::POST('/workshop-ms/w-storage5b/saveUnitData', [WStorage5BController::class, 'saveUnitData'])->name('w-storage5b.saveUnitData');
     
         // WAREHOUSE 5C
             Route::GET('/workshop-ms/w-storage5c', [WStorage5CController::class, 'index'])->name('w-storage5c.index');
-            Route::GET('/workshop-ms/w-storage1/getBayData', [WStorage1Controller::class, 'getBayData'])->name('w-storage1.getBayData');
-            Route::GET('/workshop-ms/w-storage1/getBay', [WStorage1Controller::class, 'getBay'])->name('w-storage1.getBay');
-            Route::GET('/workshop-ms/w-storage1/getTransferData', [WStorage1Controller::class, 'getTransferData'])->name('w-storage1.getTransferData');
-            Route::POST('/workshop-ms/w-storage1/saveTransferData', [WStorage1Controller::class, 'saveTransferData'])->name('w-storage1.saveTransferData');
-            Route::POST('/workshop-ms/w-storage1/saveUnitData', [WStorage1Controller::class, 'saveUnitData'])->name('w-storage1.saveUnitData');
+            Route::GET('/workshop-ms/w-storage5c/getBayData', [WStorage5CController::class, 'getBayData'])->name('w-storage5c.getBayData');
+            Route::GET('/workshop-ms/w-storage5c/getBay', [WStorage5CController::class, 'getBay'])->name('w-storage5c.getBay');
+            Route::GET('/workshop-ms/w-storage5c/getTransferData', [WStorage5CController::class, 'getTransferData'])->name('w-storage5c.getTransferData');
+            Route::POST('/workshop-ms/w-storage5c/saveTransferData', [WStorage5CController::class, 'saveTransferData'])->name('w-storage5c.saveTransferData');
+            Route::POST('/workshop-ms/w-storage5c/saveUnitData', [WStorage5CController::class, 'saveUnitData'])->name('w-storage5c.saveUnitData');
 
         // WAREHOUSE 6
             Route::GET('/workshop-ms/w-storage6', [WStorage6Controller::class, 'index'])->name('w-storage6.index');

@@ -1807,6 +1807,7 @@
                                 </div>
                                 {{-- BATTERY DETAILS --}}
                                 <div class="hidden p-2 rounded-lg" id="BatteryDetails" role="tabpanel" aria-labelledby="BatteryDetails-tab">
+                                    <input type="hidden" id="BatID">
                                     <div class="grid grid-cols-3 items-center">
                                         <div class="col-span-1 mt-1">
                                             <label for="POUBatAttached" class="ml-2 text-sm font-medium text-gray-900">Battery Attached</label>
@@ -2680,6 +2681,7 @@
                             $('#POUSalesman').val(result.POUSalesman);
                             $('#POUCustomer').val(result.POUCustomer);
                             $('#POUCustAddress').val(result.POUCustAddress);
+                            $('#BatID').val(result.BatID);
                             $('#POUBABrand').val(result.POUBABrand);
                             $('#POUBABatType').val(result.POUBABatType);
                             $('#POUBASerialNum').val(result.POUBASerialNum);

@@ -3788,7 +3788,7 @@
                                         <option value="" selected disabled></option>
                                         <option value="1">WAITING FOR REPAIR UNIT</option>
                                         <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">GOOD UNIT</option>
+                                        <option value="3">USED GOOD UNIT</option>
                                         <option value="4">SERVICE UNIT</option>
                                         <option value="5">FOR SCRAP UNIT</option>
                                         <option value="6">FOR SALE UNIT</option>
