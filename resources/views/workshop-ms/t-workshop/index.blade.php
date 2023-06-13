@@ -824,6 +824,10 @@
                                                     <div class="place-self-center self-center"><label class="font-medium">Scope of Work:</label></div>
                                                     <div class=""><input type="text" id="UnitInfoSoW" name="UnitInfoSoW" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pointer-events-none"></div>
                                                 </div>
+                                                <div class="grid grid-cols-2 mt-0.5">
+                                                    <div class="place-self-center self-center"><label class="font-medium">Remarks:</label></div>
+                                                    <div class=""><textarea id="WSRemarks" name="WSRemarks" rows="4" class="remarks block w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea></div>
+                                                </div>
                                             </div>
 
                                             {{-- PLAN TAB --}}
@@ -1422,7 +1426,7 @@
                                                     </div>
                                                     <div class=""></div>
                                                     <div class="col-span-2">
-                                                        <textarea id="WSRemarks" name="WSRemarks" rows="8" class="remarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea>
+                                                        <textarea id="PIRemarks" name="PIRemarks" rows="8" class="piremarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea>
                                                     </div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="updateRemarks" name="updateRemarks" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">UPDATE</button></div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="closePI" name="closePI" data-modal-hide="modalPartInfo" type="button" class="text-white bg-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">EXIT</button></div>
@@ -1821,6 +1825,7 @@
                         dataType: "json",
                         data: {bay:bay, output: output, _token: _token,},
                         success: function(result) {
+                            // $('#PIRemarks').val(result.PIRemarks);
                             $('#UnitInfoToA').val(result.WSToA);
                             $('#UnitInfoPOUID').val(result.WSPOUID);
                             $('#UnitInfoJON').val(result.WSID);
@@ -1839,6 +1844,7 @@
                             $('#UnitInfoModel').val(result.POUModel);
                             $('#UnitInfoMastType').val(result.POUMastType);
                             $('#UnitInfoUType').val(result.WSUnitType);
+                            $('#WSRemarks').val(result.WSRemarks);
                                     // For Plan Total
                                         var startDate = new Date(result.WSATIDS);
                                         var endDate = new Date(result.WSATRDE);
@@ -2848,6 +2854,29 @@
 
             // Click Parts Info
                 jQuery(document).on("click","#PIBayMon", function(){
+                    $('#installPI').hide();
+                    $('#PIID').val('');
+                    $('#PIMRINum').val('');
+                    $('#PIPartNum').val('');
+                    $('#PIDescription').val('');
+                    $('#PIQuantity').val('');
+                        var currentDate = new Date();
+                        var month = currentDate.getMonth() + 1;
+                        var day = currentDate.getDate();
+                        var year = currentDate.getFullYear();
+
+                        if (month < 10) {
+                            month = "0" + month;
+                        }
+                        if (day < 10) {
+                            day = "0" + day;
+                        }
+
+                        var formattedDate = month + "/" + day + "/" + year;
+                    $('#PIDateReq').val(formattedDate);
+                    $('#PIDateRec').val(formattedDate);
+                    $('#PIReason').val(0);
+
                     var JONum = $('#UnitInfoJON').val();
                     $('#PIJONum').val(JONum);
                     var _token = $('input[name="_token"]').val();
@@ -2858,6 +2887,7 @@
                         dataType: 'json',
                         data: {JONum: JONum, _token: _token,},
                         success: function(result) {
+                            $('#PIRemarks').val(result.remarks);
                             $('#PParts').html(result.result1);
                             $('#PPartsI').html(result.result2);
 
@@ -3649,7 +3679,7 @@
             // Save Remarks
                 jQuery(document).on( "click", "#updateRemarks", function(){
                     var WSJONum = $('#UnitInfoJON').val();
-                    var URemarks = $('#WSRemarks').val();
+                    var URemarks = $('#PIRemarks').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({

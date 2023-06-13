@@ -2111,7 +2111,7 @@
                                     <option value="" selected disabled></option>
                                     <option value="1">WAITING FOR REPAIR UNIT</option>
                                     <option value="2">UNDER REPAIR UNIT</option>
-                                    <option value="3">GOOD UNIT</option>
+                                    <option value="3">USED GOOD UNIT</option>
                                     <option value="4">SERVICE UNIT</option>
                                     <option value="5">FOR SCRAP UNIT</option>
                                     <option value="6">FOR SALE UNIT</option>
@@ -2753,8 +2753,8 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.deletePOU') }}",
-                        method:"POST",
+                        url:"{{ route('admin_monitoring.report.deletePOU') }}",
+                        method:"GET",
                         data:{id: id, unittype: unittype, _token: _token,},
                         success:function(result){
                             $("#success-modal").removeClass("hidden");
@@ -2775,7 +2775,7 @@
                     // alert(area);
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getBay') }}",
+                        url:"{{ route('admin_monitoring.report.getBay') }}",
                         method:"GET",
                         data:{area: area, _token: _token,},
                         success:function(result){
@@ -2814,7 +2814,7 @@
                 jQuery(document).on( "click", "#transferPOU", function(){
                     
                     $.ajax({
-                        url:"{{ route('r-workshop.report.transferPullOut') }}",
+                        url:"{{ route('admin_monitoring.report.transferPullOut') }}",
                         method:"POST",
                         data: $("#formPOUT").serialize(),
                         success:function(result){
@@ -2871,7 +2871,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        url:"{{ route('admin_monitoring.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -3033,7 +3033,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        url:"{{ route('admin_monitoring.report.getPOUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -3197,7 +3197,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.deleteCU') }}",
+                        url:"{{ route('admin_monitoring.report.deleteCU') }}",
                         method:"POST",
                         data:{id: id, cubay: cubay, _token: _token,},
                         success:function(result){
@@ -3255,30 +3255,6 @@
                     });
                 });
 
-            // Filter by Classification Pull Out Unit
-                $(".RadioBrand").on("change", function() {
-                    alert('HI!');
-                    // var input, filter, table, tr, td, i, txtValue;
-                    // input = document.getElementById("PUnitClassification");
-                    // filter = input.value.toUpperCase();
-                    // table = document.getElementById("tableBPOU");
-                    // tr = table.getElementsByTagName("tr");
-
-                    // for (i = 0; i < tr.length; i++) {
-                    //     td = tr[i].getElementsByTagName("td")[9];
-                    //     if (td) {
-                    //         txtValue = td.textContent || td.innerText;
-                    //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    //             tr[i].style.display = "";
-                    //         } else {
-                    //             tr[i].style.display = "none";
-                    //         }
-                    //     }
-                    // }
-                    
-                    // $('#PTableSearch').val('');
-                });
-
             // Filter by Brand Workshop Unit
                 $('input[name="RadioBrand"]').change(function() {
                     var unitBrand = $('input[name="RadioBrand"]:checked').val();
@@ -3305,7 +3281,7 @@
                     $('#PUnitClassification').val('');
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.sortPullOut') }}",
+                        url: "{{ route('admin_monitoring.report.sortPullOut') }}",
                         type: "GET",
                         data: {unitStatus: unitStatus, _token: _token},
                         success: function(result) {
@@ -3472,7 +3448,7 @@
 
                 $('#saveNewUnitH').on( "click", function(){
                     $.ajax({
-                        url: "{{ route('r-workshop.report.saveBrandNew') }}",
+                        url: "{{ route('admin_monitoring.report.saveBrandNew') }}",
                         type: "POST",
                         data: $("#formNewUnit").serialize(),
                         success: function(result) {
@@ -3505,7 +3481,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getBNUData') }}",
+                        url:"{{ route('admin_monitoring.report.getBNUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -3513,10 +3489,10 @@
                             $('#BNUIDe').val(result.BNUnitIDx);
                                 if(result.BNUUnitType == 1) {
                                     $('#BNUnitType').val(result.BNUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                                 }else{
                                     $('#BNUnitType').val(result.BNUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
                                 }
                             $('#BNUArrivalDate').val(result.BNUArrivalDate);
                             $('#BNUBrand').val(result.BNUBrand);
@@ -3661,7 +3637,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getBNUData') }}",
+                        url:"{{ route('admin_monitoring.report.getBNUData') }}",
                         method:"GET",
                         dataType: 'json',
                         data:{id: id, utype: utype, _token: _token,},
@@ -3669,10 +3645,10 @@
                             $('#BNUIDe').val(id);
                                 if(result.BNUnitType == 1) {
                                     $('#BNUnitType').val(result.BNUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                                 }else{
-                                    $('#BNUUnitType').val(result.BNUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                    $('#BNUnitType').val(result.BNUnitType);
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
                                 }
                             $('#BNUArrivalDate').val(result.BNUArrivalDate);
                             $('#BNUBrand').val(result.BNUBrand);
@@ -3831,7 +3807,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.deleteBNU') }}",
+                        url:"{{ route('admin_monitoring.report.deleteBNU') }}",
                         method:"POST",
                         data:{id: id, unittype: unittype, _token: _token,},
                         success:function(result){
@@ -3852,7 +3828,7 @@
                         var _token = $('input[name="_token"]').val();
 
                         $.ajax({
-                            url:"{{ route('r-workshop.report.getBay') }}",
+                            url:"{{ route('admin_monitoring.report.getBay') }}",
                             method:"GET",
                             data:{area: area, _token: _token,},
                             success:function(result){
@@ -3876,7 +3852,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getBay') }}",
+                        url:"{{ route('admin_monitoring.report.getBay') }}",
                         method:"GET",
                         data:{area: area, _token: _token,},
                         success:function(result){
@@ -3889,7 +3865,7 @@
                 jQuery(document).on( "click", "#transferBNU", function(){
                     
                     $.ajax({
-                        url:"{{ route('r-workshop.report.transferNewUnit') }}",
+                        url:"{{ route('admin_monitoring.report.transferNewUnit') }}",
                         method:"POST",
                         data: $("#formBNUT").serialize(),
                         success:function(result){

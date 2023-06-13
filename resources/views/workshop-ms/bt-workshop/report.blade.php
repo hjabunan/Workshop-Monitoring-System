@@ -3517,12 +3517,12 @@
                         data:{id: id, utype: utype, _token: _token,},
                         success:function(result){
                             $('#BNUIDe').val(result.BNUnitIDx);
-                                if(result.BNUUnitType == 1) {
+                                if(result.BNUnitType == 1) {
                                     $('#BNUnitType').val(result.BNUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                                 }else{
                                     $('#BNUnitType').val(result.BNUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
                                 }
                             $('#BNUArrivalDate').val(result.BNUArrivalDate);
                             $('#BNUBrand').val(result.BNUBrand);
@@ -3675,10 +3675,10 @@
                             $('#BNUIDe').val(id);
                                 if(result.BNUnitType == 1) {
                                     $('#BNUnitType').val(result.BNUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
                                 }else{
-                                    $('#BNUUnitType').val(result.BNUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                    $('#BNUnitType').val(result.BNUnitType);
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
                                 }
                             $('#BNUArrivalDate').val(result.BNUArrivalDate);
                             $('#BNUBrand').val(result.BNUBrand);

@@ -355,18 +355,31 @@ Route::group(['middleware' => 'auth'],function(){
             // Workshop
             Route::GET('/workshop-ms/admin_monitoring/report/sortBrand', [AdminMonitor::class, 'sortBrand'])->name('admin_monitoring.report.sortBrand');
 
+            // Brand New Unit
+                Route::POST('/workshop-ms/admin_monitoring/report/saveBrandNew', [AdminMonitor::class, 'saveBrandNew'])->name('admin_monitoring.report.saveBrandNew');
+                Route::GET('/workshop-ms/admin_monitoring/report/getBNUData', [AdminMonitor::class, 'getBNUData'])->name('admin_monitoring.report.getBNUData');
+                Route::POST('/workshop-ms/admin_monitoring/report/deleteBNU', [AdminMonitor::class, 'deleteBNU'])->name('admin_monitoring.report.deleteBNU');
+                Route::POST('/workshop-ms/admin_monitoring/report/transferNewUnit', [AdminMonitor::class, 'transferNewUnit'])->name('admin_monitoring.report.transferNewUnit');
+
             // Pull Out Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/savePullOut', [AdminMonitor::class, 'savePullOut'])->name('admin_monitoring.report.savePullOut');
                 Route::GET('/workshop-ms/admin_monitoring/report/getPOUData', [AdminMonitor::class, 'getPOUData'])->name('admin_monitoring.report.getPOUData');
                 Route::GET('/workshop-ms/admin_monitoring/report/deletePOU', [AdminMonitor::class, 'deletePOU'])->name('admin_monitoring.report.deletePOU');
+                Route::GET('/workshop-ms/admin_monitoring/report/getBay', [AdminMonitor::class, 'getBay'])->name('admin_monitoring.report.getBay');
+                Route::POST('/workshop-ms/admin_monitoring/report/transferPullOut', [AdminMonitor::class, 'transferPullOut'])->name('admin_monitoring.report.transferPullOut');
+                Route::GET('/workshop-ms/admin_monitoring/report/getUnitStatus', [AdminMonitor::class, 'getUnitStatus'])->name('admin_monitoring.report.getUnitStatus');
+                Route::GET('/workshop-ms/admin_monitoring/report/sortPullOut', [AdminMonitor::class, 'sortPullOut'])->name('admin_monitoring.report.sortPullOut');
+    
+            // Confirm Unit
+                Route::POST('/workshop-ms/admin_monitoring/report/deleteCU', [AdminMonitor::class, 'deleteCU'])->name('admin_monitoring.report.deleteCU');
 
         // Technician Schedule
-        Route::get('/workshop-ms/admin_monitoring', [TechnicianScheduleController::class, 'index'])->name('admin_monitoring.tech_schedule');
+        Route::GET('/workshop-ms/admin_monitoring', [TechnicianScheduleController::class, 'index'])->name('admin_monitoring.tech_schedule');
         Route::POST('/workshop-ms/admin_monitoring/saveSchedule', [TechnicianScheduleController::class, 'saveSchedule'])->name('admin_monitoring.tech_schedule.saveSchedule');
-        Route::post('/workshop-ms/admin_monitoring/getSchedule', [TechnicianScheduleController::class, 'getSchedule'])->name('admin_monitoring.tech_schedule.getSchedule');
+        Route::POST('/workshop-ms/admin_monitoring/getSchedule', [TechnicianScheduleController::class, 'getSchedule'])->name('admin_monitoring.tech_schedule.getSchedule');
         Route::POST('/workshop-ms/admin_monitoring/deleteSchedule', [TechnicianScheduleController::class, 'deleteSchedule'])->name('admin_monitoring.tech_schedule.deleteSchedule');
-        Route::post('/workshop-ms/admin_monitoring/filterSchedule', [TechnicianScheduleController::class, 'filterSchedule'])->name('admin_monitoring.tech_schedule.filterSchedule');
-        Route::post('/workshop-ms/admin_monitoring/filterScheduleX', [TechnicianScheduleController::class, 'filterScheduleX'])->name('admin_monitoring.tech_schedule.filterScheduleX');
+        Route::POST('/workshop-ms/admin_monitoring/filterSchedule', [TechnicianScheduleController::class, 'filterSchedule'])->name('admin_monitoring.tech_schedule.filterSchedule');
+        Route::POST('/workshop-ms/admin_monitoring/filterScheduleX', [TechnicianScheduleController::class, 'filterScheduleX'])->name('admin_monitoring.tech_schedule.filterScheduleX');
         Route::GET('/workshop-ms/admin_monitoring/getJONum', [TechnicianScheduleController::class, 'getJONum'])->name('admin_monitoring.tech_schedule.getJONum');
 
     // START OF ADMIN MONITORING > WAREHOUSE

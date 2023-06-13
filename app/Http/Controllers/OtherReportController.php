@@ -445,6 +445,7 @@ class OtherReportController extends Controller
                         'WSToA' => $request->UnitInfoToA,
                         'WSStatus' => $request->UnitInfoStatus,
                         'WSUnitType' => $request->UnitInfoUType,
+                        'WSRemarks' => $request->WSRemarks,
                     ]);
 
         $result='';
@@ -974,13 +975,21 @@ class OtherReportController extends Controller
                         </tr>
                 ';
         }
+        
+        $PIRemarks = DB::SELECT('SELECT DISTINCT PIRemarks from unit_parts where PIJONum=?',[$request->JONum]);
 
-        $result = array(
-                'result1' => $result1,
-                'result2' => $result2,
-                'count1' => $partcount1,
-                'count2' => $partcount2,
-        );
+        $Remarks = '';
+        foreach($PIRemarks as $REM){
+            $Remarks .= $REM->PIRemarks;
+        }
+
+            $result = array(
+                    'result1' => $result1,
+                    'result2' => $result2,
+                    'count1' => $partcount1,
+                    'count2' => $partcount2,
+                    'remarks' => $Remarks,
+            );
         
         return json_encode($result);
     }
@@ -1630,9 +1639,9 @@ class OtherReportController extends Controller
     }
 
     public function saveRemarks(Request $request){
-        UnitWorkshop::where('id', $request->WSJONum)
+        UnitParts::where('PIJONUm', $request->WSJONum)
         ->update([
-            'WSRemarks' => $request->URemarks,
+            'PIRemarks' => $request->URemarks,
         ]);
     }
 

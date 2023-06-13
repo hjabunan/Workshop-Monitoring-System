@@ -266,6 +266,7 @@ class BTReportController extends Controller
                                             'WSAAIDE' => $WS->WSAAIDE,
                                             'WSAARDS' => $WS->WSAARDS,
                                             'WSAARDE' => $WS->WSAARDE,
+                                            'WSRemarks' => $WS->WSRemarks,
                                             'DTTable' => $DTtable,
                                             'Total_DTTDays' => $totalDTTDays,
                                             'DTTotalsLOS' => $dtReasons['LACK OF SPACE'],
@@ -313,6 +314,7 @@ class BTReportController extends Controller
                                             'WSAAIDE' => $WS->WSAAIDE,
                                             'WSAARDS' => $WS->WSAARDS,
                                             'WSAARDE' => $WS->WSAARDE,
+                                            'WSRemarks' => $WS->WSRemarks,
                                             'DTTable' => $DTtable,
                                             'Total_DTTDays' => $totalDTTDays,
                                             'DTTotalsLOS' => $dtReasons['LACK OF SPACE'],
@@ -400,6 +402,7 @@ class BTReportController extends Controller
                                             'WSAAIDE' => $WS->WSAAIDE,
                                             'WSAARDS' => $WS->WSAARDS,
                                             'WSAARDE' => $WS->WSAARDE,
+                                            'WSRemarks' => $WS->WSRemarks,
                                             'Total_DTTDays' => 0,
                                             'count1' => $partcount1,
                                             'count2' => $partcount2,
@@ -439,6 +442,7 @@ class BTReportController extends Controller
                                             'WSAAIDE' => $WS->WSAAIDE,
                                             'WSAARDS' => $WS->WSAARDS,
                                             'WSAARDE' => $WS->WSAARDE,
+                                            'WSRemarks' => $WS->WSRemarks,
                                             'Total_DTTDays' => 0,
                                             'count1' => $partcount1,
                                             'count2' => $partcount2,
@@ -461,6 +465,7 @@ class BTReportController extends Controller
                         'WSToA' => $request->UnitInfoToA,
                         'WSStatus' => $request->UnitInfoStatus,
                         'WSUnitType' => $request->UnitInfoUType,
+                        'WSRemarks' => $request->WSRemarks,
                     ]);
 
         $result='';
@@ -990,13 +995,21 @@ class BTReportController extends Controller
                         </tr>
                 ';
         }
+        
+        $PIRemarks = DB::SELECT('SELECT DISTINCT PIRemarks from unit_parts where PIJONum=?',[$request->JONum]);
 
-        $result = array(
-                'result1' => $result1,
-                'result2' => $result2,
-                'count1' => $partcount1,
-                'count2' => $partcount2,
-        );
+        $Remarks = '';
+        foreach($PIRemarks as $REM){
+            $Remarks .= $REM->PIRemarks;
+        }
+
+            $result = array(
+                    'result1' => $result1,
+                    'result2' => $result2,
+                    'count1' => $partcount1,
+                    'count2' => $partcount2,
+                    'remarks' => $Remarks,
+            );
         
         return json_encode($result);
     }
@@ -1646,9 +1659,9 @@ class BTReportController extends Controller
     }
 
     public function saveRemarks(Request $request){
-        UnitWorkshop::where('id', $request->WSJONum)
+        UnitParts::where('PIJONum', $request->WSJONum)
         ->update([
-            'WSRemarks' => $request->URemarks,
+            'PIRemarks' => $request->URemarks,
         ]);
     }
 
@@ -2660,68 +2673,67 @@ class BTReportController extends Controller
                     }
                 $POU->POURemarks = $request->POURemarks;
                 $POU->update();
-
-                $POUB = new UnitPullOutBat();
-                $POUB->POUID = $POU->id;
-                $POUB->POUBABrand = strtoupper($request->POUBABrand);
-                $POUB->POUBABatType = strtoupper($request->POUBABatType);
-                $POUB->POUBASerialNum = strtoupper($request->POUBASerialNum);
-                $POUB->POUBACode = strtoupper($request->POUBACode);
-                $POUB->POUBAAmper = strtoupper($request->POUBAAmper);
-                $POUB->POUBAVolt = strtoupper($request->POUBAVolt);
-                $POUB->POUBACCable = strtoupper($request->POUBACCable);
-                $POUB->POUBACTable = strtoupper($request->POUBACTable);
                 
-                if($request->has('POUBatSpare1')){
-                    $POUB->POUwSpareBat1 = strtoupper($request->POUwBatSpare1);
-                    $POUB->POUSB1Brand = strtoupper($request->POUSB1Brand);
-                    $POUB->POUSB1BatType = strtoupper($request->POUSB1BatType);
-                    $POUB->POUSB1SerialNum = strtoupper($request->POUSB1SerialNum);
-                    $POUB->POUSB1Code = strtoupper($request->POUSB1Code);
-                    $POUB->POUSB1Amper = strtoupper($request->POUSB1Amper);
-                    $POUB->POUSB1Volt = strtoupper($request->POUSB1Volt);
-                    $POUB->POUSB1CCable = strtoupper($request->POUSB1CCable);
-                    $POUB->POUSB1CTable = strtoupper($request->POUSB1CTable);
-                }else{
-                    $POUB->POUwSpareBat1 = "";
-                    $POUB->POUSB1Brand = "";
-                    $POUB->POUSB1BatType = "";
-                    $POUB->POUSB1SerialNum = "";
-                    $POUB->POUSB1Code = "";
-                    $POUB->POUSB1Amper = "";
-                    $POUB->POUSB1Volt = "";
-                    $POUB->POUSB1CCable = "";
-                    $POUB->POUSB1CTable = "";
+                $POUBData = [
+                    'POUBABrand' => strtoupper($request->POUBABrand),
+                    'POUBABatType' => strtoupper($request->POUBABatType),
+                    'POUBASerialNum' => strtoupper($request->POUBASerialNum),
+                    'POUBACode' => strtoupper($request->POUBACode),
+                    'POUBAAmper' => strtoupper($request->POUBAAmper),
+                    'POUBAVolt' => strtoupper($request->POUBAVolt),
+                    'POUBACCable' => strtoupper($request->POUBACCable),
+                    'POUBACTable' => strtoupper($request->POUBACTable),
+                    'POUwSpareBat1' => '',
+                    'POUSB1Brand' => '',
+                    'POUSB1BatType' => '',
+                    'POUSB1SerialNum' => '',
+                    'POUSB1Code' => '',
+                    'POUSB1Amper' => '',
+                    'POUSB1Volt' => '',
+                    'POUSB1CCable' => '',
+                    'POUSB1CTable' => '',
+                    'POUwSpareBat2' => '',
+                    'POUSB2Brand' => '',
+                    'POUSB2BatType' => '',
+                    'POUSB2SerialNum' => '',
+                    'POUSB2Code' => '',
+                    'POUSB2Amper' => '',
+                    'POUSB2Volt' => '',
+                    'POUSB2CCable' => '',
+                    'POUSB2CTable' => '',
+                    'POUCModel' => strtoupper($request->POUCModel),
+                    'POUCSerialNum' => strtoupper($request->POUCSerialNum),
+                    'POUCCode' => strtoupper($request->POUCCode),
+                    'POUCAmper' => strtoupper($request->POUCAmper),
+                    'POUCVolt' => strtoupper($request->POUCVolt),
+                    'POUCInput' => strtoupper($request->POUCInput),
+                ];
+                
+                if ($request->has('POUwBatSpare1')) {
+                    $POUBData['POUwSpareBat1'] = strtoupper($request->POUwBatSpare1);
+                    $POUBData['POUSB1Brand'] = strtoupper($request->POUSB1Brand);
+                    $POUBData['POUSB1BatType'] = strtoupper($request->POUSB1BatType);
+                    $POUBData['POUSB1SerialNum'] = strtoupper($request->POUSB1SerialNum);
+                    $POUBData['POUSB1Code'] = strtoupper($request->POUSB1Code);
+                    $POUBData['POUSB1Amper'] = strtoupper($request->POUSB1Amper);
+                    $POUBData['POUSB1Volt'] = strtoupper($request->POUSB1Volt);
+                    $POUBData['POUSB1CCable'] = strtoupper($request->POUSB1CCable);
+                    $POUBData['POUSB1CTable'] = strtoupper($request->POUSB1CTable);
                 }
                 
-                if($request->has('POUBatSpare2')){
-                    $POUB->POUwSpareBat2 = strtoupper($request->POUwBatSpare2);
-                    $POUB->POUSB2Brand = strtoupper($request->POUSB2Brand);
-                    $POUB->POUSB2BatType = strtoupper($request->POUSB2BatType);
-                    $POUB->POUSB2SerialNum = strtoupper($request->POUSB2SerialNum);
-                    $POUB->POUSB2Code = strtoupper($request->POUSB2Code);
-                    $POUB->POUSB2Amper = strtoupper($request->POUSB2Amper);
-                    $POUB->POUSB2Volt = strtoupper($request->POUSB2Volt);
-                    $POUB->POUSB2CCable = strtoupper($request->POUSB2CCable);
-                    $POUB->POUSB2CTable = strtoupper($request->POUSB2CTable);
-                }else{
-                    $POUB->POUwSpareBat2 = "";
-                    $POUB->POUSB2Brand = "";
-                    $POUB->POUSB2BatType = "";
-                    $POUB->POUSB2SerialNum = "";
-                    $POUB->POUSB2Code = "";
-                    $POUB->POUSB2Amper = "";
-                    $POUB->POUSB2Volt = "";
-                    $POUB->POUSB2CCable = "";
-                    $POUB->POUSB2CTable = "";
+                if ($request->has('POUwBatSpare2')) {
+                    $POUBData['POUwSpareBat2'] = strtoupper($request->POUwBatSpare2);
+                    $POUBData['POUSB2Brand'] = strtoupper($request->POUSB2Brand);
+                    $POUBData['POUSB2BatType'] = strtoupper($request->POUSB2BatType);
+                    $POUBData['POUSB2SerialNum'] = strtoupper($request->POUSB2SerialNum);
+                    $POUBData['POUSB2Code'] = strtoupper($request->POUSB2Code);
+                    $POUBData['POUSB2Amper'] = strtoupper($request->POUSB2Amper);
+                    $POUBData['POUSB2Volt'] = strtoupper($request->POUSB2Volt);
+                    $POUBData['POUSB2CCable'] = strtoupper($request->POUSB2CCable);
+                    $POUBData['POUSB2CTable'] = strtoupper($request->POUSB2CTable);
                 }
-                $POUB->POUCModel = strtoupper($request->POUCModel);
-                $POUB->POUCSerialNum = strtoupper($request->POUCSerialNum);
-                $POUB->POUCCode = strtoupper($request->POUCCode);
-                $POUB->POUCAmper = strtoupper($request->POUCAmper);
-                $POUB->POUCVolt = strtoupper($request->POUCVolt);
-                $POUB->POUCInput = strtoupper($request->POUCInput);
-                $POUB->update();
+                
+                UnitPullOutBat::where('POUID', $POUIDe)->update($POUBData);
             }
         }
 
@@ -3777,70 +3789,69 @@ class BTReportController extends Controller
                     }else{
                         $BNU->POUCustAddress = "";
                     }
-                $BNU->BNURemarks = $request->BNURemarks;
+                $BNU->POURemarks = $request->BNURemarks;
                 $BNU->update();
 
-                $BNUB = new UnitPullOutBat();
-                $BNUB->POUID = $BNU->id;
-                $BNUB->POUBABrand = strtoupper($request->BNUBABrand);
-                $BNUB->POUBABatType = strtoupper($request->BNUBABatType);
-                $BNUB->POUBASerialNum = strtoupper($request->BNUBASerialNum);
-                $BNUB->POUBACode = strtoupper($request->BNUBACode);
-                $BNUB->POUBAAmper = strtoupper($request->BNUBAAmper);
-                $BNUB->POUBAVolt = strtoupper($request->BNUBAVolt);
-                $BNUB->POUBACCable = strtoupper($request->BNUBACCable);
-                $BNUB->POUBACTable = strtoupper($request->BNUBACTable);
+                $BNUBData = [
+                    'POUBABrand' => strtoupper($request->BNUBABrand),
+                    'POUBABatType' => strtoupper($request->BNUBABatType),
+                    'POUBASerialNum' => strtoupper($request->BNUBASerialNum),
+                    'POUBACode' => strtoupper($request->BNUBACode),
+                    'POUBAAmper' => strtoupper($request->BNUBAAmper),
+                    'POUBAVolt' => strtoupper($request->BNUBAVolt),
+                    'POUBACCable' => strtoupper($request->BNUBACCable),
+                    'POUBACTable' => strtoupper($request->BNUBACTable),
+                    'POUwSpareBat1' => '',
+                    'POUSB1Brand' => '',
+                    'POUSB1BatType' => '',
+                    'POUSB1SerialNum' => '',
+                    'POUSB1Code' => '',
+                    'POUSB1Amper' => '',
+                    'POUSB1Volt' => '',
+                    'POUSB1CCable' => '',
+                    'POUSB1CTable' => '',
+                    'POUwSpareBat2' => '',
+                    'POUSB2Brand' => '',
+                    'POUSB2BatType' => '',
+                    'POUSB2SerialNum' => '',
+                    'POUSB2Code' => '',
+                    'POUSB2Amper' => '',
+                    'POUSB2Volt' => '',
+                    'POUSB2CCable' => '',
+                    'POUSB2CTable' => '',
+                    'POUCModel' => strtoupper($request->BNUCModel),
+                    'POUCSerialNum' => strtoupper($request->BNUCSerialNum),
+                    'POUCCode' => strtoupper($request->BNUCCode),
+                    'POUCAmper' => strtoupper($request->BNUCAmper),
+                    'POUCVolt' => strtoupper($request->BNUCVolt),
+                    'POUCInput' => strtoupper($request->BNUCInput),
+                ];
                 
-                if($request->has('BNUBatSpare1')){
-                    $BNUB->POUwSpareBat1 = strtoupper($request->BNUwBatSpare1);
-                    $BNUB->POUSB1Brand = strtoupper($request->BNUSB1Brand);
-                    $BNUB->POUSB1BatType = strtoupper($request->BNUSB1BatType);
-                    $BNUB->POUSB1SerialNum = strtoupper($request->BNUSB1SerialNum);
-                    $BNUB->POUSB1Code = strtoupper($request->BNUSB1Code);
-                    $BNUB->POUSB1Amper = strtoupper($request->BNUSB1Amper);
-                    $BNUB->POUSB1Volt = strtoupper($request->BNUSB1Volt);
-                    $BNUB->POUSB1CCable = strtoupper($request->BNUSB1CCable);
-                    $BNUB->POUSB1CTable = strtoupper($request->BNUSB1CTable);
-                }else{
-                    $BNUB->POUwSpareBat1 = "";
-                    $BNUB->POUSB1Brand = "";
-                    $BNUB->POUSB1BatType = "";
-                    $BNUB->POUSB1SerialNum = "";
-                    $BNUB->POUSB1Code = "";
-                    $BNUB->POUSB1Amper = "";
-                    $BNUB->POUSB1Volt = "";
-                    $BNUB->POUSB1CCable = "";
-                    $BNUB->POUSB1CTable = "";
+                if ($request->has('POUwBatSpare1')) {
+                    $BNUBData['POUwSpareBat1'] = strtoupper($request->BNUwBatSpare1);
+                    $BNUBData['POUSB1Brand'] = strtoupper($request->BNUSB1Brand);
+                    $BNUBData['POUSB1BatType'] = strtoupper($request->BNUSB1BatType);
+                    $BNUBData['POUSB1SerialNum'] = strtoupper($request->BNUSB1SerialNum);
+                    $BNUBData['POUSB1Code'] = strtoupper($request->BNUSB1Code);
+                    $BNUBData['POUSB1Amper'] = strtoupper($request->BNUSB1Amper);
+                    $BNUBData['POUSB1Volt'] = strtoupper($request->BNUSB1Volt);
+                    $BNUBData['POUSB1CCable'] = strtoupper($request->BNUSB1CCable);
+                    $BNUBData['POUSB1CTable'] = strtoupper($request->BNUSB1CTable);
                 }
                 
-                if($request->has('BNUBatSpare2')){
-                    $BNUB->POUwSpareBat2 = strtoupper($request->BNUwBatSpare2);
-                    $BNUB->POUSB2Brand = strtoupper($request->BNUSB2Brand);
-                    $BNUB->POUSB2BatType = strtoupper($request->BNUSB2BatType);
-                    $BNUB->POUSB2SerialNum = strtoupper($request->BNUSB2SerialNum);
-                    $BNUB->POUSB2Code = strtoupper($request->BNUSB2Code);
-                    $BNUB->POUSB2Amper = strtoupper($request->BNUSB2Amper);
-                    $BNUB->POUSB2Volt = strtoupper($request->BNUSB2Volt);
-                    $BNUB->POUSB2CCable = strtoupper($request->BNUSB2CCable);
-                    $BNUB->POUSB2CTable = strtoupper($request->BNUSB2CTable);
-                }else{
-                    $BNUB->POUwSpareBat2 = "";
-                    $BNUB->POUSB2Brand = "";
-                    $BNUB->POUSB2BatType = "";
-                    $BNUB->POUSB2SerialNum = "";
-                    $BNUB->POUSB2Code = "";
-                    $BNUB->POUSB2Amper = "";
-                    $BNUB->POUSB2Volt = "";
-                    $BNUB->POUSB2CCable = "";
-                    $BNUB->POUSB2CTable = "";
+                if ($request->has('POUwBatSpare2')) {
+                    $BNUBData['POUwSpareBat2'] = strtoupper($request->BNUwBatSpare2);
+                    $BNUBData['POUSB2Brand'] = strtoupper($request->BNUSB2Brand);
+                    $BNUBData['POUSB2BatType'] = strtoupper($request->BNUSB2BatType);
+                    $BNUBData['POUSB2SerialNum'] = strtoupper($request->BNUSB2SerialNum);
+                    $BNUBData['POUSB2Code'] = strtoupper($request->BNUSB2Code);
+                    $BNUBData['POUSB2Amper'] = strtoupper($request->BNUSB2Amper);
+                    $BNUBData['POUSB2Volt'] = strtoupper($request->BNUSB2Volt);
+                    $BNUBData['POUSB2CCable'] = strtoupper($request->BNUSB2CCable);
+                    $BNUBData['POUSB2CTable'] = strtoupper($request->BNUSB2CTable);
                 }
-                $BNUB->POUCModel = strtoupper($request->BNUCModel);
-                $BNUB->POUCSerialNum = strtoupper($request->BNUCSerialNum);
-                $BNUB->POUCCode = strtoupper($request->BNUCCode);
-                $BNUB->POUCAmper = strtoupper($request->BNUCAmper);
-                $BNUB->POUCVolt = strtoupper($request->BNUCVolt);
-                $BNUB->POUCInput = strtoupper($request->BNUCInput);
-                $BNUB->update();
+                
+                UnitPullOutBat::where('POUID', $NewUnitIDe)->update($BNUBData);
             }
         }
 
