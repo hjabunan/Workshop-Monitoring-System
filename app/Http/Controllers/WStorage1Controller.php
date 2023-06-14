@@ -99,6 +99,7 @@ class WStorage1Controller extends Controller
                                     'WSUnitType' => $WS->WSUnitType,
                                     'initials' => $WS->initials,
                                     'WSVerifiedBy' => $WS->WSVerifiedBy,
+                                    'WSRemarks' => $WS->WSRemarks,
                                     'WSUnitCondition' => $WS->WSUnitCondition,
 
                                     'POUCustomer' => $WS->POUCustomer,
@@ -165,62 +166,70 @@ class WStorage1Controller extends Controller
     }
 
     public function saveTransferData(Request $request){
-        UnitConfirm::WHERE('POUID', $request->POUIDx)
+        if($request->input('Radio_Transfer') == 1){
+            UnitConfirm::WHERE('POUID', $request->POUIDx)
+                        ->UPDATE([
+                            'CUTransferStatus' => $request->UnitStatus,
+                            'CUTransferArea' => $request->UnitArea,
+                            'CUTransferBay' => $request->UnitBay,
+                            'CUTransferRemarks' => $request->UnitRemarksT,
+                        ]);
+     
+            UnitPullOut::WHERE('id', $request->POUIDx)
+                        ->UPDATE([
+                            'POUStatus' => $request->UnitStatus,
+                            'POUTransferArea' => $request->UnitArea,
+                            'POUTransferBay' => $request->UnitBay,
+                            'POUTransferRemarks' => $request->UnitRemarksT,
+                        ]);
+    
+                if($request->UnitArea == 7){
+                    $ToA = "3";
+                }else if(($request->UnitArea >= 14)){
+                    $ToA = "1";
+                }else if(($request->UnitArea <= 3)){
+                    $ToA = "2";
+                }else{
+                    $ToA = "2";
+                }
+    
+            UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
+                        ->UPDATE([
+                            'WSToA' => $ToA,
+                            'WSBayNum' => $request->UnitBay,
+                            'WSStatus' => $request->UnitStatus,
+                        ]);
+    
+            TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
+                                ->UPDATE([
+                                    'baynum' => $request->UnitBay,
+                                ]);
+    
+            BayArea::WHERE('id',$request->BayID)
                     ->UPDATE([
-                        'CUTransferStatus' => $request->UnitStatus,
-                        'CUTransferArea' => $request->UnitArea,
-                        'CUTransferBay' => $request->UnitBay,
-                        'CUTransferRemarks' => $request->UnitRemarksT,
+                        'category' => 1
                     ]);
- 
-        UnitPullOut::WHERE('id', $request->POUIDx)
+    
+            BayArea::WHERE('id',$request->UnitBay)
                     ->UPDATE([
-                        'POUStatus' => $request->UnitStatus,
-                        'POUTransferArea' => $request->UnitArea,
-                        'POUTransferBay' => $request->UnitBay,
-                        'POUTransferRemarks' => $request->UnitRemarksT,
+                        'category' => 2
                     ]);
-
-            if($request->UnitArea == 7){
-                $ToA = "3";
-            }else if(($request->UnitArea >= 14)){
-                $ToA = "1";
-            }else if(($request->UnitArea <= 3)){
-                $ToA = "2";
-            }else{
-                $ToA = "2";
-            }
-
-        UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
-                    ->UPDATE([
-                        'WSToA' => $ToA,
-                        'WSBayNum' => $request->UnitBay,
-                        'WSStatus' => $request->UnitStatus,
-                    ]);
-
-        TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
-                            ->UPDATE([
-                                'baynum' => $request->UnitBay,
-                            ]);
-
-        BayArea::WHERE('id',$request->BayID)
-                ->UPDATE([
-                    'category' => 1
-                ]);
-
-        BayArea::WHERE('id',$request->UnitBay)
-                ->UPDATE([
-                    'category' => 2
-                ]);
+        }else{
+            UnitConfirm::WHERE('POUID', $request->POUIDx)
+                        ->UPDATE([
+                            'CUDelTransfer' => 0,
+                        ]);
+        } 
     }
 
     public function saveUnitData(Request $request){
-        UnitWorkshop::where('id', $request->UnitInfoJON)
+        UnitWorkshop::where('WSPOUID', $request->UnitInfoPOUID)
                     ->update([
                         'WSToA' => $request->UnitInfoToA,
                         'WSStatus' => $request->UnitInfoStatus,
                         'WSUnitType' => $request->WHUnitType,
                         'WSVerifiedBy' => strtoupper($request->WHVB),
+                        'WSRemarks' => strtoupper($request->WSRemarks),
                         'WSUnitCondition' => $request->input('Radio_Unit'),
                     ]);
     }

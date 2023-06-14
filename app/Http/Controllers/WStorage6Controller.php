@@ -100,6 +100,7 @@ class WStorage6Controller extends Controller
                                     'initials' => $WS->initials,
                                     'WSVerifiedBy' => $WS->WSVerifiedBy,
                                     'WSUnitCondition' => $WS->WSUnitCondition,
+                                    'WSRemarks' => $WS->WSRemarks,
 
                                     'POUCustomer' => $WS->POUCustomer,
                                     'POUCustAddress' => $WS->POUCustAddress,
@@ -221,6 +222,7 @@ class WStorage6Controller extends Controller
                         'WSStatus' => $request->UnitInfoStatus,
                         'WSUnitType' => $request->WHUnitType,
                         'WSVerifiedBy' => strtoupper($request->WHVB),
+                        'WSRemarks' => strtoupper($request->WSRemarks),
                         'WSUnitCondition' => $request->input('Radio_Unit'),
                     ]);
     }

@@ -2288,7 +2288,7 @@ class AdminMonitor extends Controller
             $BNU = UnitPullOut::find($request->id);
             $BNU->DELETE();
 
-            UnitPullOutBat::WHERE('POUUID', $request->id)->DELETE();
+            UnitPullOutBat::WHERE('POUID', $request->id)->DELETE();
         }
 
         $result = "";

@@ -2077,18 +2077,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="grid grid-cols-3 mt-2">
-                                                        <div class=""></div>
-                                                        <div class="">
-                                                            <div class="grid grid-rows-2">
-                                                                <div class="row-span-1 place-self-center">
-                                                                    <label for="WHRunningDays" class="block text-sm font-medium text-gray-900 uppercase">Running Days</label>
-                                                                </div>
-                                                                <div class="row-span-1">
-                                                                    <input type="text" name="WHRunningDays" id="WHRunningDays" class="block w-full p-1.5 text-gray-900 text-2xl border border-gray-300 font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase pointer-events-none">
-                                                                </div>
-                                                            </div>
+                                                        <div class="col-span-1 text-left flex items-center">
+                                                            <label for="WHVB" class="block text-sm font-medium text-gray-900">Remarks:</label>
                                                         </div>
-                                                        <div class=""></div>
+                                                        <div class="col-span-2">
+                                                            <textarea id="WSRemarks" name="WSRemarks" rows="3" class="remarks block w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1 uppercase" required></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2106,34 +2100,48 @@
                                             </div>
                                         </div>
                                         <hr class="mt-3 mb-3">
-                                        <div class="">
-                                            <div class="text-left gap-1">
-                                                <label for="legz" class="block mb-1 text-md font-medium text-red-500">LEGEND</label>
+                                        <div class="grid grid-cols-12">
+                                            <div class="col-span-8">
+                                                <div class="text-left gap-1">
+                                                    <label for="legz" class="block mb-1 text-md font-medium text-red-500">LEGEND</label>
+                                                </div>
+                                                <div class="grid grid-cols-5 gap-1">
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for=green" class="block text-sm text-gray-900">Shorter than Target</label>
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="green" class="block text-sm text-gray-900">(1-3 Months or 90 Days)</label>
+                                                    </div>
+                                                    <div style="float: right;" name="green" class="w-full h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="yellow" class="block text-sm text-gray-900">Caution</label>
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="yellow" class="block text-sm text-gray-900">(4-6 Months or 180 days)</label>
+                                                    </div>
+                                                    <div style="float: right;" name="yellow" class="w-full h-6 bg-yellow-400 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="red" class="block text-sm text-gray-900">Danger</label>
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="red" class="block text-sm text-gray-900">(7-9 Months or 270 days)</label>
+                                                    </div>
+                                                    <div style="float: right;" name="red" class="w-full h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="grid grid-cols-5 gap-1">
-                                                <div class="col-span-2 place-self-center">
-                                                    <label for=green" class="block text-sm text-gray-900">Shorter than Target</label>
-                                                </div>
-                                                <div class="col-span-2 place-self-center">
-                                                    <label for="green" class="block text-sm text-gray-900">(1-3 Months or 90 Days)</label>
-                                                </div>
-                                                <div style="float: right;" name="green" class="w-full h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                                                </div>
-                                                <div class="col-span-2 place-self-center">
-                                                    <label for="yellow" class="block text-sm text-gray-900">Caution</label>
-                                                </div>
-                                                <div class="col-span-2 place-self-center">
-                                                    <label for="yellow" class="block text-sm text-gray-900">(4-6 Months or 180 days)</label>
-                                                </div>
-                                                <div style="float: right;" name="yellow" class="w-full h-6 bg-yellow-400 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                                                </div>
-                                                <div class="col-span-2 place-self-center">
-                                                    <label for="red" class="block text-sm text-gray-900">Danger</label>
-                                                </div>
-                                                <div class="col-span-2 place-self-center">
-                                                    <label for="red" class="block text-sm text-gray-900">(7-9 Months or 270 days)</label>
-                                                </div>
-                                                <div style="float: right;" name="red" class="w-full h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                            <div class="col-span-1"></div>
+                                            <div class="col-span-3 bg-blue-300 rounded">
+                                                <br>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="WHRunningDays" class="block text-sm font-medium text-gray-900 uppercase">Running Days</label>
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center ml-7 mr-7">
+                                                        <input type="text" name="WHRunningDays" id="WHRunningDays" class="block w-full p-1.5 text-gray-900 text-2xl border border-gray-300 font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase pointer-events-none">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2408,6 +2416,7 @@
                                     }
                                 $('#WHRunningDays').val(rdays);
                             $('#WHVB').val(result.WSVerifiedBy);
+                            $('#WSRemarks').val(result.WSRemarks);
 
                                     var uCondition = result.WSUnitCondition;
                                 if (uCondition == 1) {

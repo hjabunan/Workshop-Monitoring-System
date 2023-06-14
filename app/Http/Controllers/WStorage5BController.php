@@ -99,6 +99,7 @@ class WStorage5BController extends Controller
                                     'WSUnitType' => $WS->WSUnitType,
                                     'initials' => $WS->initials,
                                     'WSVerifiedBy' => $WS->WSVerifiedBy,
+                                    'WSRemarks' => $WS->WSRemarks,
                                     'WSUnitCondition' => $WS->WSUnitCondition,
 
                                     'POUCustomer' => $WS->POUCustomer,
@@ -215,12 +216,13 @@ class WStorage5BController extends Controller
     }
 
     public function saveUnitData(Request $request){
-        UnitWorkshop::where('id', $request->UnitInfoJON)
+        UnitWorkshop::where('WSPOUID', $request->UnitInfoPOUID)
                     ->update([
                         'WSToA' => $request->UnitInfoToA,
                         'WSStatus' => $request->UnitInfoStatus,
                         'WSUnitType' => $request->WHUnitType,
                         'WSVerifiedBy' => strtoupper($request->WHVB),
+                        'WSRemarks' => strtoupper($request->WSRemarks),
                         'WSUnitCondition' => $request->input('Radio_Unit'),
                     ]);
     }

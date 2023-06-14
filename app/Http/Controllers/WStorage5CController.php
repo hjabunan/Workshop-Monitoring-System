@@ -99,6 +99,7 @@ class WStorage5CController extends Controller
                                     'WSUnitType' => $WS->WSUnitType,
                                     'initials' => $WS->initials,
                                     'WSVerifiedBy' => $WS->WSVerifiedBy,
+                                    'WSRemarks' => $WS->WSRemarks,
                                     'WSUnitCondition' => $WS->WSUnitCondition,
 
                                     'POUCustomer' => $WS->POUCustomer,
@@ -221,6 +222,7 @@ class WStorage5CController extends Controller
                         'WSStatus' => $request->UnitInfoStatus,
                         'WSUnitType' => $request->WHUnitType,
                         'WSVerifiedBy' => strtoupper($request->WHVB),
+                        'WSRemarks' => strtoupper($request->WSRemarks),
                         'WSUnitCondition' => $request->input('Radio_Unit'),
                     ]);
     }
