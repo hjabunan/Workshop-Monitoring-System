@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('unit_confirms', function (Blueprint $table) {
+        Schema::create('unit_deliveries', function (Blueprint $table) {
             $table->id();
             $table->string('POUID');
-            $table->string('CUTransferDate');
-            $table->string('CUTransferRemarks');
-            $table->string('CUTransferStatus');
-            $table->string('CUTransferArea');
-            $table->string('CUTransferBay');
-            $table->string('CUDelTransfer')->default(0);
+            $table->string('DUTransferDate');
+            $table->string('DURemarks');
+            $table->string('DUDelDate');
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('unit_confirms');
+        Schema::dropIfExists('unit_deliveries');
     }
 };

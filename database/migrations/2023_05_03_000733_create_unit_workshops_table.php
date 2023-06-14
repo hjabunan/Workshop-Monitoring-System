@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('WSRemarks');
             $table->string('WSVerifiedBy');
             $table->string('WSUnitCondition');
+            $table->string('WSDelTransfer')->default(0);
             // $table->string('WS');
             $table->timestamps();
         });

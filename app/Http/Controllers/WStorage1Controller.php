@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\BayArea;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
+use App\Models\UnitDelivery;
 use App\Models\UnitPullOut;
 use App\Models\UnitWorkshop;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +30,7 @@ class WStorage1Controller extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                -- WHERE unit_workshops.WSStatus <= 4
+                                WHERE unit_workshops.WSDelTransfer = 0
                             ');
         
         $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
@@ -76,7 +78,7 @@ class WStorage1Controller extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE WSBayNum = ?',[$bay]
+                                WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                             );
 
             if(count($workshop)>0){
@@ -217,8 +219,29 @@ class WStorage1Controller extends Controller
         }else{
             UnitConfirm::WHERE('POUID', $request->POUIDx)
                         ->UPDATE([
-                            'CUDelTransfer' => 0,
+                            'CUDelTransfer' => 1,
                         ]);
+    
+            UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
+                        ->UPDATE([
+                            'WSDelTransfer' => 1,
+                        ]);
+
+                $currentDate = Carbon::now();
+                $formattedDate = $currentDate->format('m/d/Y');
+
+            $DU = new UnitDelivery();
+            $DU->POUID = $request->POUIDx;
+            $DU->DUTransferDate = $formattedDate;
+            $DU->DURemarks = $request->UnitDelRemarksT;
+            $DU->DUDelDate = $request->UnitDelDate;
+            $DU->save();
+    
+            BayArea::WHERE('id',$request->BayID)
+                    ->UPDATE([
+                        'category' => 1
+                    ]);
+            
         } 
     }
 

@@ -2462,7 +2462,7 @@
                                         <label for="UnitRemarksT" class="block text-sm font-medium text-gray-900">Delivery Remarks:</label>
                                     </div>
                                     <div id="input" class="uppercase mt-5 col-span-2">
-                                        <textarea rows="3" name="UnitDelRemarksT" id="UnitRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                                        <textarea rows="3" name="UnitDelRemarksT" id="UnitDelRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
                                     </div>
                                 </div>
                             </form>

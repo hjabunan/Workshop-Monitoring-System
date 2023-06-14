@@ -33,6 +33,14 @@ class AdminMonitor extends Controller
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
                             ');
+        
+
+        $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDeliveredDate,
+                            unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, 
+                            unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
+                            FROM unit_deliveries
+                            INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
+                            ');
 
         $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
