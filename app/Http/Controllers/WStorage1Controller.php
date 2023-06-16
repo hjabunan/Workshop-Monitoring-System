@@ -233,7 +233,7 @@ class WStorage1Controller extends Controller
             $DU = new UnitDelivery();
             $DU->POUID = $request->POUIDx;
             $DU->DUTransferDate = $formattedDate;
-            $DU->DURemarks = $request->UnitDelRemarksT;
+            $DU->DURemarks = strtoupper($request->UnitDelRemarksT);
             $DU->DUDelDate = $request->UnitDelDate;
             $DU->save();
     

@@ -372,6 +372,9 @@ Route::group(['middleware' => 'auth'],function(){
     
             // Confirm Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/deleteCU', [AdminMonitor::class, 'deleteCU'])->name('admin_monitoring.report.deleteCU');
+    
+            // Confirm Unit
+                Route::POST('/workshop-ms/admin_monitoring/report/deleteDU', [AdminMonitor::class, 'deleteDU'])->name('admin_monitoring.report.deleteDU');
 
         // Technician Schedule
         Route::GET('/workshop-ms/admin_monitoring', [TechnicianScheduleController::class, 'index'])->name('admin_monitoring.tech_schedule');

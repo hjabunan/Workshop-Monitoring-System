@@ -1617,10 +1617,22 @@
                         <div class="p-6 space-y-6">
                             <form action="" id="formWHTransfer">
                                 @csrf
-                                <div class="grid grid-cols-5 items-center">
+                                <div class="">
+                                    <div class="grid grid-cols-2 gap-1 place-items-center">
+                                        <div class="flex items-center mr-4">
+                                            <input id="TransferWH" type="radio" value="1" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" checked>
+                                            <label for="TransferWH" class="ml-2 text-sm font-medium text-gray-900">Transfer Warehouse/Workshop</label>
+                                        </div>
+                                        <div class="flex items-center mr-4">
+                                            <input id="TransferDeliver" type="radio" value="2" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="TransferDeliver" class="ml-2 text-sm font-medium text-gray-900">Transfer for Deliver</label>
+                                        </div>
+                                    </div>
+                                </div>
                                     <div class="col-span-5 mb-2">
                                         <input type="hidden" id="POUIDx" name="POUIDx">
                                     </div>
+                                <div id="divWHTransfer" class="grid grid-cols-5 items-center">
                                     <div id="label" class="uppercase mb-2">
                                         <label for="UnitTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
                                     </div>
@@ -1686,6 +1698,27 @@
                                     </div>
                                     <div id="input" class="uppercase mt-5 col-span-2">
                                         <textarea rows="3" name="UnitRemarksT" id="UnitRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                                    </div>
+                                </div>
+
+                                <div id="divDelTransfer" class="grid grid-cols-5 items-center">
+                                    <div id="label" class="uppercase mb-2">
+                                        <label for="UnitDelDate" class="block text-sm font-medium text-gray-900">Delivery Date:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="UnitDelDate" id="UnitDelDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2"></div>
+                                    <div id="label" class="uppercase mt-5">
+                                        <label for="UnitRemarksT" class="block text-sm font-medium text-gray-900">Delivery Remarks:</label>
+                                    </div>
+                                    <div id="input" class="uppercase mt-5 col-span-2">
+                                        <textarea rows="3" name="UnitDelRemarksT" id="UnitDelRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
                                     </div>
                                 </div>
                             </form>
@@ -1952,6 +1985,19 @@
                             $("#failed-modal").addClass("flex");
                         }
                     });
+                });
+                
+            // Radio for Transfer
+                $('#divDelTransfer').hide();
+                $('input[name="Radio_Transfer"]').change(function() {
+                    var value = $(this).val();
+                    if (value === '1') {
+                        $('#divDelTransfer').hide();
+                        $('#divWHTransfer').show();
+                    } else if (value === '2') {
+                        $('#divWHTransfer').hide();
+                        $('#divDelTransfer').show();
+                    }
                 });
                 
         });

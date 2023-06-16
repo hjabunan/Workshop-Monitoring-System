@@ -32,14 +32,16 @@ class AdminMonitor extends Controller
                             unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
+                            WHERE unit_confirms.CUDelTransfer=0
                             ');
-        
 
-        $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDeliveredDate,
-                            unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, 
-                            unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
+        $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDelDate,
+                            unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUClassification, 
+                            unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, 
+                            unit_confirms.CUTransferBay
                             FROM unit_deliveries
-                            INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
+                            INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_deliveries.POUID
+                            INNER JOIN unit_confirms on unit_deliveries.POUID = unit_confirms.POUID
                             ');
 
         $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -52,10 +54,10 @@ class AdminMonitor extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew=0
+                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
 
-        return view('workshop-ms.admin_monitoring.report',compact('brand','section','technician','bay','bnunit','pounit','cunit', 'workshop'));
+        return view('workshop-ms.admin_monitoring.report',compact('brand','section','technician','bay','bnunit','pounit','cunit', 'dunit', 'workshop'));
     }
 
     public function sortBrand(Request $request){
@@ -394,18 +396,18 @@ class AdminMonitor extends Controller
                     }
                     
                     if($request->POUCustomer != null){
-                        $POU->POUCustomer = $request->POUCustomer;
+                        $POU->POUCustomer = strtoupper($request->POUCustomer);
                     }else{
                         $POU->POUCustomer = "";
                     }
 
                     if($request->POUCustAddress != null){
-                        $POU->POUCustAddress = $request->POUCustAddress;
+                        $POU->POUCustAddress = strtoupper($request->POUCustAddress);
                     }else{
                         $POU->POUCustAddress = "";
                     }
 
-                $POU->POURemarks = $request->POURemarks;
+                $POU->POURemarks = strtoupper($request->POURemarks);
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
@@ -520,18 +522,18 @@ class AdminMonitor extends Controller
                     }
                     
                     if($request->POUCustomer != null){
-                        $POU->POUCustomer = $request->POUCustomer;
+                        $POU->POUCustomer = strtoupper($request->POUCustomer);
                     }else{
                         $POU->POUCustomer = "";
                     }
 
                     if($request->POUCustAddress != null){
-                        $POU->POUCustAddress = $request->POUCustAddress;
+                        $POU->POUCustAddress = strtoupper($request->POUCustAddress);
                     }else{
                         $POU->POUCustAddress = "";
                     }
 
-                $POU->POURemarks = $request->POURemarks;
+                $POU->POURemarks = strtoupper($request->POURemarks);
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
@@ -710,18 +712,18 @@ class AdminMonitor extends Controller
                     }
                     
                     if($request->POUCustomer != null){
-                        $POU->POUCustomer = $request->POUCustomer;
+                        $POU->POUCustomer = strtoupper($request->POUCustomer);
                     }else{
                         $POU->POUCustomer = "";
                     }
 
                     if($request->POUCustAddress != null){
-                        $POU->POUCustAddress = $request->POUCustAddress;
+                        $POU->POUCustAddress = strtoupper($request->POUCustAddress);
                     }else{
                         $POU->POUCustAddress = "";
                     }
 
-                $POU->POURemarks = $request->POURemarks;
+                $POU->POURemarks = strtoupper($request->POURemarks);
                 $POU->update();
             }else{
                 $POU = UnitPullOut::find($POUIDe);
@@ -831,17 +833,17 @@ class AdminMonitor extends Controller
                     }
                     
                     if($request->POUCustomer != null){
-                        $POU->POUCustomer = $request->POUCustomer;
+                        $POU->POUCustomer = strtoupper($request->POUCustomer);
                     }else{
                         $POU->POUCustomer = "";
                     }
 
                     if($request->POUCustAddress != null){
-                        $POU->POUCustAddress = $request->POUCustAddress;
+                        $POU->POUCustAddress = strtoupper($request->POUCustAddress);
                     }else{
                         $POU->POUCustAddress = "";
                     }
-                $POU->POURemarks = $request->POURemarks;
+                $POU->POURemarks = strtoupper($request->POURemarks);
                 $POU->update();
                 
                 $POUBData = [
@@ -1203,7 +1205,7 @@ class AdminMonitor extends Controller
         $CU = new UnitConfirm();
         $CU->POUID = $request->POUIDx;
         $CU->CUTransferDate = $request->POUTransferDate;
-        $CU->CUTransferRemarks = $request->POURemarksT;
+        $CU->CUTransferRemarks = strtoupper($request->POURemarksT);
         $CU->CUTransferStatus = $request->POUStatus;
         $CU->CUTransferArea	= $request->POUArea;
         $CU->CUTransferBay = $request->POUBay;
@@ -1316,6 +1318,7 @@ class AdminMonitor extends Controller
         echo $result;
     }
 
+    // CONFIRM UNITS
     public function deleteCU(Request $request){
         UnitPullOut::WHERE('id', $request->id)
                     ->UPDATE([
@@ -1337,6 +1340,7 @@ class AdminMonitor extends Controller
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
+                            WHERE unit_confirms.CUDelTransfer=0
                         ');
         if(count($cunit)>0){
             foreach ($cunit as $CU) {
@@ -1390,6 +1394,97 @@ class AdminMonitor extends Controller
                                 </td>
                                 <td class="px-1 py-0.5 text-center">
                                     '.$PStatus.'
+                                </td>
+                            </tr>
+                ';
+            }
+        }else{
+            $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                            No data.
+                        </td>
+                    </tr>
+            ';
+        }
+
+        echo $result;
+    }
+
+    // DELIVERED UNITS
+    public function deleteDU(Request $request){
+        UnitConfirm::WHERE('POUID', $request->id)
+                    ->UPDATE([
+                        'CUDelTransfer' => 0,
+                    ]);
+    
+        UnitWorkshop::WHERE('WSPOUID', $request->id)
+                    ->UPDATE([
+                        'WSDelTransfer' => 0,
+                    ]);
+    
+        BayArea::WHERE('id',$request->cubay)
+                ->UPDATE([
+                    'category' => 2
+                ]);
+
+        DB::TABLE('unit_deliveries')->WHERE('id', $request->duid)->DELETE();
+
+        $result = "";
+        $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDelDate,
+                            unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUClassification, 
+                            unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, 
+                            unit_confirms.CUTransferBay
+                            FROM unit_deliveries
+                            INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_deliveries.POUID
+                            INNER JOIN unit_confirms on unit_deliveries.POUID = unit_confirms.POUID
+                        ');
+
+        if(count($dunit)>0){
+            foreach ($dunit as $DU) {
+                if($DU->POUClassification == '1'){
+                    $PClass = "CLASS A";
+                }else if($DU->POUClassification == '2'){
+                    $PClass = "CLASS B";
+                }else if($DU->POUClassification == '3'){
+                    $PClass = "CLASS C";
+                }else{
+                    $PClass = "CLASS D";
+                }
+
+                $result .='
+                            <tr class="bg-white border-b hover:bg-gray-200">
+                                <td class="w-3.5 p-1 whitespace-nowrap">
+                                    <button type="button" data-id="'.$DU->POUID.'" data-unittype="'.$DU->POUUnitType.'" class="btnDUView" id="btnDUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
+                                    <button type="button" data-id="'.$DU->POUID.'" data-unittype="'.$DU->POUUnitType.'" class="btnDUEdit" id="btnDUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                    <button type="button" data-id="'.$DU->POUID.'" data-unittype="'.$DU->POUUnitType.'" data-duid="'.$DU->id.'" data-cubay="'.$DU->CUTransferBay.'" class="btnDUDelete" id="btnDUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->DUTransferDate.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->POUCode.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->POUModel.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->POUSerialNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->POUMastHeight.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->POUCustomer.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->POUCustAddress.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$PClass.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$DU->DUDelDate.'
                                 </td>
                             </tr>
                 ';

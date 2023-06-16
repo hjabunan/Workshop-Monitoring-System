@@ -2359,20 +2359,20 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-6 space-y-6">
-                            <div class="">
-                                <div class="grid grid-cols-2 gap-1 place-items-center">
-                                    <div class="flex items-center mr-4">
-                                        <input id="TransferWH" type="radio" value="1" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" checked>
-                                        <label for="TransferWH" class="ml-2 text-sm font-medium text-gray-900">Transfer Warehouse/Workshop</label>
-                                    </div>
-                                    <div class="flex items-center mr-4">
-                                        <input id="TransferDeliver" type="radio" value="2" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                        <label for="TransferDeliver" class="ml-2 text-sm font-medium text-gray-900">Transfer for Deliver</label>
-                                    </div>
-                                </div>
-                            </div>
                             <form action="" id="formWHTransfer">
                                 @csrf
+                                    <div class="">
+                                        <div class="grid grid-cols-2 gap-1 place-items-center">
+                                            <div class="flex items-center mr-4">
+                                                <input id="TransferWH" type="radio" value="1" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" checked>
+                                                <label for="TransferWH" class="ml-2 text-sm font-medium text-gray-900">Transfer Warehouse/Workshop</label>
+                                            </div>
+                                            <div class="flex items-center mr-4">
+                                                <input id="TransferDeliver" type="radio" value="2" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                                <label for="TransferDeliver" class="ml-2 text-sm font-medium text-gray-900">Transfer for Deliver</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-span-5 mb-2">
                                         <input type="hidden" id="POUIDx" name="POUIDx">
                                     </div>
