@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\BayArea;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
+use App\Models\UnitDelivery;
 use App\Models\UnitDowntime;
 use App\Models\UnitParts;
 use App\Models\UnitPullOut;
 use App\Models\UnitWorkshop;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,7 +40,7 @@ class OVHLReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                -- WHERE unit_workshops.WSStatus <= 4
+                                WHERE unit_workshops.WSDelTransfer = 0
                             ');
 
 
@@ -120,7 +122,7 @@ class OVHLReportController extends Controller
                                     INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
-                                    WHERE WSBayNum = ?',[$bay]
+                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                                 );
         
             $DTtable = '';
@@ -328,7 +330,7 @@ class OVHLReportController extends Controller
                                     INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                     INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                    WHERE WSBayNum = ?',[$bay]
+                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                                 );
 
             if(count($workshop)>0){
@@ -1669,53 +1671,81 @@ class OVHLReportController extends Controller
     }
 
     public function saveTransferUnit(Request $request){
-        UnitConfirm::WHERE('POUID', $request->WSPOUID)
+        if($request->input('Radio_Transfer') == 1){
+            UnitConfirm::WHERE('POUID', $request->POUIDx)
+                        ->UPDATE([
+                            'CUTransferStatus' => $request->UnitStatus,
+                            'CUTransferArea' => $request->UnitArea,
+                            'CUTransferBay' => $request->UnitBay,
+                            'CUTransferRemarks' => $request->UnitRemarksT,
+                        ]);
+     
+            UnitPullOut::WHERE('id', $request->POUIDx)
+                        ->UPDATE([
+                            'POUStatus' => $request->UnitStatus,
+                            'POUTransferArea' => $request->UnitArea,
+                            'POUTransferBay' => $request->UnitBay,
+                            'POUTransferRemarks' => $request->UnitRemarksT,
+                        ]);
+    
+                if($request->UnitArea == 7){
+                    $ToA = "3";
+                }else if(($request->UnitArea >= 14)){
+                    $ToA = "1";
+                }else if(($request->UnitArea <= 3)){
+                    $ToA = "2";
+                }else{
+                    $ToA = "2";
+                }
+    
+            UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
+                        ->UPDATE([
+                            'WSToA' => $ToA,
+                            'WSBayNum' => $request->UnitBay,
+                            'WSStatus' => $request->UnitStatus,
+                        ]);
+    
+            TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
+                                ->UPDATE([
+                                    'baynum' => $request->UnitBay,
+                                ]);
+    
+            BayArea::WHERE('id',$request->BayID)
                     ->UPDATE([
-                        'CUTransferStatus' => $request->UnitStatus,
-                        'CUTransferArea' => $request->UnitArea,
-                        'CUTransferBay' => $request->UnitBay,
-                        'CUTransferRemarks' => $request->UnitRemarks,
+                        'category' => 1
                     ]);
- 
-        UnitPullOut::WHERE('id', $request->WSPOUID)
+    
+            BayArea::WHERE('id',$request->UnitBay)
                     ->UPDATE([
-                        'POUStatus' => $request->UnitStatus,
-                        'POUTransferArea' => $request->UnitArea,
-                        'POUTransferBay' => $request->UnitBay,
-                        'POUTransferRemarks' => $request->UnitRemarks,
+                        'category' => 2
                     ]);
+        }else{
+            UnitConfirm::WHERE('POUID', $request->POUIDx)
+                        ->UPDATE([
+                            'CUDelTransfer' => 1,
+                        ]);
+    
+            UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
+                        ->UPDATE([
+                            'WSDelTransfer' => 1,
+                        ]);
 
-            if($request->UnitArea == 7){
-                $ToA = "3";
-            }else if(($request->UnitArea >= 14)){
-                $ToA = "1";
-            }else if(($request->UnitArea <= 3)){
-                $ToA = "2";
-            }else{
-                $ToA = "2";
-            }
+                $currentDate = Carbon::now();
+                $formattedDate = $currentDate->format('m/d/Y');
 
-        UnitWorkshop::WHERE('WSPOUID', $request->WSPOUID)
+            $DU = new UnitDelivery();
+            $DU->POUID = $request->POUIDx;
+            $DU->DUTransferDate = $formattedDate;
+            $DU->DURemarks = strtoupper($request->UnitDelRemarksT);
+            $DU->DUDelDate = $request->UnitDelDate;
+            $DU->save();
+    
+            BayArea::WHERE('id',$request->BayID)
                     ->UPDATE([
-                        'WSToA' => $ToA,
-                        'WSBayNum' => $request->UnitBay,
-                        'WSStatus' => $request->UnitStatus,
+                        'category' => 1
                     ]);
-
-        TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
-                            ->UPDATE([
-                                'baynum' => $request->UnitBay,
-                            ]);
-
-        BayArea::WHERE('id',$request->UnitBayNum)
-                ->UPDATE([
-                    'category' => 1
-                ]);
-
-        BayArea::WHERE('id',$request->UnitBay)
-                ->UPDATE([
-                    'category' => 2
-                ]);
+            
+        } 
     }
 
     public function getBay(Request $request){

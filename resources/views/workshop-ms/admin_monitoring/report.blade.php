@@ -685,7 +685,7 @@
                                                         {{$DU->POUCustAddress}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
-                                                        {{$DU->POURemarks}}
+                                                        {{$DU->DURemarks}}
                                                     </td>
                                                     <td class="px-1 py-0.5 text-center">
                                                         @if ($DU->POUClassification == '1')

@@ -1566,76 +1566,110 @@
                     <div class="p-6 space-y-6">
                         <form action="" id="formPOUT">
                             @csrf
-                            <div class="grid grid-cols-5 items-center">
+                                <div class="">
+                                    <div class="grid grid-cols-2 gap-1 place-items-center">
+                                        <div class="flex items-center mr-4">
+                                            <input id="TransferWH" type="radio" value="1" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" checked>
+                                            <label for="TransferWH" class="ml-2 text-sm font-medium text-gray-900">Transfer Warehouse/Workshop</label>
+                                        </div>
+                                        <div class="flex items-center mr-4">
+                                            <input id="TransferDeliver" type="radio" value="2" name="Radio_Transfer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="TransferDeliver" class="ml-2 text-sm font-medium text-gray-900">Transfer for Deliver</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-span-5 mb-2">
                                     <input type="hidden" id="POUIDx" name="POUIDx">
                                 </div>
-                                <div id="label" class="uppercase mb-2">
-                                    <label for="UnitTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="relative max-w-sm">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                <div id="divWHTransfer" class="grid grid-cols-5 items-center">
+                                    <div id="label" class="uppercase mb-2">
+                                        <label for="UnitTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="UnitTransferDate" id="UnitTransferDate">
                                         </div>
-                                        <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="UnitTransferDate" id="UnitTransferDate">
+                                    </div>
+                                    <div class="col-span-2"></div>
+                                    <div id="label" class="uppercase mt-5">
+                                        <label for="UnitStatus" class="block text-sm font-medium text-gray-900">Status:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mt-5">
+                                        <select name="UnitStatus" id="UnitStatus" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            <option value="" selected disabled></option>
+                                            <option value="1">WAITING FOR REPAIR UNIT</option>
+                                            <option value="2">UNDER REPAIR UNIT</option>
+                                            <option value="3">USED GOOD UNIT</option>
+                                            <option value="4">SERVICE UNIT</option>
+                                            <option value="5">FOR SCRAP UNIT</option>
+                                            <option value="6">FOR SALE UNIT</option>
+                                            <option value="7">WAITING PARTS</option>
+                                            <option value="8">WAITING BACK ORDER</option>
+                                            <option value="9">WAITING SPARE BATT</option>
+                                            <option value="10">STOCK UNIT</option>
+                                            <option value="11">WAITING FOR MCI</option>
+                                            <option value="12">WAITING FOR PDI</option>
+                                            <option value="13">DONE PDI (WFD)</option>
+                                        </select>
+                                    </div>
+                                    <div id="input" class="col-span-2">
+                                    </div>
+                                    <div id="label" class="uppercase mt-2">
+                                        <label for="UnitArea" class="block text-sm font-medium text-gray-900">Area:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mt-2">
+                                        <select name="UnitArea" id="UnitArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            <option value="" selected></option>
+                                            @foreach ($sectionT as $sectionsT)
+                                            <option value="{{$sectionsT->id}}">{{$sectionsT->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div id="input" class="col-span-2"></div>
+                                    <div id="label" class="uppercase mt-2">
+                                        <label for="UnitBay" class="block text-sm font-medium text-gray-900">Bay:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mt-2">
+                                        <select name="UnitBay" id="UnitBay" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
+                                            <option value="" selected></option>
+                                            @foreach ($baysT as $bayT)
+                                            <option value="{{$bayT->id}}">{{$bayT->area_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" id="BayID" name="BayID">
+                                    </div>
+                                    <div id="" class="col-span-2"></div>
+                                    <div id="label" class="uppercase mt-5">
+                                        <label for="UnitRemarksT" class="block text-sm font-medium text-gray-900">Transfer Remarks:</label>
+                                    </div>
+                                    <div id="input" class="uppercase mt-5 col-span-2">
+                                        <textarea rows="3" name="UnitRemarksT" id="UnitRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="UnitStatus" class="block text-sm font-medium text-gray-900">Status:</label>
+
+                                <div id="divDelTransfer" class="grid grid-cols-5 items-center">
+                                    <div id="label" class="uppercase mb-2">
+                                        <label for="UnitDelDate" class="block text-sm font-medium text-gray-900">Delivery Date:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="UnitDelDate" id="UnitDelDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2"></div>
+                                    <div id="label" class="uppercase mt-5">
+                                        <label for="UnitRemarksT" class="block text-sm font-medium text-gray-900">Delivery Remarks:</label>
+                                    </div>
+                                    <div id="input" class="uppercase mt-5 col-span-2">
+                                        <textarea rows="3" name="UnitDelRemarksT" id="UnitDelRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
+                                    </div>
                                 </div>
-                                <div id="input" class="col-span-2 uppercase mt-5">
-                                    <select name="UnitStatus" id="UnitStatus" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected disabled></option>
-                                        <option value="1">WAITING FOR REPAIR UNIT</option>
-                                        <option value="2">UNDER REPAIR UNIT</option>
-                                        <option value="3">USED GOOD UNIT</option>
-                                        <option value="4">SERVICE UNIT</option>
-                                        <option value="5">FOR SCRAP UNIT</option>
-                                        <option value="6">FOR SALE UNIT</option>
-                                        <option value="7">WAITING PARTS</option>
-                                        <option value="8">WAITING BACK ORDER</option>
-                                        <option value="9">WAITING SPARE BATT</option>
-                                        <option value="10">STOCK UNIT</option>
-                                        <option value="11">WAITING FOR MCI</option>
-                                        <option value="12">WAITING FOR PDI</option>
-                                        <option value="13">DONE PDI (WFD)</option>
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2">
-                                </div>
-                                <div id="label" class="uppercase mt-2">
-                                    <label for="UnitArea" class="block text-sm font-medium text-gray-900">Area:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-2">
-                                    <select name="UnitArea" id="UnitArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected></option>
-                                        @foreach ($sectionT as $sectionsT)
-                                        <option value="{{$sectionsT->id}}">{{$sectionsT->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="input" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-2">
-                                    <label for="UnitBay" class="block text-sm font-medium text-gray-900">Bay:</label>
-                                </div>
-                                <div id="input" class="col-span-2 uppercase mt-2">
-                                    <select name="UnitBay" id="UnitBay" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center uppercase">
-                                        <option value="" selected></option>
-                                        {{-- @foreach ($baysT as $bayT)
-                                        <option value="{{$bayT->id}}">{{$bayT->area_name}}</option>
-                                        @endforeach --}}
-                                    </select>
-                                </div>
-                                <div id="" class="col-span-2"></div>
-                                <div id="label" class="uppercase mt-5">
-                                    <label for="UnitRemarksT" class="block text-sm font-medium text-gray-900">Transfer Remarks:</label>
-                                </div>
-                                <div id="input" class="uppercase mt-5 col-span-2">
-                                    <textarea rows="3" name="UnitRemarksT" id="UnitRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
-                                </div>
-                            </div>
                         </form>
                     </div>
                     <!-- Modal footer -->
@@ -3702,6 +3736,8 @@
                         dataType: "JSON",
                         data: {WSJONum: WSJONum, WSPOUID: WSPOUID, UnitBayNum: UnitBayNum, _token: _token,},
                         success: function(result) {
+                            $('#POUIDx').val(WSPOUID);
+                            $('#BayID').val(UnitBayNum);
                             $('#UnitStatus').val(result.TransferStatus);
                             $('#UnitArea').val(result.TransferArea);
                             $('#UnitBay').html(result.TransferBay);
@@ -3712,19 +3748,20 @@
 
             // Save Transfer
                 jQuery(document).on( "click", "#saveTransferUnit", function(){
-                    var WSPOUID = $('#UnitInfoPOUID').val();
-                    var UnitInfoJON = $('#UnitInfoJON').val();
-                    var UnitBayNum = $('#UnitBayNum').val();
-                    var UnitStatus = $('#UnitStatus').val();
-                    var UnitArea = $('#UnitArea').val();
-                    var UnitBay = $('#UnitBay').val();
-                    var UnitRemarks = $('#UnitRemarksT').val();
-                    var _token = $('input[name="_token"]').val();
+                    // var WSPOUID = $('#UnitInfoPOUID').val();
+                    // var UnitInfoJON = $('#UnitInfoJON').val();
+                    // var UnitBayNum = $('#UnitBayNum').val();
+                    // var UnitStatus = $('#UnitStatus').val();
+                    // var UnitArea = $('#UnitArea').val();
+                    // var UnitBay = $('#UnitBay').val();
+                    // var UnitRemarks = $('#UnitRemarksT').val();
+                    // var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url: "{{ route('ovhl-workshop.saveTransferUnit') }}",
                         type: "POST",
-                        data: {WSPOUID: WSPOUID, UnitInfoJON: UnitInfoJON, UnitBayNum:UnitBayNum, UnitStatus: UnitStatus, UnitArea: UnitArea, UnitBay: UnitBay, UnitRemarks: UnitRemarks, _token: _token,},
+                        data: $('#formPOUT').serialize(),
+                        // data: {WSPOUID: WSPOUID, UnitInfoJON: UnitInfoJON, UnitBayNum:UnitBayNum, UnitStatus: UnitStatus, UnitArea: UnitArea, UnitBay: UnitBay, UnitRemarks: UnitRemarks, _token: _token,},
                         success: function(result) {
                             $("#closeTransfer").click();
                             $("#closeBayMon").click();
@@ -3737,6 +3774,19 @@
                             $("#failed-modal").addClass("flex");
                         }
                     });
+                });
+                
+            // Radio for Transfer
+                $('#divDelTransfer').hide();
+                $('input[name="Radio_Transfer"]').change(function() {
+                    var value = $(this).val();
+                    if (value === '1') {
+                        $('#divDelTransfer').hide();
+                        $('#divWHTransfer').show();
+                    } else if (value === '2') {
+                        $('#divWHTransfer').hide();
+                        $('#divDelTransfer').show();
+                    }
                 });
 
 
