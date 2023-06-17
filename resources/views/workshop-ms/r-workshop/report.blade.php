@@ -576,16 +576,16 @@
                                     </div>
                                     <div id="div2" class="grid grid-cols-4">
                                         <div class="grid justify-items-start">
-                                            <select id="duSelectStatus" name="duSelectStatus" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block w-3/4 h-10 p-2.5">
+                                            {{-- <select id="duSelectStatus" name="duSelectStatus" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block w-3/4 h-10 p-2.5">
                                                 <option selected value="">CLASSIFICATION</option>
                                                 <option value="CLASS A">CLASS A</option>
                                                 <option value="CLASS B">CLASS B</option>
                                                 <option value="CLASS C">CLASS C</option>
                                                 <option value="CLASS D">CLASS D</option>
-                                            </select>
+                                            </select> --}}
                                         </div>
                                         <div class="col-span-2">
-                                            <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex">
+                                            {{-- <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex">
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
                                                         <input id="duRadioNDU" type="radio" value="duRadioNDU" name="du-radio-unit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" checked>
@@ -604,14 +604,14 @@
                                                         <label for="duRadioAllUnit" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">All Unit</label>
                                                     </div>
                                                 </li>
-                                            </ul>
+                                            </ul> --}}
                                         </div>
                                         <div class="grid justify-items-end">
                                             <div class="relative">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                     <svg class="w-7 h-7 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                                                 </div>
-                                                <input type="text" id="duTableSearch" name="duTableSearch" class="block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
+                                                <input type="text" id="DTableSearch" name="DTableSearch" class="block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
                                             </div>
                                         </div>
                                     </div>
@@ -650,16 +650,59 @@
                                                 <th scope="col" class="px-6 py-1 text-center">
                                                     CLASSIFICATION
                                                 </th>
-                                                <th scope="col" class="px-3 py-1 text-center">
-                                                    DELIVERED?
-                                                </th>
                                                 <th scope="col" class="px-6 py-1 text-center">
                                                     DELIVERED DATE
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody id="tableBDU" name="tableBDU" class="text-xs">
-                                            
+                                            @foreach ($dunit as $DU)
+                                                <tr class="bg-white border-b hover:bg-gray-200">
+                                                    <td class="w-3.5 p-1 whitespace-nowrap">
+                                                        <button type="button" data-id="{{$DU->POUID}}" data-unittype="{{$DU->POUUnitType}}" class="btnDUView" id="btnDUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
+                                                        <button type="button" data-id="{{$DU->POUID}}" data-unittype="{{$DU->POUUnitType}}" class="btnDUEdit" id="btnDUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                                        <button type="button" data-id="{{$DU->POUID}}" data-unittype="{{$DU->POUUnitType}}" data-duid="{{$DU->id}}" data-cubay="{{$DU->CUTransferBay}}" class="btnDUDelete" id="btnDUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                                    </td>
+                                                    <td scope="row" class="px-1 py-0.5 whitespace-nowrap text-center">
+                                                        {{$DU->DUTransferDate}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->POUCode}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->POUModel}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->POUSerialNum}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->POUMastHeight}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->POUCustomer}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->POUCustAddress}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->DURemarks}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        @if ($DU->POUClassification == '1')
+                                                            CLASS A
+                                                        @elseif ($DU->POUClassification == '2')
+                                                            CLASS B
+                                                        @elseif ($DU->POUClassification == '3')
+                                                            CLASS C
+                                                        @else
+                                                            CLASS D
+                                                        @endif
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$DU->DUDelDate}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -892,7 +935,7 @@
             {{-- DU Hidden Button for Edit --}}
             {{-- <button type="button" id="btnDUEditH" class="btnDUEditH hidden" data-modal-target="modalDU" data-modal-toggle="modalDU"></button> --}}
             {{-- DU Hidden Button for Delete --}}
-            {{-- <button type="button" id="btnDUDeleteH" class="btnDUDeleteH hidden" data-modal-target="modalDeleteDU" data-modal-toggle="modalDeleteDU"></button> --}}
+            <button type="button" id="btnDUDeleteH" class="btnDUDeleteH hidden" data-modal-target="modalDeleteDU" data-modal-toggle="modalDeleteDU"></button>
             {{-- DU Hidden Button for Transfer --}}
             {{-- <button type="button" id="btnDUTransferH" class="btnDUTransferH hidden" data-modal-target="modalTransferDU" data-modal-toggle="modalTransferDU"></button> --}}
             {{-- Cannibalized Unit Hidden Button for Edit --}}
@@ -911,1684 +954,6 @@
             {{-- Hidden Button for Failed --}}
             <button type="button" id="btnFailedH" class="btnFailedH hidden" data-modal-target="failed-modal" data-modal-toggle="failed-modal"></button>
     </div>
-    <script>
-        $(document).ready(function () {
-            // 
-                jQuery(document).on( "click", "#SCloseButton", function(){
-                    $("#success-modal").removeClass("flex");
-                    $("#success-modal").addClass("hidden");
-                });
-
-            // 
-                jQuery(document).on( "click", "#FCloseButton", function(){
-                    $("#failed-modal").removeClass("flex");
-                    $("#failed-modal").addClass("hidden");
-                });
-
-            //
-                jQuery(document).on( "click", "#closedPullOut", function(){
-                    $('input, select, textarea, checkbox, radio').prop('disabled', false);
-                    $("#buttonCloseP").click();
-                });
-                
-            // Clear Form on Add
-                jQuery(document).on( "click", "#addPOUnit", function(){
-                    if($('#POUIDe').val() != ''){
-                        document.getElementById('formPOU').reset()
-                        $('#POUIDe').val('');
-
-                        $("#POUnit li:first-child button").click();
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                        $('#PAttachment').addClass("disabled");
-                        $('#PAccesories').addClass("disabled");
-                        $('#POUAccOthersDetail').prop('disabled', true);
-                        $('#POUTechnician1 option').prop('disabled', false);
-                        $('#POUTechnician2 option').prop('disabled', false);
-                        $('#SpareBat1').addClass("disabled");
-                        $('#SpareBat2').addClass("disabled");
-
-                        
-                        $('input, select, textarea, checkbox').prop('disabled', false);
-                        $("#savePullOut").show();
-                        $("#clearPullOut").show();
-                    }
-                });
-
-            // Automatic Hide of Battery and Charger Details
-                if ($('#POUUnitType').val() == 1) {
-                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                }else{
-                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
-                }
-
-            // Unit Type Option
-                $("#POUUnitType").on("change", function() {
-                    if ($('#POUUnitType').val() == 1) {
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                    }else{
-                        $("#BatteryDetails-tab, #ChargerDetails-tab").show();
-                    }
-
-                    // Reset the tabs to the first one
-                    $("#POUnit li:first-child button").click();
-                });
-
-            // Enable/Disable Attachment
-                $('#PAttachment').addClass("disabled");
-                $('#POUwAttachment').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#PAttachment').removeClass("disabled");
-                    } else {
-                        $('#PAttachment').addClass("disabled");
-                    }
-                });
-                
-            // Enable/Disable Accesories
-                $('#PAccesories').addClass("disabled");
-                $('#POUwAccesories').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#PAccesories').removeClass("disabled");
-                    } else {
-                        $('#PAccesories').addClass("disabled");
-                    }
-                });
-            
-            // Enable/Disable Others
-                $('#POUAccOthersDetail').addClass("disabled");
-                $("#POUAccOthers").on("change", function() {
-                    if($(this).is(":checked")) {
-                        $('#POUAccOthersDetail').removeClass("disabled");
-                    } else {
-                        $('#POUAccOthersDetail').addClass("disabled");
-                    }
-                });
-
-            // Disable Value if Already Selected
-                $('#POUTechnician1').change(function() {
-                    var selectedValue = $(this).val();
-                    $('#POUTechnician2 option').prop('disabled', false); // enable all options
-                    if (selectedValue) {
-                        $('#POUTechnician2 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
-                    }
-                });
-
-                $('#POUTechnician2').change(function() {
-                    var selectedValue = $(this).val();
-                    $('#POUTechnician1 option').prop('disabled', false); // enable all options
-                    if (selectedValue) {
-                        $('#POUTechnician1 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
-                    }
-                });
-            
-            // Enable/Disable Spare 1 and Spare 2
-                $('#SpareBat1').addClass("disabled");
-                $('#POUwBatSpare1').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#SpareBat1').removeClass("disabled");
-                    } else {
-                        $('#SpareBat1').addClass("disabled");
-                    }
-                });
-                
-                $('#SpareBat2').addClass("disabled");
-                $('#POUwBatSpare2').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#SpareBat2').removeClass("disabled");
-                    } else {
-                        $('#SpareBat2').addClass("disabled");
-                    }
-                });
-
-            // Saving of Pull Out Unit
-                $('#savePullOut').on( "click", function(){
-                    if($('#POUUnitType').val() == 1){
-                        if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUCustomer').val() == '' || $('#POUCustAddress').val() == '' || $('#POURemarks').val() == '' ){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        } else {
-                            $('#savePullOutH').click();
-                        }
-                    }else{
-                        if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUCustomer').val() == '' || $('#POUCustAddress').val() == '' || $('#POUBABrand').val() == '' || $('#POUBABatType').val() == '' || $('#POUBASerialNum').val() == '' || $('#POUBACode').val() == '' || $('#POUBAAmper').val() == '' || $('#POUBAVolt').val() == '' || $('#POUCBrand').val() == '' || $('#POUCModel').val() == '' || $('#POUCSerialNum').val() == '' || $('#POUCCode').val() == '' || $('#POUCAmper').val() == '' || $('#POUCVolt').val() == '' || $('#POUCInput').val() == '' || $('#POURemarks').val() == '' ){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        } else {
-                            $('#savePullOutH').click();
-                        }
-                    }
-                });
-
-                $('#savePullOutH').on( "click", function(){
-                    $.ajax({
-                        url: "{{ route('r-workshop.report.savePullOut') }}",
-                        type: "POST",
-                        data: $("#formPOU").serialize(),
-                        success: function(result) {
-                            $("#POUnit li:first-child button").click();
-                            $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                            $('#PAttachment').addClass("disabled");
-                            $('#PAccesories').addClass("disabled");
-                            $('#POUAccOthersDetail').prop('disabled', true);
-                            $('#POUTechnician1 option').prop('disabled', false);
-                            $('#POUTechnician2 option').prop('disabled', false);
-                            $('#SpareBat1').addClass("disabled");
-                            $('#SpareBat2').addClass("disabled");
-                            document.getElementById('formPOU').reset()
-                            $('#tableBPOU').html(result);
-                            $('#tableBCU').load(location.href + ' #tableBCU>*','')
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
-                            $("#closedPullOut").click();
-                        },
-                        error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        }
-                    });
-                });
-
-            // Clear Form Pull Out Unit
-                $('#clearPullOut').on( "click", function(){
-                    document.getElementById('formPOU').reset()
-                    $('#POUIDe').val('');
-
-                    $("#POUnit li:first-child button").click();
-                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                    $('#PAttachment').addClass("disabled");
-                    $('#PAccesories').addClass("disabled");
-                    $('#POUAccOthersDetail').prop('disabled', true);
-                    $('#POUTechnician1 option').prop('disabled', false);
-                    $('#POUTechnician2 option').prop('disabled', false);
-                    $('#SpareBat1').addClass("disabled");
-                    $('#SpareBat2').addClass("disabled");
-                });
-
-            // View POU
-                jQuery(document).on( "click", ".btnPOUView", function(){
-                    $("#POUnit li:first-child button").click();
-                    var id = $(this).data('id');
-                    var utype = $(this).data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
-                        method:"GET",
-                        dataType: 'json',
-                        data:{id: id, utype: utype, _token: _token,},
-                        success:function(result){
-                            $('#POUIDe').val(result.POUnitIDx);
-                                if(result.POUUnitType == 1) {
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                                }else{
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
-                                }
-                            $('#POUArrivalDate').val(result.POUArrivalDate);
-                            $('#POUBrand').val(result.POUBrand);
-                            $('#POUClassification').val(result.POUClassification);
-                            $('#POUModel').val(result.POUModel);
-                            $('#POUSerialNum').val(result.POUSerialNum);
-                            $('#POUCode').val(result.POUCode);
-                            $('#POUMastType').val(result.POUMastType);
-                            $('#POUMastHeight').val(result.POUMastHeight);
-                            $('#POUForkSize').val(result.POUForkSize);
-                                if(result.POUwAttachment == 1) {
-                                    $('#POUwAttachment').prop('checked', true);
-                                    $('#PAttachment').removeClass("disabled");
-                                }else{
-                                    $('#POUwAttachment').prop('checked', false);
-                                    $('#PAttachment').addClass("disabled");
-                                }
-                            $('#POUAttType').val(result.POUAttType);
-                            $('#POUAttModel').val(result.POUAttModel);
-                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
-                                if(result.POUwAccesories == 1) {
-                                    $('#POUwAccesories').prop('checked', true);
-                                    $('#PAccesories').removeClass("disabled");
-                                }else{
-                                    $('#POUwAccesories').prop('checked', false);
-                                    $('#PAccesories').addClass("disabled");
-                                }
-                                
-                                if(result.POUAccISite == 1) {
-                                    $('#POUAccISite').prop('checked', true);
-                                }else{
-                                    $('#POUAccISite').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccLiftCam == 1) {
-                                    $('#POUAccLiftCam').prop('checked', true);
-                                }else{
-                                    $('#POUAccLiftCam').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccRedLight == 1) {
-                                    $('#POUAccRedLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccRedLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccBlueLight == 1) {
-                                    $('#POUAccBlueLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccBlueLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccFireExt == 1) {
-                                    $('#POUAccFireExt').prop('checked', true);
-                                }else{
-                                    $('#POUAccFireExt').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccOthers == 1) {
-                                    $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').prop('disabled',false);
-                                }else{
-                                    $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').prop('disabled',true);
-                                }
-                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
-                            $('#POUTechnician1').val(result.POUTechnician1);
-                                var selectedValue1 = result.POUTechnician1;
-                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
-                                if (selectedValue1) {
-                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUTechnician2').val(result.POUTechnician2);
-                                var selectedValue2 = result.POUTechnician2;
-                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
-                                if (selectedValue2) {
-                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUSalesman').val(result.POUSalesman);
-                            $('#POUCustomer').val(result.POUCustomer);
-                            $('#POUCustAddress').val(result.POUCustAddress);
-                            $('#POUBABrand').val(result.POUBABrand);
-                            $('#POUBABatType').val(result.POUBABatType);
-                            $('#POUBASerialNum').val(result.POUBASerialNum);
-                            $('#POUBACode').val(result.POUBACode);
-                            $('#POUBAAmper').val(result.POUBAAmper);
-                            $('#POUBAVolt').val(result.POUBAVolt);
-                            $('#POUBACCable').val(result.POUBACCable);
-                            $('#POUBACTable').val(result.POUBACTable);
-                                if(result.POUwSpareBat1 == 1) {
-                                    $('#POUwBatSpare1').prop('checked', true);
-                                    $('#SpareBat1').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare1').prop('checked', false);
-                                    $('#SpareBat1').addClass("disabled");
-                                }
-                            $('#POUSB1Brand').val(result.POUSB1Brand);
-                            $('#POUSB1BatType').val(result.POUSB1BatType);
-                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
-                            $('#POUSB1Code').val(result.POUSB1Code);
-                            $('#POUSB1Amper').val(result.POUSB1Amper);
-                            $('#POUSB1Volt').val(result.POUSB1Volt);
-                            $('#POUSB1CCable').val(result.POUSB1CCable);
-                            $('#POUSB1CTable').val(result.POUSB1CTable);
-                                if(result.POUwSpareBat2 == 1) {
-                                    $('#POUwBatSpare2').prop('checked', true);
-                                    $('#SpareBat2').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare2').prop('checked', false);
-                                    $('#SpareBat2').addClass("disabled");
-                                }
-                            $('#POUSB2Brand').val(result.POUSB2Brand);
-                            $('#POUSB2BatType').val(result.POUSB2BatType);
-                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
-                            $('#POUSB2Code').val(result.POUSB2Code);
-                            $('#POUSB2Amper').val(result.POUSB2Amper);
-                            $('#POUSB2Volt').val(result.POUSB2Volt);
-                            $('#POUSB2CCable').val(result.POUSB2CCable);
-                            $('#POUSB2CTable').val(result.POUSB2CTable);
-                            $('#POUCBrand').val(result.POUCBrand);
-                            $('#POUCModel').val(result.POUCModel);
-                            $('#POUCSerialNum').val(result.POUCSerialNum);
-                            $('#POUCCode').val(result.POUCCode);
-                            $('#POUCAmper').val(result.POUCAmper);
-                            $('#POUCVolt').val(result.POUCVolt);
-                            $('#POUCInput').val(result.POUCInput);
-                            $('#POURemarks').val(result.POURemarks);
-
-                            $("#btnPOUViewH").click();
-                            $('input, select, textarea, checkbox').prop('disabled', true);
-                            $("#savePullOut").hide();
-                            $("#clearPullOut").hide();
-                        }
-                    });
-                });
-            
-            // Edit POU
-                jQuery(document).on( "click", ".btnPOUEdit", function(){
-                    $("#POUnit li:first-child button").click();
-                    var id = $(this).data('id');
-                    var utype = $(this).data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
-                        method:"GET",
-                        dataType: 'json',
-                        data:{id: id, utype: utype, _token: _token,},
-                        success:function(result){
-                            $('#POUIDe').val(id);
-                                if(result.POUUnitType == 1) {
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                                }else{
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
-                                }
-                            $('#POUArrivalDate').val(result.POUArrivalDate);
-                            $('#POUBrand').val(result.POUBrand);
-                            $('#POUClassification').val(result.POUClassification);
-                            $('#POUModel').val(result.POUModel);
-                            $('#POUSerialNum').val(result.POUSerialNum);
-                            $('#POUCode').val(result.POUCode);
-                            $('#POUMastType').val(result.POUMastType);
-                            $('#POUMastHeight').val(result.POUMastHeight);
-                            $('#POUForkSize').val(result.POUForkSize);
-                                if(result.POUwAttachment == 1) {
-                                    $('#POUwAttachment').prop('checked', true);
-                                    $('#PAttachment').removeClass("disabled");
-                                }else{
-                                    $('#POUwAttachment').prop('checked', false);
-                                    $('#PAttachment').addClass("disabled");
-                                }
-                            $('#POUAttType').val(result.POUAttType);
-                            $('#POUAttModel').val(result.POUAttModel);
-                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
-                                if(result.POUwAccesories == 1) {
-                                    $('#POUwAccesories').prop('checked', true);
-                                    $('#PAccesories').removeClass("disabled");
-                                }else{
-                                    $('#POUwAccesories').prop('checked', false);
-                                    $('#PAccesories').addClass("disabled");
-                                }
-                                
-                                if(result.POUAccISite == 1) {
-                                    $('#POUAccISite').prop('checked', true);
-                                }else{
-                                    $('#POUAccISite').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccLiftCam == 1) {
-                                    $('#POUAccLiftCam').prop('checked', true);
-                                }else{
-                                    $('#POUAccLiftCam').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccRedLight == 1) {
-                                    $('#POUAccRedLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccRedLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccBlueLight == 1) {
-                                    $('#POUAccBlueLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccBlueLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccFireExt == 1) {
-                                    $('#POUAccFireExt').prop('checked', true);
-                                }else{
-                                    $('#POUAccFireExt').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccStLight == 1) {
-                                    $('#POUAccStLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccStLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccOthers == 1) {
-                                    $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').removeClass('disabled');
-                                }else{
-                                    $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').addClass('disabled');
-                                }
-                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
-                            $('#POUTechnician1').val(result.POUTechnician1);
-                                var selectedValue1 = result.POUTechnician1;
-                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
-                                if (selectedValue1) {
-                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUTechnician2').val(result.POUTechnician2);
-                                var selectedValue2 = result.POUTechnician2;
-                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
-                                if (selectedValue2) {
-                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUSalesman').val(result.POUSalesman);
-                            $('#POUCustomer').val(result.POUCustomer);
-                            $('#POUCustAddress').val(result.POUCustAddress);
-                            $('#POUBABrand').val(result.POUBABrand);
-                            $('#POUBABatType').val(result.POUBABatType);
-                            $('#POUBASerialNum').val(result.POUBASerialNum);
-                            $('#POUBACode').val(result.POUBACode);
-                            $('#POUBAAmper').val(result.POUBAAmper);
-                            $('#POUBAVolt').val(result.POUBAVolt);
-                            $('#POUBACCable').val(result.POUBACCable);
-                            $('#POUBACTable').val(result.POUBACTable);
-                                if(result.POUwSpareBat1 == 1) {
-                                    $('#POUwBatSpare1').prop('checked', true);
-                                    $('#SpareBat1').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare1').prop('checked', false);
-                                    $('#SpareBat1').addClass("disabled");
-                                }
-                            $('#POUSB1Brand').val(result.POUSB1Brand);
-                            $('#POUSB1BatType').val(result.POUSB1BatType);
-                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
-                            $('#POUSB1Code').val(result.POUSB1Code);
-                            $('#POUSB1Amper').val(result.POUSB1Amper);
-                            $('#POUSB1Volt').val(result.POUSB1Volt);
-                            $('#POUSB1CCable').val(result.POUSB1CCable);
-                            $('#POUSB1CTable').val(result.POUSB1CTable);
-                                if(result.POUwSpareBat2 == 1) {
-                                    $('#POUwBatSpare2').prop('checked', true);
-                                    $('#SpareBat2').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare2').prop('checked', false);
-                                    $('#SpareBat2').addClass("disabled");
-                                }
-                            $('#POUSB2Brand').val(result.POUSB2Brand);
-                            $('#POUSB2BatType').val(result.POUSB2BatType);
-                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
-                            $('#POUSB2Code').val(result.POUSB2Code);
-                            $('#POUSB2Amper').val(result.POUSB2Amper);
-                            $('#POUSB2Volt').val(result.POUSB2Volt);
-                            $('#POUSB2CCable').val(result.POUSB2CCable);
-                            $('#POUSB2CTable').val(result.POUSB2CTable);
-                            $('#POUCBrand').val(result.POUCBrand);
-                            $('#POUCModel').val(result.POUCModel);
-                            $('#POUCSerialNum').val(result.POUCSerialNum);
-                            $('#POUCCode').val(result.POUCCode);
-                            $('#POUCAmper').val(result.POUCAmper);
-                            $('#POUCVolt').val(result.POUCVolt);
-                            $('#POUCInput').val(result.POUCInput);
-                            $('#POURemarks').val(result.POURemarks);
-
-                            $("#btnPOUEditH").click();
-                            $('input, select, textarea, checkbox').prop('disabled', false);
-                            $("#savePullOut").show();
-                            $("#clearPullOut").show();
-                        }
-                    });
-                });
-                
-            // Delete POU
-                jQuery(document).on( "click", ".btnPOUDelete", function(){
-                    var id = $(this).data('id');
-                    var unittype = $(this).data('unittype');
-
-                    $('#btnPOUDeleteH').click();
-                    $('#deleteConfirmPOU').data('id', id);
-                    $('#deleteConfirmPOU').data('unittype', unittype);
-                });
-
-                jQuery(document).on( "click", "#deleteConfirmPOU", function(){
-                    var id = $('#deleteConfirmPOU').data('id');
-                    var unittype = $('#deleteConfirmPOU').data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.deletePOU') }}",
-                        method:"POST",
-                        data:{id: id, unittype: unittype, _token: _token,},
-                        success:function(result){
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
-                            $('#tableBPOU').html(result);
-                        },
-                        error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        }
-                    });
-                });
-            
-            // If Area Change, Data from Bay also changes
-                jQuery(document).on( "change", "#POUArea", function(){
-                    var area = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-                    // alert(area);
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getBay') }}",
-                        method:"GET",
-                        data:{area: area, _token: _token,},
-                        success:function(result){
-                            $('#POUBay').html(result);
-                        }
-                    });
-                });
-                
-            // Clear Form if Button Click Transfer Unit
-                jQuery(document).on( "click", "#btnPOUTransfer", function(){
-                    $("#formPOUT").trigger('reset');
-                    if($('#POUArea').val() == ''){
-                        var area = $('#POUArea').val();
-                        var _token = $('input[name="_token"]').val();
-
-                        $.ajax({
-                            url:"{{ route('r-workshop.report.getBay') }}",
-                            method:"GET",
-                            data:{area: area, _token: _token,},
-                            success:function(result){
-                                $('#POUBay').html(result);
-                            }
-                        });
-                    }
-
-                    var id = $(this).data('id');
-                    var poremarks = $(this).data('poremarks');
-
-                    $('#btnPOUTransferH').click();
-                    $('#transferPOU').data('id',id);
-                    $('#POUIDx').val(id);
-                    $('#POURemarksO').val(poremarks);
-                });
-
-            // Transfer POU
-                jQuery(document).on( "click", "#transferPOU", function(){
-                    
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.transferPullOut') }}",
-                        method:"POST",
-                        data: $("#formPOUT").serialize(),
-                        success:function(result){
-                            $('#tableBPOU').html(result);
-                            $('#tableBCU').load(location.href + ' #tableBCU>*','');
-                            $('#tableBWS').load(location.href + ' #tableBWS>*','');
-                            $("#closeTransfer").click();
-                            $("#btnSuccessH").click();
-                        },
-                        error: function(error){
-                            $("#btnFailedH").click();
-                        }
-                    });
-                });
-            
-            // Search Pull Out Unit
-                $("#PTableSearch").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#tableBPOU tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-
-                    $('#PUnitClassification').val('');
-                });
-
-            // Filter by Classification Pull Out Unit
-                $("#PUnitClassification").on("change", function() {
-                    var input, filter, table, tr, td, i, txtValue;
-                    input = document.getElementById("PUnitClassification");
-                    filter = input.value.toUpperCase();
-                    table = document.getElementById("tableBPOU");
-                    tr = table.getElementsByTagName("tr");
-
-                    for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("td")[9];
-                        if (td) {
-                            txtValue = td.textContent || td.innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
-                            }
-                        }
-                    }
-                    
-                    $('#PTableSearch').val('');
-                });
-
-            // Edit CU
-                jQuery(document).on( "click", ".btnCUEdit", function(){
-                    $("#POUnit li:first-child button").click();
-                    var id = $(this).data('id');
-                    var utype = $(this).data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
-                        method:"GET",
-                        dataType: 'json',
-                        data:{id: id, utype: utype, _token: _token,},
-                        success:function(result){
-                            $('#POUIDe').val(result.POUnitIDx);
-                                if(result.POUUnitType == 1) {
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                                }else{
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
-                                }
-                            $('#POUArrivalDate').val(result.POUArrivalDate);
-                            $('#POUBrand').val(result.POUBrand);
-                            $('#POUClassification').val(result.POUClassification);
-                            $('#POUModel').val(result.POUModel);
-                            $('#POUSerialNum').val(result.POUSerialNum);
-                            $('#POUCode').val(result.POUCode);
-                            $('#POUMastType').val(result.POUMastType);
-                            $('#POUMastHeight').val(result.POUMastHeight);
-                            $('#POUForkSize').val(result.POUForkSize);
-                                if(result.POUwAttachment == 1) {
-                                    $('#POUwAttachment').prop('checked', true);
-                                    $('#PAttachment').removeClass("disabled");
-                                }else{
-                                    $('#POUwAttachment').prop('checked', false);
-                                    $('#PAttachment').addClass("disabled");
-                                }
-                            $('#POUAttType').val(result.POUAttType);
-                            $('#POUAttModel').val(result.POUAttModel);
-                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
-                                if(result.POUwAccesories == 1) {
-                                    $('#POUwAccesories').prop('checked', true);
-                                    $('#PAccesories').removeClass("disabled");
-                                }else{
-                                    $('#POUwAccesories').prop('checked', false);
-                                    $('#PAccesories').addClass("disabled");
-                                }
-                                
-                                if(result.POUAccISite == 1) {
-                                    $('#POUAccISite').prop('checked', true);
-                                }else{
-                                    $('#POUAccISite').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccLiftCam == 1) {
-                                    $('#POUAccLiftCam').prop('checked', true);
-                                }else{
-                                    $('#POUAccLiftCam').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccRedLight == 1) {
-                                    $('#POUAccRedLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccRedLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccBlueLight == 1) {
-                                    $('#POUAccBlueLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccBlueLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccFireExt == 1) {
-                                    $('#POUAccFireExt').prop('checked', true);
-                                }else{
-                                    $('#POUAccFireExt').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccStLight == 1) {
-                                    $('#POUAccStLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccStLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccOthers == 1) {
-                                    $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').prop('disabled',false);
-                                }else{
-                                    $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').prop('disabled',true);
-                                }
-                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
-                            $('#POUTechnician1').val(result.POUTechnician1);
-                                var selectedValue1 = result.POUTechnician1;
-                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
-                                if (selectedValue1) {
-                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUTechnician2').val(result.POUTechnician2);
-                                var selectedValue2 = result.POUTechnician2;
-                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
-                                if (selectedValue2) {
-                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUSalesman').val(result.POUSalesman);
-                            $('#POUCustomer').val(result.POUCustomer);
-                            $('#POUCustAddress').val(result.POUCustAddress);
-                            $('#POUBABrand').val(result.POUBABrand);
-                            $('#POUBABatType').val(result.POUBABatType);
-                            $('#POUBASerialNum').val(result.POUBASerialNum);
-                            $('#POUBACode').val(result.POUBACode);
-                            $('#POUBAAmper').val(result.POUBAAmper);
-                            $('#POUBAVolt').val(result.POUBAVolt);
-                            $('#POUBACCable').val(result.POUBACCable);
-                            $('#POUBACTable').val(result.POUBACTable);
-                                if(result.POUwSpareBat1 == 1) {
-                                    $('#POUwBatSpare1').prop('checked', true);
-                                    $('#SpareBat1').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare1').prop('checked', false);
-                                    $('#SpareBat1').addClass("disabled");
-                                }
-                            $('#POUSB1Brand').val(result.POUSB1Brand);
-                            $('#POUSB1BatType').val(result.POUSB1BatType);
-                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
-                            $('#POUSB1Code').val(result.POUSB1Code);
-                            $('#POUSB1Amper').val(result.POUSB1Amper);
-                            $('#POUSB1Volt').val(result.POUSB1Volt);
-                            $('#POUSB1CCable').val(result.POUSB1CCable);
-                            $('#POUSB1CTable').val(result.POUSB1CTable);
-                                if(result.POUwSpareBat2 == 1) {
-                                    $('#POUwBatSpare2').prop('checked', true);
-                                    $('#SpareBat2').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare2').prop('checked', false);
-                                    $('#SpareBat2').addClass("disabled");
-                                }
-                            $('#POUSB2Brand').val(result.POUSB2Brand);
-                            $('#POUSB2BatType').val(result.POUSB2BatType);
-                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
-                            $('#POUSB2Code').val(result.POUSB2Code);
-                            $('#POUSB2Amper').val(result.POUSB2Amper);
-                            $('#POUSB2Volt').val(result.POUSB2Volt);
-                            $('#POUSB2CCable').val(result.POUSB2CCable);
-                            $('#POUSB2CTable').val(result.POUSB2CTable);
-                            $('#POUCBrand').val(result.POUCBrand);
-                            $('#POUCModel').val(result.POUCModel);
-                            $('#POUCSerialNum').val(result.POUCSerialNum);
-                            $('#POUCCode').val(result.POUCCode);
-                            $('#POUCAmper').val(result.POUCAmper);
-                            $('#POUCVolt').val(result.POUCVolt);
-                            $('#POUCInput').val(result.POUCInput);
-                            $('#POURemarks').val(result.POURemarks);
-
-                            $("#btnPOUEditH").click();
-                            $('input, select, textarea, checkbox').prop('disabled', false);
-                            $("#savePullOut").show();
-                            $("#clearPullOut").show();
-                        }
-                    });
-                });
-            
-            // View CU
-                jQuery(document).on( "click", ".btnCUView", function(){
-                    $("#POUnit li:first-child button").click();
-                    var id = $(this).data('id');
-                    var utype = $(this).data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getPOUData') }}",
-                        method:"GET",
-                        dataType: 'json',
-                        data:{id: id, utype: utype, _token: _token,},
-                        success:function(result){
-                            $('#POUIDe').val(result.POUnitIDx);
-                                if(result.POUUnitType == 1) {
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                                }else{
-                                    $('#POUUnitType').val(result.POUUnitType);
-                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
-                                }
-                            $('#POUArrivalDate').val(result.POUArrivalDate);
-                            $('#POUBrand').val(result.POUBrand);
-                            $('#POUClassification').val(result.POUClassification);
-                            $('#POUModel').val(result.POUModel);
-                            $('#POUSerialNum').val(result.POUSerialNum);
-                            $('#POUCode').val(result.POUCode);
-                            $('#POUMastType').val(result.POUMastType);
-                            $('#POUMastHeight').val(result.POUMastHeight);
-                            $('#POUForkSize').val(result.POUForkSize);
-                                if(result.POUwAttachment == 1) {
-                                    $('#POUwAttachment').prop('checked', true);
-                                    $('#PAttachment').removeClass("disabled");
-                                }else{
-                                    $('#POUwAttachment').prop('checked', false);
-                                    $('#PAttachment').addClass("disabled");
-                                }
-                            $('#POUAttType').val(result.POUAttType);
-                            $('#POUAttModel').val(result.POUAttModel);
-                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
-                                if(result.POUwAccesories == 1) {
-                                    $('#POUwAccesories').prop('checked', true);
-                                    $('#PAccesories').removeClass("disabled");
-                                }else{
-                                    $('#POUwAccesories').prop('checked', false);
-                                    $('#PAccesories').addClass("disabled");
-                                }
-                                
-                                if(result.POUAccISite == 1) {
-                                    $('#POUAccISite').prop('checked', true);
-                                }else{
-                                    $('#POUAccISite').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccLiftCam == 1) {
-                                    $('#POUAccLiftCam').prop('checked', true);
-                                }else{
-                                    $('#POUAccLiftCam').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccRedLight == 1) {
-                                    $('#POUAccRedLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccRedLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccBlueLight == 1) {
-                                    $('#POUAccBlueLight').prop('checked', true);
-                                }else{
-                                    $('#POUAccBlueLight').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccFireExt == 1) {
-                                    $('#POUAccFireExt').prop('checked', true);
-                                }else{
-                                    $('#POUAccFireExt').prop('checked', false);
-                                }
-                                
-                                if(result.POUAccOthers == 1) {
-                                    $('#POUAccOthers').prop('checked', true);
-                                    $('#POUAccOthersDetail').prop('disabled',false);
-                                }else{
-                                    $('#POUAccOthers').prop('checked', false);
-                                    $('#POUAccOthersDetail').prop('disabled',true);
-                                }
-                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
-                            $('#POUTechnician1').val(result.POUTechnician1);
-                                var selectedValue1 = result.POUTechnician1;
-                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
-                                if (selectedValue1) {
-                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUTechnician2').val(result.POUTechnician2);
-                                var selectedValue2 = result.POUTechnician2;
-                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
-                                if (selectedValue2) {
-                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#POUSalesman').val(result.POUSalesman);
-                            $('#POUCustomer').val(result.POUCustomer);
-                            $('#POUCustAddress').val(result.POUCustAddress);
-                            $('#POUBABrand').val(result.POUBABrand);
-                            $('#POUBABatType').val(result.POUBABatType);
-                            $('#POUBASerialNum').val(result.POUBASerialNum);
-                            $('#POUBACode').val(result.POUBACode);
-                            $('#POUBAAmper').val(result.POUBAAmper);
-                            $('#POUBAVolt').val(result.POUBAVolt);
-                            $('#POUBACCable').val(result.POUBACCable);
-                            $('#POUBACTable').val(result.POUBACTable);
-                                if(result.POUwSpareBat1 == 1) {
-                                    $('#POUwBatSpare1').prop('checked', true);
-                                    $('#SpareBat1').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare1').prop('checked', false);
-                                    $('#SpareBat1').addClass("disabled");
-                                }
-                            $('#POUSB1Brand').val(result.POUSB1Brand);
-                            $('#POUSB1BatType').val(result.POUSB1BatType);
-                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
-                            $('#POUSB1Code').val(result.POUSB1Code);
-                            $('#POUSB1Amper').val(result.POUSB1Amper);
-                            $('#POUSB1Volt').val(result.POUSB1Volt);
-                            $('#POUSB1CCable').val(result.POUSB1CCable);
-                            $('#POUSB1CTable').val(result.POUSB1CTable);
-                                if(result.POUwSpareBat2 == 1) {
-                                    $('#POUwBatSpare2').prop('checked', true);
-                                    $('#SpareBat2').removeClass("disabled");
-                                }else{
-                                    $('#POUwBatSpare2').prop('checked', false);
-                                    $('#SpareBat2').addClass("disabled");
-                                }
-                            $('#POUSB2Brand').val(result.POUSB2Brand);
-                            $('#POUSB2BatType').val(result.POUSB2BatType);
-                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
-                            $('#POUSB2Code').val(result.POUSB2Code);
-                            $('#POUSB2Amper').val(result.POUSB2Amper);
-                            $('#POUSB2Volt').val(result.POUSB2Volt);
-                            $('#POUSB2CCable').val(result.POUSB2CCable);
-                            $('#POUSB2CTable').val(result.POUSB2CTable);
-                            $('#POUCBrand').val(result.POUCBrand);
-                            $('#POUCModel').val(result.POUCModel);
-                            $('#POUCSerialNum').val(result.POUCSerialNum);
-                            $('#POUCCode').val(result.POUCCode);
-                            $('#POUCAmper').val(result.POUCAmper);
-                            $('#POUCVolt').val(result.POUCVolt);
-                            $('#POUCInput').val(result.POUCInput);
-                            $('#POURemarks').val(result.POURemarks);
-
-                            $("#btnPOUViewH").click();
-                            $('input, select, textarea, checkbox').prop('disabled', true);
-                            $("#savePullOut").hide();
-                            $("#clearPullOut").hide();
-                        }
-                    });
-                });
-            
-            // Delete/Revert CU
-                jQuery(document).on( "click", ".btnCUDelete", function(){
-                    var id = $(this).data('id');
-                    var cubay = $(this).data('cubay');
-
-                    $('#btnCUDeleteH').click();
-                    $('#deleteConfirmCU').data('id', id);
-                    $('#deleteConfirmCU').data('cubay', cubay);
-                });
-                
-                jQuery(document).on( "click", "#deleteConfirmCU", function(){
-                    var id = $(this).data('id');
-                    var cubay = $(this).data('cubay');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.deleteCU') }}",
-                        method:"POST",
-                        data:{id: id, cubay: cubay, _token: _token,},
-                        success:function(result){
-                            $('#tableBCU').html(result);
-                            $('#tableBPOU').load(location.href + ' #tableBPOU>*','');
-                            $('#tableBWS').load(location.href + ' #tableBWS>*','');
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
-                        },
-                        error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        }
-                    });
-                });
-            
-            // Search Confirm Unit
-                $("#CTableSearch").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#tableBCU tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-
-                    $('#CUnitClassification').val('');
-                });
-
-            // Filter by Classification Confirm Unit
-                $("#CUnitClassification").on("change", function() {
-                    var input, filter, table, tr, td, i, txtValue;
-                    input = document.getElementById("CUnitClassification");
-                    filter = input.value.toUpperCase();
-                    table = document.getElementById("tableBCU");
-                    tr = table.getElementsByTagName("tr");
-
-                    for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("td")[6];
-                        if (td) {
-                            txtValue = td.textContent || td.innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
-                            }
-                        }
-                    }
-                    
-                    $('#CTableSearch').val('');
-                });
-
-            // Search Pull Out Unit
-                $("#WSTableSearch").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#tableBWS tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-
-            // Filter by Classification Pull Out Unit
-                $(".RadioBrand").on("change", function() {
-                    alert('HI!');
-                    // var input, filter, table, tr, td, i, txtValue;
-                    // input = document.getElementById("PUnitClassification");
-                    // filter = input.value.toUpperCase();
-                    // table = document.getElementById("tableBPOU");
-                    // tr = table.getElementsByTagName("tr");
-
-                    // for (i = 0; i < tr.length; i++) {
-                    //     td = tr[i].getElementsByTagName("td")[9];
-                    //     if (td) {
-                    //         txtValue = td.textContent || td.innerText;
-                    //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    //             tr[i].style.display = "";
-                    //         } else {
-                    //             tr[i].style.display = "none";
-                    //         }
-                    //     }
-                    // }
-                    
-                    // $('#PTableSearch').val('');
-                });
-
-            // Filter by Brand Workshop Unit
-                $('input[name="RadioBrand"]').change(function() {
-                    var unitBrand = $('input[name="RadioBrand"]:checked').val();
-                    var _token = $('input[name="_token"]').val();
-
-                    $('#WSTableSearch').val('');
-
-                    $.ajax({
-                        url: "{{ route('r-workshop.report.sortBrand') }}",
-                        type: "GET",
-                        data: {unitBrand: unitBrand, _token: _token},
-                        success: function(result) {
-                            $('#tableBWS').html(result);
-                        }
-                    });
-                });
-
-            // Filter by Status Pullout Unit
-                $('input[name="pou-radio-unit"]').change(function() {
-                    var unitStatus = $('input[name="pou-radio-unit"]:checked').val();
-                    var _token = $('input[name="_token"]').val();
-
-                    $('#PTableSearch').val('');
-                    $('#PUnitClassification').val('');
-
-                    $.ajax({
-                        url: "{{ route('r-workshop.report.sortPullOut') }}",
-                        type: "GET",
-                        data: {unitStatus: unitStatus, _token: _token},
-                        success: function(result) {
-                            $('#tableBPOU').html(result);
-                        }
-                    });
-                });
-            
-    // BRAND NEW UNIT
-            // Close Modal Add and Edit
-                jQuery(document).on( "click", "#closeNewUnit", function(){
-                    $('input, select, textarea, checkbox, radio').prop('disabled', false);
-                    $("#buttonCloseN").click();
-                });
-
-            // Search Pull Out Unit
-                $("#NTableSearch").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#tableBNewUnit tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-
-            // Clear Form on Add - NEW UNIT
-                jQuery(document).on( "click", "#addNewUnit", function(){
-                    document.getElementById('formNewUnit').reset()
-                    $('#BNUIDe').val('');
-
-                    $("#NewUnit li:first-child button").click();
-                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
-                    $('#BAttachment').addClass("disabled");
-                    $('#BAccesories').addClass("disabled");
-                    $('#BNUAccOthersDetail').prop('disabled', true);
-                    $('#BNUTechnician1 option').prop('disabled', false);
-                    $('#BNUTechnician2 option').prop('disabled', false);
-                    $('#BSpareBat1').addClass("disabled");
-                    $('#BSpareBat2').addClass("disabled");
-
-                    
-                    $('input, select, textarea, checkbox').prop('disabled', false);
-                    $("#saveNewUnit").show();
-                    $("#clearNewUnit").show();
-                });
-
-            // Clear Form New Unit
-                $('#clearNewUnit').on( "click", function(){
-                    document.getElementById('formNewUnit').reset()
-                    $('#BNUIDe').val('');
-
-                    $("#NewUnit li:first-child button").click();
-                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                    $('#BAttachment').addClass("disabled");
-                    $('#BAccesories').addClass("disabled");
-                    $('#BNUAccOthersDetail').prop('disabled', true);
-                    $('#BNUTechnician1 option').prop('disabled', false);
-                    $('#BNUTechnician2 option').prop('disabled', false);
-                    $('#BSpareBat1').addClass("disabled");
-                    $('#BSpareBat2').addClass("disabled");
-                });
-
-            // Automatic Hide of Battery and Charger Details
-                if ($('#BNUnitType').val() == 1) {
-                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
-                }else{
-                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
-                }
-
-            // Unit Type Option
-                $("#BNUnitType").on("change", function() {
-                    if ($('#BNUnitType').val() == 1) {
-                        $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
-                    }else{
-                        $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
-                    }
-
-                    // Reset the tabs to the first one
-                    $("#NewUnit li:first-child button").click();
-                });
-
-            // Enable/Disable Attachment
-                $('#BAttachment').addClass("disabled");
-                $('#BNUwAttachment').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#BAttachment').removeClass("disabled");
-                    } else {
-                        $('#BAttachment').addClass("disabled");
-                    }
-                });
-    
-            // Enable/Disable Accesories
-                $('#BAccesories').addClass("disabled");
-                $('#BNUwAccesories').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#BAccesories').removeClass("disabled");
-                    } else {
-                        $('#BAccesories').addClass("disabled");
-                    }
-                });
-
-            // Enable/Disable Others
-                $('#BNUAccOthersDetail').addClass('disabled');
-                $("#BNUAccOthers").on("change", function() {
-                    if($(this).is(":checked")) {
-                        $('#BNUAccOthersDetail').removeClass('disabled');
-                    } else {
-                        $('#BNUAccOthersDetail').addClass('disabled');
-                    }
-                });
-
-            // Disable Value if Already Selected
-                $('#BNUTechnician1').change(function() {
-                    var selectedValue = $(this).val();
-                    $('#BNUTechnician2 option').prop('disabled', false); // enable all options
-                    if (selectedValue) {
-                        $('#BNUTechnician2 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
-                    }
-                });
-
-                $('#BNUTechnician2').change(function() {
-                    var selectedValue = $(this).val();
-                    $('#BNUTechnician1 option').prop('disabled', false); // enable all options
-                    if (selectedValue) {
-                        $('#BNUTechnician1 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
-                    }
-                });
-
-            // Enable/Disable Spare 1 and Spare 2
-                $('#BSpareBat1').addClass("disabled");
-                $('#BNUwBatSpare1').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#BSpareBat1').removeClass("disabled");
-                    } else {
-                        $('#BSpareBat1').addClass("disabled");
-                    }
-                });
-                
-                $('#BSpareBat2').addClass("disabled");
-                $('#BNUwBatSpare2').change(function() {
-                    if($(this).is(":checked")) {
-                        $('#BSpareBat2').removeClass("disabled");
-                    } else {
-                        $('#BSpareBat2').addClass("disabled");
-                    }
-                });
-
-            // Saving of Brand New
-                $('#saveNewUnit').on( "click", function(){
-                    if($('#BNUnitType').val() == 1){
-                        if ($('#BNUBrand').val() == '' || $('#BNUClassification').val() == '' || $('#BNUModel').val() == '' || $('#BNUSerialNum').val() == '' || $('#BNUCode').val() == '' || $('#BNUMastType').val() == '' || $('#BNUMastHeight').val() == '' || $('#BNUForkSize').val() == '' || $('#BNUTechnician1').val() == '' || $('#BNUCustomer').val() == '' || $('#BNUCustAddress').val() == '' || $('#BNURemarks').val() == '' ){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        } else {
-                            $('#saveNewUnitH').click();
-                        }
-                    }else{
-                        if ($('#BNUBrand').val() == '' || $('#BNUClassification').val() == '' || $('#BNUModel').val() == '' || $('#BNUSerialNum').val() == '' || $('#BNUCode').val() == '' || $('#BNUMastType').val() == '' || $('#BNUMastHeight').val() == '' || $('#BNUForkSize').val() == '' || $('#BNUTechnician1').val() == '' || $('#BNUCustomer').val() == '' || $('#BNUCustAddress').val() == '' || $('#BNUBABrand').val() == '' || $('#BNUBABatType').val() == '' || $('#BNUBASerialNum').val() == '' || $('#BNUBACode').val() == '' || $('#BNUBAAmper').val() == '' || $('#BNUBAVolt').val() == '' || $('#BNUCBrand').val() == '' || $('#BNUCModel').val() == '' || $('#BNUCSerialNum').val() == '' || $('#BNUCCode').val() == '' || $('#BNUCAmper').val() == '' || $('#BNUCVolt').val() == '' || $('#BNUCInput').val() == '' || $('#BNURemarks').val() == '' ){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        } else {
-                            $('#saveNewUnitH').click();
-                        }
-                    }
-                });
-
-                $('#saveNewUnitH').on( "click", function(){
-                    $.ajax({
-                        url: "{{ route('r-workshop.report.saveBrandNew') }}",
-                        type: "POST",
-                        data: $("#formNewUnit").serialize(),
-                        success: function(result) {
-                            $("#NewUnit li:first-child button").click();
-                            $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
-                            $('#PAttachment').addClass("disabled");
-                            $('#PAccesories').addClass("disabled");
-                            $('#BNUAccOthersDetail').prop('disabled', true);
-                            $('#BNUTechnician1 option').prop('disabled', false);
-                            $('#BNUTechnician2 option').prop('disabled', false);
-                            $('#SpareBat1').addClass("disabled");
-                            $('#SpareBat2').addClass("disabled");
-                            document.getElementById('formNewUnit').reset()
-                            $('#tableBNewUnit').html(result);
-                            $('#tableBCU').load(location.href + ' #tableBCU>*','')
-                            $("#btnSuccessH").click();
-                            $("#closeNewUnit").click();
-                        },
-                        error: function(error){
-                            $("#btnFailedH").click();
-                        }
-                    });
-                });
-
-            // View Brand New
-                jQuery(document).on( "click", ".btnBNUView", function(){
-                    $("#NewUnit li:first-child button").click();
-                    var id = $(this).data('id');
-                    var utype = $(this).data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getBNUData') }}",
-                        method:"GET",
-                        dataType: 'json',
-                        data:{id: id, utype: utype, _token: _token,},
-                        success:function(result){
-                            $('#BNUIDe').val(result.BNUnitIDx);
-                                if(result.BNUnitType == 1) {
-                                    $('#BNUnitType').val(result.BNUnitType);
-                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
-                                }else{
-                                    $('#BNUnitType').val(result.BNUnitType);
-                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
-                                }
-                            $('#BNUArrivalDate').val(result.BNUArrivalDate);
-                            $('#BNUBrand').val(result.BNUBrand);
-                            $('#BNUClassification').val(result.BNUClassification);
-                            $('#BNUModel').val(result.BNUModel);
-                            $('#BNUSerialNum').val(result.BNUSerialNum);
-                            $('#BNUCode').val(result.BNUCode);
-                            $('#BNUMastType').val(result.BNUMastType);
-                            $('#BNUMastHeight').val(result.BNUMastHeight);
-                            $('#BNUForkSize').val(result.BNUForkSize);
-                                if(result.BNUwAttachment == 1) {
-                                    $('#BNUwAttachment').prop('checked', true);
-                                    $('#PAttachment').removeClass("disabled");
-                                }else{
-                                    $('#BNUwAttachment').prop('checked', false);
-                                    $('#PAttachment').addClass("disabled");
-                                }
-                            $('#BNUAttType').val(result.BNUAttType);
-                            $('#BNUAttModel').val(result.BNUAttModel);
-                            $('#BNUAttSerialNum').val(result.BNUAttSerialNum);
-                                if(result.BNUwAccesories == 1) {
-                                    $('#BNUwAccesories').prop('checked', true);
-                                    $('#PAccesories').removeClass("disabled");
-                                }else{
-                                    $('#BNUwAccesories').prop('checked', false);
-                                    $('#PAccesories').addClass("disabled");
-                                }
-                                
-                                if(result.BNUAccISite == 1) {
-                                    $('#BNUAccISite').prop('checked', true);
-                                }else{
-                                    $('#BNUAccISite').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccLiftCam == 1) {
-                                    $('#BNUAccLiftCam').prop('checked', true);
-                                }else{
-                                    $('#BNUAccLiftCam').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccRedLight == 1) {
-                                    $('#BNUAccRedLight').prop('checked', true);
-                                }else{
-                                    $('#BNUAccRedLight').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccBlueLight == 1) {
-                                    $('#BNUAccBlueLight').prop('checked', true);
-                                }else{
-                                    $('#BNUAccBlueLight').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccFireExt == 1) {
-                                    $('#BNUAccFireExt').prop('checked', true);
-                                }else{
-                                    $('#BNUAccFireExt').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccOthers == 1) {
-                                    $('#BNUAccOthers').prop('checked', true);
-                                    $('#BNUAccOthersDetail').prop('disabled',false);
-                                }else{
-                                    $('#BNUAccOthers').prop('checked', false);
-                                    $('#BNUAccOthersDetail').prop('disabled',true);
-                                }
-                            $('#BNUAccOthersDetail').val(result.BNUAccOthersDetail);
-                            $('#BNUTechnician1').val(result.BNUTechnician1);
-                                var selectedValue1 = result.BNUTechnician1;
-                                $('#BNUTechnician2 option').prop('disabled', false); // enable all options
-                                if (selectedValue1) {
-                                    $('#BNUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#BNUTechnician2').val(result.BNUTechnician2);
-                                var selectedValue2 = result.BNUTechnician2;
-                                $('#BNUTechnician1 option').prop('disabled', false); // enable all options
-                                if (selectedValue2) {
-                                    $('#BNUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#BNUSalesman').val(result.BNUSalesman);
-                            $('#BNUCustomer').val(result.BNUCustomer);
-                            $('#BNUCustAddress').val(result.BNUCustAddress);
-                            $('#BNUBABrand').val(result.BNUBABrand);
-                            $('#BNUBABatType').val(result.BNUBABatType);
-                            $('#BNUBASerialNum').val(result.BNUBASerialNum);
-                            $('#BNUBACode').val(result.BNUBACode);
-                            $('#BNUBAAmper').val(result.BNUBAAmper);
-                            $('#BNUBAVolt').val(result.BNUBAVolt);
-                            $('#BNUBACCable').val(result.BNUBACCable);
-                            $('#BNUBACTable').val(result.BNUBACTable);
-                                if(result.BNUwSpareBat1 == 1) {
-                                    $('#BNUwBatSpare1').prop('checked', true);
-                                    $('#SpareBat1').removeClass("disabled");
-                                }else{
-                                    $('#BNUwBatSpare1').prop('checked', false);
-                                    $('#SpareBat1').addClass("disabled");
-                                }
-                            $('#BNUSB1Brand').val(result.BNUSB1Brand);
-                            $('#BNUSB1BatType').val(result.BNUSB1BatType);
-                            $('#BNUSB1SerialNum').val(result.BNUSB1SerialNum);
-                            $('#BNUSB1Code').val(result.BNUSB1Code);
-                            $('#BNUSB1Amper').val(result.BNUSB1Amper);
-                            $('#BNUSB1Volt').val(result.BNUSB1Volt);
-                            $('#BNUSB1CCable').val(result.BNUSB1CCable);
-                            $('#BNUSB1CTable').val(result.BNUSB1CTable);
-                                if(result.BNUwSpareBat2 == 1) {
-                                    $('#BNUwBatSpare2').prop('checked', true);
-                                    $('#SpareBat2').removeClass("disabled");
-                                }else{
-                                    $('#BNUwBatSpare2').prop('checked', false);
-                                    $('#SpareBat2').addClass("disabled");
-                                }
-                            $('#BNUSB2Brand').val(result.BNUSB2Brand);
-                            $('#BNUSB2BatType').val(result.BNUSB2BatType);
-                            $('#BNUSB2SerialNum').val(result.BNUSB2SerialNum);
-                            $('#BNUSB2Code').val(result.BNUSB2Code);
-                            $('#BNUSB2Amper').val(result.BNUSB2Amper);
-                            $('#BNUSB2Volt').val(result.BNUSB2Volt);
-                            $('#BNUSB2CCable').val(result.BNUSB2CCable);
-                            $('#BNUSB2CTable').val(result.BNUSB2CTable);
-                            $('#BNUCBrand').val(result.BNUCBrand);
-                            $('#BNUCModel').val(result.BNUCModel);
-                            $('#BNUCSerialNum').val(result.BNUCSerialNum);
-                            $('#BNUCCode').val(result.BNUCCode);
-                            $('#BNUCAmper').val(result.BNUCAmper);
-                            $('#BNUCVolt').val(result.BNUCVolt);
-                            $('#BNUCInput').val(result.BNUCInput);
-                            $('#BNURemarks').val(result.BNURemarks);
-
-                            $("#btnBNUViewH").click();
-                            $('input, select, textarea, checkbox').prop('disabled', true);
-                            $("#saveNewUnit").hide();
-                            $("#clearNewUnit").hide();
-                        }
-                    });
-                });
-            
-            // Edit Brand New
-                jQuery(document).on( "click", ".btnBNUEdit", function(){
-                    $("#NewUnit li:first-child button").click();
-                    var id = $(this).data('id');
-                    var utype = $(this).data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getBNUData') }}",
-                        method:"GET",
-                        dataType: 'json',
-                        data:{id: id, utype: utype, _token: _token,},
-                        success:function(result){
-                            $('#BNUIDe').val(id);
-                                if(result.BNUnitType == 1) {
-                                    $('#BNUnitType').val(result.BNUnitType);
-                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
-                                }else{
-                                    $('#BNUnitType').val(result.BNUnitType);
-                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
-                                }
-                            $('#BNUArrivalDate').val(result.BNUArrivalDate);
-                            $('#BNUBrand').val(result.BNUBrand);
-                            $('#BNUClassification').val(result.BNUClassification);
-                            $('#BNUModel').val(result.BNUModel);
-                            $('#BNUSerialNum').val(result.BNUSerialNum);
-                            $('#BNUCode').val(result.BNUCode);
-                            $('#BNUMastType').val(result.BNUMastType);
-                            $('#BNUMastHeight').val(result.BNUMastHeight);
-                            $('#BNUForkSize').val(result.BNUForkSize);
-                                if(result.BNUwAttachment == 1) {
-                                    $('#BNUwAttachment').prop('checked', true);
-                                    $('#PAttachment').removeClass("disabled");
-                                }else{
-                                    $('#BNUwAttachment').prop('checked', false);
-                                    $('#PAttachment').addClass("disabled");
-                                }
-                            $('#BNUAttType').val(result.BNUAttType);
-                            $('#BNUAttModel').val(result.BNUAttModel);
-                            $('#BNUAttSerialNum').val(result.BNUAttSerialNum);
-                                if(result.BNUwAccesories == 1) {
-                                    $('#BNUwAccesories').prop('checked', true);
-                                    $('#PAccesories').removeClass("disabled");
-                                }else{
-                                    $('#BNUwAccesories').prop('checked', false);
-                                    $('#PAccesories').addClass("disabled");
-                                }
-                                
-                                if(result.BNUAccISite == 1) {
-                                    $('#BNUAccISite').prop('checked', true);
-                                }else{
-                                    $('#BNUAccISite').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccLiftCam == 1) {
-                                    $('#BNUAccLiftCam').prop('checked', true);
-                                }else{
-                                    $('#BNUAccLiftCam').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccRedLight == 1) {
-                                    $('#BNUAccRedLight').prop('checked', true);
-                                }else{
-                                    $('#BNUAccRedLight').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccBlueLight == 1) {
-                                    $('#BNUAccBlueLight').prop('checked', true);
-                                }else{
-                                    $('#BNUAccBlueLight').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccFireExt == 1) {
-                                    $('#BNUAccFireExt').prop('checked', true);
-                                }else{
-                                    $('#BNUAccFireExt').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccStLight == 1) {
-                                    $('#BNUAccStLight').prop('checked', true);
-                                }else{
-                                    $('#BNUAccStLight').prop('checked', false);
-                                }
-                                
-                                if(result.BNUAccOthers == 1) {
-                                    $('#BNUAccOthers').prop('checked', true);
-                                    $('#BNUAccOthersDetail').prop('disabled',false);
-                                }else{
-                                    $('#BNUAccOthers').prop('checked', false);
-                                    $('#BNUAccOthersDetail').prop('disabled',true);
-                                }
-                            $('#BNUAccOthersDetail').val(result.BNUAccOthersDetail);
-                            $('#BNUTechnician1').val(result.BNUTechnician1);
-                                var selectedValue1 = result.BNUTechnician1;
-                                $('#BNUTechnician2 option').prop('disabled', false); // enable all options
-                                if (selectedValue1) {
-                                    $('#BNUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#BNUTechnician2').val(result.BNUTechnician2);
-                                var selectedValue2 = result.BNUTechnician2;
-                                $('#BNUTechnician1 option').prop('disabled', false); // enable all options
-                                if (selectedValue2) {
-                                    $('#BNUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
-                                }
-                            $('#BNUSalesman').val(result.BNUSalesman);
-                            $('#BNUCustomer').val(result.BNUCustomer);
-                            $('#BNUCustAddress').val(result.BNUCustAddress);
-                            $('#BNUBABrand').val(result.BNUBABrand);
-                            $('#BNUBABatType').val(result.BNUBABatType);
-                            $('#BNUBASerialNum').val(result.BNUBASerialNum);
-                            $('#BNUBACode').val(result.BNUBACode);
-                            $('#BNUBAAmper').val(result.BNUBAAmper);
-                            $('#BNUBAVolt').val(result.BNUBAVolt);
-                            $('#BNUBACCable').val(result.BNUBACCable);
-                            $('#BNUBACTable').val(result.BNUBACTable);
-                                if(result.BNUwSpareBat1 == 1) {
-                                    $('#BNUwBatSpare1').prop('checked', true);
-                                    $('#SpareBat1').removeClass("disabled");
-                                }else{
-                                    $('#BNUwBatSpare1').prop('checked', false);
-                                    $('#SpareBat1').addClass("disabled");
-                                }
-                            $('#BNUSB1Brand').val(result.BNUSB1Brand);
-                            $('#BNUSB1BatType').val(result.BNUSB1BatType);
-                            $('#BNUSB1SerialNum').val(result.BNUSB1SerialNum);
-                            $('#BNUSB1Code').val(result.BNUSB1Code);
-                            $('#BNUSB1Amper').val(result.BNUSB1Amper);
-                            $('#BNUSB1Volt').val(result.BNUSB1Volt);
-                            $('#BNUSB1CCable').val(result.BNUSB1CCable);
-                            $('#BNUSB1CTable').val(result.BNUSB1CTable);
-                                if(result.BNUwSpareBat2 == 1) {
-                                    $('#BNUwBatSpare2').prop('checked', true);
-                                    $('#SpareBat2').removeClass("disabled");
-                                }else{
-                                    $('#BNUwBatSpare2').prop('checked', false);
-                                    $('#SpareBat2').addClass("disabled");
-                                }
-                            $('#BNUSB2Brand').val(result.BNUSB2Brand);
-                            $('#BNUSB2BatType').val(result.BNUSB2BatType);
-                            $('#BNUSB2SerialNum').val(result.BNUSB2SerialNum);
-                            $('#BNUSB2Code').val(result.BNUSB2Code);
-                            $('#BNUSB2Amper').val(result.BNUSB2Amper);
-                            $('#BNUSB2Volt').val(result.BNUSB2Volt);
-                            $('#BNUSB2CCable').val(result.BNUSB2CCable);
-                            $('#BNUSB2CTable').val(result.BNUSB2CTable);
-                            $('#BNUCBrand').val(result.BNUCBrand);
-                            $('#BNUCModel').val(result.BNUCModel);
-                            $('#BNUCSerialNum').val(result.BNUCSerialNum);
-                            $('#BNUCCode').val(result.BNUCCode);
-                            $('#BNUCAmper').val(result.BNUCAmper);
-                            $('#BNUCVolt').val(result.BNUCVolt);
-                            $('#BNUCInput').val(result.BNUCInput);
-                            $('#BNURemarks').val(result.BNURemarks);
-
-                            $("#btnBNUEditH").click();
-                            $('input, select, textarea, checkbox').prop('disabled', false);
-                            $("#saveNewUnit").show();
-                            $("#clearNewUnit").show();
-                        }
-                    });
-                });
-                
-            // Delete Brand New
-                jQuery(document).on( "click", ".btnBNUDelete", function(){
-                    var id = $(this).data('id');
-                    var unittype = $(this).data('unittype');
-
-                    $('#btnBNUDeleteH').click();
-                    $('#deleteConfirmBNU').data('id', id);
-                    $('#deleteConfirmBNU').data('unittype', unittype);
-                });
-
-                jQuery(document).on( "click", "#deleteConfirmBNU", function(){
-                    var id = $('#deleteConfirmBNU').data('id');
-                    var unittype = $('#deleteConfirmBNU').data('unittype');
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.deleteBNU') }}",
-                        method:"POST",
-                        data:{id: id, unittype: unittype, _token: _token,},
-                        success:function(result){
-                            $("#btnSuccessH").click();
-                            $('#tableBNewUnit').html(result);
-                        },
-                        error: function(error){
-                            $("#btnFailedH").click();
-                        }
-                    });
-                });
-                
-            // Clear Form if Button Click Transfer Unit
-                jQuery(document).on( "click", "#btnBNUTransfer", function(){
-                    $("#formBNUT").trigger('reset');
-                    if($('#BNUArea').val() == ''){
-                        var area = $('#BNUArea').val();
-                        var _token = $('input[name="_token"]').val();
-
-                        $.ajax({
-                            url:"{{ route('r-workshop.report.getBay') }}",
-                            method:"GET",
-                            data:{area: area, _token: _token,},
-                            success:function(result){
-                                $('#POUBay').html(result);
-                            }
-                        });
-                    }
-
-                    var id = $(this).data('id');
-                    var bnuremarks = $(this).data('uremarks');
-
-                    $('#btnBNUTransferH').click();
-                    $('#transferBNU').data('id',id);
-                    $('#BNUIDx').val(id);
-                    $('#BNURemarksO').val(bnuremarks);
-                });
-            
-            // If Area Change, Data from Bay also changes
-                jQuery(document).on( "change", "#BNUArea", function(){
-                    var area = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.getBay') }}",
-                        method:"GET",
-                        data:{area: area, _token: _token,},
-                        success:function(result){
-                            $('#BNUBay').html(result);
-                        }
-                    });
-                });
-
-            // Transfer Brand New
-                jQuery(document).on( "click", "#transferBNU", function(){
-                    
-                    $.ajax({
-                        url:"{{ route('r-workshop.report.transferNewUnit') }}",
-                        method:"POST",
-                        data: $("#formBNUT").serialize(),
-                        success:function(result){
-                            $('#tableBNewUnit').html(result);
-                            $("#btnSuccessH").click();
-                            $("#closeBNTransfer").click();
-                        },
-                        error: function(error){
-                            $("#btnFailedH").click();
-                        }
-                    });
-                });
-        });
-    </script>
-    
         
     {{-- MODALS --}}
         {{-- ADD AND EDIT MODAL FOR NEW UNITS --}}
@@ -3228,7 +1593,7 @@
                 <div class="relative bg-white rounded-lg shadow">
                     <!-- Modal header -->
                     <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-medium text-gray-900">
+                        <h3 id="htitle" class="text-xl font-medium text-gray-900">
                             PULL OUT UNIT
                         </h3>
                         <button type="button" id="buttonCloseP" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalPOU">
@@ -3866,6 +2231,21 @@
                 </div>
             </div>
         </div>
+        {{-- DELETE MODAL FOR DELIVERED UNITS --}}
+        <div id="modalDeleteDU" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+            <div class="relative w-full h-full max-w-md md:h-auto">
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div class="p-6 text-center">
+                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
+                        <button type="button" id="deleteConfirmDU" data-modal-hide="modalDeleteDU" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Yes, I'm sure.
+                        </button>
+                        <button data-modal-hide="modalDeleteDU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{-- SUCCESS MODAL --}}
         <div id="success-modal" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="bg-green-200 rounded-lg shadow-xl border border-gray-200 w-80 mx-auto p-4">
@@ -3902,5 +2282,2059 @@
               </div>
             </div>
         </div>
+
+    <script>
+        $(document).ready(function () {
+            // 
+                jQuery(document).on( "click", "#SCloseButton", function(){
+                    $("#success-modal").removeClass("flex");
+                    $("#success-modal").addClass("hidden");
+                });
+
+            // 
+                jQuery(document).on( "click", "#FCloseButton", function(){
+                    $("#failed-modal").removeClass("flex");
+                    $("#failed-modal").addClass("hidden");
+                });
+
+            //
+                jQuery(document).on( "click", "#closedPullOut", function(){
+                    $('input, select, textarea, checkbox, radio').prop('disabled', false);
+                    $("#buttonCloseP").click();
+                });
+                
+            // Clear Form on Add
+                jQuery(document).on( "click", "#addPOUnit", function(){
+                    if($('#POUIDe').val() != ''){
+                        document.getElementById('formPOU').reset()
+                        $('#POUIDe').val('');
+
+                        $("#POUnit li:first-child button").click();
+                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                        $('#PAttachment').addClass("disabled");
+                        $('#PAccesories').addClass("disabled");
+                        $('#POUAccOthersDetail').prop('disabled', true);
+                        $('#POUTechnician1 option').prop('disabled', false);
+                        $('#POUTechnician2 option').prop('disabled', false);
+                        $('#SpareBat1').addClass("disabled");
+                        $('#SpareBat2').addClass("disabled");
+
+                        
+                        $('input, select, textarea, checkbox').prop('disabled', false);
+                        $("#savePullOut").show();
+                        $("#clearPullOut").show();
+                        var newHeading = "PULL OUT UNIT";
+                        document.getElementById("htitle").innerHTML = newHeading;
+                    }
+                });
+
+            // Automatic Hide of Battery and Charger Details
+                if ($('#POUUnitType').val() == 1) {
+                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                }else{
+                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                }
+
+            // Unit Type Option
+                $("#POUUnitType").on("change", function() {
+                    if ($('#POUUnitType').val() == 1) {
+                        $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                    }else{
+                        $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                    }
+
+                    // Reset the tabs to the first one
+                    $("#POUnit li:first-child button").click();
+                });
+
+            // Enable/Disable Attachment
+                $('#PAttachment').addClass("disabled");
+                $('#POUwAttachment').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#PAttachment').removeClass("disabled");
+                    } else {
+                        $('#PAttachment').addClass("disabled");
+                    }
+                });
+                
+            // Enable/Disable Accesories
+                $('#PAccesories').addClass("disabled");
+                $('#POUwAccesories').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#PAccesories').removeClass("disabled");
+                    } else {
+                        $('#PAccesories').addClass("disabled");
+                    }
+                });
+            
+            // Enable/Disable Others
+                $('#POUAccOthersDetail').addClass("disabled");
+                $("#POUAccOthers").on("change", function() {
+                    if($(this).is(":checked")) {
+                        $('#POUAccOthersDetail').removeClass("disabled");
+                    } else {
+                        $('#POUAccOthersDetail').addClass("disabled");
+                    }
+                });
+
+            // Disable Value if Already Selected
+                $('#POUTechnician1').change(function() {
+                    var selectedValue = $(this).val();
+                    $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                    if (selectedValue) {
+                        $('#POUTechnician2 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
+                    }
+                });
+
+                $('#POUTechnician2').change(function() {
+                    var selectedValue = $(this).val();
+                    $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                    if (selectedValue) {
+                        $('#POUTechnician1 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
+                    }
+                });
+            
+            // Enable/Disable Spare 1 and Spare 2
+                $('#SpareBat1').addClass("disabled");
+                $('#POUwBatSpare1').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#SpareBat1').removeClass("disabled");
+                    } else {
+                        $('#SpareBat1').addClass("disabled");
+                    }
+                });
+                
+                $('#SpareBat2').addClass("disabled");
+                $('#POUwBatSpare2').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#SpareBat2').removeClass("disabled");
+                    } else {
+                        $('#SpareBat2').addClass("disabled");
+                    }
+                });
+
+            // Saving of Pull Out Unit
+                $('#savePullOut').on( "click", function(){
+                    if($('#POUUnitType').val() == 1){
+                        if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POURemarks').val() == '' ){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        } else {
+                            $('#savePullOutH').click();
+                        }
+                    }else{
+                        if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUBABrand').val() == '' || $('#POUBABatType').val() == '' || $('#POUBASerialNum').val() == '' || $('#POUBACode').val() == '' || $('#POUBAAmper').val() == '' || $('#POUBAVolt').val() == '' || $('#POUCBrand').val() == '' || $('#POUCModel').val() == '' || $('#POUCSerialNum').val() == '' || $('#POUCCode').val() == '' || $('#POUCAmper').val() == '' || $('#POUCVolt').val() == '' || $('#POUCInput').val() == '' || $('#POURemarks').val() == '' ){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        } else {
+                            $('#savePullOutH').click();
+                        }
+                    }
+                });
+
+                $('#savePullOutH').on( "click", function(){
+                    $.ajax({
+                        url: "{{ route('r-workshop.report.savePullOut') }}",
+                        type: "POST",
+                        data: $("#formPOU").serialize(),
+                        success: function(result) {
+                            $("#POUnit li:first-child button").click();
+                            $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                            $('#PAttachment').addClass("disabled");
+                            $('#PAccesories').addClass("disabled");
+                            $('#POUAccOthersDetail').prop('disabled', true);
+                            $('#POUTechnician1 option').prop('disabled', false);
+                            $('#POUTechnician2 option').prop('disabled', false);
+                            $('#SpareBat1').addClass("disabled");
+                            $('#SpareBat2').addClass("disabled");
+                            document.getElementById('formPOU').reset()
+                            $('#tableBPOU').html(result);
+                            $('#tableBCU').load(location.href + ' #tableBCU>*','')
+                            $('#tableBDU').load(location.href + ' #tableBDU>*','')
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                            $("#closedPullOut").click();
+                        },
+                        error: function(error){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        }
+                    });
+                });
+
+            // Clear Form Pull Out Unit
+                $('#clearPullOut').on( "click", function(){
+                    document.getElementById('formPOU').reset()
+                    $('#POUIDe').val('');
+
+                    $("#POUnit li:first-child button").click();
+                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                    $('#PAttachment').addClass("disabled");
+                    $('#PAccesories').addClass("disabled");
+                    $('#POUAccOthersDetail').prop('disabled', true);
+                    $('#POUTechnician1 option').prop('disabled', false);
+                    $('#POUTechnician2 option').prop('disabled', false);
+                    $('#SpareBat1').addClass("disabled");
+                    $('#SpareBat2').addClass("disabled");
+                });
+
+            // View POU
+                jQuery(document).on( "click", ".btnPOUView", function(){
+                    $("#POUnit li:first-child button").click();
+                    var id = $(this).data('id');
+                    var utype = $(this).data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        method:"GET",
+                        dataType: 'json',
+                        data:{id: id, utype: utype, _token: _token,},
+                        success:function(result){
+                            $('#POUIDe').val(result.POUnitIDx);
+                                if(result.POUUnitType == 1) {
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                }else{
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                }
+                            $('#POUArrivalDate').val(result.POUArrivalDate);
+                            $('#POUBrand').val(result.POUBrand);
+                            $('#POUClassification').val(result.POUClassification);
+                            $('#POUModel').val(result.POUModel);
+                            $('#POUSerialNum').val(result.POUSerialNum);
+                            $('#POUCode').val(result.POUCode);
+                            $('#POUMastType').val(result.POUMastType);
+                            $('#POUMastHeight').val(result.POUMastHeight);
+                            $('#POUForkSize').val(result.POUForkSize);
+                                if(result.POUwAttachment == 1) {
+                                    $('#POUwAttachment').prop('checked', true);
+                                    $('#PAttachment').removeClass("disabled");
+                                }else{
+                                    $('#POUwAttachment').prop('checked', false);
+                                    $('#PAttachment').addClass("disabled");
+                                }
+                            $('#POUAttType').val(result.POUAttType);
+                            $('#POUAttModel').val(result.POUAttModel);
+                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
+                                if(result.POUwAccesories == 1) {
+                                    $('#POUwAccesories').prop('checked', true);
+                                    $('#PAccesories').removeClass("disabled");
+                                }else{
+                                    $('#POUwAccesories').prop('checked', false);
+                                    $('#PAccesories').addClass("disabled");
+                                }
+                                
+                                if(result.POUAccISite == 1) {
+                                    $('#POUAccISite').prop('checked', true);
+                                }else{
+                                    $('#POUAccISite').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccLiftCam == 1) {
+                                    $('#POUAccLiftCam').prop('checked', true);
+                                }else{
+                                    $('#POUAccLiftCam').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccRedLight == 1) {
+                                    $('#POUAccRedLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccRedLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccBlueLight == 1) {
+                                    $('#POUAccBlueLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccBlueLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccFireExt == 1) {
+                                    $('#POUAccFireExt').prop('checked', true);
+                                }else{
+                                    $('#POUAccFireExt').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccOthers == 1) {
+                                    $('#POUAccOthers').prop('checked', true);
+                                    $('#POUAccOthersDetail').prop('disabled',false);
+                                }else{
+                                    $('#POUAccOthers').prop('checked', false);
+                                    $('#POUAccOthersDetail').prop('disabled',true);
+                                }
+                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
+                            $('#POUTechnician1').val(result.POUTechnician1);
+                                var selectedValue1 = result.POUTechnician1;
+                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                                if (selectedValue1) {
+                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUTechnician2').val(result.POUTechnician2);
+                                var selectedValue2 = result.POUTechnician2;
+                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                                if (selectedValue2) {
+                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUSalesman').val(result.POUSalesman);
+                            $('#POUCustomer').val(result.POUCustomer);
+                            $('#POUCustAddress').val(result.POUCustAddress);
+                            $('#POUBABrand').val(result.POUBABrand);
+                            $('#POUBABatType').val(result.POUBABatType);
+                            $('#POUBASerialNum').val(result.POUBASerialNum);
+                            $('#POUBACode').val(result.POUBACode);
+                            $('#POUBAAmper').val(result.POUBAAmper);
+                            $('#POUBAVolt').val(result.POUBAVolt);
+                            $('#POUBACCable').val(result.POUBACCable);
+                            $('#POUBACTable').val(result.POUBACTable);
+                                if(result.POUwSpareBat1 == 1) {
+                                    $('#POUwBatSpare1').prop('checked', true);
+                                    $('#SpareBat1').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare1').prop('checked', false);
+                                    $('#SpareBat1').addClass("disabled");
+                                }
+                            $('#POUSB1Brand').val(result.POUSB1Brand);
+                            $('#POUSB1BatType').val(result.POUSB1BatType);
+                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
+                            $('#POUSB1Code').val(result.POUSB1Code);
+                            $('#POUSB1Amper').val(result.POUSB1Amper);
+                            $('#POUSB1Volt').val(result.POUSB1Volt);
+                            $('#POUSB1CCable').val(result.POUSB1CCable);
+                            $('#POUSB1CTable').val(result.POUSB1CTable);
+                                if(result.POUwSpareBat2 == 1) {
+                                    $('#POUwBatSpare2').prop('checked', true);
+                                    $('#SpareBat2').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare2').prop('checked', false);
+                                    $('#SpareBat2').addClass("disabled");
+                                }
+                            $('#POUSB2Brand').val(result.POUSB2Brand);
+                            $('#POUSB2BatType').val(result.POUSB2BatType);
+                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
+                            $('#POUSB2Code').val(result.POUSB2Code);
+                            $('#POUSB2Amper').val(result.POUSB2Amper);
+                            $('#POUSB2Volt').val(result.POUSB2Volt);
+                            $('#POUSB2CCable').val(result.POUSB2CCable);
+                            $('#POUSB2CTable').val(result.POUSB2CTable);
+                            $('#POUCBrand').val(result.POUCBrand);
+                            $('#POUCModel').val(result.POUCModel);
+                            $('#POUCSerialNum').val(result.POUCSerialNum);
+                            $('#POUCCode').val(result.POUCCode);
+                            $('#POUCAmper').val(result.POUCAmper);
+                            $('#POUCVolt').val(result.POUCVolt);
+                            $('#POUCInput').val(result.POUCInput);
+                            $('#POURemarks').val(result.POURemarks);
+
+                            $("#btnPOUViewH").click();
+                            $('input, select, textarea, checkbox').prop('disabled', true);
+                            $("#savePullOut").hide();
+                            $("#clearPullOut").hide();
+                        }
+                    });
+                });
+            
+            // Edit POU
+                jQuery(document).on( "click", ".btnPOUEdit", function(){
+                    $("#POUnit li:first-child button").click();
+                    var id = $(this).data('id');
+                    var utype = $(this).data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        method:"GET",
+                        dataType: 'json',
+                        data:{id: id, utype: utype, _token: _token,},
+                        success:function(result){
+                            $('#POUIDe').val(id);
+                                if(result.POUUnitType == 1) {
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                }else{
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                }
+                            $('#POUArrivalDate').val(result.POUArrivalDate);
+                            $('#POUBrand').val(result.POUBrand);
+                            $('#POUClassification').val(result.POUClassification);
+                            $('#POUModel').val(result.POUModel);
+                            $('#POUSerialNum').val(result.POUSerialNum);
+                            $('#POUCode').val(result.POUCode);
+                            $('#POUMastType').val(result.POUMastType);
+                            $('#POUMastHeight').val(result.POUMastHeight);
+                            $('#POUForkSize').val(result.POUForkSize);
+                                if(result.POUwAttachment == 1) {
+                                    $('#POUwAttachment').prop('checked', true);
+                                    $('#PAttachment').removeClass("disabled");
+                                }else{
+                                    $('#POUwAttachment').prop('checked', false);
+                                    $('#PAttachment').addClass("disabled");
+                                }
+                            $('#POUAttType').val(result.POUAttType);
+                            $('#POUAttModel').val(result.POUAttModel);
+                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
+                                if(result.POUwAccesories == 1) {
+                                    $('#POUwAccesories').prop('checked', true);
+                                    $('#PAccesories').removeClass("disabled");
+                                }else{
+                                    $('#POUwAccesories').prop('checked', false);
+                                    $('#PAccesories').addClass("disabled");
+                                }
+                                
+                                if(result.POUAccISite == 1) {
+                                    $('#POUAccISite').prop('checked', true);
+                                }else{
+                                    $('#POUAccISite').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccLiftCam == 1) {
+                                    $('#POUAccLiftCam').prop('checked', true);
+                                }else{
+                                    $('#POUAccLiftCam').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccRedLight == 1) {
+                                    $('#POUAccRedLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccRedLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccBlueLight == 1) {
+                                    $('#POUAccBlueLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccBlueLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccFireExt == 1) {
+                                    $('#POUAccFireExt').prop('checked', true);
+                                }else{
+                                    $('#POUAccFireExt').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccStLight == 1) {
+                                    $('#POUAccStLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccStLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccOthers == 1) {
+                                    $('#POUAccOthers').prop('checked', true);
+                                    $('#POUAccOthersDetail').removeClass('disabled');
+                                }else{
+                                    $('#POUAccOthers').prop('checked', false);
+                                    $('#POUAccOthersDetail').addClass('disabled');
+                                }
+                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
+                            $('#POUTechnician1').val(result.POUTechnician1);
+                                var selectedValue1 = result.POUTechnician1;
+                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                                if (selectedValue1) {
+                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUTechnician2').val(result.POUTechnician2);
+                                var selectedValue2 = result.POUTechnician2;
+                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                                if (selectedValue2) {
+                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUSalesman').val(result.POUSalesman);
+                            $('#POUCustomer').val(result.POUCustomer);
+                            $('#POUCustAddress').val(result.POUCustAddress);
+                            $('#POUBABrand').val(result.POUBABrand);
+                            $('#POUBABatType').val(result.POUBABatType);
+                            $('#POUBASerialNum').val(result.POUBASerialNum);
+                            $('#POUBACode').val(result.POUBACode);
+                            $('#POUBAAmper').val(result.POUBAAmper);
+                            $('#POUBAVolt').val(result.POUBAVolt);
+                            $('#POUBACCable').val(result.POUBACCable);
+                            $('#POUBACTable').val(result.POUBACTable);
+                                if(result.POUwSpareBat1 == 1) {
+                                    $('#POUwBatSpare1').prop('checked', true);
+                                    $('#SpareBat1').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare1').prop('checked', false);
+                                    $('#SpareBat1').addClass("disabled");
+                                }
+                            $('#POUSB1Brand').val(result.POUSB1Brand);
+                            $('#POUSB1BatType').val(result.POUSB1BatType);
+                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
+                            $('#POUSB1Code').val(result.POUSB1Code);
+                            $('#POUSB1Amper').val(result.POUSB1Amper);
+                            $('#POUSB1Volt').val(result.POUSB1Volt);
+                            $('#POUSB1CCable').val(result.POUSB1CCable);
+                            $('#POUSB1CTable').val(result.POUSB1CTable);
+                                if(result.POUwSpareBat2 == 1) {
+                                    $('#POUwBatSpare2').prop('checked', true);
+                                    $('#SpareBat2').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare2').prop('checked', false);
+                                    $('#SpareBat2').addClass("disabled");
+                                }
+                            $('#POUSB2Brand').val(result.POUSB2Brand);
+                            $('#POUSB2BatType').val(result.POUSB2BatType);
+                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
+                            $('#POUSB2Code').val(result.POUSB2Code);
+                            $('#POUSB2Amper').val(result.POUSB2Amper);
+                            $('#POUSB2Volt').val(result.POUSB2Volt);
+                            $('#POUSB2CCable').val(result.POUSB2CCable);
+                            $('#POUSB2CTable').val(result.POUSB2CTable);
+                            $('#POUCBrand').val(result.POUCBrand);
+                            $('#POUCModel').val(result.POUCModel);
+                            $('#POUCSerialNum').val(result.POUCSerialNum);
+                            $('#POUCCode').val(result.POUCCode);
+                            $('#POUCAmper').val(result.POUCAmper);
+                            $('#POUCVolt').val(result.POUCVolt);
+                            $('#POUCInput').val(result.POUCInput);
+                            $('#POURemarks').val(result.POURemarks);
+
+                            $("#btnPOUEditH").click();
+                            $('input, select, textarea, checkbox').prop('disabled', false);
+                            $("#savePullOut").show();
+                            $("#clearPullOut").show();
+                        }
+                    });
+                });
+                
+            // Delete POU
+                jQuery(document).on( "click", ".btnPOUDelete", function(){
+                    var id = $(this).data('id');
+                    var unittype = $(this).data('unittype');
+
+                    $('#btnPOUDeleteH').click();
+                    $('#deleteConfirmPOU').data('id', id);
+                    $('#deleteConfirmPOU').data('unittype', unittype);
+                });
+
+                jQuery(document).on( "click", "#deleteConfirmPOU", function(){
+                    var id = $('#deleteConfirmPOU').data('id');
+                    var unittype = $('#deleteConfirmPOU').data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.deletePOU') }}",
+                        method:"POST",
+                        data:{id: id, unittype: unittype, _token: _token,},
+                        success:function(result){
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                            $('#tableBPOU').html(result);
+                        },
+                        error: function(error){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        }
+                    });
+                });
+            
+            // If Area Change, Data from Bay also changes
+                jQuery(document).on( "change", "#POUArea", function(){
+                    var area = $(this).val();
+                    var _token = $('input[name="_token"]').val();
+                    // alert(area);
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getBay') }}",
+                        method:"GET",
+                        data:{area: area, _token: _token,},
+                        success:function(result){
+                            $('#POUBay').html(result);
+                        }
+                    });
+                });
+                
+            // Clear Form if Button Click Transfer Unit
+                jQuery(document).on( "click", "#btnPOUTransfer", function(){
+                    $("#formPOUT").trigger('reset');
+                    if($('#POUArea').val() == ''){
+                        var area = $('#POUArea').val();
+                        var _token = $('input[name="_token"]').val();
+
+                        $.ajax({
+                            url:"{{ route('r-workshop.report.getBay') }}",
+                            method:"GET",
+                            data:{area: area, _token: _token,},
+                            success:function(result){
+                                $('#POUBay').html(result);
+                            }
+                        });
+                    }
+
+                    var id = $(this).data('id');
+                    var poremarks = $(this).data('poremarks');
+
+                    $('#btnPOUTransferH').click();
+                    $('#transferPOU').data('id',id);
+                    $('#POUIDx').val(id);
+                    $('#POURemarksO').val(poremarks);
+                });
+
+            // Transfer POU
+                jQuery(document).on( "click", "#transferPOU", function(){
+                    
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.transferPullOut') }}",
+                        method:"POST",
+                        data: $("#formPOUT").serialize(),
+                        success:function(result){
+                            $('#tableBPOU').html(result);
+                            $('#tableBCU').load(location.href + ' #tableBCU>*','');
+                            $('#tableBWS').load(location.href + ' #tableBWS>*','');
+                            $("#closeTransfer").click();
+                            $("#btnSuccessH").click();
+                        },
+                        error: function(error){
+                            $("#btnFailedH").click();
+                        }
+                    });
+                });
+            
+            // Search Pull Out Unit
+                $("#PTableSearch").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tableBPOU tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+
+                    $('#PUnitClassification').val('');
+                });
+
+            // Filter by Classification Pull Out Unit
+                $("#PUnitClassification").on("change", function() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("PUnitClassification");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("tableBPOU");
+                    tr = table.getElementsByTagName("tr");
+
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[9];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    
+                    $('#PTableSearch').val('');
+                });
+
+            // Edit CU
+                jQuery(document).on( "click", ".btnCUEdit", function(){
+                    $("#POUnit li:first-child button").click();
+                    var id = $(this).data('id');
+                    var utype = $(this).data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        method:"GET",
+                        dataType: 'json',
+                        data:{id: id, utype: utype, _token: _token,},
+                        success:function(result){
+                            $('#POUIDe').val(result.POUnitIDx);
+                                if(result.POUUnitType == 1) {
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                }else{
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                }
+                            $('#POUArrivalDate').val(result.POUArrivalDate);
+                            $('#POUBrand').val(result.POUBrand);
+                            $('#POUClassification').val(result.POUClassification);
+                            $('#POUModel').val(result.POUModel);
+                            $('#POUSerialNum').val(result.POUSerialNum);
+                            $('#POUCode').val(result.POUCode);
+                            $('#POUMastType').val(result.POUMastType);
+                            $('#POUMastHeight').val(result.POUMastHeight);
+                            $('#POUForkSize').val(result.POUForkSize);
+                                if(result.POUwAttachment == 1) {
+                                    $('#POUwAttachment').prop('checked', true);
+                                    $('#PAttachment').removeClass("disabled");
+                                }else{
+                                    $('#POUwAttachment').prop('checked', false);
+                                    $('#PAttachment').addClass("disabled");
+                                }
+                            $('#POUAttType').val(result.POUAttType);
+                            $('#POUAttModel').val(result.POUAttModel);
+                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
+                                if(result.POUwAccesories == 1) {
+                                    $('#POUwAccesories').prop('checked', true);
+                                    $('#PAccesories').removeClass("disabled");
+                                }else{
+                                    $('#POUwAccesories').prop('checked', false);
+                                    $('#PAccesories').addClass("disabled");
+                                }
+                                
+                                if(result.POUAccISite == 1) {
+                                    $('#POUAccISite').prop('checked', true);
+                                }else{
+                                    $('#POUAccISite').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccLiftCam == 1) {
+                                    $('#POUAccLiftCam').prop('checked', true);
+                                }else{
+                                    $('#POUAccLiftCam').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccRedLight == 1) {
+                                    $('#POUAccRedLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccRedLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccBlueLight == 1) {
+                                    $('#POUAccBlueLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccBlueLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccFireExt == 1) {
+                                    $('#POUAccFireExt').prop('checked', true);
+                                }else{
+                                    $('#POUAccFireExt').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccStLight == 1) {
+                                    $('#POUAccStLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccStLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccOthers == 1) {
+                                    $('#POUAccOthers').prop('checked', true);
+                                    $('#POUAccOthersDetail').prop('disabled',false);
+                                }else{
+                                    $('#POUAccOthers').prop('checked', false);
+                                    $('#POUAccOthersDetail').prop('disabled',true);
+                                }
+                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
+                            $('#POUTechnician1').val(result.POUTechnician1);
+                                var selectedValue1 = result.POUTechnician1;
+                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                                if (selectedValue1) {
+                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUTechnician2').val(result.POUTechnician2);
+                                var selectedValue2 = result.POUTechnician2;
+                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                                if (selectedValue2) {
+                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUSalesman').val(result.POUSalesman);
+                            $('#POUCustomer').val(result.POUCustomer);
+                            $('#POUCustAddress').val(result.POUCustAddress);
+                            $('#POUBABrand').val(result.POUBABrand);
+                            $('#POUBABatType').val(result.POUBABatType);
+                            $('#POUBASerialNum').val(result.POUBASerialNum);
+                            $('#POUBACode').val(result.POUBACode);
+                            $('#POUBAAmper').val(result.POUBAAmper);
+                            $('#POUBAVolt').val(result.POUBAVolt);
+                            $('#POUBACCable').val(result.POUBACCable);
+                            $('#POUBACTable').val(result.POUBACTable);
+                                if(result.POUwSpareBat1 == 1) {
+                                    $('#POUwBatSpare1').prop('checked', true);
+                                    $('#SpareBat1').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare1').prop('checked', false);
+                                    $('#SpareBat1').addClass("disabled");
+                                }
+                            $('#POUSB1Brand').val(result.POUSB1Brand);
+                            $('#POUSB1BatType').val(result.POUSB1BatType);
+                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
+                            $('#POUSB1Code').val(result.POUSB1Code);
+                            $('#POUSB1Amper').val(result.POUSB1Amper);
+                            $('#POUSB1Volt').val(result.POUSB1Volt);
+                            $('#POUSB1CCable').val(result.POUSB1CCable);
+                            $('#POUSB1CTable').val(result.POUSB1CTable);
+                                if(result.POUwSpareBat2 == 1) {
+                                    $('#POUwBatSpare2').prop('checked', true);
+                                    $('#SpareBat2').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare2').prop('checked', false);
+                                    $('#SpareBat2').addClass("disabled");
+                                }
+                            $('#POUSB2Brand').val(result.POUSB2Brand);
+                            $('#POUSB2BatType').val(result.POUSB2BatType);
+                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
+                            $('#POUSB2Code').val(result.POUSB2Code);
+                            $('#POUSB2Amper').val(result.POUSB2Amper);
+                            $('#POUSB2Volt').val(result.POUSB2Volt);
+                            $('#POUSB2CCable').val(result.POUSB2CCable);
+                            $('#POUSB2CTable').val(result.POUSB2CTable);
+                            $('#POUCBrand').val(result.POUCBrand);
+                            $('#POUCModel').val(result.POUCModel);
+                            $('#POUCSerialNum').val(result.POUCSerialNum);
+                            $('#POUCCode').val(result.POUCCode);
+                            $('#POUCAmper').val(result.POUCAmper);
+                            $('#POUCVolt').val(result.POUCVolt);
+                            $('#POUCInput').val(result.POUCInput);
+                            $('#POURemarks').val(result.POURemarks);
+
+                            $("#btnPOUEditH").click();
+                            $('input, select, textarea, checkbox').prop('disabled', false);
+                            $("#savePullOut").show();
+                            $("#clearPullOut").show();
+
+                            var newHeading = "EDIT UNIT";
+                            document.getElementById("htitle").innerHTML = newHeading;
+                        }
+                    });
+                });
+            
+            // View CU
+                jQuery(document).on( "click", ".btnCUView", function(){
+                    $("#POUnit li:first-child button").click();
+                    var id = $(this).data('id');
+                    var utype = $(this).data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getPOUData') }}",
+                        method:"GET",
+                        dataType: 'json',
+                        data:{id: id, utype: utype, _token: _token,},
+                        success:function(result){
+                            $('#POUIDe').val(result.POUnitIDx);
+                                if(result.POUUnitType == 1) {
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                                }else{
+                                    $('#POUUnitType').val(result.POUUnitType);
+                                    $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                                }
+                            $('#POUArrivalDate').val(result.POUArrivalDate);
+                            $('#POUBrand').val(result.POUBrand);
+                            $('#POUClassification').val(result.POUClassification);
+                            $('#POUModel').val(result.POUModel);
+                            $('#POUSerialNum').val(result.POUSerialNum);
+                            $('#POUCode').val(result.POUCode);
+                            $('#POUMastType').val(result.POUMastType);
+                            $('#POUMastHeight').val(result.POUMastHeight);
+                            $('#POUForkSize').val(result.POUForkSize);
+                                if(result.POUwAttachment == 1) {
+                                    $('#POUwAttachment').prop('checked', true);
+                                    $('#PAttachment').removeClass("disabled");
+                                }else{
+                                    $('#POUwAttachment').prop('checked', false);
+                                    $('#PAttachment').addClass("disabled");
+                                }
+                            $('#POUAttType').val(result.POUAttType);
+                            $('#POUAttModel').val(result.POUAttModel);
+                            $('#POUAttSerialNum').val(result.POUAttSerialNum);
+                                if(result.POUwAccesories == 1) {
+                                    $('#POUwAccesories').prop('checked', true);
+                                    $('#PAccesories').removeClass("disabled");
+                                }else{
+                                    $('#POUwAccesories').prop('checked', false);
+                                    $('#PAccesories').addClass("disabled");
+                                }
+                                
+                                if(result.POUAccISite == 1) {
+                                    $('#POUAccISite').prop('checked', true);
+                                }else{
+                                    $('#POUAccISite').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccLiftCam == 1) {
+                                    $('#POUAccLiftCam').prop('checked', true);
+                                }else{
+                                    $('#POUAccLiftCam').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccRedLight == 1) {
+                                    $('#POUAccRedLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccRedLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccBlueLight == 1) {
+                                    $('#POUAccBlueLight').prop('checked', true);
+                                }else{
+                                    $('#POUAccBlueLight').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccFireExt == 1) {
+                                    $('#POUAccFireExt').prop('checked', true);
+                                }else{
+                                    $('#POUAccFireExt').prop('checked', false);
+                                }
+                                
+                                if(result.POUAccOthers == 1) {
+                                    $('#POUAccOthers').prop('checked', true);
+                                    $('#POUAccOthersDetail').prop('disabled',false);
+                                }else{
+                                    $('#POUAccOthers').prop('checked', false);
+                                    $('#POUAccOthersDetail').prop('disabled',true);
+                                }
+                            $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
+                            $('#POUTechnician1').val(result.POUTechnician1);
+                                var selectedValue1 = result.POUTechnician1;
+                                $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                                if (selectedValue1) {
+                                    $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUTechnician2').val(result.POUTechnician2);
+                                var selectedValue2 = result.POUTechnician2;
+                                $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                                if (selectedValue2) {
+                                    $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#POUSalesman').val(result.POUSalesman);
+                            $('#POUCustomer').val(result.POUCustomer);
+                            $('#POUCustAddress').val(result.POUCustAddress);
+                            $('#POUBABrand').val(result.POUBABrand);
+                            $('#POUBABatType').val(result.POUBABatType);
+                            $('#POUBASerialNum').val(result.POUBASerialNum);
+                            $('#POUBACode').val(result.POUBACode);
+                            $('#POUBAAmper').val(result.POUBAAmper);
+                            $('#POUBAVolt').val(result.POUBAVolt);
+                            $('#POUBACCable').val(result.POUBACCable);
+                            $('#POUBACTable').val(result.POUBACTable);
+                                if(result.POUwSpareBat1 == 1) {
+                                    $('#POUwBatSpare1').prop('checked', true);
+                                    $('#SpareBat1').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare1').prop('checked', false);
+                                    $('#SpareBat1').addClass("disabled");
+                                }
+                            $('#POUSB1Brand').val(result.POUSB1Brand);
+                            $('#POUSB1BatType').val(result.POUSB1BatType);
+                            $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
+                            $('#POUSB1Code').val(result.POUSB1Code);
+                            $('#POUSB1Amper').val(result.POUSB1Amper);
+                            $('#POUSB1Volt').val(result.POUSB1Volt);
+                            $('#POUSB1CCable').val(result.POUSB1CCable);
+                            $('#POUSB1CTable').val(result.POUSB1CTable);
+                                if(result.POUwSpareBat2 == 1) {
+                                    $('#POUwBatSpare2').prop('checked', true);
+                                    $('#SpareBat2').removeClass("disabled");
+                                }else{
+                                    $('#POUwBatSpare2').prop('checked', false);
+                                    $('#SpareBat2').addClass("disabled");
+                                }
+                            $('#POUSB2Brand').val(result.POUSB2Brand);
+                            $('#POUSB2BatType').val(result.POUSB2BatType);
+                            $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
+                            $('#POUSB2Code').val(result.POUSB2Code);
+                            $('#POUSB2Amper').val(result.POUSB2Amper);
+                            $('#POUSB2Volt').val(result.POUSB2Volt);
+                            $('#POUSB2CCable').val(result.POUSB2CCable);
+                            $('#POUSB2CTable').val(result.POUSB2CTable);
+                            $('#POUCBrand').val(result.POUCBrand);
+                            $('#POUCModel').val(result.POUCModel);
+                            $('#POUCSerialNum').val(result.POUCSerialNum);
+                            $('#POUCCode').val(result.POUCCode);
+                            $('#POUCAmper').val(result.POUCAmper);
+                            $('#POUCVolt').val(result.POUCVolt);
+                            $('#POUCInput').val(result.POUCInput);
+                            $('#POURemarks').val(result.POURemarks);
+
+                            $("#btnPOUViewH").click();
+                            $('input, select, textarea, checkbox').prop('disabled', true);
+                            $("#savePullOut").hide();
+                            $("#clearPullOut").hide();
+
+                            var newHeading = "VIEW UNIT";
+                            document.getElementById("htitle").innerHTML = newHeading;
+                        }
+                    });
+                });
+            
+            // Delete/Revert CU
+                jQuery(document).on( "click", ".btnCUDelete", function(){
+                    var id = $(this).data('id');
+                    var cubay = $(this).data('cubay');
+
+                    $('#btnCUDeleteH').click();
+                    $('#deleteConfirmCU').data('id', id);
+                    $('#deleteConfirmCU').data('cubay', cubay);
+                });
+                
+                jQuery(document).on( "click", "#deleteConfirmCU", function(){
+                    var id = $(this).data('id');
+                    var cubay = $(this).data('cubay');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.deleteCU') }}",
+                        method:"POST",
+                        data:{id: id, cubay: cubay, _token: _token,},
+                        success:function(result){
+                            $('#tableBCU').html(result);
+                            $('#tableBPOU').load(location.href + ' #tableBPOU>*','');
+                            $('#tableBWS').load(location.href + ' #tableBWS>*','');
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                        },
+                        error: function(error){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        }
+                    });
+                });
+            
+            // Search Confirm Unit
+                $("#CTableSearch").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tableBCU tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+
+                    $('#CUnitClassification').val('');
+                });
+
+            // Filter by Classification Confirm Unit
+                $("#CUnitClassification").on("change", function() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("CUnitClassification");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("tableBCU");
+                    tr = table.getElementsByTagName("tr");
+
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[6];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    
+                    $('#CTableSearch').val('');
+                });
+
+            // Search Workshop
+                $("#WSTableSearch").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tableBWS tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+
+            // Filter by Classification Pull Out Unit
+                $(".RadioBrand").on("change", function() {
+                    alert('HI!');
+                    // var input, filter, table, tr, td, i, txtValue;
+                    // input = document.getElementById("PUnitClassification");
+                    // filter = input.value.toUpperCase();
+                    // table = document.getElementById("tableBPOU");
+                    // tr = table.getElementsByTagName("tr");
+
+                    // for (i = 0; i < tr.length; i++) {
+                    //     td = tr[i].getElementsByTagName("td")[9];
+                    //     if (td) {
+                    //         txtValue = td.textContent || td.innerText;
+                    //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    //             tr[i].style.display = "";
+                    //         } else {
+                    //             tr[i].style.display = "none";
+                    //         }
+                    //     }
+                    // }
+                    
+                    // $('#PTableSearch').val('');
+                });
+
+            // Filter by Brand Workshop Unit
+                $('input[name="RadioBrand"]').change(function() {
+                    var unitBrand = $('input[name="RadioBrand"]:checked').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $('#WSTableSearch').val('');
+
+                    $.ajax({
+                        url: "{{ route('r-workshop.report.sortBrand') }}",
+                        type: "GET",
+                        data: {unitBrand: unitBrand, _token: _token},
+                        success: function(result) {
+                            $('#tableBWS').html(result);
+                        }
+                    });
+                });
+
+            // Filter by Status Pullout Unit
+                $('input[name="pou-radio-unit"]').change(function() {
+                    var unitStatus = $('input[name="pou-radio-unit"]:checked').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $('#PTableSearch').val('');
+                    $('#PUnitClassification').val('');
+
+                    $.ajax({
+                        url: "{{ route('r-workshop.report.sortPullOut') }}",
+                        type: "GET",
+                        data: {unitStatus: unitStatus, _token: _token},
+                        success: function(result) {
+                            $('#tableBPOU').html(result);
+                        }
+                    });
+                });
+            
+    // BRAND NEW UNIT
+            // Close Modal Add and Edit
+                jQuery(document).on( "click", "#closeNewUnit", function(){
+                    $('input, select, textarea, checkbox, radio').prop('disabled', false);
+                    $("#buttonCloseN").click();
+                });
+
+            // Search Brand New Unit
+                $("#NTableSearch").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tableBNewUnit tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+
+            // Clear Form on Add - NEW UNIT
+                jQuery(document).on( "click", "#addNewUnit", function(){
+                    document.getElementById('formNewUnit').reset()
+                    $('#BNUIDe').val('');
+
+                    $("#NewUnit li:first-child button").click();
+                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
+                    $('#BAttachment').addClass("disabled");
+                    $('#BAccesories').addClass("disabled");
+                    $('#BNUAccOthersDetail').prop('disabled', true);
+                    $('#BNUTechnician1 option').prop('disabled', false);
+                    $('#BNUTechnician2 option').prop('disabled', false);
+                    $('#BSpareBat1').addClass("disabled");
+                    $('#BSpareBat2').addClass("disabled");
+
+                    
+                    $('input, select, textarea, checkbox').prop('disabled', false);
+                    $("#saveNewUnit").show();
+                    $("#clearNewUnit").show();
+                });
+
+            // Clear Form New Unit
+                $('#clearNewUnit').on( "click", function(){
+                    document.getElementById('formNewUnit').reset()
+                    $('#BNUIDe').val('');
+
+                    $("#NewUnit li:first-child button").click();
+                    $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                    $('#BAttachment').addClass("disabled");
+                    $('#BAccesories').addClass("disabled");
+                    $('#BNUAccOthersDetail').prop('disabled', true);
+                    $('#BNUTechnician1 option').prop('disabled', false);
+                    $('#BNUTechnician2 option').prop('disabled', false);
+                    $('#BSpareBat1').addClass("disabled");
+                    $('#BSpareBat2').addClass("disabled");
+                });
+
+            // Automatic Hide of Battery and Charger Details
+                if ($('#BNUnitType').val() == 1) {
+                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
+                }else{
+                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
+                }
+
+            // Unit Type Option
+                $("#BNUnitType").on("change", function() {
+                    if ($('#BNUnitType').val() == 1) {
+                        $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
+                    }else{
+                        $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
+                    }
+
+                    // Reset the tabs to the first one
+                    $("#NewUnit li:first-child button").click();
+                });
+
+            // Enable/Disable Attachment
+                $('#BAttachment').addClass("disabled");
+                $('#BNUwAttachment').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#BAttachment').removeClass("disabled");
+                    } else {
+                        $('#BAttachment').addClass("disabled");
+                    }
+                });
+    
+            // Enable/Disable Accesories
+                $('#BAccesories').addClass("disabled");
+                $('#BNUwAccesories').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#BAccesories').removeClass("disabled");
+                    } else {
+                        $('#BAccesories').addClass("disabled");
+                    }
+                });
+
+            // Enable/Disable Others
+                $('#BNUAccOthersDetail').addClass('disabled');
+                $("#BNUAccOthers").on("change", function() {
+                    if($(this).is(":checked")) {
+                        $('#BNUAccOthersDetail').removeClass('disabled');
+                    } else {
+                        $('#BNUAccOthersDetail').addClass('disabled');
+                    }
+                });
+
+            // Disable Value if Already Selected
+                $('#BNUTechnician1').change(function() {
+                    var selectedValue = $(this).val();
+                    $('#BNUTechnician2 option').prop('disabled', false); // enable all options
+                    if (selectedValue) {
+                        $('#BNUTechnician2 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
+                    }
+                });
+
+                $('#BNUTechnician2').change(function() {
+                    var selectedValue = $(this).val();
+                    $('#BNUTechnician1 option').prop('disabled', false); // enable all options
+                    if (selectedValue) {
+                        $('#BNUTechnician1 option[value="' + selectedValue + '"]').prop('disabled', true); // disable selected option
+                    }
+                });
+
+            // Enable/Disable Spare 1 and Spare 2
+                $('#BSpareBat1').addClass("disabled");
+                $('#BNUwBatSpare1').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#BSpareBat1').removeClass("disabled");
+                    } else {
+                        $('#BSpareBat1').addClass("disabled");
+                    }
+                });
+                
+                $('#BSpareBat2').addClass("disabled");
+                $('#BNUwBatSpare2').change(function() {
+                    if($(this).is(":checked")) {
+                        $('#BSpareBat2').removeClass("disabled");
+                    } else {
+                        $('#BSpareBat2').addClass("disabled");
+                    }
+                });
+
+            // Saving of Brand New
+                $('#saveNewUnit').on( "click", function(){
+                    if($('#BNUnitType').val() == 1){
+                        if ($('#BNUBrand').val() == '' || $('#BNUClassification').val() == '' || $('#BNUModel').val() == '' || $('#BNUSerialNum').val() == '' || $('#BNUCode').val() == '' || $('#BNUMastType').val() == '' || $('#BNUMastHeight').val() == '' || $('#BNUForkSize').val() == '' || $('#BNUTechnician1').val() == '' || $('#BNUCustomer').val() == '' || $('#BNUCustAddress').val() == '' || $('#BNURemarks').val() == '' ){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        } else {
+                            $('#saveNewUnitH').click();
+                        }
+                    }else{
+                        if ($('#BNUBrand').val() == '' || $('#BNUClassification').val() == '' || $('#BNUModel').val() == '' || $('#BNUSerialNum').val() == '' || $('#BNUCode').val() == '' || $('#BNUMastType').val() == '' || $('#BNUMastHeight').val() == '' || $('#BNUForkSize').val() == '' || $('#BNUTechnician1').val() == '' || $('#BNUCustomer').val() == '' || $('#BNUCustAddress').val() == '' || $('#BNUBABrand').val() == '' || $('#BNUBABatType').val() == '' || $('#BNUBASerialNum').val() == '' || $('#BNUBACode').val() == '' || $('#BNUBAAmper').val() == '' || $('#BNUBAVolt').val() == '' || $('#BNUCBrand').val() == '' || $('#BNUCModel').val() == '' || $('#BNUCSerialNum').val() == '' || $('#BNUCCode').val() == '' || $('#BNUCAmper').val() == '' || $('#BNUCVolt').val() == '' || $('#BNUCInput').val() == '' || $('#BNURemarks').val() == '' ){
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        } else {
+                            $('#saveNewUnitH').click();
+                        }
+                    }
+                });
+
+                $('#saveNewUnitH').on( "click", function(){
+                    $.ajax({
+                        url: "{{ route('r-workshop.report.saveBrandNew') }}",
+                        type: "POST",
+                        data: $("#formNewUnit").serialize(),
+                        success: function(result) {
+                            $("#NewUnit li:first-child button").click();
+                            $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                            $('#PAttachment').addClass("disabled");
+                            $('#PAccesories').addClass("disabled");
+                            $('#BNUAccOthersDetail').prop('disabled', true);
+                            $('#BNUTechnician1 option').prop('disabled', false);
+                            $('#BNUTechnician2 option').prop('disabled', false);
+                            $('#SpareBat1').addClass("disabled");
+                            $('#SpareBat2').addClass("disabled");
+                            document.getElementById('formNewUnit').reset()
+                            $('#tableBNewUnit').html(result);
+                            $('#tableBCU').load(location.href + ' #tableBCU>*','')
+                            $("#btnSuccessH").click();
+                            $("#closeNewUnit").click();
+                        },
+                        error: function(error){
+                            $("#btnFailedH").click();
+                        }
+                    });
+                });
+
+            // View Brand New
+                jQuery(document).on( "click", ".btnBNUView", function(){
+                    $("#NewUnit li:first-child button").click();
+                    var id = $(this).data('id');
+                    var utype = $(this).data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getBNUData') }}",
+                        method:"GET",
+                        dataType: 'json',
+                        data:{id: id, utype: utype, _token: _token,},
+                        success:function(result){
+                            $('#BNUIDe').val(result.BNUnitIDx);
+                                if(result.BNUnitType == 1) {
+                                    $('#BNUnitType').val(result.BNUnitType);
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
+                                }else{
+                                    $('#BNUnitType').val(result.BNUnitType);
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
+                                }
+                            $('#BNUArrivalDate').val(result.BNUArrivalDate);
+                            $('#BNUBrand').val(result.BNUBrand);
+                            $('#BNUClassification').val(result.BNUClassification);
+                            $('#BNUModel').val(result.BNUModel);
+                            $('#BNUSerialNum').val(result.BNUSerialNum);
+                            $('#BNUCode').val(result.BNUCode);
+                            $('#BNUMastType').val(result.BNUMastType);
+                            $('#BNUMastHeight').val(result.BNUMastHeight);
+                            $('#BNUForkSize').val(result.BNUForkSize);
+                                if(result.BNUwAttachment == 1) {
+                                    $('#BNUwAttachment').prop('checked', true);
+                                    $('#PAttachment').removeClass("disabled");
+                                }else{
+                                    $('#BNUwAttachment').prop('checked', false);
+                                    $('#PAttachment').addClass("disabled");
+                                }
+                            $('#BNUAttType').val(result.BNUAttType);
+                            $('#BNUAttModel').val(result.BNUAttModel);
+                            $('#BNUAttSerialNum').val(result.BNUAttSerialNum);
+                                if(result.BNUwAccesories == 1) {
+                                    $('#BNUwAccesories').prop('checked', true);
+                                    $('#PAccesories').removeClass("disabled");
+                                }else{
+                                    $('#BNUwAccesories').prop('checked', false);
+                                    $('#PAccesories').addClass("disabled");
+                                }
+                                
+                                if(result.BNUAccISite == 1) {
+                                    $('#BNUAccISite').prop('checked', true);
+                                }else{
+                                    $('#BNUAccISite').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccLiftCam == 1) {
+                                    $('#BNUAccLiftCam').prop('checked', true);
+                                }else{
+                                    $('#BNUAccLiftCam').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccRedLight == 1) {
+                                    $('#BNUAccRedLight').prop('checked', true);
+                                }else{
+                                    $('#BNUAccRedLight').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccBlueLight == 1) {
+                                    $('#BNUAccBlueLight').prop('checked', true);
+                                }else{
+                                    $('#BNUAccBlueLight').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccFireExt == 1) {
+                                    $('#BNUAccFireExt').prop('checked', true);
+                                }else{
+                                    $('#BNUAccFireExt').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccOthers == 1) {
+                                    $('#BNUAccOthers').prop('checked', true);
+                                    $('#BNUAccOthersDetail').prop('disabled',false);
+                                }else{
+                                    $('#BNUAccOthers').prop('checked', false);
+                                    $('#BNUAccOthersDetail').prop('disabled',true);
+                                }
+                            $('#BNUAccOthersDetail').val(result.BNUAccOthersDetail);
+                            $('#BNUTechnician1').val(result.BNUTechnician1);
+                                var selectedValue1 = result.BNUTechnician1;
+                                $('#BNUTechnician2 option').prop('disabled', false); // enable all options
+                                if (selectedValue1) {
+                                    $('#BNUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#BNUTechnician2').val(result.BNUTechnician2);
+                                var selectedValue2 = result.BNUTechnician2;
+                                $('#BNUTechnician1 option').prop('disabled', false); // enable all options
+                                if (selectedValue2) {
+                                    $('#BNUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#BNUSalesman').val(result.BNUSalesman);
+                            $('#BNUCustomer').val(result.BNUCustomer);
+                            $('#BNUCustAddress').val(result.BNUCustAddress);
+                            $('#BNUBABrand').val(result.BNUBABrand);
+                            $('#BNUBABatType').val(result.BNUBABatType);
+                            $('#BNUBASerialNum').val(result.BNUBASerialNum);
+                            $('#BNUBACode').val(result.BNUBACode);
+                            $('#BNUBAAmper').val(result.BNUBAAmper);
+                            $('#BNUBAVolt').val(result.BNUBAVolt);
+                            $('#BNUBACCable').val(result.BNUBACCable);
+                            $('#BNUBACTable').val(result.BNUBACTable);
+                                if(result.BNUwSpareBat1 == 1) {
+                                    $('#BNUwBatSpare1').prop('checked', true);
+                                    $('#SpareBat1').removeClass("disabled");
+                                }else{
+                                    $('#BNUwBatSpare1').prop('checked', false);
+                                    $('#SpareBat1').addClass("disabled");
+                                }
+                            $('#BNUSB1Brand').val(result.BNUSB1Brand);
+                            $('#BNUSB1BatType').val(result.BNUSB1BatType);
+                            $('#BNUSB1SerialNum').val(result.BNUSB1SerialNum);
+                            $('#BNUSB1Code').val(result.BNUSB1Code);
+                            $('#BNUSB1Amper').val(result.BNUSB1Amper);
+                            $('#BNUSB1Volt').val(result.BNUSB1Volt);
+                            $('#BNUSB1CCable').val(result.BNUSB1CCable);
+                            $('#BNUSB1CTable').val(result.BNUSB1CTable);
+                                if(result.BNUwSpareBat2 == 1) {
+                                    $('#BNUwBatSpare2').prop('checked', true);
+                                    $('#SpareBat2').removeClass("disabled");
+                                }else{
+                                    $('#BNUwBatSpare2').prop('checked', false);
+                                    $('#SpareBat2').addClass("disabled");
+                                }
+                            $('#BNUSB2Brand').val(result.BNUSB2Brand);
+                            $('#BNUSB2BatType').val(result.BNUSB2BatType);
+                            $('#BNUSB2SerialNum').val(result.BNUSB2SerialNum);
+                            $('#BNUSB2Code').val(result.BNUSB2Code);
+                            $('#BNUSB2Amper').val(result.BNUSB2Amper);
+                            $('#BNUSB2Volt').val(result.BNUSB2Volt);
+                            $('#BNUSB2CCable').val(result.BNUSB2CCable);
+                            $('#BNUSB2CTable').val(result.BNUSB2CTable);
+                            $('#BNUCBrand').val(result.BNUCBrand);
+                            $('#BNUCModel').val(result.BNUCModel);
+                            $('#BNUCSerialNum').val(result.BNUCSerialNum);
+                            $('#BNUCCode').val(result.BNUCCode);
+                            $('#BNUCAmper').val(result.BNUCAmper);
+                            $('#BNUCVolt').val(result.BNUCVolt);
+                            $('#BNUCInput').val(result.BNUCInput);
+                            $('#BNURemarks').val(result.BNURemarks);
+
+                            $("#btnBNUViewH").click();
+                            $('input, select, textarea, checkbox').prop('disabled', true);
+                            $("#saveNewUnit").hide();
+                            $("#clearNewUnit").hide();
+                        }
+                    });
+                });
+            
+            // Edit Brand New
+                jQuery(document).on( "click", ".btnBNUEdit", function(){
+                    $("#NewUnit li:first-child button").click();
+                    var id = $(this).data('id');
+                    var utype = $(this).data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getBNUData') }}",
+                        method:"GET",
+                        dataType: 'json',
+                        data:{id: id, utype: utype, _token: _token,},
+                        success:function(result){
+                            $('#BNUIDe').val(id);
+                                if(result.BNUnitType == 1) {
+                                    $('#BNUnitType').val(result.BNUnitType);
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").hide();
+                                }else{
+                                    $('#BNUnitType').val(result.BNUnitType);
+                                    $("#NBatteryDetails-tab, #NChargerDetails-tab").show();
+                                }
+                            $('#BNUArrivalDate').val(result.BNUArrivalDate);
+                            $('#BNUBrand').val(result.BNUBrand);
+                            $('#BNUClassification').val(result.BNUClassification);
+                            $('#BNUModel').val(result.BNUModel);
+                            $('#BNUSerialNum').val(result.BNUSerialNum);
+                            $('#BNUCode').val(result.BNUCode);
+                            $('#BNUMastType').val(result.BNUMastType);
+                            $('#BNUMastHeight').val(result.BNUMastHeight);
+                            $('#BNUForkSize').val(result.BNUForkSize);
+                                if(result.BNUwAttachment == 1) {
+                                    $('#BNUwAttachment').prop('checked', true);
+                                    $('#PAttachment').removeClass("disabled");
+                                }else{
+                                    $('#BNUwAttachment').prop('checked', false);
+                                    $('#PAttachment').addClass("disabled");
+                                }
+                            $('#BNUAttType').val(result.BNUAttType);
+                            $('#BNUAttModel').val(result.BNUAttModel);
+                            $('#BNUAttSerialNum').val(result.BNUAttSerialNum);
+                                if(result.BNUwAccesories == 1) {
+                                    $('#BNUwAccesories').prop('checked', true);
+                                    $('#PAccesories').removeClass("disabled");
+                                }else{
+                                    $('#BNUwAccesories').prop('checked', false);
+                                    $('#PAccesories').addClass("disabled");
+                                }
+                                
+                                if(result.BNUAccISite == 1) {
+                                    $('#BNUAccISite').prop('checked', true);
+                                }else{
+                                    $('#BNUAccISite').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccLiftCam == 1) {
+                                    $('#BNUAccLiftCam').prop('checked', true);
+                                }else{
+                                    $('#BNUAccLiftCam').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccRedLight == 1) {
+                                    $('#BNUAccRedLight').prop('checked', true);
+                                }else{
+                                    $('#BNUAccRedLight').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccBlueLight == 1) {
+                                    $('#BNUAccBlueLight').prop('checked', true);
+                                }else{
+                                    $('#BNUAccBlueLight').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccFireExt == 1) {
+                                    $('#BNUAccFireExt').prop('checked', true);
+                                }else{
+                                    $('#BNUAccFireExt').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccStLight == 1) {
+                                    $('#BNUAccStLight').prop('checked', true);
+                                }else{
+                                    $('#BNUAccStLight').prop('checked', false);
+                                }
+                                
+                                if(result.BNUAccOthers == 1) {
+                                    $('#BNUAccOthers').prop('checked', true);
+                                    $('#BNUAccOthersDetail').prop('disabled',false);
+                                }else{
+                                    $('#BNUAccOthers').prop('checked', false);
+                                    $('#BNUAccOthersDetail').prop('disabled',true);
+                                }
+                            $('#BNUAccOthersDetail').val(result.BNUAccOthersDetail);
+                            $('#BNUTechnician1').val(result.BNUTechnician1);
+                                var selectedValue1 = result.BNUTechnician1;
+                                $('#BNUTechnician2 option').prop('disabled', false); // enable all options
+                                if (selectedValue1) {
+                                    $('#BNUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#BNUTechnician2').val(result.BNUTechnician2);
+                                var selectedValue2 = result.BNUTechnician2;
+                                $('#BNUTechnician1 option').prop('disabled', false); // enable all options
+                                if (selectedValue2) {
+                                    $('#BNUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                                }
+                            $('#BNUSalesman').val(result.BNUSalesman);
+                            $('#BNUCustomer').val(result.BNUCustomer);
+                            $('#BNUCustAddress').val(result.BNUCustAddress);
+                            $('#BNUBABrand').val(result.BNUBABrand);
+                            $('#BNUBABatType').val(result.BNUBABatType);
+                            $('#BNUBASerialNum').val(result.BNUBASerialNum);
+                            $('#BNUBACode').val(result.BNUBACode);
+                            $('#BNUBAAmper').val(result.BNUBAAmper);
+                            $('#BNUBAVolt').val(result.BNUBAVolt);
+                            $('#BNUBACCable').val(result.BNUBACCable);
+                            $('#BNUBACTable').val(result.BNUBACTable);
+                                if(result.BNUwSpareBat1 == 1) {
+                                    $('#BNUwBatSpare1').prop('checked', true);
+                                    $('#SpareBat1').removeClass("disabled");
+                                }else{
+                                    $('#BNUwBatSpare1').prop('checked', false);
+                                    $('#SpareBat1').addClass("disabled");
+                                }
+                            $('#BNUSB1Brand').val(result.BNUSB1Brand);
+                            $('#BNUSB1BatType').val(result.BNUSB1BatType);
+                            $('#BNUSB1SerialNum').val(result.BNUSB1SerialNum);
+                            $('#BNUSB1Code').val(result.BNUSB1Code);
+                            $('#BNUSB1Amper').val(result.BNUSB1Amper);
+                            $('#BNUSB1Volt').val(result.BNUSB1Volt);
+                            $('#BNUSB1CCable').val(result.BNUSB1CCable);
+                            $('#BNUSB1CTable').val(result.BNUSB1CTable);
+                                if(result.BNUwSpareBat2 == 1) {
+                                    $('#BNUwBatSpare2').prop('checked', true);
+                                    $('#SpareBat2').removeClass("disabled");
+                                }else{
+                                    $('#BNUwBatSpare2').prop('checked', false);
+                                    $('#SpareBat2').addClass("disabled");
+                                }
+                            $('#BNUSB2Brand').val(result.BNUSB2Brand);
+                            $('#BNUSB2BatType').val(result.BNUSB2BatType);
+                            $('#BNUSB2SerialNum').val(result.BNUSB2SerialNum);
+                            $('#BNUSB2Code').val(result.BNUSB2Code);
+                            $('#BNUSB2Amper').val(result.BNUSB2Amper);
+                            $('#BNUSB2Volt').val(result.BNUSB2Volt);
+                            $('#BNUSB2CCable').val(result.BNUSB2CCable);
+                            $('#BNUSB2CTable').val(result.BNUSB2CTable);
+                            $('#BNUCBrand').val(result.BNUCBrand);
+                            $('#BNUCModel').val(result.BNUCModel);
+                            $('#BNUCSerialNum').val(result.BNUCSerialNum);
+                            $('#BNUCCode').val(result.BNUCCode);
+                            $('#BNUCAmper').val(result.BNUCAmper);
+                            $('#BNUCVolt').val(result.BNUCVolt);
+                            $('#BNUCInput').val(result.BNUCInput);
+                            $('#BNURemarks').val(result.BNURemarks);
+
+                            $("#btnBNUEditH").click();
+                            $('input, select, textarea, checkbox').prop('disabled', false);
+                            $("#saveNewUnit").show();
+                            $("#clearNewUnit").show();
+                        }
+                    });
+                });
+                
+            // Delete Brand New
+                jQuery(document).on( "click", ".btnBNUDelete", function(){
+                    var id = $(this).data('id');
+                    var unittype = $(this).data('unittype');
+
+                    $('#btnBNUDeleteH').click();
+                    $('#deleteConfirmBNU').data('id', id);
+                    $('#deleteConfirmBNU').data('unittype', unittype);
+                });
+
+                jQuery(document).on( "click", "#deleteConfirmBNU", function(){
+                    var id = $('#deleteConfirmBNU').data('id');
+                    var unittype = $('#deleteConfirmBNU').data('unittype');
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.deleteBNU') }}",
+                        method:"POST",
+                        data:{id: id, unittype: unittype, _token: _token,},
+                        success:function(result){
+                            $("#btnSuccessH").click();
+                            $('#tableBNewUnit').html(result);
+                        },
+                        error: function(error){
+                            $("#btnFailedH").click();
+                        }
+                    });
+                });
+                
+            // Clear Form if Button Click Transfer Unit
+                jQuery(document).on( "click", "#btnBNUTransfer", function(){
+                    $("#formBNUT").trigger('reset');
+                    if($('#BNUArea').val() == ''){
+                        var area = $('#BNUArea').val();
+                        var _token = $('input[name="_token"]').val();
+
+                        $.ajax({
+                            url:"{{ route('r-workshop.report.getBay') }}",
+                            method:"GET",
+                            data:{area: area, _token: _token,},
+                            success:function(result){
+                                $('#POUBay').html(result);
+                            }
+                        });
+                    }
+
+                    var id = $(this).data('id');
+                    var bnuremarks = $(this).data('uremarks');
+
+                    $('#btnBNUTransferH').click();
+                    $('#transferBNU').data('id',id);
+                    $('#BNUIDx').val(id);
+                    $('#BNURemarksO').val(bnuremarks);
+                });
+            
+            // If Area Change, Data from Bay also changes
+                jQuery(document).on( "change", "#BNUArea", function(){
+                    var area = $(this).val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.getBay') }}",
+                        method:"GET",
+                        data:{area: area, _token: _token,},
+                        success:function(result){
+                            $('#BNUBay').html(result);
+                        }
+                    });
+                });
+
+            // Transfer Brand New
+                jQuery(document).on( "click", "#transferBNU", function(){
+                    
+                    $.ajax({
+                        url:"{{ route('r-workshop.report.transferNewUnit') }}",
+                        method:"POST",
+                        data: $("#formBNUT").serialize(),
+                        success:function(result){
+                            $('#tableBNewUnit').html(result);
+                            $("#btnSuccessH").click();
+                            $("#closeBNTransfer").click();
+                        },
+                        error: function(error){
+                            $("#btnFailedH").click();
+                        }
+                    });
+                });
+
+    // DELIVERED UNIT
+        // Search Confirm Unit
+            $("#DTableSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#tableBDU tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+        // View Delivered Unit
+            jQuery(document).on( "click", ".btnDUView", function(){
+                $("#POUnit li:first-child button").click();
+                var id = $(this).data('id');
+                var utype = $(this).data('unittype');
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url:"{{ route('r-workshop.report.getPOUData') }}",
+                    method:"GET",
+                    dataType: 'json',
+                    data:{id: id, utype: utype, _token: _token,},
+                    success:function(result){
+                        $('#POUIDe').val(result.POUnitIDx);
+                            if(result.POUUnitType == 1) {
+                                $('#POUUnitType').val(result.POUUnitType);
+                                $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                            }else{
+                                $('#POUUnitType').val(result.POUUnitType);
+                                $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                            }
+                        $('#POUArrivalDate').val(result.POUArrivalDate);
+                        $('#POUBrand').val(result.POUBrand);
+                        $('#POUClassification').val(result.POUClassification);
+                        $('#POUModel').val(result.POUModel);
+                        $('#POUSerialNum').val(result.POUSerialNum);
+                        $('#POUCode').val(result.POUCode);
+                        $('#POUMastType').val(result.POUMastType);
+                        $('#POUMastHeight').val(result.POUMastHeight);
+                        $('#POUForkSize').val(result.POUForkSize);
+                            if(result.POUwAttachment == 1) {
+                                $('#POUwAttachment').prop('checked', true);
+                                $('#PAttachment').removeClass("disabled");
+                            }else{
+                                $('#POUwAttachment').prop('checked', false);
+                                $('#PAttachment').addClass("disabled");
+                            }
+                        $('#POUAttType').val(result.POUAttType);
+                        $('#POUAttModel').val(result.POUAttModel);
+                        $('#POUAttSerialNum').val(result.POUAttSerialNum);
+                            if(result.POUwAccesories == 1) {
+                                $('#POUwAccesories').prop('checked', true);
+                                $('#PAccesories').removeClass("disabled");
+                            }else{
+                                $('#POUwAccesories').prop('checked', false);
+                                $('#PAccesories').addClass("disabled");
+                            }
+                            
+                            if(result.POUAccISite == 1) {
+                                $('#POUAccISite').prop('checked', true);
+                            }else{
+                                $('#POUAccISite').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccLiftCam == 1) {
+                                $('#POUAccLiftCam').prop('checked', true);
+                            }else{
+                                $('#POUAccLiftCam').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccRedLight == 1) {
+                                $('#POUAccRedLight').prop('checked', true);
+                            }else{
+                                $('#POUAccRedLight').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccBlueLight == 1) {
+                                $('#POUAccBlueLight').prop('checked', true);
+                            }else{
+                                $('#POUAccBlueLight').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccFireExt == 1) {
+                                $('#POUAccFireExt').prop('checked', true);
+                            }else{
+                                $('#POUAccFireExt').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccOthers == 1) {
+                                $('#POUAccOthers').prop('checked', true);
+                                $('#POUAccOthersDetail').removeClass('disabled');
+                            }else{
+                                $('#POUAccOthers').prop('checked', false);
+                                $('#POUAccOthersDetail').addClass('disabled');
+                            }
+                        $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
+                        $('#POUTechnician1').val(result.POUTechnician1);
+                            var selectedValue1 = result.POUTechnician1;
+                            $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                            if (selectedValue1) {
+                                $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                            }
+                        $('#POUTechnician2').val(result.POUTechnician2);
+                            var selectedValue2 = result.POUTechnician2;
+                            $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                            if (selectedValue2) {
+                                $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                            }
+                        $('#POUSalesman').val(result.POUSalesman);
+                        $('#POUCustomer').val(result.POUCustomer);
+                        $('#POUCustAddress').val(result.POUCustAddress);
+                        $('#POUBABrand').val(result.POUBABrand);
+                        $('#POUBABatType').val(result.POUBABatType);
+                        $('#POUBASerialNum').val(result.POUBASerialNum);
+                        $('#POUBACode').val(result.POUBACode);
+                        $('#POUBAAmper').val(result.POUBAAmper);
+                        $('#POUBAVolt').val(result.POUBAVolt);
+                        $('#POUBACCable').val(result.POUBACCable);
+                        $('#POUBACTable').val(result.POUBACTable);
+                            if(result.POUwSpareBat1 == 1) {
+                                $('#POUwBatSpare1').prop('checked', true);
+                                $('#SpareBat1').removeClass("disabled");
+                            }else{
+                                $('#POUwBatSpare1').prop('checked', false);
+                                $('#SpareBat1').addClass("disabled");
+                            }
+                        $('#POUSB1Brand').val(result.POUSB1Brand);
+                        $('#POUSB1BatType').val(result.POUSB1BatType);
+                        $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
+                        $('#POUSB1Code').val(result.POUSB1Code);
+                        $('#POUSB1Amper').val(result.POUSB1Amper);
+                        $('#POUSB1Volt').val(result.POUSB1Volt);
+                        $('#POUSB1CCable').val(result.POUSB1CCable);
+                        $('#POUSB1CTable').val(result.POUSB1CTable);
+                            if(result.POUwSpareBat2 == 1) {
+                                $('#POUwBatSpare2').prop('checked', true);
+                                $('#SpareBat2').removeClass("disabled");
+                            }else{
+                                $('#POUwBatSpare2').prop('checked', false);
+                                $('#SpareBat2').addClass("disabled");
+                            }
+                        $('#POUSB2Brand').val(result.POUSB2Brand);
+                        $('#POUSB2BatType').val(result.POUSB2BatType);
+                        $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
+                        $('#POUSB2Code').val(result.POUSB2Code);
+                        $('#POUSB2Amper').val(result.POUSB2Amper);
+                        $('#POUSB2Volt').val(result.POUSB2Volt);
+                        $('#POUSB2CCable').val(result.POUSB2CCable);
+                        $('#POUSB2CTable').val(result.POUSB2CTable);
+                        $('#POUCBrand').val(result.POUCBrand);
+                        $('#POUCModel').val(result.POUCModel);
+                        $('#POUCSerialNum').val(result.POUCSerialNum);
+                        $('#POUCCode').val(result.POUCCode);
+                        $('#POUCAmper').val(result.POUCAmper);
+                        $('#POUCVolt').val(result.POUCVolt);
+                        $('#POUCInput').val(result.POUCInput);
+                        $('#POURemarks').val(result.POURemarks);
+
+                        $("#btnPOUViewH").click();
+                        $('input, select, textarea, checkbox').prop('disabled', true);
+                        $("#savePullOut").hide();
+                        $("#clearPullOut").hide();
+                        // $("#htitle").hide();
+                        var newHeading = "VIEW UNIT";
+                        document.getElementById("htitle").innerHTML = newHeading;
+                    }
+                });
+            });
+
+        // Edit DU
+            jQuery(document).on( "click", ".btnDUEdit", function(){
+                $("#POUnit li:first-child button").click();
+                var id = $(this).data('id');
+                var utype = $(this).data('unittype');
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url:"{{ route('r-workshop.report.getPOUData') }}",
+                    method:"GET",
+                    dataType: 'json',
+                    data:{id: id, utype: utype, _token: _token,},
+                    success:function(result){
+                        $('#POUIDe').val(result.POUnitIDx);
+                            if(result.POUUnitType == 1) {
+                                $('#POUUnitType').val(result.POUUnitType);
+                                $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
+                            }else{
+                                $('#POUUnitType').val(result.POUUnitType);
+                                $("#BatteryDetails-tab, #ChargerDetails-tab").show();
+                            }
+                        $('#POUArrivalDate').val(result.POUArrivalDate);
+                        $('#POUBrand').val(result.POUBrand);
+                        $('#POUClassification').val(result.POUClassification);
+                        $('#POUModel').val(result.POUModel);
+                        $('#POUSerialNum').val(result.POUSerialNum);
+                        $('#POUCode').val(result.POUCode);
+                        $('#POUMastType').val(result.POUMastType);
+                        $('#POUMastHeight').val(result.POUMastHeight);
+                        $('#POUForkSize').val(result.POUForkSize);
+                            if(result.POUwAttachment == 1) {
+                                $('#POUwAttachment').prop('checked', true);
+                                $('#PAttachment').removeClass("disabled");
+                            }else{
+                                $('#POUwAttachment').prop('checked', false);
+                                $('#PAttachment').addClass("disabled");
+                            }
+                        $('#POUAttType').val(result.POUAttType);
+                        $('#POUAttModel').val(result.POUAttModel);
+                        $('#POUAttSerialNum').val(result.POUAttSerialNum);
+                            if(result.POUwAccesories == 1) {
+                                $('#POUwAccesories').prop('checked', true);
+                                $('#PAccesories').removeClass("disabled");
+                            }else{
+                                $('#POUwAccesories').prop('checked', false);
+                                $('#PAccesories').addClass("disabled");
+                            }
+                            
+                            if(result.POUAccISite == 1) {
+                                $('#POUAccISite').prop('checked', true);
+                            }else{
+                                $('#POUAccISite').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccLiftCam == 1) {
+                                $('#POUAccLiftCam').prop('checked', true);
+                            }else{
+                                $('#POUAccLiftCam').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccRedLight == 1) {
+                                $('#POUAccRedLight').prop('checked', true);
+                            }else{
+                                $('#POUAccRedLight').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccBlueLight == 1) {
+                                $('#POUAccBlueLight').prop('checked', true);
+                            }else{
+                                $('#POUAccBlueLight').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccFireExt == 1) {
+                                $('#POUAccFireExt').prop('checked', true);
+                            }else{
+                                $('#POUAccFireExt').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccStLight == 1) {
+                                $('#POUAccStLight').prop('checked', true);
+                            }else{
+                                $('#POUAccStLight').prop('checked', false);
+                            }
+                            
+                            if(result.POUAccOthers == 1) {
+                                $('#POUAccOthers').prop('checked', true);
+                                $('#POUAccOthersDetail').prop('disabled',false);
+                            }else{
+                                $('#POUAccOthers').prop('checked', false);
+                                $('#POUAccOthersDetail').prop('disabled',true);
+                            }
+                        $('#POUAccOthersDetail').val(result.POUAccOthersDetail);
+                        $('#POUTechnician1').val(result.POUTechnician1);
+                            var selectedValue1 = result.POUTechnician1;
+                            $('#POUTechnician2 option').prop('disabled', false); // enable all options
+                            if (selectedValue1) {
+                                $('#POUTechnician2 option[value="' + selectedValue1 + '"]').prop('disabled', true); // disable selected option
+                            }
+                        $('#POUTechnician2').val(result.POUTechnician2);
+                            var selectedValue2 = result.POUTechnician2;
+                            $('#POUTechnician1 option').prop('disabled', false); // enable all options
+                            if (selectedValue2) {
+                                $('#POUTechnician1 option[value="' + selectedValue2 + '"]').prop('disabled', true); // disable selected option
+                            }
+                        $('#POUSalesman').val(result.POUSalesman);
+                        $('#POUCustomer').val(result.POUCustomer);
+                        $('#POUCustAddress').val(result.POUCustAddress);
+                        $('#POUBABrand').val(result.POUBABrand);
+                        $('#POUBABatType').val(result.POUBABatType);
+                        $('#POUBASerialNum').val(result.POUBASerialNum);
+                        $('#POUBACode').val(result.POUBACode);
+                        $('#POUBAAmper').val(result.POUBAAmper);
+                        $('#POUBAVolt').val(result.POUBAVolt);
+                        $('#POUBACCable').val(result.POUBACCable);
+                        $('#POUBACTable').val(result.POUBACTable);
+                            if(result.POUwSpareBat1 == 1) {
+                                $('#POUwBatSpare1').prop('checked', true);
+                                $('#SpareBat1').removeClass("disabled");
+                            }else{
+                                $('#POUwBatSpare1').prop('checked', false);
+                                $('#SpareBat1').addClass("disabled");
+                            }
+                        $('#POUSB1Brand').val(result.POUSB1Brand);
+                        $('#POUSB1BatType').val(result.POUSB1BatType);
+                        $('#POUSB1SerialNum').val(result.POUSB1SerialNum);
+                        $('#POUSB1Code').val(result.POUSB1Code);
+                        $('#POUSB1Amper').val(result.POUSB1Amper);
+                        $('#POUSB1Volt').val(result.POUSB1Volt);
+                        $('#POUSB1CCable').val(result.POUSB1CCable);
+                        $('#POUSB1CTable').val(result.POUSB1CTable);
+                            if(result.POUwSpareBat2 == 1) {
+                                $('#POUwBatSpare2').prop('checked', true);
+                                $('#SpareBat2').removeClass("disabled");
+                            }else{
+                                $('#POUwBatSpare2').prop('checked', false);
+                                $('#SpareBat2').addClass("disabled");
+                            }
+                        $('#POUSB2Brand').val(result.POUSB2Brand);
+                        $('#POUSB2BatType').val(result.POUSB2BatType);
+                        $('#POUSB2SerialNum').val(result.POUSB2SerialNum);
+                        $('#POUSB2Code').val(result.POUSB2Code);
+                        $('#POUSB2Amper').val(result.POUSB2Amper);
+                        $('#POUSB2Volt').val(result.POUSB2Volt);
+                        $('#POUSB2CCable').val(result.POUSB2CCable);
+                        $('#POUSB2CTable').val(result.POUSB2CTable);
+                        $('#POUCBrand').val(result.POUCBrand);
+                        $('#POUCModel').val(result.POUCModel);
+                        $('#POUCSerialNum').val(result.POUCSerialNum);
+                        $('#POUCCode').val(result.POUCCode);
+                        $('#POUCAmper').val(result.POUCAmper);
+                        $('#POUCVolt').val(result.POUCVolt);
+                        $('#POUCInput').val(result.POUCInput);
+                        $('#POURemarks').val(result.POURemarks);
+
+                        $("#btnPOUEditH").click();
+                        $('input, select, textarea, checkbox').prop('disabled', false);
+                        $("#savePullOut").show();
+                        $("#clearPullOut").show();
+                        var newHeading = "EDIT UNIT";
+                        document.getElementById("htitle").innerHTML = newHeading;
+                    }
+                });
+            });
+        
+        // Delete/Revert DU
+            jQuery(document).on( "click", ".btnDUDelete", function(){
+                var id = $(this).data('id');
+                var cubay = $(this).data('cubay');
+                var duid = $(this).data('duid');
+                $('#btnDUDeleteH').click();
+                $('#deleteConfirmDU').data('id', id);
+                $('#deleteConfirmDU').data('cubay', cubay);
+                $('#deleteConfirmDU').data('duid', duid);
+            });
+            
+            jQuery(document).on( "click", "#deleteConfirmDU", function(){
+                var id = $(this).data('id');
+                var cubay = $(this).data('cubay');
+                var duid = $(this).data('duid');
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url:"{{ route('r-workshop.report.deleteDU') }}",
+                    method:"POST",
+                    data:{id: id, cubay: cubay, duid: duid, _token: _token,},
+                    success:function(result){
+                        $('#tableBDU').html(result);
+                        $('#tableBPOU').load(location.href + ' #tableBPOU>*','');
+                        $('#tableBCU').load(location.href + ' #tableBCU>*','');
+                        $("#success-modal").removeClass("hidden");
+                        $("#success-modal").addClass("flex");
+                    },
+                    error: function(error){
+                        $("#failed-modal").removeClass("hidden");
+                        $("#failed-modal").addClass("flex");
+                    }
+                });
+            });
+        });
+    </script>
     
 </x-app-layout>

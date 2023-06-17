@@ -124,6 +124,9 @@ Route::group(['middleware' => 'auth'],function(){
     
         // Confirm Unit
             Route::POST('/workshop-ms/bt-workshop/report/deleteCU', [BTReportController::class, 'deleteCU'])->name('bt-workshop.report.deleteCU');
+
+        // Delivered Unit
+            Route::POST('/workshop-ms/bt-workshop/report/deleteDU', [BTReportController::class, 'deleteDU'])->name('bt-workshop.report.deleteDU');
     
     // START OF T WORKSHOP > MONITORING
         Route::GET('/workshop-ms/t-workshop', [TReportController::class, 'index'])->name('t-workshop.index');
@@ -180,6 +183,9 @@ Route::group(['middleware' => 'auth'],function(){
         // Confirm Unit
             Route::POST('/workshop-ms/t-workshop/report/deleteCU', [TReportController::class, 'deleteCU'])->name('t-workshop.report.deleteCU');
 
+        // Delivered Unit
+            Route::POST('/workshop-ms/t-workshop/report/deleteDU', [TReportController::class, 'deleteDU'])->name('t-workshop.report.deleteDU');
+
 
     // START OF R WORKSHOP > MONITORING
         Route::GET('/workshop-ms/r-workshop', [RReportController::class, 'index'])->name('r-workshop.index');
@@ -234,6 +240,9 @@ Route::group(['middleware' => 'auth'],function(){
         
         // Confirm Unit
             Route::POST('/workshop-ms/r-workshop/report/deleteCU', [RReportController::class, 'deleteCU'])->name('r-workshop.report.deleteCU');
+
+        // Delivered Unit
+            Route::POST('/workshop-ms/r-workshop/report/deleteDU', [RReportController::class, 'deleteDU'])->name('r-workshop.report.deleteDU');
     
     // START OF PPT WORKSHOP > MONITORING
         Route::GET('/workshop-ms/ppt-workshop', [PPTReportController::class, 'index'])->name('ppt-workshop.index');
@@ -373,7 +382,7 @@ Route::group(['middleware' => 'auth'],function(){
             // Confirm Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/deleteCU', [AdminMonitor::class, 'deleteCU'])->name('admin_monitoring.report.deleteCU');
     
-            // Confirm Unit
+            // Delivered Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/deleteDU', [AdminMonitor::class, 'deleteDU'])->name('admin_monitoring.report.deleteDU');
 
         // Technician Schedule
