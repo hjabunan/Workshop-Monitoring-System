@@ -33,6 +33,9 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        .custom-br {
+            line-height: 2; /* Adjusts the line height to 1.5 times the font size */
+        }
     </style>
     <div style="height: calc(100vh - 75px);" class="py-1 overflow-y-hidden">
         <div class="max-w-7xl mx-auto sm:px-3 lg:px-5 h-full">
@@ -188,7 +191,76 @@
                                 </div>
                             </div>
                             <div class="hidden p-2 rounded-lg bg-gray-50" id="report" role="tabpanel" aria-labelledby="report-tab">
-                                B
+                                <div class="grid grid-cols-3">
+                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 25vh">
+                                        <div class="inline-flex items-center justify-center w-full">
+                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BRAND</span></label>
+                                        </div>
+                                        <div class="grid grid-cols-6 items-center">
+                                            <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">BRAND:</label></div>
+                                            <div class="col-span-4">
+                                                <select name="RBrand" id="RBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                                    <option value="1">TOYOTA</option>
+                                                    <option value="2">BT</option>
+                                                    <option value="3">RAYMOND</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandFromDate" id="RBrandFromDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandToDate" id="RBrandToDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="inline-flex items-center justify-center w-full mt-2">
+                                            <button type="button" id="RGenBrand" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                        </div>
+                                    </div>
+                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 25vh">
+                                        <div class="inline-flex items-center justify-center w-full">
+                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">PULL OUT UNIT</span></label>
+                                        </div>
+                                        <div class="grid grid-cols-6 items-center">
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandFromDate" id="RBrandFromDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandToDate" id="RBrandToDate">
+                                                </div>
+                                            </div>
+                                            <div class="custom-br text-gray-100">A</div>
+                                        </div>
+                                        <div class="inline-flex items-center justify-center w-full mt-2">
+                                            <button type="button" id="RGenBrand" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                        </div>
+                                    </div>
+                                    <div class="">B</div>
+                                    <div class="">C</div>
+                                    <div class="">D</div>
+                                </div>
                             </div>
                             {{-- NEW UNIT --}}
                             <div class="hidden p-2 rounded-lg bg-gray-50" id="newunit" role="tabpanel" aria-labelledby="newunit-tab">
@@ -4333,6 +4405,38 @@
                         $("#failed-modal").addClass("flex");
                     }
                 });
+            });
+        });
+
+    // REPORT
+        $('.datepicker').datepicker({
+            format: 'mm/dd/yyyy'
+        });
+
+        // Handle Generate button click event
+        $('#RGenBrand').click(function() {
+            var fromDate = $('#RBrandFromDate').val();
+            var toDate = $('#RBrandToDate').val();
+
+            // Send AJAX request to generate the Excel report
+            $.ajax({
+            type: 'POST',
+            url: '',
+            data: {
+                _token: '{{ csrf_token() }}',
+                from_date: fromDate,
+                to_date: toDate
+            },
+            success: function(response) {
+                // Handle success response
+                console.log(response);
+                // You can optionally show a success message or trigger the file download
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.log(error);
+                // You can show an error message or perform any necessary error handling
+            }
             });
         });
     </script>

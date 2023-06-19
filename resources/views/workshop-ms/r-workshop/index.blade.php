@@ -1586,7 +1586,7 @@
                                 <div class="col-span-5 mb-2">
                                     <input type="hidden" id="POUIDx" name="POUIDx">
                                 </div>
-                                <div id="divWHTransfer" class="grid grid-cols-5 items-center">
+                                <div id="divWHTransfer" class="grid grid-cols-5 items-center" style="height: 33vh;">
                                     <div id="label" class="uppercase mb-2">
                                         <label for="UnitTransferDate" class="block text-sm font-medium text-gray-900">Transfer Date:</label>
                                     </div>
@@ -1655,7 +1655,7 @@
                                     </div>
                                 </div>
 
-                                <div id="divDelTransfer" class="grid grid-cols-5 items-center">
+                                <div id="divDelTransfer" class="grid grid-cols-5 items-center" style="height: 33vh;">
                                     <div id="label" class="uppercase mb-2">
                                         <label for="UnitDelDate" class="block text-sm font-medium text-gray-900">Delivery Date:</label>
                                     </div>
@@ -1674,6 +1674,10 @@
                                     <div id="input" class="uppercase mt-5 col-span-2">
                                         <textarea rows="3" name="UnitDelRemarksT" id="UnitDelRemarksT" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 uppercase"></textarea>
                                     </div>
+                                    <div class="col-span-5"></div>
+                                    <div class="col-span-5"></div>
+                                    <div class="col-span-5"></div>
+                                    <div class="col-span-5"></div>
                                 </div>
                         </form>
                     </div>
