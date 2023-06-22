@@ -230,6 +230,54 @@
                                             {{-- <a href="{{ route('r-workshop.report.generateBrandReport') }}" target="_blank" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</a> --}}
                                         </div>
                                     </div>
+                                    {{-- Per Bay --}}
+                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div class="inline-flex items-center justify-center w-full">
+                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BAY</span></label>
+                                        </div>
+                                        <div class="grid grid-cols-6 items-center">
+                                            <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">AREA:</label></div>
+                                            <div class="col-span-4">
+                                                <select name="RBayArea" id="RBayArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-xs">
+                                                        <option value=""></option>
+                                                    @foreach ($section as $sections)
+                                                        <option value="{{$sections->id}}">{{$sections->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">BAY:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <select name="RBayNum" id="RBayNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                                        <option value=""></option>
+                                                    @foreach ($bayR as $bayR1)
+                                                        <option value="{{$bayR1->id}}">{{$bayR1->area_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                    <input type="hidden" id="RBayName" name="RBayName" value="">
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayFromDate" id="RBayFromDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayToDate" id="RBayToDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="inline-flex items-center justify-center w-full mt-2">
+                                            <button type="button" id="RGenBay" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                        </div>
+                                    </div>
                                     {{-- Pull Out Unit --}}
                                     <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
                                         <div class="inline-flex items-center justify-center w-full">
@@ -259,37 +307,19 @@
                                             <button type="button" id="RGenPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
                                         </div>
                                     </div>
-                                    {{-- Per Bay --}}
+                                    {{-- Delivered Unit --}}
                                     <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
                                         <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BAY</span></label>
+                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">DELIVERED UNIT</span></label>
                                         </div>
                                         <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">AREA:</label></div>
-                                            <div class="col-span-4">
-                                                <select name="RBayArea" id="RBayArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-xs">
-                                                    @foreach ($section as $sections)
-                                                        <option value=""></option>
-                                                        <option value="{{$sections->id}}">{{$sections->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">BAY:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <select name="RBayNum" id="RBayNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-xs">
-                                                    @foreach ($bayR as $bayR1)
-                                                        <option value=""></option>
-                                                        <option value="{{$bayR1->id}}">{{$bayR1->area_name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
                                             <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
                                             <div class="col-span-4 mt-1">
                                                 <div class="relative max-w-sm">
                                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                     </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayFromDate" id="RBayFromDate">
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDUFromDate" id="RDUFromDate">
                                                 </div>
                                             </div>
                                             <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
@@ -298,15 +328,14 @@
                                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                     </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayToDate" id="RBayToDate">
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDUToDate" id="RDUToDate">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                            <button type="button" id="RGenDU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
                                         </div>
                                     </div>
-                                    <div class="">B</div>
                                     <div class="">C</div>
                                     <div class="">D</div>
                                 </div>
@@ -2363,6 +2392,535 @@
                             Yes, I'm sure.
                         </button>
                         <button data-modal-hide="modalDeleteDU" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ADD AND EDIT MODAL FOR CANNIBALIZED UNIT --}}
+        <div id="modalCanUnit" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-1 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+            <div class="relative w-full h-full max-w-4xl md:h-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 class="text-xl font-medium text-gray-900">
+                            CANNIBALIZED UNIT
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalCanUnit">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div style="height: calc(100vh - 265px);" class="p-2 space-y-6 overflow-y-auto">
+                        <form action="" id="formCanUnit">
+                            @csrf
+                            <input type="hidden" name="CanUnitID" id="CanUnitID" class="">
+                            <div id="CanUnitBHead" class="">
+                                <div class="grid grid-cols-12 items-center">
+                                    <div id="label" class="uppercase">
+                                        <label for="CanUnitCONum" class="block text-xs font-medium text-gray-900">C/O No.:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mr-1">
+                                        <input type="text" name="CanUnitCONum" id="CanUnitCONum" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div id="label" class="uppercase ml-5">
+                                        <label for="CanUnitBrand" class="block text-xs font-medium text-gray-900">Brand:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mr-1">
+                                        <select name="CanUnitBrand" id="CanUnitBrand" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            @foreach ($brand as $brands)
+                                            <option value="{{$brands->id}}">{{$brands->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div id="label" class="uppercase ml-5">
+                                        <label for="CanUnitStatus" class="block text-xs font-medium text-gray-900">Status:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mr-1">
+                                        <select name="CanUnitStatus" id="CanUnitStatus" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            <option value="1">CLOSED</option>
+                                            <option value="2">PENDING</option>
+                                            <option value="3">NOT FOR RETURN</option>
+                                        </select>
+                                    </div>
+                                    <div id="label" class="uppercase ml-5">
+                                        <label for="CanUnitDate" class="block text-xs font-medium text-gray-900">Date:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitDate" id="CanUnitDate">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-1 mb-1">
+                            </div>
+                            <div id="CanUnitBBodyA" class="grid grid-cols-6">
+                                <div class="col-span-3 place-self-center">
+                                    <label for="" class="block text-sm font-medium text-gray-900 ">CANNIBALIZED FROM</label>
+                                </div>
+                                <div class="col-span-3 place-self-center">
+                                    <label for="" class="block text-sm font-medium text-gray-900 ">INSTALLED TO</label>
+                                </div>
+                                {{-- LEFT PART --}}
+                                <div class="col-span-3 grid grid-cols-3 items-center mr-5">
+                                    <div class="">
+                                        <label for="CanUnitCFModelNum" class="block text-xs text-gray-900">Model Number:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="CanUnitCFModelNum" name="CanUnitCFModelNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFSerialNum" class="block text-xs text-gray-900">Serial Number:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitCFSerialNum" name="CanUnitCFSerialNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFRentalCode" class="block text-xs text-gray-900">Rental Code:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitCFRentalCode" name="CanUnitCFRentalCode" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFSection" class="block text-xs text-gray-900">Section:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <select name="CanUnitCFSection" id="CanUnitCFSection" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            @foreach ($section as $sections)
+                                            <option value="{{$sections->id}}">{{$sections->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFPIC" class="block text-xs text-gray-900">Person In-Charge:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <select name="CanUnitCFPIC" id="CanUnitCFPIC" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            @foreach ($technician as $tech)
+                                            <option value="{{$tech->id}}">{{$tech->initials}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFPrepBy" class="block text-xs text-gray-900">Prepared By:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitCFPrepBy" name="CanUnitCFPrepBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFPrepDate" class="block text-xs text-gray-900">Prepared Date:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitCFPrepDate" id="CanUnitCFPrepDate">
+                                        </div>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFStartTime" class="block text-xs text-gray-900">Start Time:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="time" id="CanUnitCFStartTime" name="CanUnitCFStartTime" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm font-medium sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitCFEndTime" class="block text-xs text-gray-900">End Time:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="time" id="CanUnitCFEndTime" name="CanUnitCFEndTime" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm font-medium sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                                {{-- RIGHT PART --}}
+                                <div class="col-span-3 grid grid-cols-3 items-center ml-5">
+                                    <div class="">
+                                        <label for="CanUnitITModelNum" class="block text-xs text-gray-900">Model Number:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="CanUnitITModelNum" name="CanUnitITModelNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div><div class="mt-1">
+                                        <label for="CanUnitITSerialNum" class="block text-xs text-gray-900">Serial Number:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITSerialNum" name="CanUnitITSerialNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITRentalCode" class="block text-xs text-gray-900">Rental Code:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITRentalCode" name="CanUnitITRentalCode" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITCustomer" class="block text-xs text-gray-900">Customer:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <select name="CanUnitITCustomer" id="CanUnitITCustomer" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITCustAddress" class="block text-xs text-gray-900">Customer Address:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITCustAddress" name="CanUnitITCustAddress" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITCustArea" class="block text-xs text-gray-900">Customer Area:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITCustArea" name="CanUnitITCustArea" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITSupMRI" class="block text-xs text-gray-900">Supply to MRI:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITSupMRI" name="CanUnitITSupMRI" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITSupSTO" class="block text-xs text-gray-900">Supply to STO:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITSupSTO" name="CanUnitITSupSTO" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitITRecBy" class="block text-xs text-gray-900">Received By:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitITRecBy" name="CanUnitITRecBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                            </div>
+                                <hr class="mt-2 mb-2">
+                            <div id="CanUnitBBodyB" class="">
+                                <div class="grid grid-cols-10">
+                                    <div class="col-span-2 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">PART NUMBER</label></div>
+                                    <div class="col-span-3 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">DESCRIPTION</label></div>
+                                    <div class="col-span-1 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">QUANTITY</label></div>
+                                    <div class="col-span-3 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">REMARKS</label></div>
+                                    <div class="grid grid-cols-2 items-center">
+                                        <div class="place-self-center">
+                                            <button id="addDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>
+                                        </div>
+                                        <div class="place-self-center">
+                                            <button id="deleteDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-2 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-2" d="M100,390a30,30,0,1,1,30-30A30,30,0,0,1,100,390Zm18-30a4,4,0,0,1-4,4H86a4,4,0,0,1,0-8h28A4,4,0,0,1,118,360Z" id="remove" transform="translate(-70 -330)"></path></g></svg></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="CanUnitParts" class="">
+                                    <div id="CanUnitPartsContent1" class="grid grid-cols-10 gap-2">
+                                        <div class="col-span-2">
+                                            <input type="text" id="CanUnitPartNum1" name="CanUnitPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="col-span-3">
+                                            <input type="text" id="CanUnitDescription1" name="CanUnitDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="col-span-1">
+                                            <input type="text" id="CanUnitQuantity1" name="CanUnitQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="col-span-3">
+                                            <input type="text" id="CanUnitRemarks1" name="CanUnitRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" id="CanUnitID1" name="CanUnitID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <hr class="mt-1 mb-1">
+                            <div id="CanUnitBBodyC" class="grid grid-cols-6">
+                                <div class="col-span-3 grid grid-cols-3 items-center mr-5 mb-3">
+                                    <div class="">
+                                        <label for="CanUnitCPrepBy" class="block text-xs text-gray-900">Prepared By:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="CanUnitCPrepBy" name="CanUnitCPrepBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                                <div class="col-span-3 grid grid-cols-3 items-center ml-5 mt-1">
+                                </div>
+                                {{-- LEFT PART --}}
+                                <div class="col-span-3 grid grid-cols-3 items-center mr-5">
+                                    <div class="">
+                                        <label for="CanUnitRPRetBy" class="block text-xs text-gray-900">Returned By:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="CanUnitRPRetBy" name="CanUnitRPRetBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitRPRetDate" class="block text-xs text-gray-900">Returned Date:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitRPRetDate" id="CanUnitRPRetDate">
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- RIGHT PART --}}
+                                <div class="col-span-3 grid grid-cols-3 items-center ml-5 mt-1">
+                                    <div class="">
+                                        <label for="CanUnitRPRecBy" class="block text-xs text-gray-900">Received By:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="CanUnitRPRecBy" name="CanUnitRPRecBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mt-1">
+                                        <label for="CanUnitDocRefNum" class="block text-xs text-gray-900">Document Ref. Number:</label>
+                                    </div>
+                                    <div class="col-span-2 mt-1">
+                                        <input type="text" id="CanUnitDocRefNum" name="CanUnitDocRefNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                        <button data-modal-hide="modalCanUnit" type="button" id="saveCanUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                        <button type="button" id="clearCanUnit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
+                        <button data-modal-hide="modalCanUnit" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ADD AND EDIT MODAL FOR DR MONITORING --}}
+        <div id="modalDRMon" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-1 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+            <div class="relative w-full h-full max-w-4xl md:h-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 class="text-xl font-medium text-gray-900">
+                            D.R. MONITORING
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalDRMon">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div style="height: calc(100vh - 265px);" class="p-2 space-y-6 overflow-y-auto">
+                        <form action="" id="formDRMon">
+                            @csrf
+                            <input type="hidden" name="DRMonID" id="DRMonID" class="">
+                            <div id="DRMonBHead" class="">
+                                <div class="grid grid-cols-12 items-center">
+                                    <div id="label" class="uppercase ml-5">
+                                        <label for="DRMonStatus" class="block text-xs font-medium text-gray-900">Status:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2 uppercase mr-1">
+                                        <select name="DRMonStatus" id="DRMonStatus" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            <option value="1">ON GOING</option>
+                                            <option value="2">PENDING</option>
+                                            <option value="3">CANCELLED</option>
+                                            <option value="4">DONE</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-span-6"></div>
+                                    <div id="label" class="uppercase ml-5">
+                                        <label for="DRMonDate" class="block text-xs font-medium text-gray-900">Date:</label>
+                                    </div>
+                                    <div id="input" class="col-span-2">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="DRMonDate" id="DRMonDate">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-1 mb-1">
+                            </div>
+                            <div id="DRMonBBodyA" class="grid grid-cols-6">
+                                <div class="col-span-3 grid grid-cols-3 items-center mr-5">
+                                    <div class="mb-1">
+                                        <label for="DRMonCustomer" class="block text-xs text-gray-900">Customer:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <select name="DRMonCustomer" id="DRMonCustomer" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                            <option value="" selected disabled></option>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="DRMonCustAddress" class="block text-xs text-gray-900">Customer Address:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-2">
+                                        <input type="text" id="DRMonCustAddress" name="DRMonCustAddress" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                                <div class="col-span-3 grid grid-cols-3 items-center ml-5">
+                                    <div class="mb-1">
+                                        <label for="DRMonSupplier" class="block text-xs text-gray-900">Supplier:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="DRMonSupplier" name="DRMonSupplier" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="DRMonPRNum" class="block text-xs text-gray-900">Purchase Request Num:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-2">
+                                        <input type="text" id="DRMonPRNum" name="DRMonPRNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    {{-- --}}
+                                </div>
+                            </div>
+                                <hr class="mt-2 mb-2">
+                            <div id="DRMonBBodyB" class="grid grid-cols-6">
+                                {{-- LEFT --}}
+                                <div class="col-span-3 grid grid-cols-3 items-center mr-5">
+                                    <div class="mb-1">
+                                        <label for="LDRMonCode" class="block text-xs text-gray-900">Code:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="LDRMonCode" name="LDRMonCode" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="LDRMonModel" class="block text-xs text-gray-900">Model:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="LDRMonModel" name="LDRMonModel" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="LDRMonSerial" class="block text-xs text-gray-900">Serial:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="LDRMonSerial" name="LDRMonSerial" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="LDRMonDRNum" class="block text-xs text-gray-900">Delivery Receipt Num:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="LDRMonDRNum" name="LDRMonDRNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="LDRMonPUDate" class="block text-xs text-gray-900">Pick Up Date:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="LDRMonPUDate" id="LDRMonPUDate">
+                                        </div>
+                                    </div> 
+                                    <div class="">
+                                        <label for="LDRMonReqBy" class="block text-xs text-gray-900">Requested By:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="LDRMonReqBy" name="LDRMonReqBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                                {{-- RIGHT --}}
+                                <div class="col-span-3 grid grid-cols-3 items-center ml-5">
+                                    <div class="mb-1">
+                                        <label for="RDRMonQNum" class="block text-xs text-gray-900">Quotation Num:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="RDRMonQNum" name="RDRMonQNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="RDRMonQDate" class="block text-xs text-gray-900">Qoutation Date:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="RDRMonQDate" id="RDRMonQDate">
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="RDRMonBSNum" class="block text-xs text-gray-900">Billing Statement Num:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="RDRMonBSNum" name="RDRMonBSNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="RDRMonDRNum" class="block text-xs text-gray-900">Delivery Receipt Num:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <input type="text" id="RDRMonDRNum" name="RDRMonDRNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="RDRMonRetDate" class="block text-xs text-gray-900">Returned Date:</label>
+                                    </div>
+                                    <div class="col-span-2 mb-1">
+                                        <div class="relative max-w-sm">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                            </div>
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="RDRMonRetDate" id="RDRMonRetDate">
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <label for="RDRMonRecBy" class="block text-xs text-gray-900">Received By:</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="text" id="RDRMonRecBy" name="RDRMonRecBy" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
+                                    </div>
+                                </div>
+                            </div>
+                                <hr class="mt-2 mb-2">
+                            <div id="DRMonBBodyC" class="">
+                                <div class="grid grid-cols-12">
+                                    <div class="col-span-2 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">PART NUMBER</label></div>
+                                    <div class="col-span-3 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">DESCRIPTION</label></div>
+                                    <div class="col-span-1 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">QUANTITY</label></div>
+                                    <div class="col-span-2 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">PURPOSE</label></div>
+                                    <div class="col-span-3 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">REMARKS</label></div>
+                                    <div class="grid grid-cols-2 items-center">
+                                    </div>
+                                </div>
+                                <div id="DRMonParts" class="">
+                                    <div id="DRMonPartsContent1" class="grid grid-cols-12 gap-2">
+                                        <div class="col-span-2 grid grid-cols-12">
+                                            <div class="">
+                                                <input id="DRMonCB1" name="DRMonCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="col-span-10">
+                                                <input type="text" id="DRMonPartNum1" name="DRMonPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                            </div>
+                                        </div>
+                                        <div class="col-span-3">
+                                            <input type="text" id="DRMonDescription1" name="DRMonDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="col-span-1">
+                                            <input type="text" id="DRMonQuantity1" name="DRMonQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="DRMonPurpose1" name="DRMonPurpose1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="col-span-3">
+                                            <input type="text" id="DRMonRemarks1" name="DRMonRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" id="DRMonID1" name="DRMonID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                            <button id="addDRMonDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                        <button data-modal-hide="modalDRMon" type="button" id="saveDRMon" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                        <button type="button" id="clearDRMon" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
+                        <button data-modal-hide="modalDRMon" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
                     </div>
                 </div>
             </div>
@@ -4431,6 +4989,15 @@
                 $('#deleteConfirmDU').data('cubay', cubay);
                 $('#deleteConfirmDU').data('duid', duid);
             });
+
+            document.getElementById('RBayNum').addEventListener('change', function() {
+                // Get the selected option and its text
+                var selectedOption = this.options[this.selectedIndex];
+                var areaName = selectedOption.text;
+
+                // Set the value of the hidden input
+                document.getElementById('RBayName').value = areaName;
+            });
             
             jQuery(document).on( "click", "#deleteConfirmDU", function(){
                 var id = $(this).data('id');
@@ -4459,69 +5026,121 @@
 
     // REPORT
         // If Area Change, Data from Bay also changes
-        jQuery(document).on( "change", "#POUArea", function(){
+            jQuery(document).on( "change", "#RBayArea", function(){
                 var area = $(this).val();
                 var _token = $('input[name="_token"]').val();
-                // alert(area);
 
                 $.ajax({
-                    url:"{{ route('r-workshop.report.getBay') }}",
+                    url:"{{ route('r-workshop.report.getBayR') }}",
                     method:"GET",
                     data:{area: area, _token: _token,},
                     success:function(result){
-                        $('#POUBay').html(result);
+                        $('#RBayNum').html(result);
                     }
                 });
             });
+        
         // Brand Report
-        jQuery(document).on( "click", "#RGenBrand", function(){
-            var UBrand = $('#RBrand').val();
-            var fromDate = $('#RBrandFromDate').val();
-            var toDate = $('#RBrandToDate').val();
-            var _token = $('input[name="_token"]').val();
+            jQuery(document).on( "click", "#RGenBrand", function(){
+                var UBrand = $('#RBrand').val();
+                var fromDate = $('#RBrandFromDate').val();
+                var toDate = $('#RBrandToDate').val();
+                var _token = $('input[name="_token"]').val();
 
-            $.ajax({
-                url: "{{ route('r-workshop.report.generateBrandReport') }}",
-                method: 'POST',
-                data: {
-                    UBrand: UBrand,
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    _token: _token
-                },
-                success: function(response) {
-                    var link = document.createElement('a');
-                    link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
-                    link.target = '_blank';
-                    link.download = 'Brand Report.csv';
-                    link.click();
-                },
+                $.ajax({
+                    url: "{{ route('r-workshop.report.generateBrandReport') }}",
+                    method: 'POST',
+                    data: {
+                        UBrand: UBrand,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        var link = document.createElement('a');
+                        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                        link.target = '_blank';
+                        link.download = 'Brand Report.csv';
+                        link.click();
+                    },
+                });
             });
-        });
+
+        // Bay Report
+            jQuery(document).on("click", "#RGenBay", function() {RBayName
+                var bayName = $('#RBayName').val();
+                var bayNum = $('#RBayNum').val();
+                var fromDate = $('#RBayFromDate').val();
+                var toDate = $('#RBayToDate').val();
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.generateBayReport') }}",
+                    method: 'POST',
+                    data: {
+                        bayName: bayName,
+                        bayNum: bayNum,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        var link = document.createElement('a');
+                        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                        link.target = '_blank';
+                        link.download = 'Bay Report.csv';
+                        link.click();
+                    },
+                });
+            });
 
         // Pull Out Unit Report
-        jQuery(document).on("click", "#RGenPOU", function() {
-            var fromDate = $('#RPOUFromDate').val();
-            var toDate = $('#RPOUToDate').val();
-            var _token = $('input[name="_token"]').val();
+            jQuery(document).on("click", "#RGenPOU", function() {
+                var fromDate = $('#RPOUFromDate').val();
+                var toDate = $('#RPOUToDate').val();
+                var _token = $('input[name="_token"]').val();
 
-            $.ajax({
-                url: "{{ route('r-workshop.report.generatePOUReport') }}",
-                method: 'POST',
-                data: {
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    _token: _token
-                },
-                success: function(response) {
-                    var link = document.createElement('a');
-                    link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
-                    link.target = '_blank';
-                    link.download = 'PullOutUnit Report.csv';
-                    link.click();
-                },
+                $.ajax({
+                    url: "{{ route('r-workshop.report.generatePOUReport') }}",
+                    method: 'POST',
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        var link = document.createElement('a');
+                        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                        link.target = '_blank';
+                        link.download = 'PullOutUnit Report.csv';
+                        link.click();
+                    },
+                });
             });
-        });
+
+        // Pull Out Unit Report
+            jQuery(document).on("click", "#RGenDU", function() {
+                var fromDate = $('#RDUFromDate').val();
+                var toDate = $('#RDUToDate').val();
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.generateDUReport') }}",
+                    method: 'POST',
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        var link = document.createElement('a');
+                        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                        link.target = '_blank';
+                        link.download = 'DeliveredUnit Report.csv';
+                        link.click();
+                    },
+                });
+            });
     </script>
     
 </x-app-layout>

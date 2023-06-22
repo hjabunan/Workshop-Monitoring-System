@@ -224,8 +224,11 @@ Route::group(['middleware' => 'auth'],function(){
             Route::GET('/workshop-ms/r-workshop/report/sortBrand', [RReportController::class, 'sortBrand'])->name('r-workshop.report.sortBrand');
 
         // Report
+            Route::GET('/workshop-ms/r-workshop/report/getBayR', [RReportController::class, 'getBayR'])->name('r-workshop.report.getBayR');
             Route::POST('/workshop-ms/r-workshop/report/generateBrandReport', [RReportController::class, 'generateBrandReport'])->name('r-workshop.report.generateBrandReport');
+            Route::POST('/workshop-ms/r-workshop/report/generateBayReport', [RReportController::class, 'generateBayReport'])->name('r-workshop.report.generateBayReport');
             Route::POST('/workshop-ms/r-workshop/report/generatePOUReport', [RReportController::class, 'generatePOUReport'])->name('r-workshop.report.generatePOUReport');
+            Route::POST('/workshop-ms/r-workshop/report/generateDUReport', [RReportController::class, 'generateDUReport'])->name('r-workshop.report.generateDUReport');
 
         // Brand New Unit
             Route::POST('/workshop-ms/r-workshop/report/saveBrandNew', [RReportController::class, 'saveBrandNew'])->name('r-workshop.report.saveBrandNew');

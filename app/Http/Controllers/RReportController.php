@@ -1775,7 +1775,7 @@ class RReportController extends Controller
 
     public function indexR(){
         $brand = DB::SELECT('SELECT * FROM brands WHERE status="1"');
-        $section = DB::SELECT('SELECT * FROM sections WHERE status="1" ORDER BY id ASC, name ASC');
+        $section = DB::SELECT('SELECT * FROM sections WHERE status="1" ORDER BY sections.id ASC');
         $technician = DB::SELECT('SELECT * FROM technicians WHERE status="1"');
         $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" and status="1" ORDER BY bay_areas.id');
         $bayR = DB::SELECT('SELECT * FROM bay_areas WHERE status="1" ORDER BY bay_areas.id');
@@ -4360,6 +4360,23 @@ class RReportController extends Controller
         //     die;
     // }
 
+    public function getBayR(Request $request){
+        $result = '<option value=""></option>';
+        if($request->area == ''){
+            $bay = DB::SELECT('SELECT * FROM bay_areas ORDER BY bay_areas.id');
+        }else{
+            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE section=? ORDER BY bay_areas.id',[$request->area]);
+        }
+
+        foreach ($bay as $bays) {
+            $result .='
+                        <option value="'.$bays->id.'">'.$bays->area_name.'</option>
+                    ';
+        }
+
+        echo $result;
+    }
+
     public function generateBrandReport(Request $request){
         if ($request->UBrand == 1) {
             $brand = "TOYOTA";
@@ -4399,22 +4416,6 @@ class RReportController extends Controller
         $csv->insertOne(['id', 'Bay Number', 'Code', 'Company', 'Model', 'Serial Number', 'Mast Type', 'Remarks', 'Target Date', 'Date Started', 'Date End', 'Person in Charge']);
 
         foreach ($datas as $row) {
-            // if($row->POUUnitType == 1){
-            //     $UType = "DIESEL/GASOLINE/LPG";
-            // }else{
-            //     $UType = "BATTERY";
-            // }
-
-            // if($row->POUClassification == 1){
-            //     $Class = "CLASS A";
-            // }else if($row->POUClassification == 2){
-            //     $Class = "CLASS B";
-            // }else if($row->POUClassification == 3){
-            //     $Class = "CLASS C";
-            // }else{
-            //     $Class = "CLASS D";
-            // }
-
             $csv->insertOne([$row->id, $row->area_name, $row->POUCode, $row->POUCustomer, $row->POUModel, $row->POUSerialNum, $row->POUMastType, $row->WSRemarks, $row->WSATRDE, $row->WSAAIDS, $row->WSAARDE, $row->initials]);
         }
     
@@ -4426,8 +4427,56 @@ class RReportController extends Controller
 
     }
 
+    public function generateBayReport(Request $request){
+        
+        $title = "BAY REPORT";
+
+        $datas = DB::table('unit_workshops')
+            ->select('unit_workshops.id','bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
+            'unit_workshops.WSAARDE', 'technicians.initials', 'unit_workshops.WSDelTransfer'
+                    )
+            ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_workshops.WSPOUID')
+            ->join('bay_areas', 'bay_areas.id', '=', 'unit_workshops.WSBayNum')
+            ->join('technicians', 'technicians.id', '=', 'unit_pull_outs.POUTechnician1')
+            ->leftJoin('unit_pull_out_bats', 'unit_pull_out_bats.POUID', '=', 'unit_pull_outs.id')
+            ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
+            ->where('unit_workshops.isBrandNew','=',0)
+            ->where('unit_workshops.WSBayNum','=',$request->bayNum)
+            ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
+            ->orderBy('unit_pull_outs.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['BAY: ', $request->bayName]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['id', 'Bay Number', 'Code', 'Company', 'Model', 'Serial Number', 'Mast Type', 'Remarks', 'Target Date', 'Date Started', 'Date End', 'Person in Charge','Delivered?']);
+
+        foreach ($datas as $row) {
+            if($row->WSDelTransfer == 1){
+                $Transfer = "Yes";
+            }else{
+                $Transfer = "No";
+            }
+            $csv->insertOne([$row->id, $row->area_name, $row->POUCode, $row->POUCustomer, $row->POUModel, $row->POUSerialNum, $row->POUMastType, $row->WSRemarks, $row->WSATRDE, $row->WSAAIDS, $row->WSAARDE, $row->initials, $Transfer]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+
+    }
+
     public function generatePOUReport(Request $request){
-        $title = "PULL OUT UNITS REPORT FROM " . $request->fromDate . " TO " . $request->toDate;
+        $title = "PULL OUT UNITS REPORT";
 
         $datas = DB::table('unit_pull_outs')
             ->select('unit_pull_outs.id', 'unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'brands.name as brand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 
@@ -4450,6 +4499,9 @@ class RReportController extends Controller
     
         $csv->insertOne(['']);
         $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
         $csv->insertOne(['']);
         $csv->insertOne(['id', 'Unit Type', 'Arrival Date', 'Brand', 'Classification', 'Model', 'Serial Number', 'Code', 'Mast Type', 'Mast Height', 'Fork Size', 'Att. Type', 'Att. Model', 'Att. Serial Number', 'Acc. I-Site', 'Acc. Lift Cam', 'Acc. Red Light', 'Acc. Blue Light', 
                         'Acc. Fire Ext.', 'Acc. Strobe Light', 'Other Accessories', 'Technician 1', 'Technician 2', 'Salesman', 'Customer', 'Cust. Address', 'Unit Remarks', 'Unit Remarks', 'Battery Brand', 'Battery Type', 'Battery Serial Number', 'Battery Code', 'Battery Amper', 
@@ -4475,6 +4527,73 @@ class RReportController extends Controller
 
             $csv->insertOne([$row->id, $UType, $row->POUArrivalDate, $row->brand, $Class, $row->POUModel, $row->POUSerialNum, $row->POUCode, $row->POUMastType, $row->POUMastHeight, $row->POUForkSize, $row->POUAttType, $row->POUAttModel, $row->POUAttSerialNum, $row->POUAccISite, 
                             $row->POUAccLiftCam, $row->POUAccRedLight, $row->POUAccBlueLight, $row->POUAccFireExt, $row->POUAccStLight, $row->POUAccOthersDetail, $row->POUTechnician1, $row->POUTechnician2, $row->POUSalesman, $row->POUCustomer, $row->POUCustAddress, $row->POURemarks, 
+                            $row->POUBABrand, $row->POUBABatType, $row->POUBASerialNum, $row->POUBACode, $row->POUBAAmper, $row->POUBAVolt, $row->POUBACCable, $row->POUBACTable, $row->POUSB1Brand, $row->POUSB1BatType, $row->POUSB1SerialNum, $row->POUSB1Code, $row->POUSB1Amper, $row->POUSB1Volt, 
+                            $row->POUSB1CCable, $row->POUSB1CTable, $row->POUSB2Brand, $row->POUSB2BatType, $row->POUSB2SerialNum, $row->POUSB2Code, $row->POUSB2Amper, $row->POUSB2Volt, $row->POUSB2CCable, $row->POUSB2CTable, $row->POUCBrand, $row->POUCModel, $row->POUCSerialNum, 
+                            $row->POUCCode, $row->POUCAmper, $row->POUCVolt, $row->POUCInput]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    public function generateDUReport(Request $request){
+        $title = "DELIVERED UNITS REPORT";
+
+        $datas = DB::table('unit_deliveries')
+            ->select('unit_deliveries.id as DUID', 'unit_deliveries.DUDelDate', 'unit_deliveries.DURemarks', 'unit_pull_outs.id as POUID', 'unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'brands.name as brand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 
+                    'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUAccISite', 
+                    'unit_pull_outs.POUAccLiftCam', 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthersDetail', 'unit_pull_outs.POUTechnician1', 
+                    'unit_pull_outs.POUTechnician2', 't1.initials as tech1', 't2.initials as tech2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks', 'unit_pull_outs.POURemarks', 
+                    'unit_pull_out_bats.POUBABrand', 'unit_pull_out_bats.POUBABatType', 'unit_pull_out_bats.POUBASerialNum', 'unit_pull_out_bats.POUBACode', 'unit_pull_out_bats.POUBAAmper', 'unit_pull_out_bats.POUBAVolt', 'unit_pull_out_bats.POUBACCable', 'unit_pull_out_bats.POUBACTable', 
+                    'unit_pull_out_bats.POUSB1Brand', 'unit_pull_out_bats.POUSB1BatType', 'unit_pull_out_bats.POUSB1SerialNum', 'unit_pull_out_bats.POUSB1Code', 'unit_pull_out_bats.POUSB1Amper', 'unit_pull_out_bats.POUSB1Volt', 'unit_pull_out_bats.POUSB1CCable', 'unit_pull_out_bats.POUSB1CTable',
+                    'unit_pull_out_bats.POUSB2Brand', 'unit_pull_out_bats.POUSB2BatType', 'unit_pull_out_bats.POUSB2SerialNum', 'unit_pull_out_bats.POUSB2Code', 'unit_pull_out_bats.POUSB2Amper', 'unit_pull_out_bats.POUSB2Volt', 'unit_pull_out_bats.POUSB2CCable', 'unit_pull_out_bats.POUSB2CTable',
+                    'unit_pull_out_bats.POUCBrand', 'unit_pull_out_bats.POUCModel', 'unit_pull_out_bats.POUCSerialNum', 'unit_pull_out_bats.POUCCode', 'unit_pull_out_bats.POUCAmper', 'unit_pull_out_bats.POUCVolt', 'unit_pull_out_bats.POUCInput'
+                    )
+            ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_deliveries.POUID')
+            ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
+            ->leftJoin('technicians as t1', 'unit_pull_outs.POUTechnician1', '=', 't1.id')
+            ->leftJoin('technicians as t2', 'unit_pull_outs.POUTechnician2', '=', 't2.id')
+            ->leftJoin('unit_pull_out_bats', 'unit_pull_outs.id', '=', 'unit_pull_out_bats.POUID')
+            ->where('isBrandNew','=',0)
+            ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
+            ->orderBy('unit_pull_outs.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['id', 'Delivered Date', 'Deliver Remarks', 'Unit Type', 'Arrival Date', 'Brand', 'Classification', 'Model', 'Serial Number', 'Code', 'Mast Type', 'Mast Height', 'Fork Size', 'Att. Type', 'Att. Model', 'Att. Serial Number', 'Acc. I-Site', 'Acc. Lift Cam', 'Acc. Red Light', 'Acc. Blue Light', 
+                        'Acc. Fire Ext.', 'Acc. Strobe Light', 'Other Accessories', 'Technician 1', 'Technician 2', 'Salesman', 'Customer', 'Cust. Address', 'Unit Remarks', 'Unit Remarks', 'Battery Brand', 'Battery Type', 'Battery Serial Number', 'Battery Code', 'Battery Amper', 
+                        'Battery Volt', 'Battery CCable', 'Battery CTable', 'Spare Bat1 Brand', 'Spare Bat1 Type', 'Spare Bat1 Serial Number', 'Spare Bat1 Code', 'Spare Bat1 Amper', 'Spare Bat1 Volt', 'Spare Bat1 CCable', 'Spare Bat1 CTable', 'Spare Bat2 Brand', 
+                        'Spare Bat2 Type', 'Spare Bat2 Serial Number', 'Spare Bat2 Code', 'Spare Bat2 Amper', 'Spare Bat2 Volt', 'Spare Bat2 CCable', 'Spare Bat2 CTable', 'Charger Brand', 'Charger Model', 'Charger Serial Number', 'Charger Code', 'Charger Amper', 'Charger Volt', 'Charger Input']);
+
+        foreach ($datas as $row) {
+            if($row->POUUnitType == 1){
+                $UType = "DIESEL/GASOLINE/LPG";
+            }else{
+                $UType = "BATTERY";
+            }
+
+            if($row->POUClassification == 1){
+                $Class = "CLASS A";
+            }else if($row->POUClassification == 2){
+                $Class = "CLASS B";
+            }else if($row->POUClassification == 3){
+                $Class = "CLASS C";
+            }else{
+                $Class = "CLASS D";
+            }
+
+            $csv->insertOne([$row->DUID, $row->DUDelDate, $row->DURemarks, $UType, $row->POUArrivalDate, $row->brand, $Class, $row->POUModel, $row->POUSerialNum, $row->POUCode, $row->POUMastType, $row->POUMastHeight, $row->POUForkSize, $row->POUAttType, $row->POUAttModel, $row->POUAttSerialNum, $row->POUAccISite, 
+                            $row->POUAccLiftCam, $row->POUAccRedLight, $row->POUAccBlueLight, $row->POUAccFireExt, $row->POUAccStLight, $row->POUAccOthersDetail, $row->tech1, $row->tech2, $row->POUSalesman, $row->POUCustomer, $row->POUCustAddress, $row->POURemarks, 
                             $row->POUBABrand, $row->POUBABatType, $row->POUBASerialNum, $row->POUBACode, $row->POUBAAmper, $row->POUBAVolt, $row->POUBACCable, $row->POUBACTable, $row->POUSB1Brand, $row->POUSB1BatType, $row->POUSB1SerialNum, $row->POUSB1Code, $row->POUSB1Amper, $row->POUSB1Volt, 
                             $row->POUSB1CCable, $row->POUSB1CTable, $row->POUSB2Brand, $row->POUSB2BatType, $row->POUSB2SerialNum, $row->POUSB2Code, $row->POUSB2Amper, $row->POUSB2Volt, $row->POUSB2CCable, $row->POUSB2CTable, $row->POUCBrand, $row->POUCModel, $row->POUCSerialNum, 
                             $row->POUCCode, $row->POUCAmper, $row->POUCVolt, $row->POUCInput]);
