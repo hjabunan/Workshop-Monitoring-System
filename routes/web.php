@@ -250,6 +250,16 @@ Route::group(['middleware' => 'auth'],function(){
 
         // Delivered Unit
             Route::POST('/workshop-ms/r-workshop/report/deleteDU', [RReportController::class, 'deleteDU'])->name('r-workshop.report.deleteDU');
+
+        // Cannibalized Unit
+            Route::POST('/workshop-ms/r-workshop/report/saveCanUnit', [RReportController::class, 'saveCanUnit'])->name('r-workshop.report.saveCanUnit');
+
+        // DR Monitoring
+            Route::GET('/workshop-ms/r-workshop/report/getDRMonStatus', [RReportController::class, 'getDRMonStatus'])->name('r-workshop.report.getDRMonStatus');
+            Route::POST('/workshop-ms/r-workshop/report/saveDRMon', [RReportController::class, 'saveDRMon'])->name('r-workshop.report.saveDRMon');
+            Route::POST('/workshop-ms/r-workshop/report/getDRParts', [RReportController::class, 'getDRParts'])->name('r-workshop.report.getDRParts');
+            Route::POST('/workshop-ms/r-workshop/report/deleteDRMon', [RReportController::class, 'deleteDRMon'])->name('r-workshop.report.deleteDRMon');
+
     
     // START OF PPT WORKSHOP > MONITORING
         Route::GET('/workshop-ms/ppt-workshop', [PPTReportController::class, 'index'])->name('ppt-workshop.index');

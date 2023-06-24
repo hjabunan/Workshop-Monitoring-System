@@ -951,7 +951,39 @@
                                             </tr>
                                         </thead>
                                         <tbody id="CanUnitTable" name="CanUnitTable" class="CanUnitTable">
-
+                                            <tr class="bg-white border-b hover:bg-gray-200">
+                                                <td class="w-4 p-1">
+                                                    <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="{{$CUnit->CanUnitID}}" data-partid="{{$CUnit->CanPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                                    <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="{{$CUnit->CanUnitID}}" data-partid="{{$CUnit->CanPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                                </td>
+                                                <td scope="row" class="px-1 py-0.5 text-center">
+                                                    {{$CUnit->CanUnitDate}}
+                                                </td>
+                                                <td class="font-medium px-1 py-0.5 text-center">
+                                                    {{$CUnit->CanUnitCONum}}
+                                                </td>
+                                                <td class="font-medium px-1 py-0.5 text-center">
+                                                    $CUnit->CanPartPartNum
+                                                </td>
+                                                <td class="px-1 py-0.5 text-center">
+                                                    $CUnit->CanPartDescription
+                                                </td>
+                                                <td class="px-1 py-0.5 text-center">
+                                                    $CUnit->SecName
+                                                </td>
+                                                <td class="px-1 py-0.5 text-center">
+                                                    $CUnit->CanUnitITCustomer
+                                                </td>
+                                                <td class="px-1 py-0.5 text-center">
+                                                    $CUnit->CustAddress
+                                                </td>
+                                                <td class="px-1 py-0.5 text-center">
+                                                    $CUnit->CanUnitCFPrepBy
+                                                </td>
+                                                <td class="hidden">
+                                                    $CUnit->CanUnitStatus
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -975,14 +1007,14 @@
                                                 </li>
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
-                                                        <input id="DRMonOnGoing" type="radio" value="DRMonOnGoing" name="RadioDRMon" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                        <label for="DRMonOnGoing" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">ON GOING</label>
+                                                        <input id="DRMonPending" type="radio" value="DRMonPending" name="RadioDRMon" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                                        <label for="DRMonPending" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">PENDING</label>
                                                     </div>
                                                 </li>
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
-                                                        <input id="DRMonPending" type="radio" value="DRMonPending" name="RadioDRMon" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                        <label for="DRMonPending" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">PENDING</label>
+                                                        <input id="DRMonOnGoing" type="radio" value="DRMonOnGoing" name="RadioDRMon" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                                        <label for="DRMonOnGoing" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">ONGOING</label>
                                                     </div>
                                                 </li>
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
@@ -1004,7 +1036,7 @@
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                     <svg class="w-7 h-7 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                                                 </div>
-                                                <input type="text" id="WorkshopTableSearch" name="WorkshopTableSearch" class="block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
+                                                <input type="text" id="DRMonTableSearch" name="DRMonTableSearch" class="block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
                                             </div>
                                         </div>
                                     </div>
@@ -1049,7 +1081,52 @@
                                             </tr>
                                         </thead>
                                         <tbody id="DRMonTable" name="DRMonTable" class="DRMonTable">
-                                            
+                                            @foreach ($drmon as $DRM)
+                                                <tr class="bg-white border-b hover:bg-gray-200">
+                                                    <td class="w-6 p-1">
+                                                        <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="{{$DRM->DRMonID}}" data-drpartid="{{$DRM->DRPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                                        <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="{{$DRM->DRMonID}}" data-drpartid="{{$DRM->DRPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                                    </td>
+                                                    <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->DRMonDate}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->LDRMonCode}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->DRPartPartNum}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->DRPartDescription}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->DRMonCustomer}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->DRMonCustAddress}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->DRMonSupplier}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->LDRMonDRNum}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        {{$DRM->LDRMonDRNum}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center text-xs">
+                                                        @if($DRM->DRPartStatus == 1)
+                                                            PENDING
+                                                        @elseif ($DRM->DRPartStatus == 2)
+                                                            ONGOING
+                                                        @elseif ($DRM->DRPartStatus == 3)
+                                                            CANCELLED
+                                                        @else
+                                                            DONE
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -1093,11 +1170,11 @@
             {{-- Cannibalized Unit Hidden Button for Delete --}}
             {{-- <button type="button" id="btnCanUnitDeleteH" class="btnCanUnitDeleteH hidden" data-modal-target="modalDeleteCanUnit" data-modal-toggle="modalDeleteCanUnit"></button> --}}
             {{-- D.R. Monitoring Hidden Button for Edit --}}
-            {{-- <button type="button" id="btnDRMonEditH" class="btnDRMonEditH hidden" data-modal-target="modalDRMon" data-modal-toggle="modalDRMon"></button> --}}
+            <button type="button" id="btnDRMonEditH" class="btnDRMonEditH hidden" data-modal-target="modalDRMon" data-modal-toggle="modalDRMon"></button>
             {{-- D.R. Monitoring Hidden Button for Delete --}}
-            {{-- <button type="button" id="btnDRMonDeleteH" class="btnDRMonDeleteH hidden" data-modal-target="modalDeleteDRMon" data-modal-toggle="modalDeleteDRMon"></button> --}}
+            <button type="button" id="btnDRMonDeleteH" class="btnDRMonDeleteH hidden" data-modal-target="modalDeleteDRMon" data-modal-toggle="modalDeleteDRMon"></button>
             {{-- D.R. Monitoring Hidden Button for Add DIV --}}
-            {{-- <button type="button" id="btnDRMonAddDIVH" class="btnDRMonAddDIVH hidden"></button> --}}
+            <button type="button" id="btnDRMonAddDIVH" class="btnDRMonAddDIVH hidden"></button>
             
             {{-- Hidden Button for Success --}}
             <button type="button" id="btnSuccessH" class="btnSuccessH hidden" data-modal-target="success-modal" data-modal-toggle="success-modal"></button>
@@ -2412,7 +2489,7 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div style="height: calc(100vh - 265px);" class="p-2 space-y-6 overflow-y-auto">
+                    <div style="height: calc(100vh - 200px);" class="p-2 space-y-6">
                         <form action="" id="formCanUnit">
                             @csrf
                             <input type="hidden" name="CanUnitID" id="CanUnitID" class="">
@@ -2454,7 +2531,7 @@
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitDate" id="CanUnitDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitDate" id="CanUnitDate">
                                         </div>
                                     </div>
                                 </div>
@@ -2523,7 +2600,7 @@
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitCFPrepDate" id="CanUnitCFPrepDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitCFPrepDate" id="CanUnitCFPrepDate">
                                         </div>
                                     </div>
                                     <div class="mt-1">
@@ -2562,10 +2639,7 @@
                                         <label for="CanUnitITCustomer" class="block text-xs text-gray-900">Customer:</label>
                                     </div>
                                     <div class="col-span-2 mt-1">
-                                        <select name="CanUnitITCustomer" id="CanUnitITCustomer" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
-                                            <option value="" selected disabled></option>
-                                            <option value=""></option>
-                                        </select>
+                                        <input type="text" id="CanUnitITCustomer" name="CanUnitITCustomer" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
                                     </div>
                                     <div class="mt-1">
                                         <label for="CanUnitITCustAddress" class="block text-xs text-gray-900">Customer Address:</label>
@@ -2607,18 +2681,18 @@
                                     <div class="col-span-1 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">QUANTITY</label></div>
                                     <div class="col-span-3 place-self-center"><label for="" class="block text-sm font-medium text-gray-900">REMARKS</label></div>
                                     <div class="grid grid-cols-2 items-center">
-                                        <div class="place-self-center">
-                                            <button id="addDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>
-                                        </div>
-                                        <div class="place-self-center">
-                                            <button id="deleteDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-2 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-2" d="M100,390a30,30,0,1,1,30-30A30,30,0,0,1,100,390Zm18-30a4,4,0,0,1-4,4H86a4,4,0,0,1,0-8h28A4,4,0,0,1,118,360Z" id="remove" transform="translate(-70 -330)"></path></g></svg></button>
-                                        </div>
                                     </div>
                                 </div>
-                                <div id="CanUnitParts" class="">
+                                <div id="CanUnitParts" class="overflow-y-auto p-2" style="height: calc(13vh);">
                                     <div id="CanUnitPartsContent1" class="grid grid-cols-10 gap-2">
-                                        <div class="col-span-2">
-                                            <input type="text" id="CanUnitPartNum1" name="CanUnitPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                        <div class="col-span-2 grid grid-cols-12">
+                                            <div class="">
+                                                <input id="CanUnitCB1" name="CanUnitCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            </div>
+                                            <div class=""></div>
+                                            <div class="col-span-10">
+                                                <input type="text" id="CanUnitPartNum1" name="CanUnitPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                            </div>
                                         </div>
                                         <div class="col-span-3">
                                             <input type="text" id="CanUnitDescription1" name="CanUnitDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
@@ -2631,12 +2705,13 @@
                                         </div>
                                         <div class="">
                                             <input type="hidden" id="CanUnitID1" name="CanUnitID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                            <button id="addCanUnitDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                                 <hr class="mt-1 mb-1">
-                            <div id="CanUnitBBodyC" class="grid grid-cols-6">
+                            </div>
+                            <div id="CanUnitBBodyC" class="grid grid-cols-6 absolute bottom-20">
                                 <div class="col-span-3 grid grid-cols-3 items-center mr-5 mb-3">
                                     <div class="">
                                         <label for="CanUnitCPrepBy" class="block text-xs text-gray-900">Prepared By:</label>
@@ -2663,7 +2738,7 @@
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitRPRetDate" id="CanUnitRPRetDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="CanUnitRPRetDate" id="CanUnitRPRetDate">
                                         </div>
                                     </div>
                                 </div>
@@ -2686,7 +2761,7 @@
                         </form>
                     </div>
                     <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                    <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
                         <button data-modal-hide="modalCanUnit" type="button" id="saveCanUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="clearCanUnit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
                         <button data-modal-hide="modalCanUnit" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
@@ -2710,7 +2785,7 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div style="height: calc(100vh - 265px);" class="p-2 space-y-6 overflow-y-auto">
+                    <div style="height: calc(100vh - 230px);" class="p-4 space-y-6">
                         <form action="" id="formDRMon">
                             @csrf
                             <input type="hidden" name="DRMonID" id="DRMonID" class="">
@@ -2722,8 +2797,8 @@
                                     <div id="input" class="col-span-2 uppercase mr-1">
                                         <select name="DRMonStatus" id="DRMonStatus" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
                                             <option value="" selected disabled></option>
-                                            <option value="1">ON GOING</option>
-                                            <option value="2">PENDING</option>
+                                            <option value="1">PENDING</option>
+                                            <option value="2">ONGOING</option>
                                             <option value="3">CANCELLED</option>
                                             <option value="4">DONE</option>
                                         </select>
@@ -2737,7 +2812,7 @@
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="DRMonDate" id="DRMonDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="DRMonDate" id="DRMonDate">
                                         </div>
                                     </div>
                                 </div>
@@ -2749,10 +2824,7 @@
                                         <label for="DRMonCustomer" class="block text-xs text-gray-900">Customer:</label>
                                     </div>
                                     <div class="col-span-2 mb-1">
-                                        <select name="DRMonCustomer" id="DRMonCustomer" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
-                                            <option value="" selected disabled></option>
-                                            <option value=""></option>
-                                        </select>
+                                        <input type="text" id="DRMonCustomer" name="DRMonCustomer" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
                                     </div>
                                     <div class="mb-2">
                                         <label for="DRMonCustAddress" class="block text-xs text-gray-900">Customer Address:</label>
@@ -2813,7 +2885,7 @@
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="LDRMonPUDate" id="LDRMonPUDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="LDRMonPUDate" id="LDRMonPUDate">
                                         </div>
                                     </div> 
                                     <div class="">
@@ -2832,14 +2904,14 @@
                                         <input type="text" id="RDRMonQNum" name="RDRMonQNum" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
                                     </div>
                                     <div class="mb-1">
-                                        <label for="RDRMonQDate" class="block text-xs text-gray-900">Qoutation Date:</label>
+                                        <label for="RDRMonQDate" class="block text-xs text-gray-900">Quotation Date:</label>
                                     </div>
                                     <div class="col-span-2 mb-1">
                                         <div class="relative max-w-sm">
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="RDRMonQDate" id="RDRMonQDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="RDRMonQDate" id="RDRMonQDate">
                                         </div>
                                     </div>
                                     <div class="mb-1">
@@ -2862,7 +2934,7 @@
                                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                             </div>
-                                            <input type="text" datepicker datepicker-autohide datepicker-format="yyyy/mm/dd" value="{{ date('Y/m/d') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="RDRMonRetDate" id="RDRMonRetDate">
+                                            <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="bg-gray-50 text-xs border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5" name="RDRMonRetDate" id="RDRMonRetDate">
                                         </div>
                                     </div>
                                     <div class="">
@@ -2884,7 +2956,7 @@
                                     <div class="grid grid-cols-2 items-center">
                                     </div>
                                 </div>
-                                <div id="DRMonParts" class="">
+                                <div id="DRMonParts" class="overflow-y-auto p-2" style="height: calc(27vh);">
                                     <div id="DRMonPartsContent1" class="grid grid-cols-12 gap-2">
                                         <div class="col-span-2 grid grid-cols-12">
                                             <div class="">
@@ -2921,6 +2993,25 @@
                         <button data-modal-hide="modalDRMon" type="button" id="saveDRMon" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="clearDRMon" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
                         <button data-modal-hide="modalDRMon" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- CONFIRMATION DELETE MODAL FOR DR MONITORING --}}
+        <div id="modalDeleteDRMon" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+            <div class="relative w-full h-full max-w-md md:h-auto">
+                <div class="relative bg-white rounded-lg shadow">
+                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalDeleteDRMon">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                    <div class="p-6 text-center">
+                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
+                        <button type="button" id="deleteConfirmDRMon"  data-modal-hide="modalDeleteDRMon" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Yes, I'm sure.
+                        </button>
+                        <button data-modal-hide="modalDeleteDRMon" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
                     </div>
                 </div>
             </div>
@@ -5139,6 +5230,238 @@
                         link.download = 'DeliveredUnit Report.csv';
                         link.click();
                     },
+                });
+            });
+
+    // Cannibalized Unit
+        // Add DIV
+            $('#addCanUnitDIV').click(function(){
+                i++;
+                $('#CanUnitParts').append('<div id="CanUnitPartsContent'+i+'" class="grid grid-cols-10 gap-2"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="CanUnitCB'+i+'" name="CanUnitCB'+i+'" value="3"  type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="CanUnitPartNum'+i+'" name="CanUnitPartNum'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="CanUnitDescription'+i+'" name="CanUnitDescription'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="CanUnitQuantity'+i+'" name="CanUnitQuantity'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="CanUnitRemarks'+i+'" name="CanUnitRemarks'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="CanUnitID'+i+'" name="CanUnitID'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="'+i+'" class="deleteCanUnitDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-2 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-2" d="M100,390a30,30,0,1,1,30-30A30,30,0,0,1,100,390Zm18-30a4,4,0,0,1-4,4H86a4,4,0,0,1,0-8h28A4,4,0,0,1,118,360Z" id="remove" transform="translate(-70 -330)"></path></g></svg></button></div></div>');
+
+                if(i>=10){
+                    alert("Only 10 textboxes is allowed!");
+                    return false;
+                }
+                return false;
+            });
+
+        // Delete DIV
+            $(document).on('click', '.deleteCanUnitDIV', function(){
+                i--;
+                var button_id = $(this).attr("id");     
+                $('#CanUnitPartsContent'+button_id+'').remove(); 
+            });
+
+        // Saving of Cannibalized Unit
+            $('#saveCanUnit').on( "click", function(){
+                var id = $('#CanUnitID').val();
+
+                $('#CanUnitSection').val('');
+                $('#CanUnitTableSearch').val('');
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.saveCanUnit') }}",
+                    type: "POST",
+                    data: $("#formCanUnit").serialize(),
+                    success: function(result) {
+                        document.getElementById('formCanUnit').reset()
+                        $('#CanUnitTable').html(result);
+                        $('#CanUnitALL').prop('checked', true);
+                        $("#success-modal").removeClass("hidden");
+                        $("#success-modal").addClass("flex");
+                    },
+                    error: function(error){
+                        $("#failed-modal").removeClass("hidden");
+                        $("#failed-modal").addClass("flex");
+                    }
+                });
+            });
+
+    // DR Monitoring
+        // Change Table Data Depending on Radio Button(ALL, Pending, Closed, NFR)
+            $('input[name=RadioDRMon]').on( "change", function(){
+                var id = $('input[name="RadioDRMon"]:checked').val();
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.getDRMonStatus') }}",
+                    type: "GET",
+                    data: {id:id,},
+                    success: function(result) {
+                        console.log(result)
+                        $('#DRMonTable').html(result);
+                    },
+                    error: function(error){
+                        console.log(error)
+                    }
+                });
+            });
+
+        // Search Delivered Unit
+            $("#DRMonTableSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#DRMonTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+
+                $('#CanUnitSection').val('');
+            });
+
+        // Click Add DIV
+            jQuery(document).on( "click", ".addDRMonDIVX", function(){
+                $('#btnDRMonAddDIVH').click();
+                return false;
+            });
+
+            jQuery(document).on( "click", "#addDRMonDIVY", function(){
+                $('#btnDRMonAddDIVH').click();
+                return false;
+            });
+
+            $('#btnDRMonAddDIVH').click(function(){
+                var lastInputIDDR = $('#DRMonParts input[type="text"]').last().attr('name');
+                var lastDigitIDDR = lastInputIDDR.slice(-1);
+                var i = ++lastDigitIDDR;
+
+                // i++;
+                $('#DRMonParts').append('<div id="DRMonPartsContent'+i+'" class="grid grid-cols-12 gap-2 mt-1"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="DRMonCB'+i+'" name="DRMonCB'+i+'" value="3"  type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="DRMonPartNum'+i+'" name="DRMonPartNum'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="DRMonDescription'+i+'" name="DRMonDescription'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="DRMonQuantity'+i+'" name="DRMonQuantity'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-2"><input type="text" id="DRMonPurpose'+i+'" name="DRMonPurpose'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="DRMonRemarks'+i+'" name="DRMonRemarks'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="DRMonID'+i+'" name="DRMonID'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="'+i+'" class="deleteDRMonDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-2 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-2" d="M100,390a30,30,0,1,1,30-30A30,30,0,0,1,100,390Zm18-30a4,4,0,0,1-4,4H86a4,4,0,0,1,0-8h28A4,4,0,0,1,118,360Z" id="remove" transform="translate(-70 -330)"></path></g></svg></button></div></div>');
+
+                if(i>=10){
+                    alert("Only 10 textboxes is allowed!");
+                    return false;
+                }
+                return false;
+            });
+
+        // Clear Form before Add
+            $('#addDRMon').on("click",function(){
+                $('#DRMonID').val('');
+                document.getElementById('formDRMon').reset();
+                $('#DRMonParts').html('<div id="DRMonPartsContent1" class="grid grid-cols-12 gap-2"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="DRMonCB1" name="DRMonCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="DRMonPartNum1" name="DRMonPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="DRMonDescription1" name="DRMonDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="DRMonQuantity1" name="DRMonQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-2"><input type="text" id="DRMonPurpose1" name="DRMonPurpose1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="DRMonRemarks1" name="DRMonRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="DRMonID1" name="DRMonID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="addDRMonDIVY" name="addDRMonDIVY"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button></div></div>');
+            });
+
+        // Add DIV
+            var i = 1;
+
+            $('#addDRMonDIV').click(function(){
+                i++;
+                $('#DRMonParts').append('<div id="DRMonPartsContent'+i+'" class="grid grid-cols-12 gap-2"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="DRMonCB'+i+'" name="DRMonCB'+i+'" value="3"  type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="DRMonPartNum'+i+'" name="DRMonPartNum'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="DRMonDescription'+i+'" name="DRMonDescription'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="DRMonQuantity'+i+'" name="DRMonQuantity'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-2"><input type="text" id="DRMonPurpose'+i+'" name="DRMonPurpose'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="DRMonRemarks'+i+'" name="DRMonRemarks'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="DRMonID'+i+'" name="DRMonID'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="'+i+'" class="deleteDRMonDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-2 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-2" d="M100,390a30,30,0,1,1,30-30A30,30,0,0,1,100,390Zm18-30a4,4,0,0,1-4,4H86a4,4,0,0,1,0-8h28A4,4,0,0,1,118,360Z" id="remove" transform="translate(-70 -330)"></path></g></svg></button></div></div>');
+
+                if(i>=10){
+                    alert("Only 10 textboxes is allowed!");
+                    return false;
+                }
+                return false;
+            });
+
+        // Delete DIV
+            $(document).on('click', '.deleteDRMonDIV', function(){
+                i--;
+                var button_id = $(this).attr("id");     
+                $('#DRMonPartsContent'+button_id+'').remove(); 
+            });
+        
+        // Saving of Cannibalized Unit
+            $('#saveDRMon').on( "click", function(){
+                var id = $('#DRMonID').val();
+
+                $('#DRMonTableSearch').val('');
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.saveDRMon') }}",
+                    type: "POST",
+                    data: $("#formDRMon").serialize(),
+                    success: function(result) {
+                        document.getElementById('formDRMon').reset()
+                        $('#DRMonTable').html(result);
+                        $('#DRMonALL').prop('checked', true);
+                        $("#success-modal").removeClass("hidden");
+                        $("#success-modal").addClass("flex");
+                    },
+                    error: function(error){
+                        $("#failed-modal").removeClass("hidden");
+                        $("#failed-modal").addClass("flex");
+                    }
+                });
+            });
+
+        // Clear Form
+            $('#clearDRMon').on("click",function(){
+                $('#DRMonID').val('');
+                document.getElementById('formDRMon').reset();
+                $('#DRMonParts').html('<div id="DRMonPartsContent1" class="grid grid-cols-12 gap-2"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="DRMonCB1" name="DRMonCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="DRMonPartNum1" name="DRMonPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="DRMonDescription1" name="DRMonDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="DRMonQuantity1" name="DRMonQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-2"><input type="text" id="DRMonPurpose1" name="DRMonPurpose1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="DRMonRemarks1" name="DRMonRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="DRMonID1" name="DRMonID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="addDRMonDIVY" name="addDRMonDIVY"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button></div></div>');
+            });
+
+        // Edit Cannibalized Unit
+            jQuery(document).on( "click", ".btnDRMonEdit", function(){
+                var DRMonID = $(this).data('drmonid');
+                
+                $.ajax({
+                    url: "{{ route('r-workshop.report.getDRParts') }}",
+                    type: "POST",
+                    data: {DRMonID : DRMonID, _token : '{{ csrf_token() }}',},
+                    dataType: "JSON",
+                    success: function(result) {
+                        $('#DRMonID').val(result.DRMonID);
+                        $('#DRMonStatus').val(result.DRMonStatus);
+                        $('#DRMonDate').val(result.DRMonDate);
+                        $('#DRMonCustomer').val(result.DRMonCustomer);
+                        $('#DRMonCustAddress').val(result.DRMonCustAddress);
+                        $('#DRMonSupplier').val(result.DRMonSupplier);
+                        $('#DRMonPRNum').val(result.DRMonPRNum);
+                        $('#LDRMonCode').val(result.LDRMonCode);
+                        $('#LDRMonModel').val(result.LDRMonModel);
+                        $('#LDRMonSerial').val(result.LDRMonSerial);
+                        $('#LDRMonDRNum').val(result.LDRMonDRNum);
+                        $('#LDRMonPUDate').val(result.LDRMonPUDate);
+                        $('#LDRMonReqBy').val(result.LDRMonReqBy);
+                        $('#RDRMonQNum').val(result.RDRMonQNum);
+                        $('#RDRMonQDate').val(result.RDRMonQDate);
+                        $('#RDRMonBSNum').val(result.RDRMonBSNum);
+                        $('#RDRMonDRNum').val(result.RDRMonDRNum);
+                        $('#RDRMonRetDate').val(result.RDRMonRetDate);
+                        $('#RDRMonRecBy').val(result.RDRMonRecBy);
+                        $('#DRMonParts').html(result.drparts);
+                        $('#DRMonALL').prop('checked', true);
+                    },
+                    error: function(error){
+                        console.log(error)
+                        alert("No Data Found!");
+                    }
+                });
+
+                $('#btnDRMonEditH').click();
+            });
+
+        // Delete D.R. Monitoring
+            jQuery(document).on( "click", ".btnDRMonDelete", function(){
+                var drmonid = $(this).data('drmonid');
+                var drpartid = $(this).data('drpartid');
+                
+                $('#btnDRMonDeleteH').click();
+                $('#deleteConfirmDRMon').data('drmonid', drmonid);
+                $('#deleteConfirmDRMon').data('drpartid', drpartid);
+            });
+
+            jQuery(document).on( "click", "#deleteConfirmDRMon", function(){
+                var drmonid = $(this).data('drmonid');
+                var drpartid = $(this).data('drpartid');
+                var _token =  '{{ csrf_token() }}'
+
+                $.ajax({
+                    url:"{{ route('r-workshop.report.deleteDRMon') }}",
+                    method: "POST",
+                    data: {drmonid: drmonid, drpartid: drpartid, _token: _token,},
+                    success: function(result) {
+                        $('#DRMonTable').html(result);
+                        $('#DRMonALL').prop('checked', true);
+                        $("#success-modal").removeClass("hidden");
+                        $("#success-modal").addClass("flex");
+                    },
+                    error: function(error){
+                        $("#failed-modal").removeClass("hidden");
+                        $("#failed-modal").addClass("flex");
+                    }
                 });
             });
     </script>
