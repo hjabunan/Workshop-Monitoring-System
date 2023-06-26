@@ -863,43 +863,52 @@
                                     <div id="div1" class="justify-self-end">
                                         <button type="button" id="addCanUnit" data-modal-target="modalCanUnit" data-modal-toggle="modalCanUnit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg shadow-blue-500/50 font-medium rounded-lg text-sm px-16 py-2.5 text-center mr-2 mb-2 ">ADD</button>
                                     </div>
-                                    <div id="div2" class="grid grid-cols-4">
+                                    <div id="div2" class="grid grid-cols-7">
                                         <div class="grid justify-items-start">
-                                            <select id="CanUnitSection" name="CanUnitSection" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block w-3/4 h-10 p-2.5">
-                                                <option selected value="">SECTION</option>
-                                                <option value="TOYOTA">TOYOTA</option>
+                                            <select id="CanUnitSection" name="CanUnitSection" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block h-10 p-2.5 w-3/4">
+                                                    <option selected value="">SECTION</option>
+                                                @foreach($section as $sec)
+                                                    <option value="{{$sec->id}}">{{$sec->name}}</option>
+                                                @endforeach
+                                                {{-- <option value="TOYOTA">TOYOTA</option>
                                                 <option value="OVERHAULING">OVERHAULING</option>
                                                 <option value="BT SECTION">BT SECTION</option>
                                                 <option value="RAYMOND SECTION">RAYMOND SECTION</option>
                                                 <option value="PPT SECTION">PPT SECTION</option>
                                                 <option value="G SECTION">G SECTION</option>
-                                                <option value="PDI SECTION">PDI SECTION</option>
+                                                <option value="PDI SECTION">PDI SECTION</option> --}}
                                             </select>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-5">
                                             <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex">
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
                                                         <input id="CanUnitALL" type="radio" value="CanUnitALL" name="RadioCanUnit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" checked>
-                                                        <label for="CanUnitALL" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">ALL</label>
+                                                        <label for="CanUnitALL" class="w-full py-3 ml-2 text-xs font-medium text-gray-900">ALL</label>
                                                     </div>
                                                 </li>
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
                                                         <input id="CanUnitPending" type="radio" value="CanUnitPending" name="RadioCanUnit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                        <label for="CanUnitPending" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">PENDING</label>
+                                                        <label for="CanUnitPending" class="w-full py-3 ml-2 text-xs font-medium text-gray-900">PENDING</label>
                                                     </div>
                                                 </li>
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
                                                         <input id="CanUnitClosed" type="radio" value="CanUnitClosed" name="RadioCanUnit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                        <label for="CanUnitClosed" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">CLOSED</label>
+                                                        <label for="CanUnitClosed" class="w-full py-3 ml-2 text-xs font-medium text-gray-900">CLOSED</label>
                                                     </div>
                                                 </li>
                                                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                                     <div class="flex items-center pl-3">
                                                         <input id="CanUnitNFR" type="radio" value="CanUnitNFR" name="RadioCanUnit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
                                                         <label for="CanUnitNFR" class="w-full py-3 ml-2 text-xs font-medium text-gray-900">NOT FOR RETURN</label>
+                                                    </div>
+                                                </li>
+                                                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                                    <div class="flex items-center pl-3">
+                                                        <input id="CanUnitCancelled" type="radio" value="CanUnitCancelled" name="RadioCanUnit" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                                        <label for="CanUnitCancelled" class="w-full py-3 ml-2 text-xs font-medium text-gray-900">CANCELLED</label>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -909,7 +918,7 @@
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                     <svg class="w-7 h-7 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                                                 </div>
-                                                <input type="text" id="CanUnitTableSearch" name="CanUnitTableSearch" class="block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
+                                                <input type="text" id="CanUnitTableSearch" name="CanUnitTableSearch" class="w-3/4 block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
                                             </div>
                                         </div>
                                     </div>
@@ -951,39 +960,41 @@
                                             </tr>
                                         </thead>
                                         <tbody id="CanUnitTable" name="CanUnitTable" class="CanUnitTable">
-                                            <tr class="bg-white border-b hover:bg-gray-200">
-                                                <td class="w-4 p-1">
-                                                    <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="{{$CUnit->CanUnitID}}" data-partid="{{$CUnit->CanPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
-                                                    <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="{{$CUnit->CanUnitID}}" data-partid="{{$CUnit->CanPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
-                                                </td>
-                                                <td scope="row" class="px-1 py-0.5 text-center">
-                                                    {{$CUnit->CanUnitDate}}
-                                                </td>
-                                                <td class="font-medium px-1 py-0.5 text-center">
-                                                    {{$CUnit->CanUnitCONum}}
-                                                </td>
-                                                <td class="font-medium px-1 py-0.5 text-center">
-                                                    $CUnit->CanPartPartNum
-                                                </td>
-                                                <td class="px-1 py-0.5 text-center">
-                                                    $CUnit->CanPartDescription
-                                                </td>
-                                                <td class="px-1 py-0.5 text-center">
-                                                    $CUnit->SecName
-                                                </td>
-                                                <td class="px-1 py-0.5 text-center">
-                                                    $CUnit->CanUnitITCustomer
-                                                </td>
-                                                <td class="px-1 py-0.5 text-center">
-                                                    $CUnit->CustAddress
-                                                </td>
-                                                <td class="px-1 py-0.5 text-center">
-                                                    $CUnit->CanUnitCFPrepBy
-                                                </td>
-                                                <td class="hidden">
-                                                    $CUnit->CanUnitStatus
-                                                </td>
-                                            </tr>
+                                            @foreach ($canunit as $CUnit)
+                                                <tr class="bg-white border-b hover:bg-gray-200">
+                                                    <td class="w-4 p-1">
+                                                        <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="{{$CUnit->CanUnitID}}" data-partid="{{$CUnit->CanPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                                        <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="{{$CUnit->CanUnitID}}" data-partid="{{$CUnit->CanPartID}}"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                                    </td>
+                                                    <td scope="row" class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CanUnitDate}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CanUnitCONum}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CanPartPartNum}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CanPartDescription}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->SecName}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CanUnitITCustomer}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CustAddress}}
+                                                    </td>
+                                                    <td class="px-1 py-0.5 text-center">
+                                                        {{$CUnit->CanUnitCFPrepBy}}
+                                                    </td>
+                                                    <td class="hidden">
+                                                        {{$CUnit->CanUnitStatus}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -1166,9 +1177,11 @@
             {{-- DU Hidden Button for Transfer --}}
             {{-- <button type="button" id="btnDUTransferH" class="btnDUTransferH hidden" data-modal-target="modalTransferDU" data-modal-toggle="modalTransferDU"></button> --}}
             {{-- Cannibalized Unit Hidden Button for Edit --}}
-            {{-- <button type="button" id="btnCanUnitEditH" class="btnCanUnitEditH hidden" data-modal-target="modalCanUnit" data-modal-toggle="modalCanUnit"></button> --}}
+            <button type="button" id="btnCanUnitEditH" class="btnCanUnitEditH hidden" data-modal-target="modalCanUnit" data-modal-toggle="modalCanUnit"></button>
             {{-- Cannibalized Unit Hidden Button for Delete --}}
-            {{-- <button type="button" id="btnCanUnitDeleteH" class="btnCanUnitDeleteH hidden" data-modal-target="modalDeleteCanUnit" data-modal-toggle="modalDeleteCanUnit"></button> --}}
+            <button type="button" id="btnCanUnitDeleteH" class="btnCanUnitDeleteH hidden" data-modal-target="modalDeleteCanUnit" data-modal-toggle="modalDeleteCanUnit"></button>
+            {{-- Cannibalized Unit Button for Add DIV --}}
+            <button type="button" id="btnCanUnitAddDIVH" class="btnDRMonAddDIVH hidden"></button>
             {{-- D.R. Monitoring Hidden Button for Edit --}}
             <button type="button" id="btnDRMonEditH" class="btnDRMonEditH hidden" data-modal-target="modalDRMon" data-modal-toggle="modalDRMon"></button>
             {{-- D.R. Monitoring Hidden Button for Delete --}}
@@ -2521,6 +2534,7 @@
                                             <option value="1">CLOSED</option>
                                             <option value="2">PENDING</option>
                                             <option value="3">NOT FOR RETURN</option>
+                                            <option value="4">CANCELLED</option>
                                         </select>
                                     </div>
                                     <div id="label" class="uppercase ml-5">
@@ -2687,7 +2701,7 @@
                                     <div id="CanUnitPartsContent1" class="grid grid-cols-10 gap-2">
                                         <div class="col-span-2 grid grid-cols-12">
                                             <div class="">
-                                                <input id="CanUnitCB1" name="CanUnitCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                                <input id="CanUnitCB1" name="CanUnitCB1" value="4" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
                                             </div>
                                             <div class=""></div>
                                             <div class="col-span-10">
@@ -2765,6 +2779,25 @@
                         <button data-modal-hide="modalCanUnit" type="button" id="saveCanUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="clearCanUnit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
                         <button data-modal-hide="modalCanUnit" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- CONFIRMATION DELETE MODAL FOR CANNIBALIZED UNIT --}}
+        <div id="modalDeleteCanUnit" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+            <div class="relative w-full h-full max-w-md md:h-auto">
+                <div class="relative bg-white rounded-lg shadow">
+                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalDeleteCanUnit">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                    <div class="p-6 text-center">
+                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this record?</h3>
+                        <button type="button" id="deleteConfirmCanUnit"  data-modal-hide="modalDeleteCanUnit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Yes, I'm sure.
+                        </button>
+                        <button data-modal-hide="modalDeleteCanUnit" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No, cancel.</button>
                     </div>
                 </div>
             </div>
@@ -5234,6 +5267,73 @@
             });
 
     // Cannibalized Unit
+        // Filter by Section
+            $("#CanUnitSection").on("change", function() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("CanUnitSection");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("CanUnitTable");
+                    tr = table.getElementsByTagName("tr");
+
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[4];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    
+                    $('#CanUnitTableSearch').val('');
+                });
+
+        // Search Cannibalized Unit
+            $("#CanUnitTableSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#CanUnitTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+
+                $('#CanUnitSection').val('');
+            });
+
+        // Clear Form before Add
+            $('#addCanUnit').on("click",function(){
+                $('#CanUnitID').val('');
+                document.getElementById('formCanUnit').reset();
+                $('#CanUnitParts').html('<div id="CanUnitPartsContent1" class="grid grid-cols-10 gap-2"><div class="col-span-2 grid grid-cols-10"><div class=""><input id="CanUnitCB1" name="CanUnitCB1" value="4"  type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-8"><input type="text" id="CanUnitPartNum1" name="CanUnitPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="CanUnitDescription1" name="CanUnitDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="CanUnitQuantity1" name="CanUnitQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="CanUnitRemarks1" name="CanUnitRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="CanUnitID1" name="CanUnitID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="addCanUnitDIVY" name="addCanUnitDIVY"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button></div></div>');
+                // $('#DRMonParts').html('<div id="DRMonPartsContent1" class="grid grid-cols-12 gap-2"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="DRMonCB1" name="DRMonCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="DRMonPartNum1" name="DRMonPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="DRMonDescription1" name="DRMonDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="DRMonQuantity1" name="DRMonQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-2"><input type="text" id="DRMonPurpose1" name="DRMonPurpose1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="DRMonRemarks1" name="DRMonRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="DRMonID1" name="DRMonID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="addDRMonDIVY" name="addDRMonDIVY"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button></div></div>');
+            });
+
+        // Click Add DIV
+            jQuery(document).on( "click", ".addCanUnitDIVX", function(){
+                $('#btnCanUnitAddDIVH').click();
+                return false;
+            });
+
+            jQuery(document).on( "click", "#addCanUnitDIVY", function(){
+                $('#btnCanUnitAddDIVH').click();
+                return false;
+            });
+
+            $('#btnCanUnitAddDIVH').click(function(){
+                var lastInputIDCU = $('#CanUnitParts input[type="text"]').last().attr('name');
+                var lastDigitIDCU = lastInputIDCU.slice(-1);
+                var i = ++lastDigitIDCU;
+
+                // i++;
+                $('#CanUnitParts').append('<div id="CanUnitPartsContent'+i+'" class="grid grid-cols-10 gap-2 mt-1"><div class="col-span-2 grid grid-cols-10"><div class=""><input id="CanUnitCB'+i+'" name="CanUnitCB'+i+'" value="4"  type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-8"><input type="text" id="CanUnitPartNum'+i+'" name="CanUnitPartNum'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="CanUnitDescription'+i+'" name="CanUnitDescription'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="CanUnitQuantity'+i+'" name="CanUnitQuantity'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="CanUnitRemarks'+i+'" name="CanUnitRemarks'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="CanUnitID'+i+'" name="CanUnitID'+i+'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="'+i+'" class="deleteCanUnitDIV"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-2 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-2" d="M100,390a30,30,0,1,1,30-30A30,30,0,0,1,100,390Zm18-30a4,4,0,0,1-4,4H86a4,4,0,0,1,0-8h28A4,4,0,0,1,118,360Z" id="remove" transform="translate(-70 -330)"></path></g></svg></button></div></div>');
+
+                if(i>=10){
+                    alert("Only 10 textboxes is allowed!");
+                    return false;
+                }
+                return false;
+            });
+
         // Add DIV
             $('#addCanUnitDIV').click(function(){
                 i++;
@@ -5270,6 +5370,100 @@
                         $('#CanUnitALL').prop('checked', true);
                         $("#success-modal").removeClass("hidden");
                         $("#success-modal").addClass("flex");
+                    },
+                    error: function(error){
+                        $("#failed-modal").removeClass("hidden");
+                        $("#failed-modal").addClass("flex");
+                    }
+                });
+            });
+
+        // Edit Cannibalized Unit
+            jQuery(document).on( "click", ".btnCanUnitEdit", function(){
+                var CanUnitID = $(this).data('canunitid');
+
+                $('#CanUnitID').val(CanUnitID);
+                
+                $.ajax({
+                    url: "{{ route('r-workshop.report.getCanParts') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {CanUnitID : CanUnitID, _token : '{{ csrf_token() }}',},
+                    success: function(result) {
+                        $('#CanUnitID').val(result.CanUnitID);
+                        $('#CanUnitCONum').val(result.CanUnitCONum);
+                        $('#CanUnitStatus').val(result.CanUnitStatus);
+                        $('#CanUnitBrand').val(result.CanUnitBrand);
+                        $('#CanUnitDate').val(result.CanUnitDate);
+                        $('#CanUnitCFModelNum').val(result.CanUnitCFModelNum);
+                        $('#CanUnitCFSerialNum').val(result.CanUnitCFSerialNum);
+                        $('#CanUnitCFRentalCode').val(result.CanUnitCFRentalCode);
+                        $('#CanUnitCFSection').val(result.CanUnitCFSection);
+                        $('#CanUnitCFPIC').val(result.CanUnitCFPIC);
+                        $('#CanUnitCFPrepBy').val(result.CanUnitCFPrepBy);
+                        $('#CanUnitCFPrepDate').val(result.CanUnitCFPrepDate);
+                        $('#CanUnitCFStartTime').val(result.CanUnitCFStartTime);
+                        $('#CanUnitCFEndTime').val(result.CanUnitCFEndTime);
+                        $('#CanUnitITModelNum').val(result.CanUnitITModelNum);
+                        $('#CanUnitITSerialNum').val(result.CanUnitITSerialNum);
+                        $('#CanUnitITRentalCode').val(result.CanUnitITRentalCode);
+                        $('#CanUnitITCustomer').val(result.CanUnitITCustomer);
+                        $('#CanUnitITCustAddress').val(result.CanUnitITCustAddress);
+                        $('#CanUnitITCustArea').val(result.CanUnitITCustArea);
+                        $('#CanUnitITSupMRI').val(result.CanUnitITSupMRI);
+                        $('#CanUnitITSupSTO').val(result.CanUnitITSupSTO);
+                        $('#CanUnitITRecBy').val(result.CanUnitITRecBy);
+                        $('#CanUnitCPrepBy').val(result.CanUnitCPrepBy);
+                        $('#CanUnitRPRetBy').val(result.CanUnitRPRetBy);
+                        $('#CanUnitRPRetDate').val(result.CanUnitRPRetDate);
+                        $('#CanUnitRPRecBy').val(result.CanUnitRPRecBy);
+                        $('#CanUnitDocRefNum').val(result.CanUnitDocRefNum);
+                        $('#CanUnitParts').html(result.cuparts);
+                        $('#CanUnitALL').prop('checked', true);
+                        var lastInputID = $('#CanUnitParts input[type="text"]').last().attr('id');
+                        var lastDigitID = lastInputID.slice(-1);
+                        counter = ++lastDigitID;
+                    },
+                    error: function(error){
+                        alert("No Data Found!");
+                    }
+                });
+
+                $('#btnCanUnitEditH').click();
+            });
+
+        // Clear Form
+            $('#clearCanUnit').on("click",function(){
+                $('#CanUnitID').val('');
+                document.getElementById('formCanUnit').reset();
+                $('#CanUnitParts').html('<div id="CanUnitPartsContent1" class="grid grid-cols-10 gap-2"><div class="col-span-2 grid grid-cols-10"><div class=""><input id="CanUnitCB1" name="CanUnitCB1" value="4"  type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-8"><input type="text" id="CanUnitPartNum1" name="CanUnitPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="CanUnitDescription1" name="CanUnitDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="CanUnitQuantity1" name="CanUnitQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="CanUnitRemarks1" name="CanUnitRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="CanUnitID1" name="CanUnitID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="addCanUnitDIVY" name="addCanUnitDIVY"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button></div></div>');
+
+            });
+
+        // Delete Cannibalized Unit
+            jQuery(document).on( "click", ".btnCanUnitDelete", function(){
+                var canunitid = $(this).data('canunitid');
+                var canpartid = $(this).data('partid');
+                
+                $('#btnCanUnitDeleteH').click();
+                $('#deleteConfirmCanUnit').data('canunitid', canunitid);
+                $('#deleteConfirmCanUnit').data('canpartid', canpartid);
+            });
+
+            jQuery(document).on( "click", "#deleteConfirmCanUnit", function(){
+                var canunitid = $(this).data('canunitid');
+                var canpartid = $(this).data('canpartid');
+                var _token =  '{{ csrf_token() }}'
+
+                $.ajax({
+                    url:"{{ route('r-workshop.report.deleteCanUnit') }}",
+                    method: "POST",
+                    data: {canunitid: canunitid, canpartid: canpartid, _token: _token,},
+                    success: function(result) {
+                        $("#success-modal").removeClass("hidden");
+                        $("#success-modal").addClass("flex");
+                        $('#CanUnitTable').html(result);
+                        $('#CanUnitALL').prop('checked', true);
                     },
                     error: function(error){
                         $("#failed-modal").removeClass("hidden");
@@ -5361,7 +5555,7 @@
                 $('#DRMonPartsContent'+button_id+'').remove(); 
             });
         
-        // Saving of Cannibalized Unit
+        // Saving of DR Monitoring
             $('#saveDRMon').on( "click", function(){
                 var id = $('#DRMonID').val();
 
@@ -5392,7 +5586,7 @@
                 $('#DRMonParts').html('<div id="DRMonPartsContent1" class="grid grid-cols-12 gap-2"><div class="col-span-2 grid grid-cols-12"><div class=""><input id="DRMonCB1" name="DRMonCB1" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"></div><div class=""></div><div class="col-span-10"><input type="text" id="DRMonPartNum1" name="DRMonPartNum1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div></div><div class="col-span-3"><input type="text" id="DRMonDescription1" name="DRMonDescription1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-1"><input type="text" id="DRMonQuantity1" name="DRMonQuantity1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-2"><input type="text" id="DRMonPurpose1" name="DRMonPurpose1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class="col-span-3"><input type="text" id="DRMonRemarks1" name="DRMonRemarks1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ></div><div class=""><input type="hidden" id="DRMonID1" name="DRMonID1" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" ><button id="addDRMonDIVY" name="addDRMonDIVY"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button></div></div>');
             });
 
-        // Edit Cannibalized Unit
+        // Edit DR Monitoring
             jQuery(document).on( "click", ".btnDRMonEdit", function(){
                 var DRMonID = $(this).data('drmonid');
                 
@@ -5425,7 +5619,6 @@
                         $('#DRMonALL').prop('checked', true);
                     },
                     error: function(error){
-                        console.log(error)
                         alert("No Data Found!");
                     }
                 });

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('CanPartDescription');
             $table->string('CanPartQuantity');
             $table->string('CanPartRemarks');
+            $table->string('CanPartStatus');
             $table->timestamps();
         });
     }

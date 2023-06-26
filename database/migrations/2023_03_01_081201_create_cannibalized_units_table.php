@@ -18,14 +18,14 @@ return new class extends Migration
             $table->string('CanUnitCONum');
             $table->string('CanUnitBrand');
             $table->string('CanUnitStatus');
-            $table->date('CanUnitDate');
+            $table->string('CanUnitDate');
             $table->string('CanUnitCFModelNum');
             $table->string('CanUnitCFSerialNum');
             $table->string('CanUnitCFRentalCode');
             $table->string('CanUnitCFSection');
             $table->string('CanUnitCFPIC');
             $table->string('CanUnitCFPrepBy');
-            $table->date('CanUnitCFPrepDate');
+            $table->string('CanUnitCFPrepDate');
             $table->string('CanUnitCFStartTime');
             $table->string('CanUnitCFEndTime');
             $table->string('CanUnitITModelNum');
@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('CanUnitITRecBy');
             $table->string('CanUnitCPrepBy');
             $table->string('CanUnitRPRetBy');
-            $table->date('CanUnitRPRetDate');
+            $table->string('CanUnitRPRetDate');
             $table->string('CanUnitRPRecBy');
             $table->string('CanUnitDocRefNum');
             $table->timestamps();

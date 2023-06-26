@@ -253,6 +253,8 @@ Route::group(['middleware' => 'auth'],function(){
 
         // Cannibalized Unit
             Route::POST('/workshop-ms/r-workshop/report/saveCanUnit', [RReportController::class, 'saveCanUnit'])->name('r-workshop.report.saveCanUnit');
+            Route::POST('/workshop-ms/r-workshop/report/getCanParts', [RReportController::class, 'getCanParts'])->name('r-workshop.report.getCanParts');
+            Route::POST('/workshop-ms/r-workshop/report/deleteCanUnit', [RReportController::class, 'deleteCanUnit'])->name('r-workshop.report.deleteCanUnit');
 
         // DR Monitoring
             Route::GET('/workshop-ms/r-workshop/report/getDRMonStatus', [RReportController::class, 'getDRMonStatus'])->name('r-workshop.report.getDRMonStatus');

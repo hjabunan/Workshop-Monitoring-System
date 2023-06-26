@@ -4642,37 +4642,37 @@ class RReportController extends Controller
 
         if($id == null){
             $CanUnit = new CannibalizedUnit();
-            $CanUnit->CanUnitCONum = $request->CanUnitCONum;
-            $CanUnit->CanUnitBrand = $request->CanUnitBrand;
-            $CanUnit->CanUnitStatus = $request->CanUnitStatus;
-            $CanUnit->CanUnitDate = $request->CanUnitDate;
-            $CanUnit->CanUnitCFModelNum = $request->CanUnitCFModelNum;
-            $CanUnit->CanUnitCFSerialNum = $request->CanUnitCFSerialNum;
-            $CanUnit->CanUnitCFRentalCode = $request->CanUnitCFRentalCode;
-            $CanUnit->CanUnitCFSection = $request->CanUnitCFSection;
-            $CanUnit->CanUnitCFPIC = $request->CanUnitCFPIC;
-            $CanUnit->CanUnitCFPrepBy = $request->CanUnitCFPrepBy;
-            $CanUnit->CanUnitCFPrepDate = $request->CanUnitCFPrepDate;
-            $CanUnit->CanUnitCFStartTime = $request->CanUnitCFStartTime;
-            $CanUnit->CanUnitCFEndTime = $request->CanUnitCFEndTime;
-            $CanUnit->CanUnitITModelNum = $request->CanUnitITModelNum;
-            $CanUnit->CanUnitITSerialNum = $request->CanUnitITSerialNum;
-            $CanUnit->CanUnitITRentalCode = $request->CanUnitITRentalCode;
-            $CanUnit->CanUnitITCustomer = $request->CanUnitITCustomer;
-            $CanUnit->CanUnitITCustAddress = $request->CanUnitITCustAddress;
-            $CanUnit->CanUnitITCustArea = $request->CanUnitITCustArea;
-            $CanUnit->CanUnitITSupMRI = $request->CanUnitITSupMRI;
-            $CanUnit->CanUnitITSupSTO = $request->CanUnitITSupSTO;
-            $CanUnit->CanUnitITRecBy = $request->CanUnitITRecBy;
-            $CanUnit->CanUnitCPrepBy = $request->CanUnitCPrepBy;
-            $CanUnit->CanUnitRPRetBy = $request->CanUnitRPRetBy;
-            $CanUnit->CanUnitRPRetDate = $request->CanUnitRPRetDate;
-            $CanUnit->CanUnitRPRecBy = $request->CanUnitRPRecBy;
-            $CanUnit->CanUnitDocRefNum = $request->CanUnitDocRefNum;
+            $CanUnit->CanUnitCONum = strtoupper($request->CanUnitCONum);
+            $CanUnit->CanUnitBrand = strtoupper($request->CanUnitBrand);
+            $CanUnit->CanUnitStatus = strtoupper($request->CanUnitStatus);
+            $CanUnit->CanUnitDate = strtoupper($request->CanUnitDate);
+            $CanUnit->CanUnitCFModelNum = strtoupper($request->CanUnitCFModelNum);
+            $CanUnit->CanUnitCFSerialNum = strtoupper($request->CanUnitCFSerialNum);
+            $CanUnit->CanUnitCFRentalCode = strtoupper($request->CanUnitCFRentalCode);
+            $CanUnit->CanUnitCFSection = strtoupper($request->CanUnitCFSection);
+            $CanUnit->CanUnitCFPIC = strtoupper($request->CanUnitCFPIC);
+            $CanUnit->CanUnitCFPrepBy = strtoupper($request->CanUnitCFPrepBy);
+            $CanUnit->CanUnitCFPrepDate = strtoupper($request->CanUnitCFPrepDate);
+            $CanUnit->CanUnitCFStartTime = strtoupper($request->CanUnitCFStartTime);
+            $CanUnit->CanUnitCFEndTime = strtoupper($request->CanUnitCFEndTime);
+            $CanUnit->CanUnitITModelNum = strtoupper($request->CanUnitITModelNum);
+            $CanUnit->CanUnitITSerialNum = strtoupper($request->CanUnitITSerialNum);
+            $CanUnit->CanUnitITRentalCode = strtoupper($request->CanUnitITRentalCode);
+            $CanUnit->CanUnitITCustomer = strtoupper($request->CanUnitITCustomer);
+            $CanUnit->CanUnitITCustAddress = strtoupper($request->CanUnitITCustAddress);
+            $CanUnit->CanUnitITCustArea = strtoupper($request->CanUnitITCustArea);
+            $CanUnit->CanUnitITSupMRI = strtoupper($request->CanUnitITSupMRI);
+            $CanUnit->CanUnitITSupSTO = strtoupper($request->CanUnitITSupSTO);
+            $CanUnit->CanUnitITRecBy = strtoupper($request->CanUnitITRecBy);
+            $CanUnit->CanUnitCPrepBy = strtoupper($request->CanUnitCPrepBy);
+            $CanUnit->CanUnitRPRetBy = strtoupper($request->CanUnitRPRetBy);
+            $CanUnit->CanUnitRPRetDate = strtoupper($request->CanUnitRPRetDate);
+            $CanUnit->CanUnitRPRecBy = strtoupper($request->CanUnitRPRecBy);
+            $CanUnit->CanUnitDocRefNum = strtoupper($request->CanUnitDocRefNum);
             $CanUnit->save();
 
             for($i = 1; $i <= 10; $i++){
-
+                $CanUnitCB = 'CanUnitCB'.$i;
                 $partnum = 'CanUnitPartNum'.$i;
                 $desc = 'CanUnitDescription'.$i;
                 $quantt = 'CanUnitQuantity'.$i;
@@ -4681,47 +4681,55 @@ class RReportController extends Controller
                 if ($request->$partnum == null){
                     break;
                 }
+
+                if($request->has($CanUnitCB)){
+                    $PartStat = $request->input($CanUnitCB);
+                } else {
+                    $PartStat = $request->DRMonStatus;
+                }
                 $CanPart = new CannibalizedParts();
                 $CanPart->CanPartDate = $request->CanUnitDate;
                 $CanPart->CanPartCUID = $CanUnit->id;
-                $CanPart->CanPartPartNum = $request->$partnum;
-                $CanPart->CanPartDescription = $request->$desc;
-                $CanPart->CanPartQuantity = $request->$quantt;
-                $CanPart->CanPartRemarks = $request->$remarks;
+                $CanPart->CanPartPartNum = strtoupper($request->$partnum);
+                $CanPart->CanPartDescription = strtoupper($request->$desc);
+                $CanPart->CanPartQuantity = strtoupper($request->$quantt);
+                $CanPart->CanPartRemarks = strtoupper($request->$remarks);
+                $CanPart->CanPartStatus = strtoupper($PartStat);
                 $CanPart->save();
             }
         }else{
             $CanUnit = CannibalizedUnit::find($id);
-            $CanUnit->CanUnitCONum = $request->CanUnitCONum;
-            $CanUnit->CanUnitBrand = $request->CanUnitBrand;
-            $CanUnit->CanUnitStatus = $request->CanUnitStatus;
-            $CanUnit->CanUnitDate = $request->CanUnitDate;
-            $CanUnit->CanUnitCFModelNum = $request->CanUnitCFModelNum;
-            $CanUnit->CanUnitCFSerialNum = $request->CanUnitCFSerialNum;
-            $CanUnit->CanUnitCFRentalCode = $request->CanUnitCFRentalCode;
-            $CanUnit->CanUnitCFSection = $request->CanUnitCFSection;
-            $CanUnit->CanUnitCFPIC = $request->CanUnitCFPIC;
-            $CanUnit->CanUnitCFPrepBy = $request->CanUnitCFPrepBy;
-            $CanUnit->CanUnitCFPrepDate = $request->CanUnitCFPrepDate;
-            $CanUnit->CanUnitCFStartTime = $request->CanUnitCFStartTime;
-            $CanUnit->CanUnitCFEndTime = $request->CanUnitCFEndTime;
-            $CanUnit->CanUnitITModelNum = $request->CanUnitITModelNum;
-            $CanUnit->CanUnitITSerialNum = $request->CanUnitITSerialNum;
-            $CanUnit->CanUnitITRentalCode = $request->CanUnitITRentalCode;
-            $CanUnit->CanUnitITCustomer = $request->CanUnitITCustomer;
-            $CanUnit->CanUnitITCustAddress = $request->CanUnitITCustAddress;
-            $CanUnit->CanUnitITCustArea = $request->CanUnitITCustArea;
-            $CanUnit->CanUnitITSupMRI = $request->CanUnitITSupMRI;
-            $CanUnit->CanUnitITSupSTO = $request->CanUnitITSupSTO;
-            $CanUnit->CanUnitITRecBy = $request->CanUnitITRecBy;
-            $CanUnit->CanUnitCPrepBy = $request->CanUnitCPrepBy;
-            $CanUnit->CanUnitRPRetBy = $request->CanUnitRPRetBy;
-            $CanUnit->CanUnitRPRetDate = $request->CanUnitRPRetDate;
-            $CanUnit->CanUnitRPRecBy = $request->CanUnitRPRecBy;
-            $CanUnit->CanUnitDocRefNum = $request->CanUnitDocRefNum;
+            $CanUnit->CanUnitCONum = strtoupper($request->CanUnitCONum);
+            $CanUnit->CanUnitBrand = strtoupper($request->CanUnitBrand);
+            $CanUnit->CanUnitStatus = strtoupper($request->CanUnitStatus);
+            $CanUnit->CanUnitDate = strtoupper($request->CanUnitDate);
+            $CanUnit->CanUnitCFModelNum = strtoupper($request->CanUnitCFModelNum);
+            $CanUnit->CanUnitCFSerialNum = strtoupper($request->CanUnitCFSerialNum);
+            $CanUnit->CanUnitCFRentalCode = strtoupper($request->CanUnitCFRentalCode);
+            $CanUnit->CanUnitCFSection = strtoupper($request->CanUnitCFSection);
+            $CanUnit->CanUnitCFPIC = strtoupper($request->CanUnitCFPIC);
+            $CanUnit->CanUnitCFPrepBy = strtoupper($request->CanUnitCFPrepBy);
+            $CanUnit->CanUnitCFPrepDate = strtoupper($request->CanUnitCFPrepDate);
+            $CanUnit->CanUnitCFStartTime = strtoupper($request->CanUnitCFStartTime);
+            $CanUnit->CanUnitCFEndTime = strtoupper($request->CanUnitCFEndTime);
+            $CanUnit->CanUnitITModelNum = strtoupper($request->CanUnitITModelNum);
+            $CanUnit->CanUnitITSerialNum = strtoupper($request->CanUnitITSerialNum);
+            $CanUnit->CanUnitITRentalCode = strtoupper($request->CanUnitITRentalCode);
+            $CanUnit->CanUnitITCustomer = strtoupper($request->CanUnitITCustomer);
+            $CanUnit->CanUnitITCustAddress = strtoupper($request->CanUnitITCustAddress);
+            $CanUnit->CanUnitITCustArea = strtoupper($request->CanUnitITCustArea);
+            $CanUnit->CanUnitITSupMRI = strtoupper($request->CanUnitITSupMRI);
+            $CanUnit->CanUnitITSupSTO = strtoupper($request->CanUnitITSupSTO);
+            $CanUnit->CanUnitITRecBy = strtoupper($request->CanUnitITRecBy);
+            $CanUnit->CanUnitCPrepBy = strtoupper($request->CanUnitCPrepBy);
+            $CanUnit->CanUnitRPRetBy = strtoupper($request->CanUnitRPRetBy);
+            $CanUnit->CanUnitRPRetDate = strtoupper($request->CanUnitRPRetDate);
+            $CanUnit->CanUnitRPRecBy = strtoupper($request->CanUnitRPRecBy);
+            $CanUnit->CanUnitDocRefNum = strtoupper($request->CanUnitDocRefNum);
             $CanUnit->update();
 
             for($i = 1; $i <= 10; $i++){
+                $CanUnitCB = 'CanUnitCB'.$i;
                 $partnum = 'CanUnitPartNum'.$i;
                 $desc = 'CanUnitDescription'.$i;
                 $quantt = 'CanUnitQuantity'.$i;
@@ -4732,24 +4740,32 @@ class RReportController extends Controller
                     break;
                 }
 
+                if($request->has($CanUnitCB)){
+                    $PartStat = $request->input($CanUnitCB);
+                } else {
+                    $PartStat = $request->DRMonStatus;
+                }
+
                 if($request->$PartCUID == null){
                     $CanPart = new CannibalizedParts();
-                    $CanPart->CanPartDate = $request->CanUnitDate;
-                    $CanPart->CanPartCUID = $CanUnit->id;
-                    $CanPart->CanPartPartNum = $request->$partnum;
-                    $CanPart->CanPartDescription = $request->$desc;
-                    $CanPart->CanPartQuantity = $request->$quantt;
-                    $CanPart->CanPartRemarks = $request->$remarks;
+                    $CanPart->CanPartDate = strtoupper($request->CanUnitDate);
+                    $CanPart->CanPartCUID = strtoupper($CanUnit->id);
+                    $CanPart->CanPartPartNum = strtoupper($request->$partnum);
+                    $CanPart->CanPartDescription = strtoupper($request->$desc);
+                    $CanPart->CanPartQuantity = strtoupper($request->$quantt);
+                    $CanPart->CanPartRemarks = strtoupper($request->$remarks);
+                    $CanPart->CanPartStatus = strtoupper($PartStat);
                     $CanPart->save();
                 }
                 else{
                     DB::table('cannibalized_parts')
                         ->where('id', $request->$PartCUID)
                         ->update([
-                            'CanPartPartNum' => $request->$partnum,
-                            'CanPartDescription' => $request->$desc,
-                            'CanPartQuantity' => $request->$quantt,
-                            'CanPartRemarks' => $request->$remarks,
+                            'CanPartPartNum' => strtoupper($request->$partnum),
+                            'CanPartDescription' => strtoupper($request->$desc),
+                            'CanPartQuantity' => strtoupper($request->$quantt),
+                            'CanPartRemarks' => strtoupper($request->$remarks),
+                            'CanPartStatus' => strtoupper($PartStat),
                         ]);
                 }
             }
@@ -4775,6 +4791,171 @@ class RReportController extends Controller
             foreach($canunit as $CUnit){
                 $result .='
                     <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="font-medium px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="font-medium px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getCanParts(Request $request){
+        $CanUnit = CannibalizedUnit::where('id',$request->CanUnitID)->first();
+        $CanParts = CannibalizedParts::where('CanPartCUID',$request->CanUnitID)->get();
+
+        $result1 = '';
+        $i = 1;
+        foreach ($CanParts as $CP) {
+
+            if($i == 1){
+                $btn = '<button id="addCanUnitDIVX" class="addCanUnitDIVX"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>';
+            }else{
+                $btn = '';
+            }
+
+            if($CP->CanPartStatus == 4){
+                $CB = '<input id="CanUnitCB'.$i.'" name="CanUnitCB'.$i.'" value="4" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" checked>';
+            }else{
+                $CB = '<input id="CanUnitCB'.$i.'" name="CanUnitCB'.$i.'" value="4" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">';
+            }
+
+            $result1 .= '
+                    <div id="$CanUnitPartsContent'.$i.'" class="grid grid-cols-10 gap-2 mt-1">
+                        <div class="col-span-2 grid grid-cols-12">
+                            <div class="">
+                                '.$CB.'
+                            </div>
+                            <div class=""></div>
+                            <div class="col-span-10">
+                                <input type="text" id="CanUnitPartNum'.$i.'" name="CanUnitPartNum'.$i.'" value="'.$CP->CanPartPartNum.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                        </div>
+                        <div class="col-span-3">
+                            <input type="text" id="CanUnitDescription'.$i.'" name="CanUnitDescription'.$i.'" value="'.$CP->CanPartDescription.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="col-span-1">
+                            <input type="text" id="CanUnitQuantity'.$i.'" name="CanUnitQuantity'.$i.'" value="'.$CP->CanPartQuantity.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="col-span-3">
+                            <input type="text" id="CanUnitRemarks'.$i.'" name="CanUnitRemarks'.$i.'" value="'.$CP->CanPartRemarks.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="">
+                            <input type="hidden" id="CanUnitID'.$i.'" name="CanUnitID'.$i.'" value="'.$CP->id.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            '.$btn.'
+                        </div>
+                    </div>
+            ';
+            $i++;
+        }
+        
+        $result = array(
+            'CanUnitID' => $CanUnit->id,
+            'CanUnitCONum' => $CanUnit->CanUnitCONum,
+            'CanUnitBrand' => $CanUnit->CanUnitBrand,
+            'CanUnitStatus' => $CanUnit->CanUnitStatus,
+            'CanUnitDate' => $CanUnit->CanUnitDate,
+            'CanUnitCFModelNum' => $CanUnit->CanUnitCFModelNum,
+            'CanUnitCFSerialNum' => $CanUnit->CanUnitCFSerialNum,
+            'CanUnitCFRentalCode' => $CanUnit->CanUnitCFRentalCode,
+            'CanUnitCFSection' => $CanUnit->CanUnitCFSection,
+            'CanUnitCFPIC' => $CanUnit->CanUnitCFPIC,
+            'CanUnitCFPrepBy' => $CanUnit->CanUnitCFPrepBy,
+            'CanUnitCFPrepDate' => $CanUnit->CanUnitCFPrepDate,
+            'CanUnitCFStartTime' => $CanUnit->CanUnitCFStartTime,
+            'CanUnitCFEndTime' => $CanUnit->CanUnitCFEndTime,
+            'CanUnitITModelNum' => $CanUnit->CanUnitITModelNum,
+            'CanUnitITSerialNum' => $CanUnit->CanUnitITSerialNum,
+            'CanUnitITRentalCode' => $CanUnit->CanUnitITRentalCode,
+            'CanUnitITCustomer' => $CanUnit->CanUnitITCustomer,
+            'CanUnitITCustAddress' => $CanUnit->CanUnitITCustAddress,
+            'CanUnitITCustArea' => $CanUnit->CanUnitITCustArea,
+            'CanUnitITSupMRI' => $CanUnit->CanUnitITSupMRI,
+            'CanUnitITSupSTO' => $CanUnit->CanUnitITSupSTO,
+            'CanUnitITRecBy' => $CanUnit->CanUnitITRecBy,
+            'CanUnitCPrepBy' => $CanUnit->CanUnitCPrepBy,
+            'CanUnitRPRetBy' => $CanUnit->CanUnitRPRetBy,
+            'CanUnitRPRetDate' => $CanUnit->CanUnitRPRetDate,
+            'CanUnitRPRecBy' => $CanUnit->CanUnitRPRecBy,
+            'CanUnitDocRefNum' => $CanUnit->CanUnitDocRefNum,
+            'cuparts' => $result1,
+
+        );
+
+        return json_encode($result);
+    }
+
+    public function deleteCanUnit(Request $request){
+        $canunitid = $request->canunitid;
+        $canpartid = $request->canpartid;
+
+        if((DB::TABLE('cannibalized_parts')->WHERE('CanPartCUID',$canunitid)->count()) == 1){
+
+            $DCUnit1 = CannibalizedUnit::find($request->canunitid);
+            $DCUnit1->delete();
+
+            DB::TABLE('cannibalized_parts')->WHERE('CanPartCUID',$canunitid)->delete();
+        }else{
+            DB::TABLE('cannibalized_parts')->WHERE('id',$canpartid)->delete();
+        }
+
+        $result = '';
+        $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
                         <td class="w-4 p-1">
                             <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
                             <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
