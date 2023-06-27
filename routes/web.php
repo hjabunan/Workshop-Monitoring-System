@@ -229,6 +229,8 @@ Route::group(['middleware' => 'auth'],function(){
             Route::POST('/workshop-ms/r-workshop/report/generateBayReport', [RReportController::class, 'generateBayReport'])->name('r-workshop.report.generateBayReport');
             Route::POST('/workshop-ms/r-workshop/report/generatePOUReport', [RReportController::class, 'generatePOUReport'])->name('r-workshop.report.generatePOUReport');
             Route::POST('/workshop-ms/r-workshop/report/generateDUReport', [RReportController::class, 'generateDUReport'])->name('r-workshop.report.generateDUReport');
+            Route::POST('/workshop-ms/r-workshop/report/generateCanUnitReport', [RReportController::class, 'generateCanUnitReport'])->name('r-workshop.report.generateCanUnitReport');
+
 
         // Brand New Unit
             Route::POST('/workshop-ms/r-workshop/report/saveBrandNew', [RReportController::class, 'saveBrandNew'])->name('r-workshop.report.saveBrandNew');
@@ -252,6 +254,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::POST('/workshop-ms/r-workshop/report/deleteDU', [RReportController::class, 'deleteDU'])->name('r-workshop.report.deleteDU');
 
         // Cannibalized Unit
+            Route::GET('/workshop-ms/r-workshop/report/getCanUnitStatus', [RReportController::class, 'getCanUnitStatus'])->name('r-workshop.report.getCanUnitStatus');
             Route::POST('/workshop-ms/r-workshop/report/saveCanUnit', [RReportController::class, 'saveCanUnit'])->name('r-workshop.report.saveCanUnit');
             Route::POST('/workshop-ms/r-workshop/report/getCanParts', [RReportController::class, 'getCanParts'])->name('r-workshop.report.getCanParts');
             Route::POST('/workshop-ms/r-workshop/report/deleteCanUnit', [RReportController::class, 'deleteCanUnit'])->name('r-workshop.report.deleteCanUnit');

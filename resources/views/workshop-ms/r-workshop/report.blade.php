@@ -190,6 +190,7 @@
                                     </table>
                                 </div>
                             </div>
+                            {{-- REPORT --}}
                             <div class="hidden p-2 rounded-lg bg-gray-50" id="report" role="tabpanel" aria-labelledby="report-tab">
                                 <div class="grid grid-cols-4">
                                     {{-- Brand --}}
@@ -336,7 +337,64 @@
                                             <button type="button" id="RGenDU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
                                         </div>
                                     </div>
-                                    <div class="">C</div>
+                                    {{-- Cannibalized Unit --}}
+                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div class="inline-flex items-center justify-center w-full">
+                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">CANNIBALIZED UNIT</span></label>
+                                        </div>
+                                        <div class="grid grid-cols-6 items-center">
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RCanUnitFromDate" id="RCanUnitFromDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RCanUnitToDate" id="RCanUnitToDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="inline-flex items-center justify-center w-full mt-2">
+                                            <button type="button" id="RGenCanUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                        </div>
+                                    </div>
+                                    {{-- DR Monitoring --}}
+                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div class="inline-flex items-center justify-center w-full">
+                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">D.R. MONITORING</span></label>
+                                        </div>
+                                        <div class="grid grid-cols-6 items-center">
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDRMonFromDate" id="RDRMonFromDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                            <div class="col-span-4 mt-1">
+                                                <div class="relative max-w-sm">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                    </div>
+                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDRMonToDate" id="RDRMonToDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="inline-flex items-center justify-center w-full mt-2">
+                                            <button type="button" id="RGenDRMon" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                        </div>
+                                    </div>
                                     <div class="">D</div>
                                 </div>
                             </div>
@@ -865,7 +923,7 @@
                                     </div>
                                     <div id="div2" class="grid grid-cols-7">
                                         <div class="grid justify-items-start">
-                                            <select id="CanUnitSection" name="CanUnitSection" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block h-10 p-2.5 w-3/4">
+                                            <select id="CanUnitSection" name="CanUnitSection" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block h-10 p-2.5 w-40">
                                                     <option selected value="">SECTION</option>
                                                 @foreach($section as $sec)
                                                     <option value="{{$sec->id}}">{{$sec->name}}</option>
@@ -918,7 +976,7 @@
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                     <svg class="w-7 h-7 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                                                 </div>
-                                                <input type="text" id="CanUnitTableSearch" name="CanUnitTableSearch" class="w-3/4 block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 w-60 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
+                                                <input type="text" id="CanUnitTableSearch" name="CanUnitTableSearch" class="w-40 block p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg h-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
                                             </div>
                                         </div>
                                     </div>
@@ -5242,7 +5300,7 @@
                 });
             });
 
-        // Pull Out Unit Report
+        // Delivered Unit Report
             jQuery(document).on("click", "#RGenDU", function() {
                 var fromDate = $('#RDUFromDate').val();
                 var toDate = $('#RDUToDate').val();
@@ -5266,7 +5324,46 @@
                 });
             });
 
+        // Cannibalized Unit Report
+            jQuery(document).on("click", "#RGenCanUnit", function() {
+                var fromDate = $('#RCanUnitFromDate').val();
+                var toDate = $('#RCanUnitToDate').val();
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.generateCanUnitReport') }}",
+                    method: 'POST',
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        _token: _token
+                    },
+                    success: function(response) {
+                        var link = document.createElement('a');
+                        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                        link.target = '_blank';
+                        link.download = 'CannibalizedUnit Report.csv';
+                        link.click();
+                    },
+                });
+            });
+
     // Cannibalized Unit
+        // Change Table Data Depending on Radio Button(ALL, Pending, Closed, NFR)
+            $('input[name=RadioCanUnit]').on( "change", function(){
+                var id = $('input[name="RadioCanUnit"]:checked').val();
+
+                $.ajax({
+                    url: "{{ route('r-workshop.report.getCanUnitStatus') }}",
+                    type: "GET",
+                    data: {id:id,},
+                    success: function(result) {
+                        console.log(result)
+                        $('#CanUnitTable').html(result);
+                    },
+                });
+            });
+
         // Filter by Section
             $("#CanUnitSection").on("change", function() {
                     var input, filter, table, tr, td, i, txtValue;
@@ -5485,9 +5582,6 @@
                         console.log(result)
                         $('#DRMonTable').html(result);
                     },
-                    error: function(error){
-                        console.log(error)
-                    }
                 });
             });
 

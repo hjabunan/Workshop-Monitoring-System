@@ -4636,6 +4636,59 @@ class RReportController extends Controller
             ->header('Content-Disposition', 'attachment; filename="data.csv"');
     }
 
+    public function generateCanUnitReport(Request $request){
+        $title = "CANNIBALIZED UNITS REPORT";
+
+        $datas = DB::table('cannibalized_units')
+            ->select('cannibalized_units.id as CanUnitID', 'cannibalized_units.CanUnitDate', 'cannibalized_units.CanUnitCONum', 'cannibalized_parts.CanPartPartNum', 'cannibalized_parts.CanPartDescription', 'cannibalized_parts.CanPartQuantity', 'cannibalized_units.CanUnitITCustomer', 
+                    'cannibalized_units.CanUnitITCustAddress', 'brands.name as BName', 'cannibalized_units.CanUnitCFModelNum', 'cannibalized_units.CanUnitITModelNum', 'technicians.initials', 'cannibalized_parts.CanPartRemarks', 'sections.name as SName', 'cannibalized_parts.CanPartStatus',
+                    'cannibalized_units.CanUnitRPRetDate', 'cannibalized_units.CanUnitRPRecBy','cannibalized_units.CanUnitDocRefNum'
+                    )
+            ->leftjoin('cannibalized_parts', 'cannibalized_units.id', '=', 'cannibalized_parts.CanPartCUID')
+            ->leftjoin('brands', 'brands.id', '=', 'cannibalized_units.CanUnitBrand')
+            ->leftjoin('technicians', 'technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
+            ->leftjoin('sections', 'sections.id', '=', 'cannibalized_units.CanUnitCFSection')
+            ->whereBetween('CanUnitDate',[$request->fromDate, $request->toDate])
+            ->orderBy('cannibalized_units.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['ID', 'MONTH', 'DATE', 'CO NUMBER', 'PARTS NUMBER','DESCRIPTION', 'QTY', 'CUSTOMER', 'CUST. ADDRESS', 'BRAND', 'UNIT FROM', 'INSTALLED TO', 'SUPPLY TO', 'CANNIBALIZED BY', 'CANNIBALIZED TO', 'REMARKS', 'SECTION', 'STATUS', 'DATE RETURNED', 'RETURNED PARTS RECEIVED BY',
+                        'MRI NUM/DR REFERENCE (FOR RETUNRED PARTS)'
+                        ]);
+
+        foreach ($datas as $row) {
+            $thisMonth = date('F', strtotime($row->CanUnitDate));
+
+            if ($row->CanPartStatus == 1) {
+                $PStatus = "CLOSED";
+            }else if ($row->CanPartStatus == 2) {
+                $PStatus = "PENDING";
+            }else if ($row->CanPartStatus == 3) {
+                $PStatus = "NOT FOR RETURN";
+            }else{
+                $PStatus = "CANCELLED";
+            }
+
+            $csv->insertOne([$row->CanUnitID, $thisMonth, $row->CanUnitDate, $row->CanUnitCONum, $row->CanPartPartNum, $row->CanPartDescription, $row->CanPartQuantity, $row->CanUnitITCustomer, $row->CanUnitITCustAddress, $row->BName, $row->CanUnitCFModelNum, $row->CanUnitITModelNum, "N/A",
+                            $row->initials, $row->BName, $row->CanPartRemarks, $row->SName, $PStatus, $row->CanUnitRPRetDate, $row->CanUnitRPRecBy, $row->CanUnitDocRefNum
+                            ]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
     // CANNIBALIZED UNIT
     public function saveCanUnit(Request $request){
         $id = $request->CanUnitID;
@@ -4685,7 +4738,7 @@ class RReportController extends Controller
                 if($request->has($CanUnitCB)){
                     $PartStat = $request->input($CanUnitCB);
                 } else {
-                    $PartStat = $request->DRMonStatus;
+                    $PartStat = $request->CanUnitStatus;
                 }
                 $CanPart = new CannibalizedParts();
                 $CanPart->CanPartDate = $request->CanUnitDate;
@@ -4743,7 +4796,7 @@ class RReportController extends Controller
                 if($request->has($CanUnitCB)){
                     $PartStat = $request->input($CanUnitCB);
                 } else {
-                    $PartStat = $request->DRMonStatus;
+                    $PartStat = $request->CanUnitStatus;
                 }
 
                 if($request->$PartCUID == null){
@@ -4798,10 +4851,10 @@ class RReportController extends Controller
                         <td scope="row" class="px-1 py-0.5 text-center">
                             '.$CUnit->CanUnitDate.'
                         </td>
-                        <td class="font-medium px-1 py-0.5 text-center">
+                        <td class="px-1 py-0.5 text-center">
                             '.$CUnit->CanUnitCONum.'
                         </td>
-                        <td class="font-medium px-1 py-0.5 text-center">
+                        <td class="px-1 py-0.5 text-center">
                             '.$CUnit->CanPartPartNum.'
                         </td>
                         <td class="px-1 py-0.5 text-center">
@@ -4963,10 +5016,145 @@ class RReportController extends Controller
                         <td scope="row" class="px-1 py-0.5 text-center">
                             '.$CUnit->CanUnitDate.'
                         </td>
-                        <td class="font-medium px-1 py-0.5 text-center">
+                        <td class="px-1 py-0.5 text-center">
                             '.$CUnit->CanUnitCONum.'
                         </td>
-                        <td class="font-medium px-1 py-0.5 text-center">
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getCanUnitStatus(Request $request){
+        $id = $request->id;
+        
+        $result = '';
+        if($id == "CanUnitALL"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitClosed"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 1
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitPending"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 2
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitNFR"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 3
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else{
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 4
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
                             '.$CUnit->CanPartPartNum.'
                         </td>
                         <td class="px-1 py-0.5 text-center">
