@@ -8,9 +8,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                <div class=" text-gray-900" style="display: flex; justify-content: center; align-items: center; height: 82vh;">
+                    <img src="{{ asset('images/workshop_layout.jpg') }}" alt="Image">
                 </div>
+                
+            <div class="item">
+                <div class="resizer ne"></div>
+                <div class="resizer nw"></div>
+                <div class="resizer se"></div>
+                <div class="resizer sw"></div>
+            </div>
             </div>
         </div>
     </div>

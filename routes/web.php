@@ -230,6 +230,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::POST('/workshop-ms/r-workshop/report/generatePOUReport', [RReportController::class, 'generatePOUReport'])->name('r-workshop.report.generatePOUReport');
             Route::POST('/workshop-ms/r-workshop/report/generateDUReport', [RReportController::class, 'generateDUReport'])->name('r-workshop.report.generateDUReport');
             Route::POST('/workshop-ms/r-workshop/report/generateCanUnitReport', [RReportController::class, 'generateCanUnitReport'])->name('r-workshop.report.generateCanUnitReport');
+            Route::POST('/workshop-ms/r-workshop/report/generateDRMonReport', [RReportController::class, 'generateDRMonReport'])->name('r-workshop.report.generateDRMonReport');
 
 
         // Brand New Unit

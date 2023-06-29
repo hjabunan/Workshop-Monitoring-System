@@ -4689,6 +4689,67 @@ class RReportController extends Controller
             ->header('Content-Disposition', 'attachment; filename="data.csv"');
     }
 
+    public function generateDRMonReport(Request $request){
+        $title = "D.R. MONITORING REPORT";
+
+        $datas = DB::table('d_r_monitorings')
+            ->select('d_r_monitorings.id as DRMonID', 'd_r_monitorings.DRMonDate', 'd_r_monitorings.DRMonStatus','d_r_monitorings.DRMonCustomer', 'd_r_monitorings.DRMonCustAddress', 'd_r_monitorings.DRMonSupplier', 'd_r_monitorings.DRMonPRNum', 
+                    'd_r_monitorings.LDRMonCode', 'd_r_monitorings.LDRMonModel', 'd_r_monitorings.LDRMonSerial', 'd_r_monitorings.LDRMonDRNum', 'd_r_monitorings.LDRMonPUDate', 'd_r_monitorings.LDRMonReqBy', 
+                    'd_r_monitorings.RDRMonQNum', 'd_r_monitorings.RDRMonQDate', 'd_r_monitorings.RDRMonBSNum', 'd_r_monitorings.RDRMonDRNum', 'd_r_monitorings.RDRMonRetDate', 'd_r_monitorings.RDRMonRecBy',
+                    'd_r_parts.DRPartPartNum', 'd_r_parts.DRPartDescription', 'd_r_parts.DRPartQuantity', 'd_r_parts.DRPartPurpose', 'd_r_parts.DRPartRemarks', 'd_r_parts.DRPartStatus'
+                    )
+            ->leftjoin('d_r_parts', 'd_r_parts.DRPartMonID', '=', 'd_r_monitorings.id')
+            // ->leftjoin('brands', 'brands.id', '=', 'cannibalized_units.CanUnitBrand')
+            // ->leftjoin('technicians', 'technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
+            // ->leftjoin('sections', 'sections.id', '=', 'cannibalized_units.CanUnitCFSection')
+            ->whereBetween('DRMonDate',[$request->fromDate, $request->toDate])
+            // ->orderBy('cannibalized_units.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['ID', 'DATE', 'STATUS', 'DR NUMBER', 'PR NUMBER', 'PART NUMBER', 'DESCRIPTION', 'QTY', 'SUPPLIER', 'UNIT', 'REMARKS', 'UPDATE/STATUS'
+                        ]);
+
+        foreach ($datas as $row) {
+            // $thisMonth = date('F', strtotime($row->CanUnitDate));
+            if ($row->DRMonStatus == 1) {
+                $UStatus = "PENDING";
+            }else if ($row->DRMonStatus == 2) {
+                $UStatus = "PARTIAL";
+            }else if ($row->DRMonStatus == 3) {
+                $UStatus = "CLOSED";
+            }else{
+                $UStatus = "CANCELLED";
+            }
+
+            if ($row->DRPartStatus == 1) {
+                $PStatus = "PENDING";
+            }else if ($row->DRPartStatus == 2) {
+                $PStatus = "PARTIAL";
+            }else if ($row->DRPartStatus == 3) {
+                $PStatus = "CLOSED";
+            }else{
+                $PStatus = "CANCELLED";
+            }
+
+            $csv->insertOne([$row->DRMonID, $row->DRMonDate, $PStatus,$row->LDRMonDRNum, $row->DRMonPRNum, $row->DRPartPartNum, $row->DRPartDescription, $row->DRPartQuantity, $row->DRMonSupplier, $row->LDRMonCode, $row->DRPartRemarks,$UStatus
+                            ]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
     // CANNIBALIZED UNIT
     public function saveCanUnit(Request $request){
         $id = $request->CanUnitID;
@@ -4725,7 +4786,7 @@ class RReportController extends Controller
             $CanUnit->save();
 
             for($i = 1; $i <= 10; $i++){
-                $CanUnitCB = 'CanUnitCB'.$i;
+                $CanPartStatus = 'CanPartStatus'.$i;
                 $partnum = 'CanUnitPartNum'.$i;
                 $desc = 'CanUnitDescription'.$i;
                 $quantt = 'CanUnitQuantity'.$i;
@@ -4735,8 +4796,8 @@ class RReportController extends Controller
                     break;
                 }
 
-                if($request->has($CanUnitCB)){
-                    $PartStat = $request->input($CanUnitCB);
+                if($request->has($CanPartStatus)){
+                    $PartStat = $request->input($CanPartStatus);
                 } else {
                     $PartStat = $request->CanUnitStatus;
                 }
@@ -4782,7 +4843,7 @@ class RReportController extends Controller
             $CanUnit->update();
 
             for($i = 1; $i <= 10; $i++){
-                $CanUnitCB = 'CanUnitCB'.$i;
+                $CanPartStatus = 'CanPartStatus'.$i;
                 $partnum = 'CanUnitPartNum'.$i;
                 $desc = 'CanUnitDescription'.$i;
                 $quantt = 'CanUnitQuantity'.$i;
@@ -4793,8 +4854,8 @@ class RReportController extends Controller
                     break;
                 }
 
-                if($request->has($CanUnitCB)){
-                    $PartStat = $request->input($CanUnitCB);
+                if($request->has($CanPartStatus)){
+                    $PartStat = $request->input($CanPartStatus);
                 } else {
                     $PartStat = $request->CanUnitStatus;
                 }
@@ -4904,24 +4965,23 @@ class RReportController extends Controller
                 $btn = '';
             }
 
-            if($CP->CanPartStatus == 4){
-                $CB = '<input id="CanUnitCB'.$i.'" name="CanUnitCB'.$i.'" value="4" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" checked>';
-            }else{
-                $CB = '<input id="CanUnitCB'.$i.'" name="CanUnitCB'.$i.'" value="4" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">';
-            }
-
             $result1 .= '
                     <div id="$CanUnitPartsContent'.$i.'" class="grid grid-cols-10 gap-2 mt-1">
-                        <div class="col-span-2 grid grid-cols-12">
-                            <div class="">
-                                '.$CB.'
+                        <div class="col-span-3 grid grid-cols-8 gap-2">
+                            <div class="col-span-3">
+                            <select name="CanUnitStatus'.$i.'" id="CanUnitStatus'.$i.'" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                <option value="" selected></option>
+                                <option value="1" '.($CP->CanPartStatus == 1 ? 'selected' : '').'>CLOSED</option>
+                                <option value="2" '.($CP->CanPartStatus == 2 ? 'selected' : '').'>PENDING</option>
+                                <option value="3" '.($CP->CanPartStatus == 3 ? 'selected' : '').'>NOT FOR RETURN</option>
+                                <option value="4" '.($CP->CanPartStatus == 4 ? 'selected' : '').'>CANCELLED</option>
+                            </select>
                             </div>
-                            <div class=""></div>
-                            <div class="col-span-10">
+                            <div class="col-span-5">
                                 <input type="text" id="CanUnitPartNum'.$i.'" name="CanUnitPartNum'.$i.'" value="'.$CP->CanPartPartNum.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
                             </div>
                         </div>
-                        <div class="col-span-3">
+                        <div class="col-span-2">
                             <input type="text" id="CanUnitDescription'.$i.'" name="CanUnitDescription'.$i.'" value="'.$CP->CanPartDescription.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
                         </div>
                         <div class="col-span-1">
@@ -5494,11 +5554,11 @@ class RReportController extends Controller
                 if($DRM->DRPartStatus == 1){
                     $DRStat = "PENDING";
                 }else if($DRM->DRPartStatus == 2){
-                    $DRStat = "ONGOING";
+                    $DRStat = "PARTIAL";
                 }else if($DRM->DRPartStatus == 3){
-                    $DRStat = "CANCELLED";
+                    $DRStat = "CLOSED";
                 }else{
-                    $DRStat = "DONE";
+                    $DRStat = "CANCELLED";
                 }
                 $result .='
                             <tr class="bg-white border-b hover:bg-gray-200">
@@ -5616,11 +5676,11 @@ class RReportController extends Controller
                 if($DRM->DRPartStatus == 1){
                     $DRStat = "PENDING";
                 }else if($DRM->DRPartStatus == 2){
-                    $DRStat = "ONGOING";
+                    $DRStat = "PARTIAL";
                 }else if($DRM->DRPartStatus == 3){
-                    $DRStat = "CANCELLED";
+                    $DRStat = "CLOSED";
                 }else{
-                    $DRStat = "DONE";
+                    $DRStat = "CANCELLED";
                 }
                 $result .='
                             <tr class="bg-white border-b hover:bg-gray-200">
