@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AdminMonitor;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BayAreaController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BTReportController;
-use App\Http\Controllers\BTWorkshop;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerAreaController;
@@ -17,11 +17,9 @@ use App\Http\Controllers\PPTReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RReportController;
 use App\Http\Controllers\SectionController;
-use App\Http\Controllers\SystemManagementController;
 use App\Http\Controllers\TechnicianController;
 use App\Http\Controllers\TechnicianScheduleController;
 use App\Http\Controllers\TReportController;
-use App\Http\Controllers\TWorkshop;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WStorage1Controller;
 use App\Http\Controllers\WStorage5BController;
@@ -30,10 +28,9 @@ use App\Http\Controllers\WStorage6Controller;
 use App\Http\Controllers\WStorage7Controller;
 use App\Http\Controllers\WStorage8Controller;
 use App\Http\Controllers\XModelController;
-use App\Models\CustomerArea;
-use App\Models\WStorage1;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,18 +53,22 @@ Route::redirect(uri:'/', destination:'login');
 //     return view('management');
 // })->middleware(['auth', 'verified'])->name('management');
 
-Route::group(['middleware' => 'auth'],function(){
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::get('/dashboard', function () {
+    $areas = DB::table('area_tables')->get();
 
-});
+    return view('dashboard', compact('areas'));
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        Route::post('/area/add', [AreaController::class, 'add'])->name('area.add');
+        Route::get('/area/edit/{id}', [AreaController::class, 'edit']);
+        Route::post('/area/update/{id}', [AreaController::class, 'update'])->name('area.update');
+    });
 
 // START OF WORKSHOP MONITORING SYSTEM
     // START OF BT WORKSHOP > MONITORING
@@ -468,6 +469,7 @@ Route::group(['middleware' => 'auth'],function(){
 
 // END OF WORKSHOP MONITORING SYSTEM
 
+
 // START OF SYSTEM MANAGEMENT
     //Upper Bracket
         // User Management
@@ -557,7 +559,5 @@ Route::group(['middleware' => 'auth'],function(){
 // END OF SYSTEM MANAGEMENT
        
         //Route::get('/system-management/{category}',SystemManagementController@index);
-        
-    });   
 
 require __DIR__.'/auth.php';
