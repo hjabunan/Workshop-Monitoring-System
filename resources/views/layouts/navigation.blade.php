@@ -1,5 +1,5 @@
 
-<nav class="px-1 bg-white border-gray-200 shadow">
+<nav class="px-1 bg-white border-gray-200 shadow z-50 relative w-full">
     <div class="container flex flex-wrap items-center justify-between mx-auto w-auto">
         <!-- Logo -->
         <div class="shrink-0 flex items-center">

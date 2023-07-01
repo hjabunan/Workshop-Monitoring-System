@@ -41,11 +41,22 @@ class AreaController extends Controller
         $areaLeft = $request->areaLeft;
         $areaHeight = $request->areaHeight;
         $areaWidth = $request->areaWidth;
-        $areaHeightRatio = $request->areaHeightRatio;
         $areaWidthRatio = $request->areaWidthRatio;
+        $areaHeightRatio = $request->areaHeightRatio;
         $areaLeftRatio = $request->areaLeftRatio;
 
-        DB::update('UPDATE areas SET areas.top=? , areas.left=? , areas.height=? , areas.width=? , areas.width_ratio=? , areas.height_ratio=? , areas.left_ratio=? WHERE areas.id=?', [$areaTop, $areaLeft, $areaHeight, $areaWidth, $areaWidthRatio, $areaHeightRatio, $areaLeftRatio, $areaID]);
+        // $AT = AreaTable::find($areaID);
+        // $AT->top = $areaTop;
+        // $AT->left = $areaLeft;
+        // $AT->height = $areaHeight;
+        // $AT->width = $areaWidth;
+        // $AT->width_ratio = $areaWidthRatio;
+        // $AT->height_ratio = $areaHeightRatio;
+        // $AT->left_ratio = $areaLeftRatio;
+        // $AT->update();
+        DB::update('UPDATE area_tables 
+                    SET area_tables.top=? , area_tables.left=? , area_tables.height=? , area_tables.width=? , area_tables.width_ratio=? , area_tables.height_ratio=? , area_tables.left_ratio=? 
+                    WHERE area_tables.id=?', [$areaTop, $areaLeft, $areaHeight, $areaWidth, $areaWidthRatio, $areaHeightRatio, $areaLeftRatio, $areaID]);
 
         return redirect()->route('dashboard');
     }

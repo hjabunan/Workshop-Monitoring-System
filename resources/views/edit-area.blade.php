@@ -38,16 +38,15 @@
         <div id="saveModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
             <div class="relative w-full h-full max-w-2xl md:h-auto">
                 <!-- Modal content -->
-                {{-- <form action="{{ route('area.update') }}" method="POST" class="relative bg-white rounded-lg shadow"> --}}
-                <form action="" method="POST" class="relative bg-white rounded-lg shadow">
+                <form action="{{ url('/area/update/'.$id) }}" method="POST" class="relative bg-white rounded-lg shadow">
                     @csrf
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between p-6 border-b rounded-t h-8">
+                    {{-- <div class="flex items-center justify-between p-6 border-b rounded-t h-8">
                         <h3 id="areaName" class="text-xl leading-8 font-semibold text-gray-900"></h3>
                         <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="saveModal">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                         </button>
-                    </div>
+                    </div> --}}
                     <!-- Modal body -->
                     <div class="p-6">
                         <div class="">
@@ -75,7 +74,6 @@
     <div class="py-6">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-4 text-gray-900">
                     <div class="grid grid-cols-2 border-b pb-4">
                         <div>
                         </div>
@@ -84,12 +82,12 @@
                         </div>
                     </div>
                     <div style="height: calc(100vh - 205px);" class="relative">
-                        <img src="{{ asset('images/workshop_layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
+                        <img src="{{ asset('images/ws - layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
                     </div>
                     <div class="">
                         @foreach ($areas as $area)
                         @if ($area->id == $id)
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: orange; cursor: move;" class="item">{{ $area->name }}
+                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:51; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: orange; cursor: move;" class="item">{{ $area->name }}
                                 <div class="resizer ne"></div>
                                 <div class="resizer nw"></div>
                                 <div class="resizer sw"></div>
@@ -101,141 +99,8 @@
                         @endif
                         @endforeach
                     </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        $(document).ready(function(){
-            const el = document.querySelector(".item");
-
-            let isResizing = false;
-
-            el.addEventListener("mousedown", mousedown);
-
-            function mousedown(e) {
-                window.addEventListener("mousemove", mousemove);
-                window.addEventListener("mouseup", mouseup);
-
-                let prevX = e.clientX;
-                let prevY = e.clientY;
-
-                function mousemove(e) {
-                    if (!isResizing) {
-                    let newX = prevX - e.clientX;
-                    let newY = prevY - e.clientY;
-
-                    const rect = el.getBoundingClientRect();
-
-                    el.style.left = rect.left - newX + "px";
-                    el.style.top = rect.top - newY + "px";
-
-                    prevX = e.clientX;
-                    prevY = e.clientY;
-                    }
-                }
-
-                function mouseup() {
-                    window.removeEventListener("mousemove", mousemove);
-                    window.removeEventListener("mouseup", mouseup);
-
-                    var itemTop = $(".item").offset().top - 160;
-                    var itemLeft = $(".item").offset().left;
-                    var itemHeight = $(".item").height();
-                    var itemWidth = $(".item").width();
-
-                    var vh = $(window).height() - 205;
-                    var widthRatio = itemWidth / vh;
-                    var heightRatio = itemHeight / vh;
-                    var vw = $(window).width();
-                    var areaTop = (itemTop / vh) * 100;
-
-                    var areaLeft = ((vw / 2) - itemLeft) / vh;
-                    var leftRatio = ((vw / 2) - itemLeft) / vh;
-
-                    var areaHeight = (itemHeight / vh) * 100;
-                    var areaWidth = (itemWidth / vw) * 100;
-
-                    $('#areaTop').val(areaTop);
-                    $('#areaLeft').val(areaLeft);
-                    $('#areaHeight').val(itemHeight);
-                    $('#areaWidth').val(itemWidth);
-                    $('#areaWidthRatio').val(widthRatio);
-                    $('#areaHeightRatio').val(heightRatio);
-                    $('#areaLeftRatio').val(leftRatio);
-                }
-            }
-
-            const resizers = document.querySelectorAll(".resizer");
-            let currentResizer;
-
-            for (let resizer of resizers) {
-                resizer.addEventListener("mousedown", mousedown);
-
-                function mousedown(e) {
-                    currentResizer = e.target;
-                    isResizing = true;
-
-                    let prevX = e.clientX;
-                    let prevY = e.clientY;
-
-                    window.addEventListener("mousemove", mousemove);
-                    window.addEventListener("mouseup", mouseup);
-
-                    function mousemove(e) {
-                        const rect = el.getBoundingClientRect();
-
-                        if (currentResizer.classList.contains("se")) {
-                            el.style.width = rect.width - (prevX - e.clientX) + "px";
-                            el.style.height = rect.height - (prevY - e.clientY) + "px";
-                        } else if (currentResizer.classList.contains("sw")) {
-                            el.style.width = rect.width + (prevX - e.clientX) + "px";
-                            el.style.height = rect.height - (prevY - e.clientY) + "px";
-                            el.style.left = rect.left - (prevX - e.clientX) + "px";
-                        } else if (currentResizer.classList.contains("ne")) {
-                            el.style.width = rect.width - (prevX - e.clientX) + "px";
-                            el.style.height = rect.height + (prevY - e.clientY) + "px";
-                            el.style.top = rect.top - (prevY - e.clientY) + "px";
-                        } else {
-                            el.style.width = rect.width + (prevX - e.clientX) + "px";
-                            el.style.height = rect.height + (prevY - e.clientY) + "px";
-                            el.style.top = rect.top - (prevY - e.clientY) + "px";
-                            el.style.left = rect.left - (prevX - e.clientX) + "px";
-                        }
-
-                        prevX = e.clientX;
-                        prevY = e.clientY;
-                    }
-
-                    function mouseup() {
-                        window.removeEventListener("mousemove", mousemove);
-                        window.removeEventListener("mouseup", mouseup);
-                        isResizing = false;
-
-                        var itemTop = $(".item").offset().top - 160;
-                        var itemLeft = $(".item").offset().left;
-                        var itemHeight = $(".item").height();
-                        var itemWidth = $(".item").width();
-
-                        var vh = $(window).height() - 205;
-                        var widthRatio = itemWidth / vh;
-                        var heightRatio = itemHeight / vh;
-                        var vw = $(window).width();
-                        var areaTop = (itemTop / vh) * 100;
-                        var areaLeft = (vw / 2) - itemLeft;
-                        var areaHeight = (itemHeight / vh) * 100;
-                        var areaWidth = (itemWidth / vw) * 100;
-
-                        $('#areaTop').val(areaTop);
-                        $('#areaLeft').val(areaLeft);
-                        $('#areaHeight').val(itemHeight);
-                        $('#areaWidth').val(itemWidth);
-                        $('#areaWidthRatio').val(widthRatio);
-                        $('#areaHeightRatio').val(heightRatio);
-                    }
-                }
-            }
-        });
-    </script>
 </x-app-layout>

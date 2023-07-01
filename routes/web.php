@@ -65,9 +65,9 @@ Route::get('/dashboard', function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::post('/area/add', [AreaController::class, 'add'])->name('area.add');
-        Route::get('/area/edit/{id}', [AreaController::class, 'edit']);
-        Route::post('/area/update/{id}', [AreaController::class, 'update'])->name('area.update');
+        Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
+        Route::GET('/area/edit/{id}', [AreaController::class, 'edit']);
+        Route::POST('/area/update/{id}', [AreaController::class, 'update']);
     });
 
 // START OF WORKSHOP MONITORING SYSTEM
