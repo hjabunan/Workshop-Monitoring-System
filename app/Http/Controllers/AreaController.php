@@ -35,6 +35,14 @@ class AreaController extends Controller
         return view('edit-area', compact('areas', 'id', 'thisArea'));
     }
 
+    public function delete($id){
+        DB::TABLE('area_tables')->WHERE('id','=',$id)->DELETE();
+
+        $areas = DB::table('area_tables')->get();
+        $thisArea = DB::table('area_tables')->where('id', $id)->first();
+        return view('edit-area', compact('areas', 'id', 'thisArea'));
+    }
+
     public function update(Request $request){
         $areaID = $request->areaID;
         $areaTop = $request->areaTop;

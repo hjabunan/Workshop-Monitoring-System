@@ -59,6 +59,14 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('areas'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/editor-area', function () {
+    
+    $areas = DB::table('area_tables')->get();
+    return view('editor-area', compact('areas'));
+});
+
+Route::GET('/workshop-ms/bt-workshop', [BTReportController::class, 'index']);
+
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -67,6 +75,7 @@ Route::get('/dashboard', function () {
 
         Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
         Route::GET('/area/edit/{id}', [AreaController::class, 'edit']);
+        Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
         Route::POST('/area/update/{id}', [AreaController::class, 'update']);
     });
 

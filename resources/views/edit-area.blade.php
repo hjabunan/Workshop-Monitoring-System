@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
 
     <style>
@@ -74,15 +75,15 @@
     <div class="py-6">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="grid grid-cols-2 border-b pb-4">
+                    <div style="height: calc(100vh - 205px);" class="relative">
+                        <img src="{{ asset('images/ws - layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
+                    </div>
+                    <div class="grid grid-cols-2 border-t pt-4">
                         <div>
                         </div>
                         <div class="justify-self-end">
                             <button data-modal-toggle="saveModal" data-modal-target="saveModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
                         </div>
-                    </div>
-                    <div style="height: calc(100vh - 205px);" class="relative">
-                        <img src="{{ asset('images/ws - layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
                     </div>
                     <div class="">
                         @foreach ($areas as $area)

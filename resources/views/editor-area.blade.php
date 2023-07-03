@@ -14,8 +14,7 @@
                 </div>
                 <div class="grid grid-cols-2 border-t pt-4">
                     <div>
-                        {{-- <button data-modal-target="addModal" data-modal-toggle="addModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-plus align-middle"></i></span>ADD</button> --}}
-                        <button id="editorTab" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10">EDITOR</button>
+                        <button data-modal-target="addModal" data-modal-toggle="addModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-plus align-middle"></i></span>ADD</button>
                     </div>
                     <div class="justify-self-end">
                         <button class="hidden text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
@@ -23,7 +22,7 @@
                 </div>
                 <div class="">
                     @foreach ($areas as $area)
-                        <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(255, 165, 0, 0.5); border: 2px solid #fbbf24;" class="thisArea">
+                        <button data-modal-target="editModal" data-modal-toggle="editModal" data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(255, 165, 0, 0.5); border: 2px solid #fbbf24;" class="thisArea">
                         </button>
                     @endforeach
                 </div>
@@ -83,20 +82,9 @@
             $(".thisArea").click(function(){
                 var areaID = $(this).data('id');
                 var areaName = $(this).data('name');
-
-
-                
-                if (areaName == "TOYOTA SECTION"){
-                    window.location.href = "{{ url('/workshop-ms/t-workshop') }}";
-                } else if (areaID == 2){
-                    window.location.href = "{{ url('/workshop-ms/bt-workshop') }}";
-                }else{
-                    alert("Hello");
-                }
-            });
-            
-            $("#editorTab").click(function(){
-                window.location.href = "{{ url('/editor-area') }}";
+                $('#areaName').html(areaName);
+                $('#editBtn').prop('href', `{{ url('/area/edit/${areaID}') }}`);
+                $('#deleteBtn').prop('url', `{{ url('/area/delete/${areaID}') }}`);
             });
         });
     </script>
