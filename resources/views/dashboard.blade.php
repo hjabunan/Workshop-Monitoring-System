@@ -83,16 +83,16 @@
             $(".thisArea").click(function(){
                 var areaID = $(this).data('id');
                 var areaName = $(this).data('name');
+                var _token =  '{{ csrf_token() }}'
 
-
-                
-                if (areaName == "TOYOTA SECTION"){
-                    window.location.href = "{{ url('/workshop-ms/t-workshop') }}";
-                } else if (areaID == 2){
-                    window.location.href = "{{ url('/workshop-ms/bt-workshop') }}";
-                }else{
-                    alert("Hello");
-                }
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('dashboard.getSName') }}",
+                    data: {areaName: areaName ,_token: _token},
+                    success: function (result) {
+                        window.location.href = result;
+                    }
+                });
             });
             
             $("#editorTab").click(function(){

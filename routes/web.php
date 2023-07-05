@@ -9,6 +9,7 @@ use App\Http\Controllers\BTReportController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerAreaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MastController;
 use App\Http\Controllers\OtherReportController;
@@ -55,17 +56,21 @@ Route::redirect(uri:'/', destination:'login');
 
 Route::get('/dashboard', function () {
     $areas = DB::table('area_tables')->get();
+    $sections = DB::table('sections')->get();
 
     return view('dashboard', compact('areas'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::GET('/dashboard/getSName', [BTReportController::class, 'getEvents'])->name('bt-workshop.getEvents');
+
 Route::get('/editor-area', function () {
-    
+    $sections = DB::table('sections')->where('isset','=',0)->get();
     $areas = DB::table('area_tables')->get();
-    return view('editor-area', compact('areas'));
+
+    return view('editor-area', compact('areas', 'sections'));
 });
 
-Route::GET('/workshop-ms/bt-workshop', [BTReportController::class, 'index']);
+Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashboard.getSName');
 
 
     Route::middleware('auth')->group(function () {
@@ -76,6 +81,7 @@ Route::GET('/workshop-ms/bt-workshop', [BTReportController::class, 'index']);
         Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
         Route::GET('/area/edit/{id}', [AreaController::class, 'edit']);
         Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
+        // Route::post('/area/delete', 'AreaController@delete')->name('area.delete');
         Route::POST('/area/update/{id}', [AreaController::class, 'update']);
     });
 

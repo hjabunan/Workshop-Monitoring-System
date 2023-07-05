@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('isset')->default(0);
+            $table->string('route')->default('/dashboard');
             $table->timestamps();
         });
     }

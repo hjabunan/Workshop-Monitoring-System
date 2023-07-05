@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AreaTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class AreaController extends Controller
 {
@@ -26,6 +27,10 @@ class AreaController extends Controller
         $newArea->left_ratio = 1.15;
         $newArea->save();
 
+        DB::update('UPDATE sections 
+                    SET sections.isset = 1 
+                    WHERE sections.name=?', [$name]);
+
         return redirect()->route('dashboard');
     }
 
@@ -35,11 +40,11 @@ class AreaController extends Controller
         return view('edit-area', compact('areas', 'id', 'thisArea'));
     }
 
-    public function delete($id){
-        DB::TABLE('area_tables')->WHERE('id','=',$id)->DELETE();
+    public function delete(Request $request){
+        DB::TABLE('area_tables')->WHERE('id','=',$request->area_id)->DELETE();
 
         $areas = DB::table('area_tables')->get();
-        $thisArea = DB::table('area_tables')->where('id', $id)->first();
+        $thisArea = DB::table('area_tables')->where('id', $$request->area_id)->first();
         return view('edit-area', compact('areas', 'id', 'thisArea'));
     }
 

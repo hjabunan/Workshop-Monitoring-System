@@ -13,8 +13,9 @@
                     <img src="{{ asset('images/ws - layout.jpg') }}" class="absolute h-full left-1/2 -translate-x-1/2 z-30" alt="">
                 </div>
                 <div class="grid grid-cols-2 border-t pt-4">
-                    <div>
-                        <button data-modal-target="addModal" data-modal-toggle="addModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-plus align-middle"></i></span>ADD</button>
+                    <div >
+                        <button data-modal-target="addModal" data-modal-toggle="addModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-6 focus:outline-none h-10">ADD</button>
+                        <button id="cancelEdit" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
                     </div>
                     <div class="justify-self-end">
                         <button class="hidden text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
@@ -30,7 +31,7 @@
         </div>
 
         <!-- Add Modal -->
-            <div id="addModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+            <div id="addModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative w-full h-full max-w-2xl md:h-auto">
                     <!-- Modal content -->
                     <form action="{{ route('area.add') }}" method="POST" class="relative bg-white rounded-lg shadow">
@@ -39,7 +40,11 @@
                         <div class="p-6">
                             <div class="">
                                 <label for="area" class="block text-sm font-medium text-gray-900">Area</label>
-                                <input type="text" id="area" name="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <select name="area" id="area" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                    @foreach ($sections as $section)
+                                        <option value="{{$section->name}}">{{$section->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <!-- Modal footer -->
@@ -68,7 +73,7 @@
                         <div class="p-6">
                             <div class="">
                                 <a href="" data-modal-hide="editModal" id="editBtn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit Location</a>
-                                <a href="" data-modal-hide="editModal" id="deleteBtn" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
+                                <a href="" data-modal-hide="editModal" id="deleteBtn" data-area-id="{{ $area->id }}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
                                 <button data-modal-hide="editModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
                             </div>
                         </div>
@@ -85,6 +90,29 @@
                 $('#areaName').html(areaName);
                 $('#editBtn').prop('href', `{{ url('/area/edit/${areaID}') }}`);
                 $('#deleteBtn').prop('url', `{{ url('/area/delete/${areaID}') }}`);
+            });
+
+            $("#deleteBtn").click(function () {
+                var areaID = $(this).data('area-id');
+                var _token = '{{ csrf_token() }}';
+
+                // Send AJAX request to the controller
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('area.delete') }}",
+                    data: { area_id: areaID, _token: _token },
+                    success: function (data) {
+                        // Handle the response from the controller if needed
+                        // For example, you can show a success message or refresh the page after deletion.
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error if the deletion process fails.
+                    }
+                });
+            });
+
+            $("#cancelEdit").click(function () { 
+                window.location.href = "{{ url('/dashboard') }}";
             });
         });
     </script>
