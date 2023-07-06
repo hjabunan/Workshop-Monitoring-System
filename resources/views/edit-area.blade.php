@@ -41,13 +41,6 @@
                 <!-- Modal content -->
                 <form action="{{ url('/area/update/'.$id) }}" method="POST" class="relative bg-white rounded-lg shadow">
                     @csrf
-                    <!-- Modal header -->
-                    {{-- <div class="flex items-center justify-between p-6 border-b rounded-t h-8">
-                        <h3 id="areaName" class="text-xl leading-8 font-semibold text-gray-900"></h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="saveModal">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                        </button>
-                    </div> --}}
                     <!-- Modal body -->
                     <div class="p-6">
                         <div class="">
@@ -88,14 +81,14 @@
                     <div class="">
                         @foreach ($areas as $area)
                         @if ($area->id == $id)
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:51; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: orange; cursor: move;" class="item">{{ $area->name }}
+                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(173, 216, 230, 0.5); border: 2px solid #000000; cursor: move;" class="item">{{ $area->name }}
                                 <div class="resizer ne"></div>
                                 <div class="resizer nw"></div>
                                 <div class="resizer sw"></div>
                                 <div class="resizer se"></div>
                             </button>
                         @else
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: orange;" class="thisArea">{{ $area->name }}
+                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(173, 216, 230, 0.5); border: 2px solid #000000;" class="thisArea">{{ $area->name }}
                             </button>
                         @endif
                         @endforeach

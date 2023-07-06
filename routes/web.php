@@ -64,7 +64,7 @@ Route::get('/dashboard', function () {
 Route::GET('/dashboard/getSName', [BTReportController::class, 'getEvents'])->name('bt-workshop.getEvents');
 
 Route::get('/editor-area', function () {
-    $sections = DB::table('sections')->where('isset','=',0)->get();
+    $sections = DB::table('sections')->get();
     $areas = DB::table('area_tables')->get();
 
     return view('editor-area', compact('areas', 'sections'));

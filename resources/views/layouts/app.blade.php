@@ -30,6 +30,10 @@
         
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
 
+        
+        <link rel="stylesheet" href="{{ asset('css/spectrum.css') }}">
+        <script src="{{ asset('js/spectrum.js') }}"></script>
+
     </head>
     <body class="font-sans antialiased overflow-hidden">
         <div class="min-h-screen bg-gray-100 max-h-auto">
