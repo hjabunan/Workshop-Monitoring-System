@@ -76,19 +76,31 @@
                         </div>
                         <div class="justify-self-end">
                             <button data-modal-toggle="saveModal" data-modal-target="saveModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
+                            <button id="cancelEdit" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
                         </div>
                     </div>
                     <div class="">
                         @foreach ($areas as $area)
+                        <?php 
+                            $hexColor = $area->hexcolor;
+                            $rgbColor = sscanf($hexColor, "#%02x%02x%02x");
+    
+                            $red = $rgbColor[0];
+                            $green = $rgbColor[1];
+                            $blue = $rgbColor[2];
+                            $alpha = 0.5;
+    
+                            $rgbaColor = "rgba($red, $green, $blue, $alpha)";
+                        ?>
                         @if ($area->id == $id)
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(173, 216, 230, 0.5); border: 2px solid #000000; cursor: move;" class="item">{{ $area->name }}
+                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; cursor: move;" class="item">{{ $area->name }}
                                 <div class="resizer ne"></div>
                                 <div class="resizer nw"></div>
                                 <div class="resizer sw"></div>
                                 <div class="resizer se"></div>
                             </button>
                         @else
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(173, 216, 230, 0.5); border: 2px solid #000000;" class="thisArea">{{ $area->name }}
+                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">{{ $area->name }}
                             </button>
                         @endif
                         @endforeach
@@ -96,5 +108,13 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        $(document).ready(function(){
+            $("#cancelEdit").click(function () { 
+                window.location.href = "{{ url('/editor-area') }}";
+            });
+        });
+    </script>
 
 </x-app-layout>

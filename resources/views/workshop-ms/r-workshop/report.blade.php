@@ -395,7 +395,8 @@
                                             <button type="button" id="RGenDRMon" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
                                         </div>
                                     </div>
-                                    <div class="">D</div>
+                                    <div class="">OTHER REPORTS FOR ADDING</div>
+                                    <div class="">OTHER REPORTS FOR ADDING</div>
                                 </div>
                             </div>
                             {{-- NEW UNIT --}}

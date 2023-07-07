@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('width_ratio');
             $table->string('height_ratio');
             $table->string('left_ratio');
+            $table->string('hexcolor');
             $table->timestamps();
         });
     }

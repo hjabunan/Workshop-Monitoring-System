@@ -22,10 +22,24 @@
                     </div>
                 </div>
                 <div class="">
-                    @foreach ($areas as $area)
-                        <button data-modal-target="editModal" data-modal-toggle="editModal" data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(173, 216, 230, 0.5); border: 2px solid #000000;" class="thisArea">{{ $area->name}}
-                        </button>
-                    @endforeach
+                    @if($areas->isEmpty())
+                    @else
+                        @foreach ($areas as $area)
+                        <?php 
+                            $hexColor = $area->hexcolor;
+                            $rgbColor = sscanf($hexColor, "#%02x%02x%02x");
+
+                            $red = $rgbColor[0];
+                            $green = $rgbColor[1];
+                            $blue = $rgbColor[2];
+                            $alpha = 0.5;
+
+                            $rgbaColor = "rgba($red, $green, $blue, $alpha)";
+                        ?>
+                            <button data-modal-target="editModal" data-modal-toggle="editModal" data-id="{{ $area->id }}" data-name="{{ $area->name }}" data-hexcolor="{{ $area->hexcolor }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">{{ $area->name}}
+                            </button>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -37,7 +51,7 @@
                     <form action="{{ route('area.add') }}" method="POST" class="relative bg-white rounded-lg shadow">
                         @csrf
                         <!-- Modal body -->
-                        <div class="p-6">
+                        <div class="p-4">
                             <div class="grid grid-cols-5">
                                 <div class="col-span-1">
                                     <label for="area" class="block text-sm font-medium text-gray-900">Area</label>
@@ -50,20 +64,24 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-5">
+                            <div style="display: flex; flex-wrap: wrap;" class="mt-2 mb-2 gap-2">
+                                <?php
+                                    $hexColors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8A2BE2', '#FF00FF', '#FF1493', '#800080', '#808080', '#000000'];
+                                ?>
+
+                                @foreach ($hexColors as $hexColor)
+                                    <button class="colorHex" style="background-color: {{ $hexColor }}; width: 100px; height: 50px; border: none;" value="{{ $hexColor}}"></button>
+                                @endforeach
+                            </div>
+                            <div class="grid grid-cols-5 mt-5">
                                 <div class="col-span-1">
                                     <label for="area" class="block text-sm font-medium text-gray-900">Area Color</label>
                                 </div>
                                 <div class="col-span-4">
-                                    <select name="area" id="area" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
-                                        @foreach ($sections as $section)
-                                            <option value="{{$section->name}}">{{$section->name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="color" id="colorpicker" name="colorpicker" class="w-full" value="#000000">
                                 </div>
                             </div>
                             <div class="">
-                                <input type="text" id="color-picker" name="color" value="#000000">
                             </div>
                         </div>
                         <!-- Modal footer -->
@@ -89,10 +107,33 @@
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <div class="p-6">
-                            <div class="">
+                        <div class="p-2">
+                            <div style="display: flex; flex-wrap: wrap;" class="mt-2 mb-2 gap-2">
+                                <?php
+                                    $hexColors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8A2BE2', '#FF00FF', '#FF1493', '#800080', '#808080', '#000000'];
+                                ?>
+
+                                @foreach ($hexColors as $hexColor)
+                                    <button class="colorHexE" style="background-color: {{ $hexColor }}; width: 100px; height: 50px; border: none;" value="{{ $hexColor}}"></button>
+                                @endforeach
+                            </div>
+                            <div class="grid grid-cols-5 mt-5">
+                                <div class="col-span-1">
+                                    <label for="area" class="block text-sm font-medium text-gray-900">Area Color</label>
+                                </div>
+                                <div class="col-span-4">
+                                    <input type="color" id="colorpickerE" name="colorpickerE" class="w-full">
+                                    <input type="hidden" id="areaID" name="areaID" class="">
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <a href="" data-modal-hide="editModal" id="updateBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}"  class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update Color</a>
                                 <a href="" data-modal-hide="editModal" id="editBtn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit Location</a>
-                                <a href="" data-modal-hide="editModal" id="deleteBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
+                                @if($areas->isEmpty())
+                                    <a href=""></a>
+                                @else
+                                    <a href="" data-modal-hide="editModal" id="deleteBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
+                                @endif
                                 <button data-modal-hide="editModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
                             </div>
                         </div>
@@ -130,7 +171,10 @@
             $(".thisArea").click(function(){
                 var areaID = $(this).data('id');
                 var areaName = $(this).data('name');
+                var hexcolor = $(this).data('hexcolor');
                 $('#areaName').html(areaName);
+                $('#colorpickerE').val(hexcolor);
+                $('#areaID').val(areaID);
                 $('#editBtn').prop('href', `{{ url('/area/edit/${areaID}') }}`);
             });
 
@@ -165,14 +209,35 @@
                 window.location.href = "{{ url('/dashboard') }}";
             });
 
-            $('#color-picker').spectrum({
-                preferredFormat: 'hex',
-                showInput: true,
-                showInitial: true,
-                showPalette: true,
-                palette: [
-                    ['#000000', '#ffffff', '#ff0000', '#00ff00', '#0000ff']
-                ],
+            $("#updateBtn").click(function (e) {
+                e.preventDefault();
+
+                var id = $('#areaID').val();
+                var colorA = $('#colorpickerE').val();
+                var _token = '{{ csrf_token() }}';
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('area.updateC') }}",
+                    data: { id: id, colorA: colorA, _token: _token },
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                });
+            });
+
+            $(".colorHex").click(function (e) { 
+                e.preventDefault();
+                var colorHex = $(this).val();
+
+                $('#colorpicker').val(colorHex);
+            });
+
+            $(".colorHexE").click(function (e) { 
+                e.preventDefault();
+                var colorHexE = $(this).val();
+
+                $('#colorpickerE').val(colorHexE);
             });
         });
     </script>

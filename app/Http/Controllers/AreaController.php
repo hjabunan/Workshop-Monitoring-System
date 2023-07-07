@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\AreaTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 
 class AreaController extends Controller
 {
     public function add(Request $request){
         $name = $request->area;
+        $areacolor = $request->colorpicker;
 
         $request->validate([
             'area' => 'required',
+            'colorpicker' => 'required',
         ]);
 
         $newArea = new AreaTable();
@@ -25,11 +26,9 @@ class AreaController extends Controller
         $newArea->width_ratio = 0.1;
         $newArea->height_ratio = 0.1;
         $newArea->left_ratio = 1.15;
+        $newArea->left_ratio = 1.15;
+        $newArea->hexcolor = $areacolor;
         $newArea->save();
-
-        DB::update('UPDATE sections 
-                    SET sections.isset = 1 
-                    WHERE sections.name=?', [$name]);
 
         return redirect()->route('dashboard');
     }
@@ -43,12 +42,26 @@ class AreaController extends Controller
     public function delete(Request $request){
         DB::TABLE('area_tables')->WHERE('id','=',$request->areaID)->DELETE();
 
-        DB::UPDATE('UPDATE sections 
-                    SET sections.isset = 0
-                    WHERE sections.name=?', [$request->areaName]);
+        // DB::UPDATE('UPDATE sections 
+        //             SET sections.isset = 0
+        //             WHERE sections.name=?', [$request->areaName]);
 
         $areas = DB::table('area_tables')->get();
         return response()->json(['success' => true, 'areas' => $areas]);
+    }
+
+    public function updateC(Request $request){
+        $areaID = $request->id;
+        $areaColor = $request->colorA;
+
+        DB::table('area_tables')
+                ->where('id', $areaID)
+                ->update(['hexcolor' => $areaColor]);
+        
+        $areas = DB::table('area_tables')->get();
+
+        return response()->json(['success' => true, 'areas' => $areas]);
+
     }
 
     public function update(Request $request){
@@ -61,15 +74,6 @@ class AreaController extends Controller
         $areaHeightRatio = $request->areaHeightRatio;
         $areaLeftRatio = $request->areaLeftRatio;
 
-        // $AT = AreaTable::find($areaID);
-        // $AT->top = $areaTop;
-        // $AT->left = $areaLeft;
-        // $AT->height = $areaHeight;
-        // $AT->width = $areaWidth;
-        // $AT->width_ratio = $areaWidthRatio;
-        // $AT->height_ratio = $areaHeightRatio;
-        // $AT->left_ratio = $areaLeftRatio;
-        // $AT->update();
         DB::update('UPDATE area_tables 
                     SET area_tables.top=? , area_tables.left=? , area_tables.height=? , area_tables.width=? , area_tables.width_ratio=? , area_tables.height_ratio=? , area_tables.left_ratio=? 
                     WHERE area_tables.id=?', [$areaTop, $areaLeft, $areaHeight, $areaWidth, $areaWidthRatio, $areaHeightRatio, $areaLeftRatio, $areaID]);

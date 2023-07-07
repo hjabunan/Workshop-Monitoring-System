@@ -81,7 +81,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
         Route::GET('/area/edit/{id}', [AreaController::class, 'edit']);
         Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
-        // Route::post('/area/delete', 'AreaController@delete')->name('area.delete');
+        Route::POST('/area/updateC', [AreaController::class, 'updateC'])->name('area.updateC');
         Route::POST('/area/update/{id}', [AreaController::class, 'update']);
     });
 

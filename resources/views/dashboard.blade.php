@@ -23,7 +23,18 @@
                 </div>
                 <div class="">
                     @foreach ($areas as $area)
-                        <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: rgba(173, 216, 230, 0.5); border: 2px solid #000000;" class="thisArea">
+                    <?php 
+                        $hexColor = $area->hexcolor;
+                        $rgbColor = sscanf($hexColor, "#%02x%02x%02x");
+
+                        $red = $rgbColor[0];
+                        $green = $rgbColor[1];
+                        $blue = $rgbColor[2];
+                        $alpha = 0.5;
+
+                        $rgbaColor = "rgba($red, $green, $blue, $alpha)";
+                    ?>
+                        <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">
                         </button>
                     @endforeach
                 </div>
