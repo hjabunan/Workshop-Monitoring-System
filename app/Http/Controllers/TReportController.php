@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BayArea;
+use App\Models\CannibalizedParts;
+use App\Models\CannibalizedUnit;
+use App\Models\DRMonitoring;
+use App\Models\DRParts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -15,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use League\Csv\Writer;
 
 class TReportController extends Controller
 {
@@ -1771,6 +1776,7 @@ class TReportController extends Controller
         $section = DB::SELECT('SELECT * FROM sections WHERE status="1"');
         $technician = DB::SELECT('SELECT * FROM technicians WHERE status="1"');
         $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" and status="1" ORDER BY bay_areas.id');
+        $bayR = DB::SELECT('SELECT * FROM bay_areas WHERE status="1" ORDER BY bay_areas.id');
 
         $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=1');
         
@@ -1794,6 +1800,31 @@ class TReportController extends Controller
                             WHERE unit_pull_outs.POUBrand = 1
                     ');
 
+        $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                sections.name as SecName
+                            FROM cannibalized_units
+                            INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                            INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                            INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                            ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                        ');
+
+        $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                            FROM d_r_monitorings
+                            LEFT JOIN d_r_parts ON d_r_monitorings.id = d_r_parts.DRPartMonID
+                            ORDER BY d_r_monitorings.id ASC, d_r_parts.id ASC
+                            ');
+
         $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
@@ -1807,7 +1838,7 @@ class TReportController extends Controller
                                 WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
 
-        return view('workshop-ms.t-workshop.report',compact('brand','section','technician','bay','bnunit','pounit','cunit','dunit','workshop'));
+        return view('workshop-ms.t-workshop.report',compact('brand','section','technician','bay','bayR','bnunit','pounit','cunit','dunit','canunit','drmon','workshop'));
     }
 
     public function sortBrand(Request $request){
@@ -1825,7 +1856,7 @@ class TReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew=0
+                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }else if($brand == 'BrandToyota'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1838,7 +1869,7 @@ class TReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew=0
+                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                                 ');
         }else if($brand == 'BrandBT'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1851,7 +1882,7 @@ class TReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew=0
+                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }else{
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1864,7 +1895,7 @@ class TReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew=0
+                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }
 
@@ -4214,6 +4245,1350 @@ class TReportController extends Controller
                         </td>
                     </tr>
             ';
+        }
+        echo $result;
+    }
+    
+    // REPORTS
+    public function getBayR(Request $request){
+        $result = '<option value=""></option>';
+        if($request->area == ''){
+            $bay = DB::SELECT('SELECT * FROM bay_areas ORDER BY bay_areas.id');
+        }else{
+            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE section=? ORDER BY bay_areas.id',[$request->area]);
+        }
+
+        foreach ($bay as $bays) {
+            $result .='
+                        <option value="'.$bays->id.'">'.$bays->area_name.'</option>
+                    ';
+        }
+
+        echo $result;
+    }
+
+    public function generateBrandReport(Request $request){
+        if ($request->UBrand == 1) {
+            $brand = "TOYOTA";
+        } else if ($request->UBrand == 2) {
+            $brand = "BT";
+        }else {
+            $brand = "RAYMOND";
+        }
+        
+        $title = "BRAND REPORT";
+
+        $datas = DB::table('unit_workshops')
+            ->select('unit_workshops.id','bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
+            'unit_workshops.WSAARDE', 'technicians.initials'
+                    )
+            ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_workshops.WSPOUID')
+            ->join('bay_areas', 'bay_areas.id', '=', 'unit_workshops.WSBayNum')
+            ->join('technicians', 'technicians.id', '=', 'unit_pull_outs.POUTechnician1')
+            ->leftJoin('unit_pull_out_bats', 'unit_pull_out_bats.POUID', '=', 'unit_pull_outs.id')
+            ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
+            ->where('unit_workshops.isBrandNew','=',0)
+            ->where('unit_pull_outs.POUBrand','=',$request->UBrand)
+            ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
+            ->orderBy('unit_pull_outs.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['BRAND: ', $brand]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['id', 'Bay Number', 'Code', 'Company', 'Model', 'Serial Number', 'Mast Type', 'Remarks', 'Target Date', 'Date Started', 'Date End', 'Person in Charge']);
+
+        foreach ($datas as $row) {
+            $csv->insertOne([$row->id, $row->area_name, $row->POUCode, $row->POUCustomer, $row->POUModel, $row->POUSerialNum, $row->POUMastType, $row->WSRemarks, $row->WSATRDE, $row->WSAAIDS, $row->WSAARDE, $row->initials]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+
+    }
+
+    public function generateBayReport(Request $request){
+        
+        $title = "BAY REPORT";
+
+        $datas = DB::table('unit_workshops')
+            ->select('unit_workshops.id','bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
+            'unit_workshops.WSAARDE', 'technicians.initials', 'unit_workshops.WSDelTransfer'
+                    )
+            ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_workshops.WSPOUID')
+            ->join('bay_areas', 'bay_areas.id', '=', 'unit_workshops.WSBayNum')
+            ->join('technicians', 'technicians.id', '=', 'unit_pull_outs.POUTechnician1')
+            ->leftJoin('unit_pull_out_bats', 'unit_pull_out_bats.POUID', '=', 'unit_pull_outs.id')
+            ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
+            ->where('unit_workshops.isBrandNew','=',0)
+            ->where('unit_workshops.WSBayNum','=',$request->bayNum)
+            ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
+            ->orderBy('unit_pull_outs.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['BAY: ', $request->bayName]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['id', 'Bay Number', 'Code', 'Company', 'Model', 'Serial Number', 'Mast Type', 'Remarks', 'Target Date', 'Date Started', 'Date End', 'Person in Charge','Delivered?']);
+
+        foreach ($datas as $row) {
+            if($row->WSDelTransfer == 1){
+                $Transfer = "Yes";
+            }else{
+                $Transfer = "No";
+            }
+            $csv->insertOne([$row->id, $row->area_name, $row->POUCode, $row->POUCustomer, $row->POUModel, $row->POUSerialNum, $row->POUMastType, $row->WSRemarks, $row->WSATRDE, $row->WSAAIDS, $row->WSAARDE, $row->initials, $Transfer]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+
+    }
+
+    public function generatePOUReport(Request $request){
+        $title = "PULL OUT UNITS REPORT";
+
+        $datas = DB::table('unit_pull_outs')
+            ->select('unit_pull_outs.id', 'unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'brands.name as brand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 
+                    'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 'unit_pull_outs.POUAccRedLight', 
+                    'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthersDetail', 'unit_pull_outs.POUTechnician1', 'unit_pull_outs.POUTechnician2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 
+                    'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks', 'unit_pull_outs.POURemarks', 
+                    'unit_pull_out_bats.POUBABrand', 'unit_pull_out_bats.POUBABatType', 'unit_pull_out_bats.POUBASerialNum', 'unit_pull_out_bats.POUBACode', 'unit_pull_out_bats.POUBAAmper', 'unit_pull_out_bats.POUBAVolt', 'unit_pull_out_bats.POUBACCable', 'unit_pull_out_bats.POUBACTable', 
+                    'unit_pull_out_bats.POUSB1Brand', 'unit_pull_out_bats.POUSB1BatType', 'unit_pull_out_bats.POUSB1SerialNum', 'unit_pull_out_bats.POUSB1Code', 'unit_pull_out_bats.POUSB1Amper', 'unit_pull_out_bats.POUSB1Volt', 'unit_pull_out_bats.POUSB1CCable', 'unit_pull_out_bats.POUSB1CTable',
+                    'unit_pull_out_bats.POUSB2Brand', 'unit_pull_out_bats.POUSB2BatType', 'unit_pull_out_bats.POUSB2SerialNum', 'unit_pull_out_bats.POUSB2Code', 'unit_pull_out_bats.POUSB2Amper', 'unit_pull_out_bats.POUSB2Volt', 'unit_pull_out_bats.POUSB2CCable', 'unit_pull_out_bats.POUSB2CTable',
+                    'unit_pull_out_bats.POUCBrand', 'unit_pull_out_bats.POUCModel', 'unit_pull_out_bats.POUCSerialNum', 'unit_pull_out_bats.POUCCode', 'unit_pull_out_bats.POUCAmper', 'unit_pull_out_bats.POUCVolt', 'unit_pull_out_bats.POUCInput'
+                    )
+            ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
+            ->leftJoin('unit_pull_out_bats', 'unit_pull_outs.id', '=', 'unit_pull_out_bats.POUID')
+            ->where('isBrandNew','=',0)
+            ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
+            ->orderBy('unit_pull_outs.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['id', 'Unit Type', 'Arrival Date', 'Brand', 'Classification', 'Model', 'Serial Number', 'Code', 'Mast Type', 'Mast Height', 'Fork Size', 'Att. Type', 'Att. Model', 'Att. Serial Number', 'Acc. I-Site', 'Acc. Lift Cam', 'Acc. Red Light', 'Acc. Blue Light', 
+                        'Acc. Fire Ext.', 'Acc. Strobe Light', 'Other Accessories', 'Technician 1', 'Technician 2', 'Salesman', 'Customer', 'Cust. Address', 'Unit Remarks', 'Unit Remarks', 'Battery Brand', 'Battery Type', 'Battery Serial Number', 'Battery Code', 'Battery Amper', 
+                        'Battery Volt', 'Battery CCable', 'Battery CTable', 'Spare Bat1 Brand', 'Spare Bat1 Type', 'Spare Bat1 Serial Number', 'Spare Bat1 Code', 'Spare Bat1 Amper', 'Spare Bat1 Volt', 'Spare Bat1 CCable', 'Spare Bat1 CTable', 'Spare Bat2 Brand', 
+                        'Spare Bat2 Type', 'Spare Bat2 Serial Number', 'Spare Bat2 Code', 'Spare Bat2 Amper', 'Spare Bat2 Volt', 'Spare Bat2 CCable', 'Spare Bat2 CTable', 'Charger Brand', 'Charger Model', 'Charger Serial Number', 'Charger Code', 'Charger Amper', 'Charger Volt', 'Charger Input']);
+
+        foreach ($datas as $row) {
+            if($row->POUUnitType == 1){
+                $UType = "DIESEL/GASOLINE/LPG";
+            }else{
+                $UType = "BATTERY";
+            }
+
+            if($row->POUClassification == 1){
+                $Class = "CLASS A";
+            }else if($row->POUClassification == 2){
+                $Class = "CLASS B";
+            }else if($row->POUClassification == 3){
+                $Class = "CLASS C";
+            }else{
+                $Class = "CLASS D";
+            }
+
+            $csv->insertOne([$row->id, $UType, $row->POUArrivalDate, $row->brand, $Class, $row->POUModel, $row->POUSerialNum, $row->POUCode, $row->POUMastType, $row->POUMastHeight, $row->POUForkSize, $row->POUAttType, $row->POUAttModel, $row->POUAttSerialNum, $row->POUAccISite, 
+                            $row->POUAccLiftCam, $row->POUAccRedLight, $row->POUAccBlueLight, $row->POUAccFireExt, $row->POUAccStLight, $row->POUAccOthersDetail, $row->POUTechnician1, $row->POUTechnician2, $row->POUSalesman, $row->POUCustomer, $row->POUCustAddress, $row->POURemarks, 
+                            $row->POUBABrand, $row->POUBABatType, $row->POUBASerialNum, $row->POUBACode, $row->POUBAAmper, $row->POUBAVolt, $row->POUBACCable, $row->POUBACTable, $row->POUSB1Brand, $row->POUSB1BatType, $row->POUSB1SerialNum, $row->POUSB1Code, $row->POUSB1Amper, $row->POUSB1Volt, 
+                            $row->POUSB1CCable, $row->POUSB1CTable, $row->POUSB2Brand, $row->POUSB2BatType, $row->POUSB2SerialNum, $row->POUSB2Code, $row->POUSB2Amper, $row->POUSB2Volt, $row->POUSB2CCable, $row->POUSB2CTable, $row->POUCBrand, $row->POUCModel, $row->POUCSerialNum, 
+                            $row->POUCCode, $row->POUCAmper, $row->POUCVolt, $row->POUCInput]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    public function generateDUReport(Request $request){
+        $title = "DELIVERED UNITS REPORT";
+
+        $datas = DB::table('unit_deliveries')
+            ->select('unit_deliveries.id as DUID', 'unit_deliveries.DUDelDate', 'unit_deliveries.DURemarks', 'unit_pull_outs.id as POUID', 'unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'brands.name as brand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 
+                    'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUAccISite', 
+                    'unit_pull_outs.POUAccLiftCam', 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthersDetail', 'unit_pull_outs.POUTechnician1', 
+                    'unit_pull_outs.POUTechnician2', 't1.initials as tech1', 't2.initials as tech2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks', 'unit_pull_outs.POURemarks', 
+                    'unit_pull_out_bats.POUBABrand', 'unit_pull_out_bats.POUBABatType', 'unit_pull_out_bats.POUBASerialNum', 'unit_pull_out_bats.POUBACode', 'unit_pull_out_bats.POUBAAmper', 'unit_pull_out_bats.POUBAVolt', 'unit_pull_out_bats.POUBACCable', 'unit_pull_out_bats.POUBACTable', 
+                    'unit_pull_out_bats.POUSB1Brand', 'unit_pull_out_bats.POUSB1BatType', 'unit_pull_out_bats.POUSB1SerialNum', 'unit_pull_out_bats.POUSB1Code', 'unit_pull_out_bats.POUSB1Amper', 'unit_pull_out_bats.POUSB1Volt', 'unit_pull_out_bats.POUSB1CCable', 'unit_pull_out_bats.POUSB1CTable',
+                    'unit_pull_out_bats.POUSB2Brand', 'unit_pull_out_bats.POUSB2BatType', 'unit_pull_out_bats.POUSB2SerialNum', 'unit_pull_out_bats.POUSB2Code', 'unit_pull_out_bats.POUSB2Amper', 'unit_pull_out_bats.POUSB2Volt', 'unit_pull_out_bats.POUSB2CCable', 'unit_pull_out_bats.POUSB2CTable',
+                    'unit_pull_out_bats.POUCBrand', 'unit_pull_out_bats.POUCModel', 'unit_pull_out_bats.POUCSerialNum', 'unit_pull_out_bats.POUCCode', 'unit_pull_out_bats.POUCAmper', 'unit_pull_out_bats.POUCVolt', 'unit_pull_out_bats.POUCInput'
+                    )
+            ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_deliveries.POUID')
+            ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
+            ->leftJoin('technicians as t1', 'unit_pull_outs.POUTechnician1', '=', 't1.id')
+            ->leftJoin('technicians as t2', 'unit_pull_outs.POUTechnician2', '=', 't2.id')
+            ->leftJoin('unit_pull_out_bats', 'unit_pull_outs.id', '=', 'unit_pull_out_bats.POUID')
+            ->where('isBrandNew','=',0)
+            ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
+            ->orderBy('unit_pull_outs.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['id', 'Delivered Date', 'Deliver Remarks', 'Unit Type', 'Arrival Date', 'Brand', 'Classification', 'Model', 'Serial Number', 'Code', 'Mast Type', 'Mast Height', 'Fork Size', 'Att. Type', 'Att. Model', 'Att. Serial Number', 'Acc. I-Site', 'Acc. Lift Cam', 'Acc. Red Light', 'Acc. Blue Light', 
+                        'Acc. Fire Ext.', 'Acc. Strobe Light', 'Other Accessories', 'Technician 1', 'Technician 2', 'Salesman', 'Customer', 'Cust. Address', 'Unit Remarks', 'Unit Remarks', 'Battery Brand', 'Battery Type', 'Battery Serial Number', 'Battery Code', 'Battery Amper', 
+                        'Battery Volt', 'Battery CCable', 'Battery CTable', 'Spare Bat1 Brand', 'Spare Bat1 Type', 'Spare Bat1 Serial Number', 'Spare Bat1 Code', 'Spare Bat1 Amper', 'Spare Bat1 Volt', 'Spare Bat1 CCable', 'Spare Bat1 CTable', 'Spare Bat2 Brand', 
+                        'Spare Bat2 Type', 'Spare Bat2 Serial Number', 'Spare Bat2 Code', 'Spare Bat2 Amper', 'Spare Bat2 Volt', 'Spare Bat2 CCable', 'Spare Bat2 CTable', 'Charger Brand', 'Charger Model', 'Charger Serial Number', 'Charger Code', 'Charger Amper', 'Charger Volt', 'Charger Input']);
+
+        foreach ($datas as $row) {
+            if($row->POUUnitType == 1){
+                $UType = "DIESEL/GASOLINE/LPG";
+            }else{
+                $UType = "BATTERY";
+            }
+
+            if($row->POUClassification == 1){
+                $Class = "CLASS A";
+            }else if($row->POUClassification == 2){
+                $Class = "CLASS B";
+            }else if($row->POUClassification == 3){
+                $Class = "CLASS C";
+            }else{
+                $Class = "CLASS D";
+            }
+
+            $csv->insertOne([$row->DUID, $row->DUDelDate, $row->DURemarks, $UType, $row->POUArrivalDate, $row->brand, $Class, $row->POUModel, $row->POUSerialNum, $row->POUCode, $row->POUMastType, $row->POUMastHeight, $row->POUForkSize, $row->POUAttType, $row->POUAttModel, $row->POUAttSerialNum, $row->POUAccISite, 
+                            $row->POUAccLiftCam, $row->POUAccRedLight, $row->POUAccBlueLight, $row->POUAccFireExt, $row->POUAccStLight, $row->POUAccOthersDetail, $row->tech1, $row->tech2, $row->POUSalesman, $row->POUCustomer, $row->POUCustAddress, $row->POURemarks, 
+                            $row->POUBABrand, $row->POUBABatType, $row->POUBASerialNum, $row->POUBACode, $row->POUBAAmper, $row->POUBAVolt, $row->POUBACCable, $row->POUBACTable, $row->POUSB1Brand, $row->POUSB1BatType, $row->POUSB1SerialNum, $row->POUSB1Code, $row->POUSB1Amper, $row->POUSB1Volt, 
+                            $row->POUSB1CCable, $row->POUSB1CTable, $row->POUSB2Brand, $row->POUSB2BatType, $row->POUSB2SerialNum, $row->POUSB2Code, $row->POUSB2Amper, $row->POUSB2Volt, $row->POUSB2CCable, $row->POUSB2CTable, $row->POUCBrand, $row->POUCModel, $row->POUCSerialNum, 
+                            $row->POUCCode, $row->POUCAmper, $row->POUCVolt, $row->POUCInput]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    public function generateCanUnitReport(Request $request){
+        $title = "CANNIBALIZED UNITS REPORT";
+
+        $datas = DB::table('cannibalized_units')
+            ->select('cannibalized_units.id as CanUnitID', 'cannibalized_units.CanUnitDate', 'cannibalized_units.CanUnitCONum', 'cannibalized_parts.CanPartPartNum', 'cannibalized_parts.CanPartDescription', 'cannibalized_parts.CanPartQuantity', 'cannibalized_units.CanUnitITCustomer', 
+                    'cannibalized_units.CanUnitITCustAddress', 'brands.name as BName', 'cannibalized_units.CanUnitCFModelNum', 'cannibalized_units.CanUnitITModelNum', 'technicians.initials', 'cannibalized_parts.CanPartRemarks', 'sections.name as SName', 'cannibalized_parts.CanPartStatus',
+                    'cannibalized_units.CanUnitRPRetDate', 'cannibalized_units.CanUnitRPRecBy','cannibalized_units.CanUnitDocRefNum'
+                    )
+            ->leftjoin('cannibalized_parts', 'cannibalized_units.id', '=', 'cannibalized_parts.CanPartCUID')
+            ->leftjoin('brands', 'brands.id', '=', 'cannibalized_units.CanUnitBrand')
+            ->leftjoin('technicians', 'technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
+            ->leftjoin('sections', 'sections.id', '=', 'cannibalized_units.CanUnitCFSection')
+            ->whereBetween('CanUnitDate',[$request->fromDate, $request->toDate])
+            ->orderBy('cannibalized_units.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['ID', 'MONTH', 'DATE', 'CO NUMBER', 'PARTS NUMBER','DESCRIPTION', 'QTY', 'CUSTOMER', 'CUST. ADDRESS', 'BRAND', 'UNIT FROM', 'INSTALLED TO', 'SUPPLY TO', 'CANNIBALIZED BY', 'CANNIBALIZED TO', 'REMARKS', 'SECTION', 'STATUS', 'DATE RETURNED', 'RETURNED PARTS RECEIVED BY',
+                        'MRI NUM/DR REFERENCE (FOR RETUNRED PARTS)'
+                        ]);
+
+        foreach ($datas as $row) {
+            $thisMonth = date('F', strtotime($row->CanUnitDate));
+
+            if ($row->CanPartStatus == 1) {
+                $PStatus = "CLOSED";
+            }else if ($row->CanPartStatus == 2) {
+                $PStatus = "PENDING";
+            }else if ($row->CanPartStatus == 3) {
+                $PStatus = "NOT FOR RETURN";
+            }else{
+                $PStatus = "CANCELLED";
+            }
+
+            $csv->insertOne([$row->CanUnitID, $thisMonth, $row->CanUnitDate, $row->CanUnitCONum, $row->CanPartPartNum, $row->CanPartDescription, $row->CanPartQuantity, $row->CanUnitITCustomer, $row->CanUnitITCustAddress, $row->BName, $row->CanUnitCFModelNum, $row->CanUnitITModelNum, "N/A",
+                            $row->initials, $row->BName, $row->CanPartRemarks, $row->SName, $PStatus, $row->CanUnitRPRetDate, $row->CanUnitRPRecBy, $row->CanUnitDocRefNum
+                            ]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    public function generateDRMonReport(Request $request){
+        $title = "D.R. MONITORING REPORT";
+
+        $datas = DB::table('d_r_monitorings')
+            ->select('d_r_monitorings.id as DRMonID', 'd_r_monitorings.DRMonDate', 'd_r_monitorings.DRMonStatus','d_r_monitorings.DRMonCustomer', 'd_r_monitorings.DRMonCustAddress', 'd_r_monitorings.DRMonSupplier', 'd_r_monitorings.DRMonPRNum', 
+                    'd_r_monitorings.LDRMonCode', 'd_r_monitorings.LDRMonModel', 'd_r_monitorings.LDRMonSerial', 'd_r_monitorings.LDRMonDRNum', 'd_r_monitorings.LDRMonPUDate', 'd_r_monitorings.LDRMonReqBy', 
+                    'd_r_monitorings.RDRMonQNum', 'd_r_monitorings.RDRMonQDate', 'd_r_monitorings.RDRMonBSNum', 'd_r_monitorings.RDRMonDRNum', 'd_r_monitorings.RDRMonRetDate', 'd_r_monitorings.RDRMonRecBy',
+                    'd_r_parts.DRPartPartNum', 'd_r_parts.DRPartDescription', 'd_r_parts.DRPartQuantity', 'd_r_parts.DRPartPurpose', 'd_r_parts.DRPartRemarks', 'd_r_parts.DRPartStatus'
+                    )
+            ->leftjoin('d_r_parts', 'd_r_parts.DRPartMonID', '=', 'd_r_monitorings.id')
+            // ->leftjoin('brands', 'brands.id', '=', 'cannibalized_units.CanUnitBrand')
+            // ->leftjoin('technicians', 'technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
+            // ->leftjoin('sections', 'sections.id', '=', 'cannibalized_units.CanUnitCFSection')
+            ->whereBetween('DRMonDate',[$request->fromDate, $request->toDate])
+            // ->orderBy('cannibalized_units.id', 'asc')
+            ->get();
+    
+        $csv = Writer::createFromString('');
+    
+        $csv->insertOne(['']);
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['FROM:', $request->fromDate]);
+        $csv->insertOne(['TO:', $request->toDate]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['ID', 'DATE', 'STATUS', 'DR NUMBER', 'PR NUMBER', 'PART NUMBER', 'DESCRIPTION', 'QTY', 'SUPPLIER', 'UNIT', 'REMARKS', 'UPDATE/STATUS'
+                        ]);
+
+        foreach ($datas as $row) {
+            // $thisMonth = date('F', strtotime($row->CanUnitDate));
+            if ($row->DRMonStatus == 1) {
+                $UStatus = "PENDING";
+            }else if ($row->DRMonStatus == 2) {
+                $UStatus = "PARTIAL";
+            }else if ($row->DRMonStatus == 3) {
+                $UStatus = "CLOSED";
+            }else{
+                $UStatus = "CANCELLED";
+            }
+
+            if ($row->DRPartStatus == 1) {
+                $PStatus = "PENDING";
+            }else if ($row->DRPartStatus == 2) {
+                $PStatus = "PARTIAL";
+            }else if ($row->DRPartStatus == 3) {
+                $PStatus = "CLOSED";
+            }else{
+                $PStatus = "CANCELLED";
+            }
+
+            $csv->insertOne([$row->DRMonID, $row->DRMonDate, $PStatus,$row->LDRMonDRNum, $row->DRMonPRNum, $row->DRPartPartNum, $row->DRPartDescription, $row->DRPartQuantity, $row->DRMonSupplier, $row->LDRMonCode, $row->DRPartRemarks,$UStatus
+                            ]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    // CANNIBALIZED UNIT
+    public function saveCanUnit(Request $request){
+        $id = $request->CanUnitID;
+
+        if($id == null){
+            $CanUnit = new CannibalizedUnit();
+            $CanUnit->CanUnitCONum = strtoupper($request->CanUnitCONum);
+            $CanUnit->CanUnitBrand = strtoupper($request->CanUnitBrand);
+            $CanUnit->CanUnitStatus = strtoupper($request->CanUnitStatus);
+            $CanUnit->CanUnitDate = strtoupper($request->CanUnitDate);
+            $CanUnit->CanUnitCFModelNum = strtoupper($request->CanUnitCFModelNum);
+            $CanUnit->CanUnitCFSerialNum = strtoupper($request->CanUnitCFSerialNum);
+            $CanUnit->CanUnitCFRentalCode = strtoupper($request->CanUnitCFRentalCode);
+            $CanUnit->CanUnitCFSection = strtoupper($request->CanUnitCFSection);
+            $CanUnit->CanUnitCFPIC = strtoupper($request->CanUnitCFPIC);
+            $CanUnit->CanUnitCFPrepBy = strtoupper($request->CanUnitCFPrepBy);
+            $CanUnit->CanUnitCFPrepDate = strtoupper($request->CanUnitCFPrepDate);
+            $CanUnit->CanUnitCFStartTime = strtoupper($request->CanUnitCFStartTime);
+            $CanUnit->CanUnitCFEndTime = strtoupper($request->CanUnitCFEndTime);
+            $CanUnit->CanUnitITModelNum = strtoupper($request->CanUnitITModelNum);
+            $CanUnit->CanUnitITSerialNum = strtoupper($request->CanUnitITSerialNum);
+            $CanUnit->CanUnitITRentalCode = strtoupper($request->CanUnitITRentalCode);
+            $CanUnit->CanUnitITCustomer = strtoupper($request->CanUnitITCustomer);
+            $CanUnit->CanUnitITCustAddress = strtoupper($request->CanUnitITCustAddress);
+            $CanUnit->CanUnitITCustArea = strtoupper($request->CanUnitITCustArea);
+            $CanUnit->CanUnitITSupMRI = strtoupper($request->CanUnitITSupMRI);
+            $CanUnit->CanUnitITSupSTO = strtoupper($request->CanUnitITSupSTO);
+            $CanUnit->CanUnitITRecBy = strtoupper($request->CanUnitITRecBy);
+            $CanUnit->CanUnitCPrepBy = strtoupper($request->CanUnitCPrepBy);
+            $CanUnit->CanUnitRPRetBy = strtoupper($request->CanUnitRPRetBy);
+            $CanUnit->CanUnitRPRetDate = strtoupper($request->CanUnitRPRetDate);
+            $CanUnit->CanUnitRPRecBy = strtoupper($request->CanUnitRPRecBy);
+            $CanUnit->CanUnitDocRefNum = strtoupper($request->CanUnitDocRefNum);
+            $CanUnit->save();
+
+            for($i = 1; $i <= 10; $i++){
+                $CanPartStatus = 'CanPartStatus'.$i;
+                $partnum = 'CanUnitPartNum'.$i;
+                $desc = 'CanUnitDescription'.$i;
+                $quantt = 'CanUnitQuantity'.$i;
+                $remarks = 'CanUnitRemarks'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($CanPartStatus)){
+                    $PartStat = $request->input($CanPartStatus);
+                } else {
+                    $PartStat = $request->CanUnitStatus;
+                }
+                $CanPart = new CannibalizedParts();
+                $CanPart->CanPartDate = $request->CanUnitDate;
+                $CanPart->CanPartCUID = $CanUnit->id;
+                $CanPart->CanPartPartNum = strtoupper($request->$partnum);
+                $CanPart->CanPartDescription = strtoupper($request->$desc);
+                $CanPart->CanPartQuantity = strtoupper($request->$quantt);
+                $CanPart->CanPartRemarks = strtoupper($request->$remarks);
+                $CanPart->CanPartStatus = strtoupper($PartStat);
+                $CanPart->save();
+            }
+        }else{
+            $CanUnit = CannibalizedUnit::find($id);
+            $CanUnit->CanUnitCONum = strtoupper($request->CanUnitCONum);
+            $CanUnit->CanUnitBrand = strtoupper($request->CanUnitBrand);
+            $CanUnit->CanUnitStatus = strtoupper($request->CanUnitStatus);
+            $CanUnit->CanUnitDate = strtoupper($request->CanUnitDate);
+            $CanUnit->CanUnitCFModelNum = strtoupper($request->CanUnitCFModelNum);
+            $CanUnit->CanUnitCFSerialNum = strtoupper($request->CanUnitCFSerialNum);
+            $CanUnit->CanUnitCFRentalCode = strtoupper($request->CanUnitCFRentalCode);
+            $CanUnit->CanUnitCFSection = strtoupper($request->CanUnitCFSection);
+            $CanUnit->CanUnitCFPIC = strtoupper($request->CanUnitCFPIC);
+            $CanUnit->CanUnitCFPrepBy = strtoupper($request->CanUnitCFPrepBy);
+            $CanUnit->CanUnitCFPrepDate = strtoupper($request->CanUnitCFPrepDate);
+            $CanUnit->CanUnitCFStartTime = strtoupper($request->CanUnitCFStartTime);
+            $CanUnit->CanUnitCFEndTime = strtoupper($request->CanUnitCFEndTime);
+            $CanUnit->CanUnitITModelNum = strtoupper($request->CanUnitITModelNum);
+            $CanUnit->CanUnitITSerialNum = strtoupper($request->CanUnitITSerialNum);
+            $CanUnit->CanUnitITRentalCode = strtoupper($request->CanUnitITRentalCode);
+            $CanUnit->CanUnitITCustomer = strtoupper($request->CanUnitITCustomer);
+            $CanUnit->CanUnitITCustAddress = strtoupper($request->CanUnitITCustAddress);
+            $CanUnit->CanUnitITCustArea = strtoupper($request->CanUnitITCustArea);
+            $CanUnit->CanUnitITSupMRI = strtoupper($request->CanUnitITSupMRI);
+            $CanUnit->CanUnitITSupSTO = strtoupper($request->CanUnitITSupSTO);
+            $CanUnit->CanUnitITRecBy = strtoupper($request->CanUnitITRecBy);
+            $CanUnit->CanUnitCPrepBy = strtoupper($request->CanUnitCPrepBy);
+            $CanUnit->CanUnitRPRetBy = strtoupper($request->CanUnitRPRetBy);
+            $CanUnit->CanUnitRPRetDate = strtoupper($request->CanUnitRPRetDate);
+            $CanUnit->CanUnitRPRecBy = strtoupper($request->CanUnitRPRecBy);
+            $CanUnit->CanUnitDocRefNum = strtoupper($request->CanUnitDocRefNum);
+            $CanUnit->update();
+
+            for($i = 1; $i <= 10; $i++){
+                $CanPartStatus = 'CanPartStatus'.$i;
+                $partnum = 'CanUnitPartNum'.$i;
+                $desc = 'CanUnitDescription'.$i;
+                $quantt = 'CanUnitQuantity'.$i;
+                $remarks = 'CanUnitRemarks'.$i;
+                $PartCUID = 'CanUnitID'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($CanPartStatus)){
+                    $PartStat = $request->input($CanPartStatus);
+                } else {
+                    $PartStat = $request->CanUnitStatus;
+                }
+
+                if($request->$PartCUID == null){
+                    $CanPart = new CannibalizedParts();
+                    $CanPart->CanPartDate = strtoupper($request->CanUnitDate);
+                    $CanPart->CanPartCUID = strtoupper($CanUnit->id);
+                    $CanPart->CanPartPartNum = strtoupper($request->$partnum);
+                    $CanPart->CanPartDescription = strtoupper($request->$desc);
+                    $CanPart->CanPartQuantity = strtoupper($request->$quantt);
+                    $CanPart->CanPartRemarks = strtoupper($request->$remarks);
+                    $CanPart->CanPartStatus = strtoupper($PartStat);
+                    $CanPart->save();
+                }
+                else{
+                    DB::table('cannibalized_parts')
+                        ->where('id', $request->$PartCUID)
+                        ->update([
+                            'CanPartPartNum' => strtoupper($request->$partnum),
+                            'CanPartDescription' => strtoupper($request->$desc),
+                            'CanPartQuantity' => strtoupper($request->$quantt),
+                            'CanPartRemarks' => strtoupper($request->$remarks),
+                            'CanPartStatus' => strtoupper($PartStat),
+                        ]);
+                }
+            }
+        }
+
+        $result = '';
+        $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getCanParts(Request $request){
+        $CanUnit = CannibalizedUnit::where('id',$request->CanUnitID)->first();
+        $CanParts = CannibalizedParts::where('CanPartCUID',$request->CanUnitID)->get();
+
+        $result1 = '';
+        $i = 1;
+        foreach ($CanParts as $CP) {
+
+            if($i == 1){
+                $btn = '<button id="addCanUnitDIVX" class="addCanUnitDIVX"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>';
+            }else{
+                $btn = '';
+            }
+
+            $result1 .= '
+                    <div id="$CanUnitPartsContent'.$i.'" class="grid grid-cols-10 gap-2 mt-1">
+                        <div class="col-span-3 grid grid-cols-8 gap-2">
+                            <div class="col-span-3">
+                            <select name="CanUnitStatus'.$i.'" id="CanUnitStatus'.$i.'" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                <option value="" selected></option>
+                                <option value="1" '.($CP->CanPartStatus == 1 ? 'selected' : '').'>CLOSED</option>
+                                <option value="2" '.($CP->CanPartStatus == 2 ? 'selected' : '').'>PENDING</option>
+                                <option value="3" '.($CP->CanPartStatus == 3 ? 'selected' : '').'>NOT FOR RETURN</option>
+                                <option value="4" '.($CP->CanPartStatus == 4 ? 'selected' : '').'>CANCELLED</option>
+                            </select>
+                            </div>
+                            <div class="col-span-5">
+                                <input type="text" id="CanUnitPartNum'.$i.'" name="CanUnitPartNum'.$i.'" value="'.$CP->CanPartPartNum.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                        </div>
+                        <div class="col-span-2">
+                            <input type="text" id="CanUnitDescription'.$i.'" name="CanUnitDescription'.$i.'" value="'.$CP->CanPartDescription.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="col-span-1">
+                            <input type="text" id="CanUnitQuantity'.$i.'" name="CanUnitQuantity'.$i.'" value="'.$CP->CanPartQuantity.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="col-span-3">
+                            <input type="text" id="CanUnitRemarks'.$i.'" name="CanUnitRemarks'.$i.'" value="'.$CP->CanPartRemarks.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="">
+                            <input type="hidden" id="CanUnitID'.$i.'" name="CanUnitID'.$i.'" value="'.$CP->id.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            '.$btn.'
+                        </div>
+                    </div>
+            ';
+            $i++;
+        }
+        
+        $result = array(
+            'CanUnitID' => $CanUnit->id,
+            'CanUnitCONum' => $CanUnit->CanUnitCONum,
+            'CanUnitBrand' => $CanUnit->CanUnitBrand,
+            'CanUnitStatus' => $CanUnit->CanUnitStatus,
+            'CanUnitDate' => $CanUnit->CanUnitDate,
+            'CanUnitCFModelNum' => $CanUnit->CanUnitCFModelNum,
+            'CanUnitCFSerialNum' => $CanUnit->CanUnitCFSerialNum,
+            'CanUnitCFRentalCode' => $CanUnit->CanUnitCFRentalCode,
+            'CanUnitCFSection' => $CanUnit->CanUnitCFSection,
+            'CanUnitCFPIC' => $CanUnit->CanUnitCFPIC,
+            'CanUnitCFPrepBy' => $CanUnit->CanUnitCFPrepBy,
+            'CanUnitCFPrepDate' => $CanUnit->CanUnitCFPrepDate,
+            'CanUnitCFStartTime' => $CanUnit->CanUnitCFStartTime,
+            'CanUnitCFEndTime' => $CanUnit->CanUnitCFEndTime,
+            'CanUnitITModelNum' => $CanUnit->CanUnitITModelNum,
+            'CanUnitITSerialNum' => $CanUnit->CanUnitITSerialNum,
+            'CanUnitITRentalCode' => $CanUnit->CanUnitITRentalCode,
+            'CanUnitITCustomer' => $CanUnit->CanUnitITCustomer,
+            'CanUnitITCustAddress' => $CanUnit->CanUnitITCustAddress,
+            'CanUnitITCustArea' => $CanUnit->CanUnitITCustArea,
+            'CanUnitITSupMRI' => $CanUnit->CanUnitITSupMRI,
+            'CanUnitITSupSTO' => $CanUnit->CanUnitITSupSTO,
+            'CanUnitITRecBy' => $CanUnit->CanUnitITRecBy,
+            'CanUnitCPrepBy' => $CanUnit->CanUnitCPrepBy,
+            'CanUnitRPRetBy' => $CanUnit->CanUnitRPRetBy,
+            'CanUnitRPRetDate' => $CanUnit->CanUnitRPRetDate,
+            'CanUnitRPRecBy' => $CanUnit->CanUnitRPRecBy,
+            'CanUnitDocRefNum' => $CanUnit->CanUnitDocRefNum,
+            'cuparts' => $result1,
+
+        );
+
+        return json_encode($result);
+    }
+
+    public function deleteCanUnit(Request $request){
+        $canunitid = $request->canunitid;
+        $canpartid = $request->canpartid;
+
+        if((DB::TABLE('cannibalized_parts')->WHERE('CanPartCUID',$canunitid)->count()) == 1){
+
+            $DCUnit1 = CannibalizedUnit::find($request->canunitid);
+            $DCUnit1->delete();
+
+            DB::TABLE('cannibalized_parts')->WHERE('CanPartCUID',$canunitid)->delete();
+        }else{
+            DB::TABLE('cannibalized_parts')->WHERE('id',$canpartid)->delete();
+        }
+
+        $result = '';
+        $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getCanUnitStatus(Request $request){
+        $id = $request->id;
+        
+        $result = '';
+        if($id == "CanUnitALL"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitClosed"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 1
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitPending"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 2
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitNFR"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 3
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else{
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 4
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    // DR MONITORING
+    public function saveDRMon(Request $request){
+        $MonID = $request->DRMonID;
+
+        if($MonID == null){
+            $DRM = new DRMonitoring();
+            $DRM->DRMonStatus = strtoupper($request->DRMonStatus);
+            $DRM->DRMonDate = $request->DRMonDate;
+            $DRM->DRMonCustomer = strtoupper($request->DRMonCustomer);
+            $DRM->DRMonCustAddress = strtoupper($request->DRMonCustAddress);
+            $DRM->DRMonSupplier = strtoupper($request->DRMonSupplier);
+            $DRM->DRMonPRNum = strtoupper($request->DRMonPRNum);
+            $DRM->LDRMonCode = strtoupper($request->LDRMonCode);
+            $DRM->LDRMonModel = strtoupper($request->LDRMonModel);
+            $DRM->LDRMonSerial = strtoupper($request->LDRMonSerial);
+            $DRM->LDRMonDRNum = strtoupper($request->LDRMonDRNum);
+            $DRM->LDRMonPUDate = $request->LDRMonPUDate;
+            $DRM->LDRMonReqBy = strtoupper($request->LDRMonReqBy);
+            $DRM->RDRMonQNum = strtoupper($request->RDRMonQNum);
+            $DRM->RDRMonQDate = $request->RDRMonQDate;
+            $DRM->RDRMonBSNum = strtoupper($request->RDRMonBSNum);
+            $DRM->RDRMonDRNum = strtoupper($request->RDRMonDRNum);
+            $DRM->RDRMonRetDate = $request->RDRMonRetDate;
+            $DRM->RDRMonRecBy = strtoupper($request->RDRMonRecBy);
+            $DRM->save();
+
+            for($i = 1; $i <= 10; $i++){
+                $DRMonCB = 'DRMonCB'.$i;
+                $partnum = 'DRMonPartNum'.$i;
+                $desc = 'DRMonDescription'.$i;
+                $quantt = 'DRMonQuantity'.$i;
+                $purpose = 'DRMonPurpose'.$i;
+                $remarks = 'DRMonRemarks'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($DRMonCB)){
+                    $PartStat = $request->input($DRMonCB);
+                } else {
+                    $PartStat = $request->DRMonStatus;
+                }
+                
+                $DRP = new DRParts();
+                $DRP->DRPartDate = $request->DRMonDate;
+                $DRP->DRPartMonID = $DRM->id;
+                $DRP->DRPartPartNum = strtoupper($request->$partnum);
+                $DRP->DRPartDescription = strtoupper($request->$desc);
+                $DRP->DRPartQuantity = strtoupper($request->$quantt);
+                $DRP->DRPartPurpose = strtoupper($request->$purpose);
+                $DRP->DRPartRemarks = strtoupper($request->$remarks);
+                $DRP->DRPartStatus = strtoupper($PartStat);
+                $DRP->save();
+            }
+        }else{
+            $DRM = DRMonitoring::find($MonID);
+            $DRM->DRMonStatus = strtoupper($request->DRMonStatus);
+            $DRM->DRMonDate = $request->DRMonDate;
+            $DRM->DRMonCustomer = strtoupper($request->DRMonCustomer);
+            $DRM->DRMonCustAddress = strtoupper($request->DRMonCustAddress);
+            $DRM->DRMonSupplier = strtoupper($request->DRMonSupplier);
+            $DRM->DRMonPRNum = strtoupper($request->DRMonPRNum);
+            $DRM->LDRMonCode = strtoupper($request->LDRMonCode);
+            $DRM->LDRMonModel = strtoupper($request->LDRMonModel);
+            $DRM->LDRMonSerial = strtoupper($request->LDRMonSerial);
+            $DRM->LDRMonDRNum = strtoupper($request->LDRMonDRNum);
+            $DRM->LDRMonPUDate = $request->LDRMonPUDate;
+            $DRM->LDRMonReqBy = strtoupper($request->LDRMonReqBy);
+            $DRM->RDRMonQNum = strtoupper($request->RDRMonQNum);
+            $DRM->RDRMonQDate = $request->RDRMonQDate;
+            $DRM->RDRMonBSNum = strtoupper($request->RDRMonBSNum);
+            $DRM->RDRMonDRNum = strtoupper($request->RDRMonDRNum);
+            $DRM->RDRMonRetDate = $request->RDRMonRetDate;
+            $DRM->RDRMonRecBy = strtoupper($request->RDRMonRecBy);
+            $DRM->update();
+
+            for($i = 1; $i <= 10; $i++){
+                $DRMonCB = 'DRMonCB'.$i;
+                $partnum = 'DRMonPartNum'.$i;
+                $desc = 'DRMonDescription'.$i;
+                $quantt = 'DRMonQuantity'.$i;
+                $purpose = 'DRMonPurpose'.$i;
+                $remarks = 'DRMonRemarks'.$i;
+                $DRMonID = 'DRMonID'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($DRMonCB)){
+                    $PartStat = $request->input($DRMonCB);
+                } else {
+                    $PartStat = $request->DRMonStatus;
+                }
+
+                if($request->$DRMonID == null){
+                    $DRP = new DRParts();
+                    $DRP->DRPartDate = $request->DRMonDate;
+                    $DRP->DRPartMonID = $DRM->id;
+                    $DRP->DRPartPartNum = strtoupper($request->$partnum);
+                    $DRP->DRPartDescription = strtoupper($request->$desc);
+                    $DRP->DRPartQuantity = strtoupper($request->$quantt);
+                    $DRP->DRPartPurpose = strtoupper($request->$purpose);
+                    $DRP->DRPartRemarks = strtoupper($request->$remarks);
+                    $DRP->DRPartStatus = strtoupper($PartStat);
+                    $DRP->save();
+                }
+                else{
+                    DB::table('d_r_parts')
+                        ->where('id', $request->$DRMonID)
+                        ->update([
+                            'DRPartPartNum' => strtoupper($request->$partnum),
+                            'DRPartDescription' => strtoupper($request->$desc),
+                            'DRPartQuantity' => strtoupper($request->$quantt),
+                            'DRPartPurpose' => strtoupper($request->$purpose),
+                            'DRPartRemarks' => strtoupper($request->$remarks),
+                            'DRPartStatus' => strtoupper($PartStat),
+                        ]);
+                }
+            }
+        }
+
+        $result = '';
+        $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                            d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                            d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                            d_r_monitorings.RDRMonRecBy,
+                            d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                            FROM d_r_monitorings
+                            INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                            ORDER BY DRPartMonID, DRPartPartNum
+                        ');
+        if(count($drmon)>0){
+            foreach ($drmon as $DRM) {
+                if($DRM->DRPartStatus == 1){
+                    $DRStat = "PENDING";
+                }else if($DRM->DRPartStatus == 2){
+                    $DRStat = "ONGOING";
+                }else if($DRM->DRPartStatus == 3){
+                    $DRStat = "CANCELLED";
+                }else{
+                    $DRStat = "DONE";
+                }
+
+                $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-6 p-1">
+                            <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->LDRMonCode.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonCustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonSupplier.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->LDRMonDRNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->LDRMonDRNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRStat.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getDRParts(Request $request){
+        $drmon = DRMonitoring::WHERE('id',$request->DRMonID)->first();
+
+        $drmonP = DRParts::WHERE('DRPartMonID',$request->DRMonID)->get();
+
+        $result2 = '';
+        $i = 1;
+        foreach ($drmonP as $DRM) {
+
+            if($i == 1){
+                $btn = '<button id="addDRMonDIVX" class="addDRMonDIVX"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>';
+            }else{
+                $btn = '';
+            }
+
+            if($DRM->DRPartStatus == 3){
+                $CB = '<input id="DRMonCB'.$i.'" name="DRMonCB'.$i.'" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" checked>';
+            }else{
+                $CB = '<input id="DRMonCB'.$i.'" name="DRMonCB'.$i.'" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">';
+            }
+
+            $result2 .= '
+                        <div id="DRMonPartsContent'.$i.'" class="grid grid-cols-12 gap-2 mt-1">
+                            <div class="col-span-2 grid grid-cols-12">
+                                <div class="">
+                                    '.$CB.'
+                                </div>
+                                <div class=""></div>
+                                <div class="col-span-10">
+                                    <input type="text" id="DRMonPartNum'.$i.'" name="DRMonPartNum'.$i.'" value="'.$DRM->DRPartPartNum.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                </div>
+                            </div>
+                            <div class="col-span-3">
+                                <input type="text" id="DRMonDescription'.$i.'" name="DRMonDescription'.$i.'" value="'.$DRM->DRPartDescription.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="col-span-1">
+                                <input type="text" id="DRMonQuantity'.$i.'" name="DRMonQuantity'.$i.'" value="'.$DRM->DRPartQuantity.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="col-span-2">
+                                <input type="text" id="DRMonPurpose'.$i.'" name="DRMonPurpose'.$i.'" value="'.$DRM->DRPartPurpose.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="col-span-3">
+                                <input type="text" id="DRMonRemarks'.$i.'" name="DRMonRemarks'.$i.'" value="'.$DRM->DRPartRemarks.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="">
+                                <input type="hidden" id="DRMonID'.$i.'" name="DRMonID'.$i.'" value="'.$DRM->id.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                '.$btn.'
+                            </div>
+                        </div>
+            ';
+            $i++;
+        }
+        
+        $result = array(
+            'DRMonID' => $drmon->id,
+            'DRMonDate' => $drmon->DRMonDate,
+            'DRMonStatus' => $drmon->DRMonStatus,
+            'DRMonCustomer' => $drmon->DRMonCustomer,
+            'DRMonCustAddress' => $drmon->DRMonCustAddress,
+            'DRMonSupplier' => $drmon->DRMonSupplier,
+            'DRMonPRNum' => $drmon->DRMonPRNum,
+            'LDRMonCode' => $drmon->LDRMonCode,
+            'LDRMonModel' => $drmon->LDRMonModel,
+            'LDRMonSerial' => $drmon->LDRMonSerial,
+            'LDRMonDRNum' => $drmon->LDRMonDRNum,
+            'LDRMonPUDate' => $drmon->LDRMonPUDate,
+            'LDRMonReqBy' => $drmon->LDRMonReqBy,
+            'RDRMonQNum' => $drmon->RDRMonQNum,
+            'RDRMonQDate' => $drmon->RDRMonQDate,
+            'RDRMonBSNum' => $drmon->RDRMonBSNum,
+            'RDRMonDRNum' => $drmon->RDRMonDRNum,
+            'RDRMonRetDate' => $drmon->RDRMonRetDate,
+            'RDRMonRecBy' => $drmon->RDRMonRecBy,
+            'drparts' => $result2,
+
+        );
+        return json_encode($result);
+    }
+    
+    public function deleteDRMon(Request $request){
+        $drmonid = $request->drmonid;
+        $drpartid = $request->drpartid;
+
+        if((DRParts::WHERE('DRPartMonID',$drmonid)->count()) == 1){
+            $DRMon = DRMonitoring::find($drmonid);
+            $DRMon->delete();
+            
+            DB::TABLE('d_r_parts')->WHERE('DRPartMonID',$drmonid)->delete();
+        }else{
+            DB::TABLE('d_r_parts')->WHERE('id',$drpartid)->delete();
+        }
+
+        $result = '';
+        $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                            FROM d_r_monitorings
+                            INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                            ORDER BY DRPartMonID, DRPartPartNum
+                    ');
+
+        if (count($drmon) > 0){
+            foreach($drmon as $DRM){
+                if($DRM->DRPartStatus == 1){
+                    $DRStat = "PENDING";
+                }else if($DRM->DRPartStatus == 2){
+                    $DRStat = "PARTIAL";
+                }else if($DRM->DRPartStatus == 3){
+                    $DRStat = "CLOSED";
+                }else{
+                    $DRStat = "CANCELLED";
+                }
+                $result .='
+                            <tr class="bg-white border-b hover:bg-gray-200">
+                                <td class="w-6 p-1">
+                                    <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                    <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                </td>
+                                <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonDate.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonCode.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartPartNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartDescription.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustomer.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustAddress.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonSupplier.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRStat.'
+                                </td>
+                            </tr>
+                        ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                    ';
+        }
+        echo $result;
+    }
+
+    public function getDRMonStatus(Request $request){
+        $id = $request->id;
+
+        $result = '';
+        if($id == "DRMonALL"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else if($id == "DRMonPending"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 1
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else if($id == "DRMonOnGoing"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 2
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else if($id == "DRMonCancelled"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 3
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else{
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 4
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }
+
+        if (count($drmon) > 0){
+            foreach($drmon as $DRM){
+                if($DRM->DRPartStatus == 1){
+                    $DRStat = "PENDING";
+                }else if($DRM->DRPartStatus == 2){
+                    $DRStat = "PARTIAL";
+                }else if($DRM->DRPartStatus == 3){
+                    $DRStat = "CLOSED";
+                }else{
+                    $DRStat = "CANCELLED";
+                }
+                $result .='
+                            <tr class="bg-white border-b hover:bg-gray-200">
+                                <td class="w-6 p-1">
+                                    <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                    <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                </td>
+                                <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonDate.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonCode.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartPartNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartDescription.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustomer.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustAddress.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonSupplier.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRStat.'
+                                </td>
+                            </tr>
+                        ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                    ';
         }
         echo $result;
     }

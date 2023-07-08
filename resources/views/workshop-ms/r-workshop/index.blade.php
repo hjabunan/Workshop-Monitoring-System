@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         select[name="tdept_length"] {
@@ -1301,6 +1302,18 @@
                                             <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" readonly>
+                                        </div>
+                                        <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
                                         </div>
                                         <div class="col-span-2">
@@ -1362,16 +1375,19 @@
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
+                                                            MRI NUMBER
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             PARTS NUMBER
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             DESCRIPTION
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            QUANTITY
+                                                            PRICE
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            MRI NUMBER
+                                                            QUANTITY
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             DATE REQUESTED
@@ -2970,6 +2986,22 @@
                         },
                     });
                 });
+
+            // Price Computation
+                var quantityInput = $('#PIQuantity');
+                var priceInput = $('#PIPrice');
+                var totalPriceInput = $('#PITPrice');
+
+                function updateTotalPrice() {
+                    var quantity = parseFloat(quantityInput.val()) || 0;
+                    var price = parseFloat(priceInput.val()) || 0;
+                    var totalPrice = quantity * price;
+
+                    totalPriceInput.val(totalPrice.toFixed(2));
+                }
+
+                quantityInput.on('change', updateTotalPrice);
+                priceInput.on('change', updateTotalPrice);
 
             // Save Parts Information
                 jQuery(document).on( "click", "#savePI", function(){

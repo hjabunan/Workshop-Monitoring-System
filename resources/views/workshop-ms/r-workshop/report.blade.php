@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         button:disabled,button[disabled]{

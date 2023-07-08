@@ -1862,7 +1862,7 @@ class RReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew=0
+                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }else if($brand == 'BrandToyota'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1875,7 +1875,7 @@ class RReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew=0
+                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                                 ');
         }else if($brand == 'BrandBT'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1888,7 +1888,7 @@ class RReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew=0
+                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }else{
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1901,7 +1901,7 @@ class RReportController extends Controller
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew=0
+                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }
 
