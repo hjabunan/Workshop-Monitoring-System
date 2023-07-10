@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('PIPartNum');
             $table->string('PIDescription');
             $table->string('PIQuantity');
+            $table->string('PIPrice');
             $table->string('PIDateReq');
             $table->string('PIDateRec');
             $table->string('PIReason');
