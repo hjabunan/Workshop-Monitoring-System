@@ -118,7 +118,10 @@
                 <a href="#" class="block px-4 py-2 hover:bg-gray-100">Delivery</a>
             </li>
             <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100">PDI</a>
+                <a href="{{route('mci-monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">MCI Monitoring</a>
+            </li>
+            <li>
+                <a href="{{route('pdi-monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">PDI Monitoring</a>
             </li>
             <li>
                 <a href="#" class="block px-4 py-2 hover:bg-gray-100">Schedule Monitoring</a>

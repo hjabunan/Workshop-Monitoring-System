@@ -770,7 +770,7 @@
                                             <div class="hidden p-4 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
                                                 <div class="grid grid-cols-2">
                                                     <div class="place-self-center self-center"><label class="font-medium">Code:</label></div>
-                                                    <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xl font-medium text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
                                                 </div>
                                                 <div class="grid grid-cols-2 mt-0.5">
                                                     <div class="place-self-center self-center"><label class="font-medium">Company Name:</label></div>
@@ -3218,6 +3218,7 @@
                             $('#PIQuantity').val('');
                             $('#PIPrice').val('');
                             $('#PITPrice').val('');
+                            $('#PIQuantity').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();

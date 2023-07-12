@@ -1273,7 +1273,7 @@
                             @csrf
                             <div class="grid grid-cols-9">
                                 <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 45vh;">
+                                    <div class="p-2 grid grid-cols-3" style="height: 46vh;">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
                                         <div class="place-self-center">
@@ -1299,6 +1299,18 @@
                                         </div>
                                         <div class="col-span-2">
                                             <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
@@ -1362,16 +1374,19 @@
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
+                                                            MRI NUMBER
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             PARTS NUMBER
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             DESCRIPTION
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            QUANTITY
+                                                            PRICE
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            MRI NUMBER
+                                                            QUANTITY
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             DATE REQUESTED
@@ -2894,6 +2909,8 @@
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
+                    $('#PIQuantity').val('');
+                    $('#PIPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -2967,6 +2984,22 @@
                     });
                 });
 
+            // Price Computation
+                var quantityInput = $('#PIQuantity');
+                var priceInput = $('#PIPrice');
+                var totalPriceInput = $('#PITPrice');
+
+                function updateTotalPrice() {
+                    var quantity = parseFloat(quantityInput.val()) || 0;
+                    var price = parseFloat(priceInput.val()) || 0;
+                    var totalPrice = quantity * price;
+
+                    totalPriceInput.val(totalPrice.toFixed(2));
+                }
+
+                quantityInput.on('change', updateTotalPrice);
+                priceInput.on('change', updateTotalPrice);
+
             // Save Parts Information
                 jQuery(document).on( "click", "#savePI", function(){
                     var JONum = $('#PIJONum').val();
@@ -2984,6 +3017,8 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3110,9 +3145,16 @@
                             $('#PIPartNum').val(result.PIPartNum);
                             $('#PIDescription').val(result.PIDescription);
                             $('#PIQuantity').val(result.PIQuantity);
+                            $('#PIPrice').val(result.PIPrice);
                             $('#PIDateReq').val(result.PIDateReq);
                             $('#PIDateRec').val(result.PIDateRec);
                             $('#PIReason').val(result.PIReason);
+
+                            var quantity = parseFloat(result.PIQuantity) || 0;
+                            var price = parseFloat(result.PIPrice) || 0;
+                            var totalPrice = quantity * price;
+
+                            $('#PITPrice').val(totalPrice.toFixed(2));
                         }
                     });
                 });
@@ -3125,6 +3167,8 @@
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
+                    $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -3167,6 +3211,7 @@
                             $('#PIMRINum').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
+                            $('#PIQuantity').val('');
                             $('#PIQuantity').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;

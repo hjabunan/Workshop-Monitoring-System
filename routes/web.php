@@ -12,8 +12,10 @@ use App\Http\Controllers\CustomerAreaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MastController;
+use App\Http\Controllers\MCIController;
 use App\Http\Controllers\OtherReportController;
 use App\Http\Controllers\OVHLReportController;
+use App\Http\Controllers\PDIController;
 use App\Http\Controllers\PPTReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RReportController;
@@ -483,6 +485,14 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/w-storage8/saveUnitData', [WStorage8Controller::class, 'saveUnitData'])->name('w-storage8.saveUnitData');
 
 // END OF WORKSHOP MONITORING SYSTEM
+
+// START OF PDI MONITORING SYSTEM
+    // MCI Monitoring
+        Route::GET('/workshop-ms/mci-monitoring', [MCIController::class, 'index'])->name('mci-monitoring.index');
+
+    // PDI Monitoring
+        Route::GET('/workshop-ms/pdi-monitoring', [PDIController::class, 'index'])->name('pdi-monitoring.index');
+// END OF PDI MONITORING SYSTEM
 
 
 // START OF SYSTEM MANAGEMENT
