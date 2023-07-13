@@ -10,7 +10,7 @@ class MCIController extends Controller
     // -------------------------------------------------------------MONITORING---------------------------------------------------------------//
     public function index(){
         $bays = DB::TABLE('bay_areas')
-                ->WHERE('section','3')
+                ->WHERE('section','20')
                 ->WHERE('status','1')
                 ->orderBy('id','asc')->get();
 

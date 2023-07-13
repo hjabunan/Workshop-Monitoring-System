@@ -405,6 +405,15 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             // Workshop
             Route::GET('/workshop-ms/admin_monitoring/report/sortBrand', [AdminMonitor::class, 'sortBrand'])->name('admin_monitoring.report.sortBrand');
 
+            // Report
+                Route::GET('/workshop-ms/admin_monitoring/report/getBayR', [AdminMonitor::class, 'getBayR'])->name('admin_monitoring.report.getBayR');
+                Route::POST('/workshop-ms/admin_monitoring/report/generateBrandReport', [AdminMonitor::class, 'generateBrandReport'])->name('admin_monitoring.report.generateBrandReport');
+                Route::POST('/workshop-ms/admin_monitoring/report/generateBayReport', [AdminMonitor::class, 'generateBayReport'])->name('admin_monitoring.report.generateBayReport');
+                Route::POST('/workshop-ms/admin_monitoring/report/generatePOUReport', [AdminMonitor::class, 'generatePOUReport'])->name('admin_monitoring.report.generatePOUReport');
+                Route::POST('/workshop-ms/admin_monitoring/report/generateDUReport', [AdminMonitor::class, 'generateDUReport'])->name('admin_monitoring.report.generateDUReport');
+                Route::POST('/workshop-ms/admin_monitoring/report/generateCanUnitReport', [AdminMonitor::class, 'generateCanUnitReport'])->name('admin_monitoring.report.generateCanUnitReport');
+                Route::POST('/workshop-ms/admin_monitoring/report/generateDRMonReport', [AdminMonitor::class, 'generateDRMonReport'])->name('admin_monitoring.report.generateDRMonReport');
+
             // Brand New Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/saveBrandNew', [AdminMonitor::class, 'saveBrandNew'])->name('admin_monitoring.report.saveBrandNew');
                 Route::GET('/workshop-ms/admin_monitoring/report/getBNUData', [AdminMonitor::class, 'getBNUData'])->name('admin_monitoring.report.getBNUData');
@@ -425,6 +434,18 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
     
             // Delivered Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/deleteDU', [AdminMonitor::class, 'deleteDU'])->name('admin_monitoring.report.deleteDU');
+
+            // Cannibalized Unit
+                Route::GET('/workshop-ms/admin_monitoring/report/getCanUnitStatus', [AdminMonitor::class, 'getCanUnitStatus'])->name('admin_monitoring.report.getCanUnitStatus');
+                Route::POST('/workshop-ms/admin_monitoring/report/saveCanUnit', [AdminMonitor::class, 'saveCanUnit'])->name('admin_monitoring.report.saveCanUnit');
+                Route::POST('/workshop-ms/admin_monitoring/report/getCanParts', [AdminMonitor::class, 'getCanParts'])->name('admin_monitoring.report.getCanParts');
+                Route::POST('/workshop-ms/admin_monitoring/report/deleteCanUnit', [AdminMonitor::class, 'deleteCanUnit'])->name('admin_monitoring.report.deleteCanUnit');
+    
+            // DR Monitoring
+                Route::GET('/workshop-ms/admin_monitoring/report/getDRMonStatus', [AdminMonitor::class, 'getDRMonStatus'])->name('admin_monitoring.report.getDRMonStatus');
+                Route::POST('/workshop-ms/admin_monitoring/report/saveDRMon', [AdminMonitor::class, 'saveDRMon'])->name('admin_monitoring.report.saveDRMon');
+                Route::POST('/workshop-ms/admin_monitoring/report/getDRParts', [AdminMonitor::class, 'getDRParts'])->name('admin_monitoring.report.getDRParts');
+                Route::POST('/workshop-ms/admin_monitoring/report/deleteDRMon', [AdminMonitor::class, 'deleteDRMon'])->name('admin_monitoring.report.deleteDRMon');
 
         // Technician Schedule
         Route::GET('/workshop-ms/admin_monitoring', [TechnicianScheduleController::class, 'index'])->name('admin_monitoring.tech_schedule');
