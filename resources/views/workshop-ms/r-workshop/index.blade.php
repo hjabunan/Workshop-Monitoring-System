@@ -148,13 +148,17 @@
                                                                 @endphp
                                                             @elseif($WS->WSStatus == 11)
                                                                 @php
-                                                                    $Status = "WAITING FOR MCI";
+                                                                    $Status = "RESERVED UNIT";
                                                                 @endphp
                                                             @elseif($WS->WSStatus == 12)
                                                                 @php
-                                                                    $Status = "WAITING FOR PDI";
+                                                                    $Status = "WAITING FOR MCI";
                                                                 @endphp
                                                             @elseif($WS->WSStatus == 13)
+                                                                @php
+                                                                    $Status = "WAITING FOR PDI";
+                                                                @endphp
+                                                            @elseif($WS->WSStatus == 14)
                                                                 @php
                                                                     $Status = "DONE PDI (WFD)";
                                                                 @endphp
@@ -238,61 +242,6 @@
                                         @endif
                                     @endforeach
                                 </div>
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 8)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 10)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 11)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 7)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2 mr-5">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 9)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
                             </div>
                         </div>
                         {{-- LEGEND AND TOTAL CAPACITY --}}
@@ -658,10 +607,11 @@
                                                     <option value="8">WAITING BACK ORDER</option>
                                                     <option value="9">WAITING SPARE BATT</option>
                                                     <option value="10">STOCK UNIT</option>
-                                                    <option value="11">WAITING FOR MCI</option>
-                                                    <option value="12">WAITING FOR PDI</option>
-                                                    <option value="13">DONE PDI (WFD)</option>
-                                                    <option value="14">VACANT</option>
+                                                    <option value="11">RESERVED UNIT</option>
+                                                    <option value="12">WAITING FOR MCI</option>
+                                                    <option value="13">WAITING FOR PDI</option>
+                                                    <option value="14">DONE PDI (WFD)</option>
+                                                    <option value="15">VACANT</option>
                                                 </select>
                                             </div>
                                             <div class="">
@@ -1631,9 +1581,10 @@
                                             <option value="8">WAITING BACK ORDER</option>
                                             <option value="9">WAITING SPARE BATT</option>
                                             <option value="10">STOCK UNIT</option>
-                                            <option value="11">WAITING FOR MCI</option>
-                                            <option value="12">WAITING FOR PDI</option>
-                                            <option value="13">DONE PDI (WFD)</option>
+                                            <option value="11">RESERVED UNIT</option>
+                                            <option value="12">WAITING FOR MCI</option>
+                                            <option value="13">WAITING FOR PDI</option>
+                                            <option value="14">DONE PDI (WFD)</option>
                                         </select>
                                     </div>
                                     <div id="input" class="col-span-2">
@@ -1886,7 +1837,7 @@
                                 if($('#UnitInfoJON').val() != ""){
                                     $('#UnitInfoStatus').val(result.WSStatus);
                                 }else{
-                                    $('#UnitInfoStatus').val(14);
+                                    $('#UnitInfoStatus').val(15);
                                 }
                             $('#UnitBayNum').val(result.WSBayNum);
                             $('#UnitInfoCode').val(result.POUCode);

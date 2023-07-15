@@ -132,13 +132,17 @@
                                                                 @endphp
                                                             @elseif($WS->WSStatus == 11)
                                                                 @php
-                                                                    $Status = "WAITING FOR MCI";
+                                                                    $Status = "RESERVED UNIT";
                                                                 @endphp
                                                             @elseif($WS->WSStatus == 12)
                                                                 @php
-                                                                    $Status = "WAITING FOR PDI";
+                                                                    $Status = "WAITING FOR MCI";
                                                                 @endphp
                                                             @elseif($WS->WSStatus == 13)
+                                                                @php
+                                                                    $Status = "WAITING FOR PDI";
+                                                                @endphp
+                                                            @elseif($WS->WSStatus == 14)
                                                                 @php
                                                                     $Status = "DONE PDI (WFD)";
                                                                 @endphp
@@ -148,7 +152,7 @@
                                                                 @endphp
                                                             @endif
                                                         <div class="">
-                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                            <div data-modal-target="modalPDI" data-modal-toggle="modalPDI" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
                                                                 <div class="grid grid-cols-7 text-xs">
@@ -195,7 +199,7 @@
                                                 @endforeach
                                             @else
                                                 <div class="">
-                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                    <div data-modal-target="modalPDI" data-modal-toggle="modalPDI" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                         <div class=""><label class="font-medium text-lg">{{$bay->area_name}}</label></div>
                                                         <input type="hidden" id="hddnJONum" value="0">
                                                         <div class="grid grid-cols-7 text-xs">
@@ -369,6 +373,284 @@
         </div>
     </div>
     {{-- MODALS --}}
+        {{-- Small Modal - PDI Info --}}
+            <div id="modalPDI" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+                <div class="relative w-full h-full max-w-3xl md:h-auto">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow h-full">
+                        <div style="height: 74vh;" class="grid px-3 pb-3 space-y-1 h-full overflow-y-auto">
+                            <form action="" id="formUR">
+                                @csrf
+                                    <div class="grid">
+                                        <div class="grid grid-cols-4 place-items-center uppercase">
+                                            <div class=""><label class="font-medium">Location</label></div>
+                                            <div class=""><label class="font-medium">Status</label></div>
+                                            <div class=""><label class="font-medium">Unit Count</label></div>
+                                            <div class=""><label class="font-medium">Bay Number</label></div>
+                                        </div>
+                                        <div class="grid grid-cols-4 place-items-center gap-1">
+                                            <div class="">
+                                                <select id="UnitInfoToA" name="UnitInfoToA" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                                    <option value="" selected disabled></option>
+                                                    <option value="1">WAREHOUSE</option>
+                                                    <option value="2">WORKSHOP</option>
+                                                    <option value="3">MCI</option>
+                                                    <option value="4">PDI</option>
+                                                </select>
+                                            </div>
+                                            <div class="">
+                                                <select id="UnitInfoStatus" name="UnitInfoStatus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                                    <option value="" selected disabled></option>
+                                                    <option value="1">WAITING FOR REPAIR UNIT</option>
+                                                    <option value="2">UNDER REPAIR UNIT</option>
+                                                    <option value="3">USED GOOD UNIT</option>
+                                                    <option value="4">SERVICE UNIT</option>
+                                                    <option value="5">FOR SCRAP UNIT</option>
+                                                    <option value="6">FOR SALE UNIT</option>
+                                                    <option value="7">WAITING PARTS</option>
+                                                    <option value="8">WAITING BACK ORDER</option>
+                                                    <option value="9">WAITING SPARE BATT</option>
+                                                    <option value="10">STOCK UNIT</option>
+                                                    <option value="11">RESERVED UNIT</option>
+                                                    <option value="12">WAITING FOR MCI</option>
+                                                    <option value="13">WAITING FOR PDI</option>
+                                                    <option value="14">DONE PDI (WFD)</option>
+                                                    <option value="15">VACANT</option>
+                                                </select>
+                                            </div>
+                                            <div class="">
+                                                <input type="text" id="UnitInfoJON" name="UnitInfoJON" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pointer-events-none">
+                                                <input type="hidden" id="UnitInfoPOUID" name="UnitInfoPOUID">
+                                            </div>
+                                            <div class="">
+                                                <input type="text" id="UnitInfoBayNum" name="UnitInfoBayNum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pointer-events-none">
+                                                <input type="hidden" id="UnitBayNum" name="UnitBayNum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pointer-events-none">
+                                            </div>
+                                        </div>
+                                        <hr class="mt-2 mb-2">
+                                        <div class="">
+                                            <div class="mb-1 border-b border-gray-200">
+                                                <ul class="flex flex-nowrap -mb-px text-sm font-medium text-center overflow-x-auto" id="InfoTab" data-tabs-toggle="#InfoTabContent" role="tablist">
+                                                    <li class="mr-2" role="presentation">
+                                                        <button class="inline-block p-4 border-b-2 rounded-t-lg" id="unit-tab" data-tabs-target="#unit" type="button" role="tab" aria-controls="unit" aria-selected="false">Unit Information</button>
+                                                    </li>
+                                                    <li class="mr-2" role="presentation">
+                                                        <button class="inline-block p-4 border-b-2 rounded-t-lg" id="customer-tab" data-tabs-target="#customer" type="button" role="tab" aria-controls="customer" aria-selected="false">Customer Information</button>
+                                                    </li>
+                                                    <li class="mr-2" role="presentation">
+                                                        <button class="inline-block p-4 border-b-2 rounded-t-lg" id="schedule-tab" data-tabs-target="#schedule" type="button" role="tab" aria-controls="schedule" aria-selected="false">Schedule</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div id="InfoTabContent">
+                                                {{-- UNIT TAB --}}
+                                                <div class="hidden p-2 rounded-lg" id="unit" role="tabpanel" aria-labelledby="unit-tab" style="height: 32vh;">
+                                                    <div class="grid grid-cols-2">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Unit Type:</label></div>
+                                                        <div class="">
+                                                            <select id="UnitInfoUType" name="UnitInfoUType" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                                                <option value="" selected disabled></option>
+                                                                <option value="1">TOYOTA IC JAPAN</option>
+                                                                <option value="2">TOYOTA ELECTRIC JAPAN</option>
+                                                                <option value="3">TOYOTA IC CHINA</option>
+                                                                <option value="4">TOYOTA ELECTRIC CHINA</option>
+                                                                <option value="5">TOYOTA REACH TRUCK</option>
+                                                                <option value="6">BT REACH TRUCK</option>
+                                                                <option value="7">BT STACKER</option>
+                                                                <option value="8">RAYMOND REACH TRUCK</option>
+                                                                <option value="9">RAYMOND STACKER</option>
+                                                                <option value="10">STACKER TAILIFT</option>
+                                                                <option value="11">PPT</option>
+                                                                <option value="12">OPC</option>
+                                                                <option value="13">HPT</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Code:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Model:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoModel" name="UnitInfoModel" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Serial Number:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoSerialNum" name="UnitInfoSerialNum" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Mast Type:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoMastType" name="UnitInfoMastType" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- CUSTOMER TAB --}}
+                                                <div class="hidden p-2 rounded-lg" id="customer" role="tabpanel" aria-labelledby="customer-tab" style="height: 32vh;">
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Customer Name:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoCustName" name="UnitInfoCustName" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Sales Person:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoSalesP" name="UnitInfoSalesP" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Technician in Charge:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoTIC" name="UnitInfoTIC" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Scope of Work:</label></div>
+                                                        <div class=""><input type="text" id="UnitInfoSOW" name="UnitInfoSOW" class="border border-gray-300 text-gray-900 text-xs text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 mt-0.5">
+                                                        <div class="place-self-center self-center"><label class="font-medium">Transport Remarks:</label></div>
+                                                        <div class=""><textarea id="WSTRemarks" name="WSTRemarks" rows="4" class="remarks block w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea></div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- SCHEDULE TAB --}}
+                                                <div class="hidden p-2 rounded-lg" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style="height: 32vh;">
+                                                    <div class="">
+                                                        <div class="text-left gap-1">
+                                                            <label for="legz" class="block mb-1 text-md font-medium text-red-500">LEGEND</label>
+                                                        </div>
+                                                        <div class="grid grid-cols-5 gap-1">
+                                                            <div class="col-span-3 place-self-center">
+                                                                <label for=green" class="block text-sm text-gray-900">On Schedule</label>
+                                                            </div>
+                                                            <div style="float: right;" name="green" class="col-span-2 w-full h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                            </div>
+                                                            <div class="col-span-3 place-self-center">
+                                                                <label for="red" class="block text-sm text-gray-900">Critical (Over 1 day and above)</label>
+                                                            </div>
+                                                            <div style="float: right;" name="red" class="col-span-2 w-full h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="mt-5 mb-5">
+                                                    <div class="">
+                                                        <div class="text-left gap-1">
+                                                            <label for="schedz" class="block mb-1 text-md font-medium text-red-500">SCHEDULE</label>
+                                                        </div>
+                                                        <div class="grid grid-cols-2">
+                                                            <div class="justify-self-center">PLAN</div>
+                                                            <div class="justify-self-center">ACTUAL</div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="mt-1 place-self-center"><label for="" class="block text-sm text-gray-900">Start:</label></div>
+                                                                <div class="mt-1 col-span-2">
+                                                                    <div class="relative max-w-sm">
+                                                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                        </div>
+                                                                        <input datepicker type="text" id="PDISchedStart" name="PDISchedStart" datepicker-format="mm/dd/yyyy" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1" placeholder="Schedule Start">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mt-1 place-self-center"><label for="" class="block text-sm text-gray-900">Finished:</label></div>
+                                                                <div class="mt-1 col-span-2">
+                                                                    <div class="relative max-w-sm">
+                                                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                        </div>
+                                                                        <input datepicker type="text" id="PDISchedFinish" name="PDISchedFinish" datepicker-format="mm/dd/yyyy" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1" placeholder="Schedule Finished">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="mt-1 place-self-center"><label for="" class="block text-sm text-gray-900">Actual Date:</label></div>
+                                                                <div class="mt-1 col-span-2 place-self-center">
+                                                                    <div class="relative max-w-sm">
+                                                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                        </div>
+                                                                        <input datepicker type="text" id="PDIActualDate" name="PDIActualDate" datepicker-format="mm/dd/yyyy" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1" placeholder="Actual Date">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="mt-3 mb-3">
+                                        <div id="legend" class="grid grid-cols-12">
+                                            <div class="col-span-12 text-left gap-1">
+                                                <label for="delz" class="block mb-1 text-md font-medium text-blue-500">DELIVERY</label>
+                                            </div>
+                                            <div class="col-span-12">
+                                                <div class="grid grid-cols-2">
+                                                    <div class="mr-4">
+                                                        <div class="grid grid-cols-3">
+                                                            <div class="mt-1 place-self-center"><label for="" class="block text-sm text-gray-900">Delivery Date:</label></div>
+                                                            <div class="mt-1 col-span-2">
+                                                                <div class="relative max-w-sm">
+                                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                    </div>
+                                                                    <input datepicker type="text" id="PDIDelDate" name="PDIDelDate" datepicker-format="mm/dd/yyyy" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1" placeholder="Delivery Date">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-1 place-self-center"><label for="" class="block text-sm text-gray-900">Delivery Time:</label></div>
+                                                            <div class="mt-1 col-span-2">
+                                                                <input type="time" id="PDIDelTime" name="PDIDelTime" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                                            </div>
+                                                            <div class="mt-1 place-self-center self-center"><label class="block text-sm text-gray-900">Delivery Truck:</label></div>
+                                                            <div class="mt-1 col-span-2"><input type="text" id="PDIDelTruck" name="PDIDelTruck" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                            <div class="mt-1 place-self-center self-center"><label class="block text-sm text-gray-900">Delivery Status:</label></div>
+                                                            <div class="mt-1 col-span-2"><input type="text" id="PDIDelStatus" name="PDIDelStatus" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="grid grid-row-2 mt-0.5">
+                                                            <div class="self-center"><label class="font-medium">PDI Remarks:</label></div>
+                                                            <div class=""><textarea id="WSPRemarks" name="WSPRemarks" rows="4" class="remarks block w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="flex items-center p-2 space-x-2 border-t border-gray-200 rounded-b">
+                            <button id="saveUnit" name="saveUnit" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                            <button id="transferUnit" name="transferUnit" type="button" class="text-white bg-yellow-600 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
+                            <button id="viewWI" name="viewWI" data-modal-target="modalWI" data-modal-toggle="modalWI" type="button" class="text-white bg-green-600 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">VIEW W.I.</button>
+                            <button data-modal-hide="modalPDI" id="closeBayMon" type="button" class="text-white bg-gray-600 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">EXIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{-- Small Modal - Work Info --}}
+            <div id="modalWI" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+                <div class="relative w-full h-full max-w-3xl md:h-auto">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow h-full">
+                        <!-- Modal header -->
+                        <div class="flex items-start justify-between p-2 border-b rounded-t">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                WORK INSTRUCTION ORDER
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalWI">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div style="height: 74vh;" class="grid px-3 pb-3 space-y-1 h-full overflow-y-auto">
+                            <form action="" id="formUR">
+                                @csrf
+                                
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="flex items-center p-2 space-x-2 border-t border-gray-200 rounded-b">
+                            <button id="saveUnit" name="saveUnit" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
+                            <button data-modal-hide="modalWI" id="closeBayMon" type="button" class="text-white bg-gray-600 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">EXIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {{-- Small Modal - Unit Info --}}
             <div id="modalUR" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
                 <div class="relative w-full h-full max-w-3xl md:h-auto">
@@ -406,10 +688,11 @@
                                                     <option value="8">WAITING BACK ORDER</option>
                                                     <option value="9">WAITING SPARE BATT</option>
                                                     <option value="10">STOCK UNIT</option>
-                                                    <option value="11">WAITING FOR MCI</option>
-                                                    <option value="12">WAITING FOR PDI</option>
-                                                    <option value="13">DONE PDI (WFD)</option>
-                                                    <option value="14">VACANT</option>
+                                                    <option value="11">RESERVED UNIT</option>
+                                                    <option value="12">WAITING FOR MCI</option>
+                                                    <option value="13">WAITING FOR PDI</option>
+                                                    <option value="14">DONE PDI (WFD)</option>
+                                                    <option value="15">VACANT</option>
                                                 </select>
                                             </div>
                                             <div class="">
@@ -713,9 +996,10 @@
                                             <option value="8">WAITING BACK ORDER</option>
                                             <option value="9">WAITING SPARE BATT</option>
                                             <option value="10">STOCK UNIT</option>
-                                            <option value="11">WAITING FOR MCI</option>
-                                            <option value="12">WAITING FOR PDI</option>
-                                            <option value="13">DONE PDI (WFD)</option>
+                                            <option value="11">RESERVED UNIT</option>
+                                            <option value="12">WAITING FOR MCI</option>
+                                            <option value="13">WAITING FOR PDI</option>
+                                            <option value="14">DONE PDI (WFD)</option>
                                         </select>
                                     </div>
                                     <div id="input" class="col-span-2">
@@ -909,7 +1193,7 @@
                             $('#UnitInfoToA').val(result.WSToA);
                             $('#UnitInfoJON').val(result.WSID);
                                 if( $('#UnitInfoJON').val() == ""){
-                                    $('#UnitInfoStatus').val(14);
+                                    $('#UnitInfoStatus').val(15);
                                 }else{
                                     $('#UnitInfoStatus').val(result.WSStatus);
                                 }

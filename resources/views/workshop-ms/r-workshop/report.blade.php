@@ -1831,9 +1831,10 @@
                                         <option value="8">WAITING BACK ORDER</option>
                                         <option value="9">WAITING SPARE BATT</option>
                                         <option value="10">STOCK UNIT</option>
-                                        <option value="11">WAITING FOR MCI</option>
-                                        <option value="12">WAITING FOR PDI</option>
-                                        <option value="13">DONE PDI (WFD)</option>
+                                        <option value="11">RESERVED UNIT</option>
+                                        <option value="12">WAITING FOR MCI</option>
+                                        <option value="13">WAITING FOR PDI</option>
+                                        <option value="14">DONE PDI (WFD)</option>
                                     </select>
                                 </div>
                                 <div id="input" class="col-span-2">
@@ -2461,9 +2462,10 @@
                                         <option value="8">WAITING BACK ORDER</option>
                                         <option value="9">WAITING SPARE BATT</option>
                                         <option value="10">STOCK UNIT</option>
-                                        <option value="11">WAITING FOR MCI</option>
-                                        <option value="12">WAITING FOR PDI</option>
-                                        <option value="13">DONE PDI (WFD)</option>
+                                        <option value="11">RESERVED UNIT</option>
+                                        <option value="12">WAITING FOR MCI</option>
+                                        <option value="13">WAITING FOR PDI</option>
+                                        <option value="14">DONE PDI (WFD)</option>
                                     </select>
                                 </div>
                                 <div id="input" class="col-span-2">

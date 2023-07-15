@@ -174,13 +174,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -357,13 +361,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -540,13 +548,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -723,13 +735,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -906,13 +922,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -1089,13 +1109,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -1272,13 +1296,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -1455,13 +1483,17 @@
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 11)
                                                                             @php
-                                                                                $Status = "WAITING FOR MCI";
+                                                                                $Status = "RESERVED UNIT";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 12)
                                                                             @php
-                                                                                $Status = "WAITING FOR PDI";
+                                                                                $Status = "WAITING FOR MCI";
                                                                             @endphp
                                                                         @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
                                                                             @php
                                                                                 $Status = "DONE PDI (WFD)";
                                                                             @endphp
@@ -1618,13 +1650,17 @@
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 11)
                                                                         @php
-                                                                            $Status = "WAITING FOR MCI";
+                                                                            $Status = "RESERVED UNIT";
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 12)
                                                                         @php
-                                                                            $Status = "WAITING FOR PDI";
+                                                                            $Status = "WAITING FOR MCI";
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 13)
+                                                                        @php
+                                                                            $Status = "WAITING FOR PDI";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 14)
                                                                         @php
                                                                             $Status = "DONE PDI (WFD)";
                                                                         @endphp
@@ -1801,13 +1837,17 @@
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 11)
                                                                         @php
-                                                                            $Status = "WAITING FOR MCI";
+                                                                            $Status = "RESERVED UNIT";
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 12)
                                                                         @php
-                                                                            $Status = "WAITING FOR PDI";
+                                                                            $Status = "WAITING FOR MCI";
                                                                         @endphp
                                                                     @elseif($WS->WSStatus == 13)
+                                                                        @php
+                                                                            $Status = "WAITING FOR PDI";
+                                                                        @endphp
+                                                                    @elseif($WS->WSStatus == 14)
                                                                         @php
                                                                             $Status = "DONE PDI (WFD)";
                                                                         @endphp
@@ -2079,10 +2119,11 @@
                                                     <option value="8">WAITING BACK ORDER</option>
                                                     <option value="9">WAITING SPARE BATT</option>
                                                     <option value="10">STOCK UNIT</option>
-                                                    <option value="11">WAITING FOR MCI</option>
-                                                    <option value="12">WAITING FOR PDI</option>
-                                                    <option value="13">DONE PDI (WFD)</option>
-                                                    <option value="14">VACANT</option>
+                                                    <option value="11">RESERVED UNIT</option>
+                                                    <option value="12">WAITING FOR MCI</option>
+                                                    <option value="13">WAITING FOR PDI</option>
+                                                    <option value="14">DONE PDI (WFD)</option>
+                                                    <option value="15">VACANT</option>
                                                 </select>
                                             </div>
                                             <div class="">
@@ -2394,9 +2435,10 @@
                                             <option value="8">WAITING BACK ORDER</option>
                                             <option value="9">WAITING SPARE BATT</option>
                                             <option value="10">STOCK UNIT</option>
-                                            <option value="11">WAITING FOR MCI</option>
-                                            <option value="12">WAITING FOR PDI</option>
-                                            <option value="13">DONE PDI (WFD)</option>
+                                            <option value="11">RESERVED UNIT</option>
+                                            <option value="12">WAITING FOR MCI</option>
+                                            <option value="13">WAITING FOR PDI</option>
+                                            <option value="14">DONE PDI (WFD)</option>
                                         </select>
                                     </div>
                                     <div id="input" class="col-span-2">
@@ -2590,7 +2632,7 @@
                             $('#UnitInfoToA').val(result.WSToA);
                             $('#UnitInfoJON').val(result.WSID);
                                 if( $('#UnitInfoJON').val() == ""){
-                                    $('#UnitInfoStatus').val(14);
+                                    $('#UnitInfoStatus').val(15);
                                 }else{
                                     $('#UnitInfoStatus').val(result.WSStatus);
                                 }
