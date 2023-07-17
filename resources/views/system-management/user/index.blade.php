@@ -42,7 +42,7 @@
                                             Department
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Area/Bay
+                                            Area/Section
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             Role
@@ -71,7 +71,7 @@
                                                 {{$users->deptname}}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{$users->area}}
+                                                {{$users->sname}}
                                             </td>
                                             <td class="px-6 py-4">
                                                 @if ($users->role ==0)

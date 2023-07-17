@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\Section;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,21 +13,23 @@ class UserController extends Controller
 {
     public function index(){
         $users = DB::select('SELECT users.id, users.name, users.email, users.idnum, users.email_verified_at, users.dept, 
-        departments.name AS deptname, users.area, users.password, users.role, users.status 
+        departments.name AS deptname, users.area, users.password, users.role, users.status, sections.name as sname
         FROM users 
-        INNER JOIN departments 
-        ON users.dept = departments.id');
+        LEFT JOIN sections ON sections.id = users.area
+        INNER JOIN departments ON users.dept = departments.id');
+
+        $sections = Section::pluck('name', 'id');   
 
         //$dept = DB::select('select * from departments where id=?,' [1]);
         //$depts =DB::table('departments')->select('id','name')->get();
-        return view('system-management.user.index', compact('users'));
+        return view('system-management.user.index', compact('users', 'sections'));
     }
 
     public function create()
     {
-        
         $depts = DB::select('select id, name from departments where status=1');
-        return view('system-management.user.add',compact('depts'));
+        $sections = Section::pluck('name', 'id');   
+        return view('system-management.user.add',compact('depts','sections'));
     }
 
     public function store(Request $request)
@@ -56,10 +59,9 @@ class UserController extends Controller
     {
         $users = DB::table('users')->where('id', $id)->first();
         $depts = DB::select('SELECT * FROM departments');
+        $sects = DB::select('SELECT * FROM sections');
         //$depts = DB::table('departments')->where('id', $id)->first();
-        return view('system-management.user.edit',compact('users','depts'));
-        // $users1 = DB::select('select * from users where id=');
-        // return view('system-management.user.edit',['users'=>$users1]);
+        return view('system-management.user.edit',compact('users','depts', 'sects'));
     }
 
     public function update(Request $request, $id)

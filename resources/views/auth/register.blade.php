@@ -33,13 +33,13 @@
         <!-- Area -->
         <div class="mt-4">
             <x-input-label for="area" :value="__('Area')" />
-            <select id="area" name="area" class="block mt-1 w-full" required>
+            {{-- <select id="area" name="area" class="block mt-1 w-full" required>
                 <option value="">Select an area</option>
                 @foreach ($sections as $id => $name)
                     <option value="{{ $id }}">{{ $name }}</option>
                 @endforeach
-            </select>
-            {{-- <x-text-input id="area" class="block mt-1 w-full" type="text" name="area" :value="old('area')" required /> --}}
+            </select> --}}
+            <x-text-input id="area" class="block mt-1 w-full" type="text" name="area" :value="old('area')" required />
             <x-input-error :messages="$errors->get('area')" class="mt-2" />
         </div>
 
