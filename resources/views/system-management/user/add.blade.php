@@ -13,7 +13,7 @@
                     </div>
 
                     {{-- Start Add{{route('user.store')}} --}}
-                        <form action="{{route('user.store')}}" method="POST" class="px-60 ">
+                        <form action="{{route('user.store')}}" method="POST" class="px-40 ">
                             @csrf
                             <div class="grid grid-flow-row-dense grid-cols-2 gap-x-5">
                                 <div class="mb-6 col-span-1">
@@ -47,12 +47,14 @@
                                 </div>
                                 <div class="mb-6 col-span-1">
                                     <label for="area" class="block mb-2 text-sm font-medium text-gray-900">Area/Bay</label>
-                                    <select id="area" name="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" >
-                                        <option value="">Select an Area</option>
+                                    <div class="grid grid-cols-3 gap-4">
                                         @foreach ($sections as $id => $name)
-                                            <option value="{{ $id }}">{{ $name }}</option>
+                                            <label for="area_{{ $id }}" class="flex items-center space-x-2">
+                                                <input type="checkbox" id="area_{{ $id }}" name="area[]" value="{{ $id }}" class="form-checkbox h-4 w-4 text-blue-500">
+                                                <span class="text-gray-900 text-sm">{{ $name }}</span>
+                                            </label>
                                         @endforeach
-                                    </select>
+                                    </div>
                                     {{-- <input type="text" id="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"> --}}
                                 </div>
                                 <div class="mb-6">
@@ -73,4 +75,21 @@
             </div>
         </div>
     </div>
+        <script>
+            $(document).ready(function() {
+                var checkboxes = $('input[name="area[]"]');
+                checkboxes.prop('disabled', true).prop('checked', false);
+                
+                $('#role').on('change', function() {
+                    var role = $(this).val();
+                    var checkboxes = $('input[name="area[]"]');
+                    
+                    if (role === "" || role === "1") {
+                        checkboxes.prop('disabled', true).prop('checked', false);
+                    } else {
+                        checkboxes.prop('disabled', false);
+                    }
+                });
+            });
+        </script>
 </x-app-layout>

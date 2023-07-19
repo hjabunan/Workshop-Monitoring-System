@@ -13,7 +13,7 @@
                         </div>
     
                         {{-- Start Add{{route('user.store')}} --}}
-                            <form action="{{ url('/system-management/user/update/'.$users->id ) }}" method="POST" class="px-60 ">
+                            <form action="{{ url('/system-management/user/update/'.$users->id ) }}" method="POST" class="px-40 ">
                                 @csrf
                                 <div class="grid grid-flow-row-dense grid-cols-2 gap-x-5">
                                     <div class="mb-6 col-span-1">
@@ -43,29 +43,40 @@
                                         @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-6 col-span-1">
+                                    {{-- <div class="mb-6 col-span-1">
                                         <label for="area" class="block mb-2 text-sm font-medium text-gray-900">Area/Bay</label>
                                         <select id="area" name="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="role" required >
                                         @foreach ($sects as $sections)
                                             <option value="{{$sections->id}}" {{ ($users->area == $sections->id) ? 'selected' : ''; }}>{{$sections->name}}</option>
                                         @endforeach
                                         </select>
+                                    </div> --}}
+                                    <div class="mb-6 col-span-1">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900">Area/Bay</label>
+                                        <div class="grid grid-cols-3 gap-4">
+                                            @foreach ($sects as $section)
+                                                <label for="area_{{ $section->id }}" class="flex items-center space-x-2">
+                                                    <input type="checkbox" id="area_{{ $section->id }}" name="area[]" value="{{ $section->id }}" class="form-checkbox h-4 w-4 text-blue-500" {{ (in_array($section->id, $selectedAreas)) ? 'checked' : '' }}>
+                                                    <span class="text-gray-900 text-sm">{{ $section->name }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
                                     </div>
                                     <div class="mb-6 col-span-2">
                                     </div>
-                                    {{-- <div class="mb-6 col-span-2">
+                                    <div class="mb-6 col-span-2">
                                         <div class="flex items-center">
                                             <input id="checked-checkbox" name="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Check to change password</label>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                     <div class="mb-6 password" id="passwordbox">
                                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                        <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"  value="" required>
+                                        <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"  value="" disabled>
                                     </div>
                                     <div class="mb-6" id="cpasswordbox">
                                         <label for="cpassword" class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
-                                        <input type="password" id="cpassword" name="cpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="" required>
+                                        <input type="password" id="cpassword" name="cpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="" disabled>
                                     </div>
                                 </div>
                                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update User</button>
@@ -77,6 +88,22 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                    $("#passwordbox").hide();
+                    $("#cpasswordbox").hide();
+                    
+                $("#checked-checkbox").change(function() {
+                if ($(this).is(":checked")) {
+                    $("#passwordbox").show();
+                    $("#cpasswordbox").show();
+                } else {
+                    $("#passwordbox").hide();
+                    $("#cpasswordbox").hide();
+                }
+                });
+            });
+          </script>
         {{-- <script>
             $(document).ready(function() {
                 $('#checked-checkbox').change(function() {

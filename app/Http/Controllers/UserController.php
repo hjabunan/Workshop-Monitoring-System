@@ -48,7 +48,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->role = $request->role;
         $user->dept = $request->dept;
-        $user->area = $request->area;
+        $user->area = implode(',', $request->area);
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -57,11 +57,16 @@ class UserController extends Controller
 
     public function edit($id)
     {
+
+        $user = User::find($id);
+        $selectedAreas = explode(',', $user->area);
+
         $users = DB::table('users')->where('id', $id)->first();
+
         $depts = DB::select('SELECT * FROM departments');
         $sects = DB::select('SELECT * FROM sections');
-        //$depts = DB::table('departments')->where('id', $id)->first();
-        return view('system-management.user.edit',compact('users','depts', 'sects'));
+        
+        return view('system-management.user.edit',compact('selectedAreas','users','depts', 'sects'));
     }
 
     public function update(Request $request, $id)
@@ -71,19 +76,30 @@ class UserController extends Controller
             'email' => 'required',
             'idnum' => 'required',
             'dept' => 'required',
-            'password' => 'required',
             'role' => 'required',
+            'area' => 'required',
         ]);
 
-        $user = new User;
-        $user->name = $request->uname;
-        $user->idnum = $request->idnum;
-        $user->email = $request->email;
-        $user->role = $request->role;
-        $user->dept = $request->dept;
-        $user->area = $request->area;
-        $user->password = Hash::make($request->password);
-        $user->update();
+        if($request->password ==""){
+            $user = User::find($id);
+            $user->name = $request->uname;
+            $user->idnum = $request->idnum;
+            $user->email = $request->email;
+            $user->role = $request->role;
+            $user->dept = $request->dept;
+            $user->area = implode(',', $request->area);
+            $user->update();
+        }else{
+            $user = User::find($id);
+            $user->name = $request->uname;
+            $user->idnum = $request->idnum;
+            $user->email = $request->email;
+            $user->role = $request->role;
+            $user->dept = $request->dept;
+            $user->area = implode(',', $request->area);
+            $user->password = Hash::make($request->password);
+            $user->update();
+        }
 
         return redirect()->route('user.index');
     }

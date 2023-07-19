@@ -31,6 +31,7 @@ use App\Http\Controllers\WStorage6Controller;
 use App\Http\Controllers\WStorage7Controller;
 use App\Http\Controllers\WStorage8Controller;
 use App\Http\Controllers\XModelController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +61,11 @@ Route::get('/dashboard', function () {
     $areas = DB::table('area_tables')->get();
     $sections = DB::table('sections')->get();
 
-    return view('dashboard', compact('areas'));
+    
+    $user = User::find(auth()->id());
+    $areax = $user->area;
+
+    return view('dashboard', compact('areas','areax'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::GET('/dashboard/getSName', [BTReportController::class, 'getEvents'])->name('bt-workshop.getEvents');
