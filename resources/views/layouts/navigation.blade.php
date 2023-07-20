@@ -154,6 +154,7 @@
                                 <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer Area</a>
                                 <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mast</a>
                                 <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Model</a>
+                                <a href="{{route('parts.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parts</a>
                                 <a href="{{route('section.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Section</a>
                                 <a href="{{route('technician.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technician</a>
                             </div>

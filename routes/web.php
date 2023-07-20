@@ -593,6 +593,9 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::post('/system-management/model/store', [XModelController::class, 'store'])->name('model.store');
             Route::get('/system-management/model/edit/{id}', [XModelController::class, 'edit'])->name('model.edit');
             Route::post('/system-management/model/update/{id}', [XModelController::class, 'update'])->name('model.update');
+        
+        // Parts Management
+            Route::get('/system-management/model', [XModelController::class, 'index'])->name('model.index');
 
         // Section Management
             Route::get('/system-management/section', [SectionController::class, 'index'])->name('section.index');
