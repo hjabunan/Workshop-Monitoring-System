@@ -21,10 +21,10 @@
                 <div class="p-3 text-gray-900 h-full">
                     <div class="px-4 grid grid-cols-2 gap-x-3 ">
                         <div class="self-center font-black text-2xl text-red-500 leading-tight">
-                            Section Management
+                            Parts Management
                         </div>
                         <div class="self-center justify-self-end">
-                            <a id="btn-add" href="{{route('section.create')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-16 py-2.5 text-center">ADD SECTION</a>
+                            <a id="btn-add" href="{{route('section.create')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-16 py-2.5 text-center">ADD PARTS</a>
                         </div>
                     </div>
 
@@ -36,36 +36,49 @@
                                         <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
                                             ID
                                         </th>
-                                        <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
-                                            Model
+                                        <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-3 py-3">
+                                            PART NUMBER
                                         </th>
                                         <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
-                                            Status
+                                            PART NAME
                                         </th>
                                         <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
-                                            Action
+                                            BRAND
+                                        </th>
+                                        <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
+                                            PRICE
+                                        </th>
+                                        <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
+                                            STATUS
+                                        </th>
+                                        <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
+                                            ACTION
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($section as $sections)
+                                    @foreach ($part as $parts)
                                     <tr class="bg-white border-b ">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            {{$sections->id}}
+                                            {{$parts->id}}
                                         </th>
-                                        <td class="px-6 py-4">
-                                            {{$sections->name}}
+                                        <td class="px-3 py-4">
+                                            {{$parts->partno}}
                                         </td>
                                         <td class="px-6 py-4">
-                                            @if ($sections->status ==0)
-                                                <p class="text-red-500">Inactive</p>
-                                            @else
-                                            <p class="text-green-500">Active</p>
-                                            @endif 
+                                            {{$parts->partname}}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <a href="{{ url('/system-management/section/edit/'.$sections->id ) }}" class="font-medium text-blue-600  hover:underline ">Edit</a>
-                                            
+                                            {{$parts->brand}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{$parts->price}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{$parts->status}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <a href="{{ url('/system-management/parts/edit/'.$parts->id ) }}" class="font-medium text-blue-600  hover:underline ">Edit</a>
                                         </td>
                                     </tr>
                                     @endforeach

@@ -15,6 +15,7 @@ use App\Http\Controllers\MastController;
 use App\Http\Controllers\MCIController;
 use App\Http\Controllers\OtherReportController;
 use App\Http\Controllers\OVHLReportController;
+use App\Http\Controllers\PartsController;
 use App\Http\Controllers\PDIController;
 use App\Http\Controllers\PPTReportController;
 use App\Http\Controllers\ProfileController;
@@ -595,7 +596,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::post('/system-management/model/update/{id}', [XModelController::class, 'update'])->name('model.update');
         
         // Parts Management
-            Route::get('/system-management/model', [XModelController::class, 'index'])->name('model.index');
+            Route::get('/system-management/parts', [PartsController::class, 'index'])->name('parts.index');
+            Route::get('/system-management/parts/edit/{id}', [PartsController::class, 'edit'])->name('parts.edit');
 
         // Section Management
             Route::get('/system-management/section', [SectionController::class, 'index'])->name('section.index');
