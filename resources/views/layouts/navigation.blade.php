@@ -19,7 +19,7 @@
                     <div id="dropdownDividera" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-52">
                         <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtona">
                             <li>
-                                <button id="doubleDropdownButtona" data-dropdown-toggle="doubleDropdowna" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">BT Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                                <button id="doubleDropdownButtona" data-dropdown-toggle="doubleDropdowna" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" {{ (Auth::user()->role === '0') ? (in_array($area->id, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>BT Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
                                   <div id="doubleDropdowna" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                                     <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtona">
                                       <li>
@@ -32,7 +32,7 @@
                                 </div>
                             </li>
                             <li>
-                                <button id="doubleDropdownButtonb" data-dropdown-toggle="doubleDropdownb" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">Toyota Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                                <button id="doubleDropdownButtonb" data-dropdown-toggle="doubleDropdownb" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" {{ (Auth::user()->role === '0') ? (in_array($area->id, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>Toyota Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
                                   <div id="doubleDropdownb" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                                     <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtonb">
                                       <li>
@@ -45,7 +45,7 @@
                                 </div>
                             </li>
                             <li>
-                                <button id="doubleDropdownButtonc" data-dropdown-toggle="doubleDropdownc" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">Raymond Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                                <button id="doubleDropdownButtonc" data-dropdown-toggle="doubleDropdownc" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" {{ (Auth::user()->role === '0') ? (in_array($area->id, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>Raymond Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
                                   <div id="doubleDropdownc" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                                     <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtonc">
                                       <li>
@@ -84,25 +84,27 @@
                             <li>
                                 <a href="{{route('w-storage8.index')}}" class="block px-4 py-2 hover:bg-gray-100 ">Warehouse 8 -  Monitoring</a>
                             </li>
-                            <li>
-                                <button id="doubleDropdownButtone" data-dropdown-toggle="doubleDropdowne" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">Admin Monitoring<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                                  <div id="doubleDropdowne" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-45">
-                                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtone">
-                                      <li>
-                                        <a href="" class="block px-4 py-2 hover:bg-gray-100">Administrator Monitoring</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{route('admin_monitoring.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
-                                      </li>
-                                      <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">File Maintenance</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{route('admin_monitoring.tech_schedule')}}" class="block px-4 py-2 hover:bg-gray-100">Technician Schedule</a>
-                                      </li>
-                                    </ul>
-                                </div>
-                            </li>
+                            @if (Auth::check() && Auth::user()->role == 1)
+                                <li>
+                                    <button id="doubleDropdownButtone" data-dropdown-toggle="doubleDropdowne" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">Admin Monitoring<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                                    <div id="doubleDropdowne" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-45">
+                                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtone">
+                                        <li>
+                                            <a href="{{route('admin_monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">Administrator Monitoring</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('admin_monitoring.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">File Maintenance</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('admin_monitoring.tech_schedule')}}" class="block px-4 py-2 hover:bg-gray-100">Technician Schedule</a>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </li>

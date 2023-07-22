@@ -238,6 +238,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/r-workshop/revertParts', [RReportController::class, 'revertParts'])->name('r-workshop.revertParts');
             Route::POST('/workshop-ms/r-workshop/deleteIParts', [RReportController::class, 'deleteIParts'])->name('r-workshop.deleteIParts');
             Route::POST('/workshop-ms/r-workshop/saveRemarks', [RReportController::class, 'saveRemarks'])->name('r-workshop.saveRemarks');
+            Route::GET('/workshop-ms/r-workshop/search', [RReportController::class, 'search'])->name('r-workshop.search');
+            Route::POST('/workshop-ms/r-workshop/getPartsInfox', [RReportController::class, 'getPartsInfox'])->name('r-workshop.getPartsInfox');
         // Technician Schedule
             Route::POST('/workshop-ms/r-workshop/viewSchedule', [RReportController::class, 'viewSchedule'])->name('r-workshop.viewSchedule');
             Route::POST('/workshop-ms/r-workshop/saveActivity', [RReportController::class, 'saveActivity'])->name('r-workshop.saveActivity');
@@ -404,7 +406,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
 
     // START OF ADMIN MONITORING > TECHNICIAN SCHEDULE
         // Workshop
-        Route::get('/workshop-ms/admin_monitoring', [AdminMonitor::class, 'index'])->name('admin_monitoring.index');
+        Route::GET('/workshop-ms/admin-monitoring', [AdminMonitor::class, 'index'])->name('admin_monitoring.index');
 
         // Report
         Route::GET('/workshop-ms/admin_monitoring/report', [AdminMonitor::class, 'indexR'])->name('admin_monitoring.report');

@@ -7,6 +7,7 @@ use App\Models\CannibalizedParts;
 use App\Models\CannibalizedUnit;
 use App\Models\DRMonitoring;
 use App\Models\DRParts;
+use App\Models\Parts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -66,6 +67,10 @@ class RReportController extends Controller
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_workshops.WSDelTransfer = 0 AND unit_workshops.WSStatus <= 4
                             ');
+        
+        $part = DB::TABLE('parts')
+                ->orderBy('id','asc')
+                ->get();
 
 
         $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());
@@ -83,7 +88,7 @@ class RReportController extends Controller
         $CUnitHPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',13)->WHERE('WSStatus','<=',4)->count());
         $CUnitTotal = (DB::TABLE('unit_workshops')->WHERE('WSUnitType','!=',"")->WHERE('WSStatus','<=',4)->count());
         
-        return view('workshop-ms.r-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
+        return view('workshop-ms.r-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop','part','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
     }
     
     public function getEvents(Request $request){
@@ -1596,6 +1601,45 @@ class RReportController extends Controller
                 'count2' => $partcount2,
         );
         
+        return json_encode($result);
+    }
+
+    public function search(Request $request){
+        $query = $request->value;
+
+        $matches = Parts::where('partno', 'like', "$query%")
+                    ->orderBy('partno')
+                    ->get();
+
+        $partno = "";
+        foreach ($matches as $parts){
+            $partno .= '<li data-id="'.$parts->id.'" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">'.$parts->partno.'</li>';
+        }
+
+        $partname = $matches->pluck('partname')->first();
+
+        $result = array(
+                    'partno' => $partno,
+                    'partname' => $partname,
+        );
+
+        return json_encode($result);
+    }
+
+    public function getPartsInfox(Request $request){
+        // $result .= "";
+
+        $part = DB::SELECT('SELECT * from parts where id=?',[$request->id]);
+
+        foreach ($part as $parts) {
+            $result = array(
+                    'id' => $parts->partname,
+                    'partno' => $parts->partno,
+                    'partname' => $parts->partname,
+                    'price' => $parts->price,
+            );
+        }
+
         return json_encode($result);
     }
 
