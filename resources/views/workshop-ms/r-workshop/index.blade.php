@@ -1240,9 +1240,7 @@
                                             <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" required autocomplete="off">
                                             <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
                                                 <ul id="PartNo">
-                                                    {{-- @foreach ($part as $parts)
-                                                        <li data-id="{{ $parts->id }}" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">{{ $parts->partno }}</li>
-                                                    @endforeach --}}
+                                                    
                                                 </ul>
                                             </div>
                                         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Section;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,16 @@ class SectionController extends Controller
         $section = new Section();
         $section->name = strtoupper($request->name);
         $section->save();
+
+        $user = DB::TABLE('users')->where('role',1)->first();
+        
+        if($user){
+            User::WHERE('role', 1)
+            ->UPDATE([
+                'area' => $user->area . ',' . $section->id,
+            ]);
+        }
+
         return redirect()->route('section.index');
     }
 

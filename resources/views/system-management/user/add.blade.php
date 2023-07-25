@@ -85,7 +85,7 @@
                     var checkboxes = $('input[name="area[]"]');
                     
                     if (role === "" || role === "1") {
-                        checkboxes.prop('disabled', true).prop('checked', false);
+                        checkboxes.prop('disabled', true).prop('checked', true);
                     } else {
                         checkboxes.prop('disabled', false);
                     }

@@ -58,6 +58,15 @@ Route::redirect(uri:'/', destination:'login');
 //     return view('management');
 // })->middleware(['auth', 'verified'])->name('management');
 
+Route::GET('/layouts/navigation/getUserData', [UserController::class, 'getUserData'])->name('layouts.navigation.getUserData');
+
+Route::get('/navigation', function () {
+    $sections = DB::table('sections')->get();
+    $areas = DB::table('area_tables')->get();
+
+    return view('/navigation', compact('areas', 'sections'));
+});
+
 Route::get('/dashboard', function () {
     $areas = DB::table('area_tables')->get();
     $sections = DB::table('sections')->get();
@@ -121,6 +130,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/bt-workshop/revertParts', [BTReportController::class, 'revertParts'])->name('bt-workshop.revertParts');
             Route::POST('/workshop-ms/bt-workshop/deleteIParts', [BTReportController::class, 'deleteIParts'])->name('bt-workshop.deleteIParts');
             Route::POST('/workshop-ms/bt-workshop/saveRemarks', [BTReportController::class, 'saveRemarks'])->name('bt-workshop.saveRemarks');
+            Route::GET('/workshop-ms/bt-workshop/search', [BTReportController::class, 'search'])->name('bt-workshop.search');
+            Route::POST('/workshop-ms/bt-workshop/getPartsInfox', [BTReportController::class, 'getPartsInfox'])->name('bt-workshop.getPartsInfox');
 
         // Technician Schedule
             Route::POST('/workshop-ms/bt-workshop/viewSchedule', [BTReportController::class, 'viewSchedule'])->name('bt-workshop.viewSchedule');
@@ -179,6 +190,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/t-workshop/revertParts', [TReportController::class, 'revertParts'])->name('t-workshop.revertParts');
             Route::POST('/workshop-ms/t-workshop/deleteIParts', [TReportController::class, 'deleteIParts'])->name('t-workshop.deleteIParts');
             Route::POST('/workshop-ms/t-workshop/saveRemarks', [TReportController::class, 'saveRemarks'])->name('t-workshop.saveRemarks');
+            Route::GET('/workshop-ms/t-workshop/search', [TReportController::class, 'search'])->name('t-workshop.search');
+            Route::POST('/workshop-ms/t-workshop/getPartsInfox', [TReportController::class, 'getPartsInfox'])->name('t-workshop.getPartsInfox');
 
         // Technician Schedule
             Route::POST('/workshop-ms/t-workshop/viewSchedule', [TReportController::class, 'viewSchedule'])->name('t-workshop.viewSchedule');

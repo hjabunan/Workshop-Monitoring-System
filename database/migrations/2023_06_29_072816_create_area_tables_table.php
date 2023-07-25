@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('area_tables', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('areaid');
             $table->string('top');
             $table->string('left');
             $table->string('height');

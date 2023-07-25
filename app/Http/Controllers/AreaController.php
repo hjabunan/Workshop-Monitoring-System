@@ -10,6 +10,7 @@ class AreaController extends Controller
 {
     public function add(Request $request){
         $name = $request->area;
+        $id = $request->input('selectedDataId');
         $areacolor = $request->colorpicker;
 
         $request->validate([
@@ -19,6 +20,7 @@ class AreaController extends Controller
 
         $newArea = new AreaTable();
         $newArea->name = $name;
+        $newArea->areaid = $id;
         $newArea->top = 4;
         $newArea->left = 888;
         $newArea->height = 90;

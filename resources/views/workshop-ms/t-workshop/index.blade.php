@@ -1290,8 +1290,13 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
-                                        <div class="col-span-2">
-                                            <input type="text" id="PIPartNum" name="PIPartNum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                        <div class="col-span-2 relative optionDiv">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
+                                                <ul id="PartNo">
+                                                    
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
@@ -3003,7 +3008,7 @@
                     totalPriceInput.val(totalPrice.toFixed(2));
                 }
 
-                quantityInput.on('change', updateTotalPrice);
+                quantityInput.on('keyup', updateTotalPrice);
                 priceInput.on('change', updateTotalPrice);
 
             // Save Parts Information
@@ -3861,6 +3866,101 @@
                         $('#divWHTransfer').hide();
                         $('#divDelTransfer').show();
                     }
+                });
+
+            // For Part Searching
+                jQuery(document).on( "click", ".inputOption", function(e){
+                    $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                    $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                    var value = $(this).val().toLowerCase();
+                    searchFilter(value);
+                    e.stopPropagation();
+                    
+                    $('.listOption').addClass('hidden');
+                });
+
+                function searchFilter(searchInput){
+                    $(".listOption li").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+                    });
+                }
+
+                jQuery(document).on( "keyup", ".inputOption", function(e){
+                    var value = $(this).val();
+                    var length = value.length;
+                    var _token = $('input[name="_token"]').val();
+
+                    if (value === "") {
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    
+                    if(length < 3){
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    if (length = 3){
+                        $.ajax({
+                            url:"{{ route('t-workshop.search') }}",
+                            method:"GET",
+                            dataType: 'json',
+                            data:{
+                                value: value,
+                                _token: _token
+                            },
+                            success:function(result){
+                                $('#PartNo').html(result.partno);
+                                
+                                $('.listOption').removeClass('hidden');
+
+                                
+                                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                                var value = $(this).val().toLowerCase();
+                                searchFilter(value);
+                                e.stopPropagation();
+                            }
+                        });
+                    }else if(length > 3){
+                        searchFilter(length);
+                    }else{
+                        $('.listOption').addClass('hidden');
+                    }
+
+                });
+
+                jQuery(document).on( "click", ".listOption li", function(){
+                    var name = $(this).html();
+                    var id = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+
+
+                    $.ajax({
+                        url:"{{ route('t-workshop.getPartsInfox') }}",
+                        method:"POST",
+                        dataType: 'json',
+                        data:{
+                            id: id,
+                            _token: _token
+                        },
+                        success:function(result){
+                            $('#PIPartNum').val(result.partno);
+                            $('#PIDescription').val(result.partname);
+                            $('#PIPrice').val(result.price);
+
+                            $(".listOption li").closest('.optionDiv').find('input').val(name);
+                            $('.listOption').addClass('hidden');
+                        }
+                    })
+
                 });
 
         });

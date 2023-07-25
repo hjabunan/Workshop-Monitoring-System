@@ -7,6 +7,7 @@ use App\Models\CannibalizedParts;
 use App\Models\CannibalizedUnit;
 use App\Models\DRMonitoring;
 use App\Models\DRParts;
+use App\Models\Parts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -37,20 +38,6 @@ class TReportController extends Controller
                 
         $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
         
-        // $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType, 
-            //                         unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
-            //                         unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE,
-            //                         bay_areas.area_name, brands.name,
-            //                         unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
-            //                         unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays
-            //                         FROM unit_workshops
-            //                         INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-            //                         INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-            //                         INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
-            //                         INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-            //                         INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
-            //                     ');
-        
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
@@ -63,6 +50,10 @@ class TReportController extends Controller
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_workshops.WSDelTransfer = 0
                             ');
+        
+        $part = DB::TABLE('parts')
+                ->orderBy('id','asc')
+                ->get();
 
 
         $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());
@@ -80,7 +71,7 @@ class TReportController extends Controller
         $CUnitHPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',13)->WHERE('WSStatus','<=',4)->count());
         $CUnitTotal = (DB::TABLE('unit_workshops')->WHERE('WSUnitType','!=',"")->WHERE('WSStatus','<=',4)->count());
         
-        return view('workshop-ms.t-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
+        return view('workshop-ms.t-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop','part','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
     }
     
     public function getEvents(Request $request){
@@ -1589,6 +1580,45 @@ class TReportController extends Controller
                 'count2' => $partcount2,
         );
         
+        return json_encode($result);
+    }
+
+    public function search(Request $request){
+        $query = $request->value;
+
+        $matches = Parts::where('partno', 'like', "$query%")
+                    ->orderBy('partno')
+                    ->get();
+
+        $partno = "";
+        foreach ($matches as $parts){
+            $partno .= '<li data-id="'.$parts->id.'" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">'.$parts->partno.'</li>';
+        }
+
+        $partname = $matches->pluck('partname')->first();
+
+        $result = array(
+                    'partno' => $partno,
+                    'partname' => $partname,
+        );
+
+        return json_encode($result);
+    }
+
+    public function getPartsInfox(Request $request){
+        // $result .= "";
+
+        $part = DB::SELECT('SELECT * from parts where id=?',[$request->id]);
+
+        foreach ($part as $parts) {
+            $result = array(
+                    'id' => $parts->partname,
+                    'partno' => $parts->partno,
+                    'partname' => $parts->partname,
+                    'price' => $parts->price,
+            );
+        }
+
         return json_encode($result);
     }
 

@@ -25,15 +25,13 @@ class UserController extends Controller
         return view('system-management.user.index', compact('users', 'sections'));
     }
 
-    public function create()
-    {
+    public function create(){
         $depts = DB::select('select id, name from departments where status=1');
         $sections = Section::pluck('name', 'id');   
         return view('system-management.user.add',compact('depts','sections'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $user = $request->validate([
             'uname' => 'required',
             'email' => 'required',
@@ -55,8 +53,7 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function edit($id)
-    {
+    public function edit($id){
 
         $user = User::find($id);
         $selectedAreas = explode(',', $user->area);
@@ -69,8 +66,7 @@ class UserController extends Controller
         return view('system-management.user.edit',compact('selectedAreas','users','depts', 'sects'));
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $user = $request->validate([
             'uname' => 'required',
             'email' => 'required',
@@ -103,4 +99,8 @@ class UserController extends Controller
 
         return redirect()->route('user.index');
     }
+
+    // public function getUserData(Request $request){
+    //     $role = DB::table('users')->
+    // }
 }

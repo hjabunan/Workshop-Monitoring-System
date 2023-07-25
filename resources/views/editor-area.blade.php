@@ -57,9 +57,11 @@
                                     <label for="area" class="block text-sm font-medium text-gray-900">Area</label>
                                 </div>
                                 <div class="col-span-4">
-                                    <select name="area" id="area" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                    <input type="hidden" id="selectedDataId" name="selectedDataId" value="">
+                                    <select name="area" id="area" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm" onchange="updateDataId()">
+                                        <option value="" selected disabled>SELECT SECTION</option>
                                         @foreach ($sections as $section)
-                                            <option value="{{$section->name}}">{{$section->name}}</option>
+                                            <option data-id="{{$section->id}}" value="{{$section->name}}">{{$section->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -127,11 +129,11 @@
                                 </div>
                             </div>
                             <div class="mt-5">
-                                <a href="" data-modal-hide="editModal" id="updateBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}"  class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update Color</a>
-                                <a href="" data-modal-hide="editModal" id="editBtn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit Location</a>
                                 @if($areas->isEmpty())
                                     <a href=""></a>
                                 @else
+                                    <a href="" data-modal-hide="editModal" id="updateBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}"  class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update Color</a>
+                                    <a href="" data-modal-hide="editModal" id="editBtn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit Location</a>
                                     <a href="" data-modal-hide="editModal" id="deleteBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
                                 @endif
                                 <button data-modal-hide="editModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
@@ -167,6 +169,12 @@
 
     </div>
     <script>
+        function updateDataId() {
+            var selectElement = document.getElementById("area");
+            var selectedDataId = selectElement.options[selectElement.selectedIndex].getAttribute("data-id");
+            document.getElementById("selectedDataId").value = selectedDataId;
+        }
+        
         $(document).ready(function(){
             $(".thisArea").click(function(){
                 var areaID = $(this).data('id');

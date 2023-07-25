@@ -72,11 +72,11 @@
                                     </div>
                                     <div class="mb-6 password" id="passwordbox">
                                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                        <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"  value="" disabled>
+                                        <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"  value="">
                                     </div>
                                     <div class="mb-6" id="cpasswordbox">
                                         <label for="cpassword" class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
-                                        <input type="password" id="cpassword" name="cpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="" disabled>
+                                        <input type="password" id="cpassword" name="cpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="">
                                     </div>
                                 </div>
                                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update User</button>
@@ -102,6 +102,33 @@
                     $("#cpasswordbox").hide();
                 }
                 });
+
+                var checkboxes = $('input[name="area[]"]');
+                // checkboxes.prop('disabled', true).prop('checked', false);
+
+                $('#role').on('change', function() {
+                    var role = $(this).val();
+                    var checkboxes = $('input[name="area[]"]');
+
+                    if (role === "" || role === "1") {
+                        checkboxes.prop('checked', true);
+                    } else {
+                        checkboxes.prop('checked', false);
+                    }
+                });
+
+                
+                
+                // $('#role').on('change', function() {
+                //     var role = $(this).val();
+                //     var checkboxes = $('input[name="area[]"]');
+                    
+                //     if (role === "" || role === "1") {
+                //         checkboxes.prop('disabled', true).prop('checked', true);
+                //     } else {
+                //         checkboxes.prop('disabled', false);
+                //     }
+                // });
             });
           </script>
         {{-- <script>

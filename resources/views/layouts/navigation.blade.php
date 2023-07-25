@@ -18,45 +18,56 @@
                     <!-- Dropdown menu -->
                     <div id="dropdownDividera" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-52">
                         <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtona">
-                            <li>
-                                <button id="doubleDropdownButtona" data-dropdown-toggle="doubleDropdowna" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" {{ (Auth::user()->role === '0') ? (in_array($area->id, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>BT Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                                  <div id="doubleDropdowna" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtona">
-                                      <li>
-                                        <a href="{{route('bt-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">Monitoring</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{route('bt-workshop.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
-                                      </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <button id="doubleDropdownButtonb" data-dropdown-toggle="doubleDropdownb" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" {{ (Auth::user()->role === '0') ? (in_array($area->id, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>Toyota Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                                  <div id="doubleDropdownb" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtonb">
-                                      <li>
-                                        <a href="{{route('t-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">Monitoring</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{route('t-workshop.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
-                                      </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <button id="doubleDropdownButtonc" data-dropdown-toggle="doubleDropdownc" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" {{ (Auth::user()->role === '0') ? (in_array($area->id, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>Raymond Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                                  <div id="doubleDropdownc" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtonc">
-                                      <li>
-                                        <a href="{{route('r-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">Monitoring</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{route('r-workshop.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
-                                      </li>
-                                    </ul>
-                                </div>
-                            </li>
+                            @if (Auth::check() && in_array(2, explode(',', Auth::user()->area)))
+                                <li>
+                                    <button id="doubleDropdownButtona" data-dropdown-toggle="doubleDropdowna" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
+                                        BT Workshop
+                                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    <div id="doubleDropdowna" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtona">
+                                            <li>
+                                                <a href="{{route('bt-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">Monitoring</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('bt-workshop.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endif
+                            @if (Auth::check() && in_array(1, explode(',', Auth::user()->area)))
+                                <li>
+                                    <button id="doubleDropdownButtonb" data-dropdown-toggle="doubleDropdownb" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" >Toyota Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                                    <div id="doubleDropdownb" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtonb">
+                                        <li>
+                                            <a href="{{route('t-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">Monitoring</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('t-workshop.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endif
+                            @if (Auth::check() && in_array(3, explode(',', Auth::user()->area)))
+                                <li>
+                                    <button id="doubleDropdownButtonc" data-dropdown-toggle="doubleDropdownc" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100" >Raymond Workshop<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                                    <div id="doubleDropdownc" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="doubleDropdownButtonc">
+                                        <li>
+                                            <a href="{{route('r-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">Monitoring</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('r-workshop.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endif
                             <li>
                                 <a href="{{route('ppt-workshop.index')}}" class="block px-4 py-2 hover:bg-gray-100">PPT Workshop</a>
                             </li>
