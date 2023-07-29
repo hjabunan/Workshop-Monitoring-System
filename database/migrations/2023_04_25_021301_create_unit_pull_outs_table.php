@@ -48,6 +48,7 @@ return new class extends Migration
             $table->string('POUStatus');
             $table->string('POUTransferArea');
             $table->string('POUTransferBay');
+            $table->string('POUTransferDate');
             $table->string('POUTransferRemarks');
             $table->timestamps();
         });

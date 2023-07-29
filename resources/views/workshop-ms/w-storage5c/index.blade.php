@@ -185,7 +185,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUArrivalDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -1835,7 +1835,7 @@
                             }
                     }
                 });
-                
+
             // Get Capacity
                 var CUnitTICJ = <?php echo $CUnitTICJ; ?>;
                     $('#UnitTICJ').val(CUnitTICJ);
