@@ -134,7 +134,7 @@
                                 @else
                                     <a href="" data-modal-hide="editModal" id="updateBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}"  class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update Color</a>
                                     <a href="" data-modal-hide="editModal" id="editBtn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit Location</a>
-                                    <a href="" data-modal-hide="editModal" id="deleteBtn" data-area-id="{{ $area->id }}" data-areaname="{{ $area->name}}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
+                                    <a href="" data-modal-hide="editModal" id="deleteBtn" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete Location</a>
                                 @endif
                                 <button data-modal-hide="editModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
                             </div>
@@ -184,12 +184,15 @@
                 $('#colorpickerE').val(hexcolor);
                 $('#areaID').val(areaID);
                 $('#editBtn').prop('href', `{{ url('/area/edit/${areaID}') }}`);
+
+                $('#deleteBtn').data('id', areaID);
+                $('#deleteBtn').data('areaname', areaName);
             });
 
             $("#deleteBtn").click(function (e) {
                 e.preventDefault();
 
-                var id = $(this).data('area-id');
+                var id = $(this).data('id');
                 var name = $(this).data('areaname');
 
                 $('#deleteConfirmArea').data('id', id);

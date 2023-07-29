@@ -52,6 +52,9 @@ use Illuminate\Support\Facades\DB;
 //     return view('welcome');
 // });
 
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+->name('logout');
+
 Route::redirect(uri:'/', destination:'login');
 
 // Route::get('/management', function () {
@@ -612,7 +615,10 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         
         // Parts Management
             Route::get('/system-management/parts', [PartsController::class, 'index'])->name('parts.index');
+            Route::get('/system-management/parts/add', [PartsController::class, 'create'])->name('parts.create');
+            Route::post('/system-management/parts/store', [PartsController::class, 'store'])->name('parts.store');
             Route::get('/system-management/parts/edit/{id}', [PartsController::class, 'edit'])->name('parts.edit');
+            Route::post('/system-management/parts/update/{id}', [PartsController::class, 'update'])->name('parts.update');
 
         // Section Management
             Route::get('/system-management/section', [SectionController::class, 'index'])->name('section.index');

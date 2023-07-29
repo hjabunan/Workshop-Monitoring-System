@@ -159,14 +159,14 @@
                                 </li>
                             </ul>
                             <div class="py-2">
-                                <a href="{{route('activity.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Activity</a>
+                                {{-- <a href="{{route('activity.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Activity</a> --}}
                                 <a href="{{route('area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bay/Area</a>
                                 <a href="{{route('brand.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Brand</a>
                                 <a href="{{route('category.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Category</a>
                                 <a href="{{route('company.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer</a>
                                 <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer Area</a>
-                                <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mast</a>
-                                <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Model</a>
+                                {{-- <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mast</a> --}}
+                                {{-- <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Model</a> --}}
                                 <a href="{{route('parts.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parts</a>
                                 <a href="{{route('section.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Section</a>
                                 <a href="{{route('technician.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technician</a>

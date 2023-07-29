@@ -15,20 +15,24 @@
                                 @csrf
                                 <div class="grid grid-flow-row-dense grid-cols-2 gap-x-5">
                                     <div class="mb-6 col-span-1">
-                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part Number</label>
-                                        <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->partno }}"required>
+                                        <label for="partnum" class="block mb-2 text-sm font-medium text-gray-900">Part Number</label>
+                                        <input type="text" id="partnum" name="partnum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->partno }}" required>
                                     </div>
                                     <div class="mb-6 col-span-1">
-                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part Name</label>
-                                        <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->partname }}"required>
+                                        <label for="partitemno" class="block mb-2 text-sm font-medium text-gray-900">Item Number</label>
+                                        <input type="text" id="partitemno" name="partitemno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->itemno }}">
                                     </div>
                                     <div class="mb-6 col-span-1">
-                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Brand</label>
-                                        <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->brand }}"required>
+                                        <label for="partname" class="block mb-2 text-sm font-medium text-gray-900">Part Name</label>
+                                        <input type="text" id="partname" name="partname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->partname }}" required>
                                     </div>
                                     <div class="mb-6 col-span-1">
-                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                        <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->price }}"required>
+                                        <label for="partbrand" class="block mb-2 text-sm font-medium text-gray-900">Brand</label>
+                                        <input type="text" id="partbrand" name="partbrand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->brand }}" required>
+                                    </div>
+                                    <div class="mb-6 col-span-1">
+                                        <label for="partprice" class="block mb-2 text-sm font-medium text-gray-900">Price</label>
+                                        <input type="text" id="partprice" name="partprice" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $parts->price }}" required>
                                     </div>
                                     <div class="mb-6">
                                         <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>

@@ -171,6 +171,7 @@
                                                             <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
+                                                                <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
                                                                 <div class="grid grid-cols-7 text-xs">
                                                                     <div class="col-span-3 text-white text-left">
                                                                         <div class=""><label class="font-medium">Class:</label></div>
@@ -256,13 +257,13 @@
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>On-Schedule</label>
                                     </div>
                                     <div class="">
+                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Target</label>
+                                    </div>
+                                    <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-yellow-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Caution</label>
                                     </div>
                                     <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Critical</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Delivery Bay</label>
                                     </div>
                                 </div>
                             </div>
@@ -1701,13 +1702,35 @@
 
     <script>
         $(document).ready(function(){
-            // 
+            // Color Changing
                 $(".btnBay").each(function() {
                     var hddnJONum = $(this).find("#hddnJONum").val();
+                    var hddnTransferDate = $(this).find("#hddnTransferDate").val();
                     if (hddnJONum == 0) {
                         $(this).addClass("bg-gray-500");
                     } else {
-                        $(this).addClass("bg-green-500");
+                        // For Running Days
+                        var startDate = new Date(hddnTransferDate);
+                            var today = new Date();
+                            var todayDate = today; 
+                            var rdays = 0;
+                            while (startDate <= todayDate) {
+                                var dayOfWeek = startDate.getDay();
+                                if (dayOfWeek !== 0) {
+                                rdays++;
+                                }
+                                startDate.setDate(startDate.getDate() + 1);
+                            }
+
+                            if(rdays <= 90){
+                                $(this).addClass("bg-green-500");
+                            } else if (rdays > 90 && rdays <= 180) {
+                                $(this).addClass("bg-blue-500");
+                            } else if (rdays > 180 && rdays <= 270) {
+                                $(this).addClass("bg-yellow-500");
+                            } else if (rdays >= 300) {
+                                $(this).addClass("bg-red-500");
+                            }
                     }
                 });
 
@@ -1869,7 +1892,7 @@
                                         }
                                 $('#BTargetDays').val(sdays);
                                     // For Running Days
-                                        var startDate = new Date(result.WSAAIDS);
+                                        var startDate = new Date(result.TransferDate);
                                         var today = new Date();
                                         var todayDate = today; 
                                         var rdays = 0;
@@ -3822,111 +3845,100 @@
                     }
                 });
 
-            jQuery(document).on( "click", ".inputOption", function(e){
-                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
-                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
-                var value = $(this).val().toLowerCase();
-                searchFilter(value);
-                e.stopPropagation();
-                
-                $('.listOption').addClass('hidden');
-            });
-
-            function searchFilter(searchInput){
-                $(".listOption li").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+            // Parts Search
+                jQuery(document).on( "click", ".inputOption", function(e){
+                    $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                    $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                    var value = $(this).val().toLowerCase();
+                    searchFilter(value);
+                    e.stopPropagation();
+                    
+                    $('.listOption').addClass('hidden');
                 });
-            }
-            
-            jQuery(document).on( "keyup", ".inputOption", function(e){
-                var value = $(this).val();
-                var length = value.length;
-                var _token = $('input[name="_token"]').val();
 
-                if (value === "") {
-                    $('.listOption').addClass('hidden');
-                    if (ajaxRequest) {
-                    ajaxRequest.abort();
-                    }
-                    return;
+                function searchFilter(searchInput){
+                    $(".listOption li").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+                    });
                 }
-
                 
-                if(length < 3){
-                    $('.listOption').addClass('hidden');
-                    if (ajaxRequest) {
-                    ajaxRequest.abort();
-                    }
-                    return;
-                }
+                jQuery(document).on( "keyup", ".inputOption", function(e){
+                    var value = $(this).val();
+                    var length = value.length;
+                    var _token = $('input[name="_token"]').val();
 
-                if (length = 3){
+                    if (value === "") {
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    
+                    if(length < 3){
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    if (length = 3){
+                        $.ajax({
+                            url:"{{ route('r-workshop.search') }}",
+                            method:"GET",
+                            dataType: 'json',
+                            data:{
+                                value: value,
+                                _token: _token
+                            },
+                            success:function(result){
+                                $('#PartNo').html(result.partno);
+                                
+                                $('.listOption').removeClass('hidden');
+
+                                
+                                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                                var value = $(this).val().toLowerCase();
+                                searchFilter(value);
+                                e.stopPropagation();
+                            }
+                        });
+                    }else if(length > 3){
+                        searchFilter(length);
+                    }else{
+                        $('.listOption').addClass('hidden');
+                    }
+
+                });
+                
+                jQuery(document).on( "click", ".listOption li", function(){
+                    var name = $(this).html();
+                    var id = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+
+
                     $.ajax({
-                        url:"{{ route('r-workshop.search') }}",
-                        method:"GET",
+                        url:"{{ route('r-workshop.getPartsInfox') }}",
+                        method:"POST",
                         dataType: 'json',
                         data:{
-                            value: value,
+                            id: id,
                             _token: _token
                         },
                         success:function(result){
-                            $('#PartNo').html(result.partno);
-                            
-                            $('.listOption').removeClass('hidden');
+                            $('#PIPartNum').val(result.partno);
+                            $('#PIDescription').val(result.partname);
+                            $('#PIPrice').val(result.price);
 
-                            
-                            $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
-                            $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
-                            var value = $(this).val().toLowerCase();
-                            searchFilter(value);
-                            e.stopPropagation();
+                            $(".listOption li").closest('.optionDiv').find('input').val(name);
+                            $('.listOption').addClass('hidden');
                         }
-                    });
-                }else if(length > 3){
-                    searchFilter(length);
-                }else{
-                    $('.listOption').addClass('hidden');
-                }
+                    })
 
-            });
-            
-            jQuery(document).on( "click", ".listOption li", function(){
-                var name = $(this).html();
-                var id = $(this).data('id');
-                var _token = $('input[name="_token"]').val();
-
-
-                $.ajax({
-                    url:"{{ route('r-workshop.getPartsInfox') }}",
-                    method:"POST",
-                    dataType: 'json',
-                    data:{
-                        id: id,
-                        _token: _token
-                    },
-                    success:function(result){
-                        $('#PIPartNum').val(result.partno);
-                        $('#PIDescription').val(result.partname);
-                        $('#PIPrice').val(result.price);
-
-                        // $('#inputCP1_name').val(result.cp1_name);
-                        // $('#inputCP1_number').val(result.cp1_number);
-                        // $('#inputCP1_email').val(result.cp1_email);
-
-                        // $('#inputCP2_name').val(result.cp2_name);
-                        // $('#inputCP2_number').val(result.cp2_number);
-                        // $('#inputCP2_email').val(result.cp2_email);
-
-                        // $('#inputCP3_name').val(result.cp3_name);
-                        // $('#inputCP3_number').val(result.cp3_number);
-                        // $('#inputCP3_email').val(result.cp3_email);
-
-                        $(".listOption li").closest('.optionDiv').find('input').val(name);
-                        $('.listOption').addClass('hidden');
-                    }
-                })
-
-            });
+                });
 
 
         });

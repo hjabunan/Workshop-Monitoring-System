@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/main.js', 'resources/css/style.css'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/style.css'])
         <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>

@@ -10,13 +10,15 @@ class TechnicianController extends Controller
 {
     public function index(){
         $tech = DB::select('SELECT * FROM technicians');
+        $section = DB::select('SELECT * FROM sections');
 
-        return view('system-management.technician.index',compact('tech'));
+        return view('system-management.technician.index',compact('tech','section'));
     }
 
     public function create()
     {
-        return view('system-management.technician.add');
+        $section = DB::select('SELECT * FROM sections');
+        return view('system-management.technician.add',compact('section'));
     }
 
     public function store(Request $request)
@@ -40,7 +42,8 @@ class TechnicianController extends Controller
     public function edit($id)
     {
         $tech = DB::table('technicians')->where('id', $id)->first();
-        return view('system-management.technician.edit',compact('tech'));
+        $section = DB::select('SELECT * FROM sections');
+        return view('system-management.technician.edit',compact('tech','section'));
     }
 
     public function update(Request $request, $id)

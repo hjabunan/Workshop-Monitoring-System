@@ -31,12 +31,15 @@
                                     <div class="mb-6 col-span-1">
                                         <label for="section" class="block mb-2 text-sm font-medium text-gray-900">Section</label>
                                         <select id="section" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" name="section" readonly>
-                                            <option value="BT SECTION">BT SECTION</option>
-                                            <option value="MCI SECTION">MCI SECTION</option>
+                                            <option value="" selected disabled></option>
+                                            @foreach ($section as $sections)
+                                                <option value="{{$sections->name}}">{{$sections->name}}</option>
+                                            @endforeach
+                                            {{-- <option value="MCI SECTION">MCI SECTION</option>
                                             <option value="PDI SECTION">PDI SECTION</option>
                                             <option value="PPT SECTION">PPT SECTION</option>
                                             <option value="RAYMOND SECTION">RAYMOND SECTION</option>
-                                            <option value="TOYOTA/OVERHAULING SECTION">TOYOTA/OVERHAULING SECTION</option>
+                                            <option value="TOYOTA/OVERHAULING SECTION">TOYOTA/OVERHAULING SECTION</option> --}}
                                         </select>
                                     </div>
                                 </div>

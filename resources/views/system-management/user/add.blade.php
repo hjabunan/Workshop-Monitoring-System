@@ -51,11 +51,10 @@
                                         @foreach ($sections as $id => $name)
                                             <label for="area_{{ $id }}" class="flex items-center space-x-2">
                                                 <input type="checkbox" id="area_{{ $id }}" name="area[]" value="{{ $id }}" class="form-checkbox h-4 w-4 text-blue-500">
-                                                <span class="text-gray-900 text-sm">{{ $name }}</span>
+                                                <span class="text-gray-900 text-xs">{{ $name }}</span>
                                             </label>
                                         @endforeach
                                     </div>
-                                    {{-- <input type="text" id="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"> --}}
                                 </div>
                                 <div class="mb-6">
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
@@ -67,7 +66,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">ADD</button>
-                            <a href="{{route('user.index')}}" type="button" class="text-white bg-neutral-500 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CANCEL</a>
+                            <a href="{{route('user.index')}}" type="button" class="text-white bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CANCEL</a>
                         </form>
                     {{-- End Add --}}
 
@@ -87,7 +86,7 @@
                     if (role === "" || role === "1") {
                         checkboxes.prop('disabled', true).prop('checked', true);
                     } else {
-                        checkboxes.prop('disabled', false);
+                        checkboxes.prop('disabled', false).prop('checked', false);
                     }
                 });
             });

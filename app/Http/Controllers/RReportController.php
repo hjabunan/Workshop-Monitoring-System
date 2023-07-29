@@ -59,12 +59,14 @@ class RReportController extends Controller
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                 unit_pull_outs.POUMastHeight,
-                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials
+                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
+                                unit_confirms.CUTransferDate
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                 WHERE unit_workshops.WSDelTransfer = 0 AND unit_workshops.WSStatus <= 4
                             ');
         
@@ -144,12 +146,14 @@ class RReportController extends Controller
                                     unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand,
                                     unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                     unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
-                                    unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays
+                                    unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays,
+                                     unit_confirms.CUTransferDate
                                     FROM unit_workshops
                                     INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
                                     INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                     INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                    LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
                                     WHERE unit_workshops.WSDelTransfer = 0 AND WSStatus<=4 AND WSBayNum = ?',[$bay]
                                 );
@@ -258,6 +262,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
+                                            'TransferDate' => $WS->CUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -305,6 +310,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
+                                            'TransferDate' => $WS->CUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -354,12 +360,14 @@ class RReportController extends Controller
                                     unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, 
                                     unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType,
                                      unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, 
-                                     unit_pull_outs.POUTechnician1, technicians.initials
+                                     unit_pull_outs.POUTechnician1, technicians.initials,
+                                     unit_confirms.CUTransferDate
                                     FROM unit_workshops
                                     INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
                                     INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                     INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                    LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                     WHERE unit_workshops.WSDelTransfer = 0 AND WSStatus<=4 AND WSBayNum = ?',[$bay]
                                 );
 
@@ -393,6 +401,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
+                                            'TransferDate' => $WS->CUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -432,6 +441,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
+                                            'TransferDate' => $WS->CUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,

@@ -31,12 +31,15 @@
                                     <div class="mb-6 col-span-1">
                                         <label for="section" class="block mb-2 text-sm font-medium text-gray-900">Section</label>
                                         <select id="section" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="section" readonly>
-                                            <option {{ ($tech->section == "BT SECTION") ? 'selected' : ''; }} value="BT SECTION">BT SECTION</option>
+                                            @foreach ($section as $sections)
+                                                <option {{ ($tech->section == $sections->name) ? 'selected' : ''; }} value="{{$sections->name}}">{{$sections->name}}</option>
+                                            @endforeach
+                                            {{-- <option {{ ($tech->section == "BT SECTION") ? 'selected' : ''; }} value="BT SECTION">BT SECTION</option>
                                             <option {{ ($tech->section == "MCI SECTION") ? 'selected' : ''; }} value="MCI SECTION">MCI SECTION</option>
                                             <option {{ ($tech->section == "PDI") ? 'selected' : ''; }} value="PDI SECTION">PDI SECTION</option>
                                             <option {{ ($tech->section == "PPT SECTION") ? 'selected' : ''; }} value="PPT SECTION">PPT SECTION</option>
                                             <option {{ ($tech->section == "RAYMOND SECTION") ? 'selected' : ''; }} value="RAYMOND SECTION">RAYMOND SECTION</option>
-                                            <option {{ ($tech->section == "TOYOTA/OVERHAULING SECTION") ? 'selected' : ''; }} value="TOYOTA/OVERHAULING SECTION">TOYOTA/OVERHAULING SECTION</option>
+                                            <option {{ ($tech->section == "TOYOTA/OVERHAULING SECTION") ? 'selected' : ''; }} value="TOYOTA/OVERHAULING SECTION">TOYOTA/OVERHAULING SECTION</option> --}}
                                         </select>
                                     </div>
                                     <div class="mb-6 col-span-1">

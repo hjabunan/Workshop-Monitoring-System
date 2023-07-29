@@ -170,6 +170,7 @@
                                                             <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
+                                                                <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
                                                                 <div class="grid grid-cols-7 text-xs">
                                                                     <div class="col-span-3 text-white text-left">
                                                                         <div class=""><label class="font-medium">Class:</label></div>
@@ -255,13 +256,13 @@
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>On-Schedule</label>
                                     </div>
                                     <div class="">
+                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Target</label>
+                                    </div>
+                                    <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-yellow-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Caution</label>
                                     </div>
                                     <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Critical</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Delivery Bay</label>
                                     </div>
                                 </div>
                             </div>
@@ -1670,13 +1671,35 @@
 
     <script>
         $(document).ready(function(){
-            // Change Color of Bay
+            // Color Changing
                 $(".btnBay").each(function() {
                     var hddnJONum = $(this).find("#hddnJONum").val();
+                    var hddnTransferDate = $(this).find("#hddnTransferDate").val();
                     if (hddnJONum == 0) {
                         $(this).addClass("bg-gray-500");
                     } else {
-                        $(this).addClass("bg-green-500");
+                        // For Running Days
+                        var startDate = new Date(hddnTransferDate);
+                            var today = new Date();
+                            var todayDate = today; 
+                            var rdays = 0;
+                            while (startDate <= todayDate) {
+                                var dayOfWeek = startDate.getDay();
+                                if (dayOfWeek !== 0) {
+                                rdays++;
+                                }
+                                startDate.setDate(startDate.getDate() + 1);
+                            }
+
+                            if(rdays <= 90){
+                                $(this).addClass("bg-green-500");
+                            } else if (rdays > 90 && rdays <= 180) {
+                                $(this).addClass("bg-blue-500");
+                            } else if (rdays > 180 && rdays <= 270) {
+                                $(this).addClass("bg-yellow-500");
+                            } else if (rdays >= 300) {
+                                $(this).addClass("bg-red-500");
+                            }
                     }
                 });
 
@@ -1820,7 +1843,7 @@
                                         }
                                 $('#BTargetDays').val(sdays);
                                     // For Running Days
-                                        var startDate = new Date(result.WSAAIDS);
+                                        var startDate = new Date(result.TransferDate);
                                         var today = new Date();
                                         var todayDate = today; 
                                         var rdays = 0;

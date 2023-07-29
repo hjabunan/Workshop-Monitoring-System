@@ -57,7 +57,7 @@
                                             @foreach ($sects as $section)
                                                 <label for="area_{{ $section->id }}" class="flex items-center space-x-2">
                                                     <input type="checkbox" id="area_{{ $section->id }}" name="area[]" value="{{ $section->id }}" class="form-checkbox h-4 w-4 text-blue-500" {{ (in_array($section->id, $selectedAreas)) ? 'checked' : '' }}>
-                                                    <span class="text-gray-900 text-sm">{{ $section->name }}</span>
+                                                    <span class="text-gray-900 text-xs">{{ $section->name }}</span>
                                                 </label>
                                             @endforeach
                                         </div>
@@ -80,7 +80,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update User</button>
-                                <a href="{{route('user.index')}}" type="button" class="text-white bg-neutral-500 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Cancel</a>
+                                <a href="{{route('user.index')}}" type="button" class="text-white bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Cancel</a>
                             </form>
                         {{-- End Add --}}
     
@@ -104,7 +104,6 @@
                 });
 
                 var checkboxes = $('input[name="area[]"]');
-                // checkboxes.prop('disabled', true).prop('checked', false);
 
                 $('#role').on('change', function() {
                     var role = $(this).val();
@@ -116,33 +115,6 @@
                         checkboxes.prop('checked', false);
                     }
                 });
-
-                
-                
-                // $('#role').on('change', function() {
-                //     var role = $(this).val();
-                //     var checkboxes = $('input[name="area[]"]');
-                    
-                //     if (role === "" || role === "1") {
-                //         checkboxes.prop('disabled', true).prop('checked', true);
-                //     } else {
-                //         checkboxes.prop('disabled', false);
-                //     }
-                // });
             });
           </script>
-        {{-- <script>
-            $(document).ready(function() {
-                $('#checked-checkbox').change(function() {
-                    if($(this).is(":checked")){  //Return true/false 
-                        $('#passwordbox').fadeIn('fast');
-                        $('#cpasswordbox').fadeIn('fast');
-                    }
-                    else{
-                        $('#passwordbox').fadeOut('fast'); 
-                        $('#cpasswordbox').fadeOut('fast'); 
-                    }
-                })
-            });
-        </script> --}}
     </x-app-layout>

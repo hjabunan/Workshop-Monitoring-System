@@ -24,12 +24,14 @@ class WStorage1Controller extends Controller
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                 unit_pull_outs.POUMastHeight, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, 
-                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials
+                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
+                                unit_confirms.CUTransferDate
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                 WHERE unit_workshops.WSDelTransfer = 0
                             ');
         
@@ -72,18 +74,21 @@ class WStorage1Controller extends Controller
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, 
                                 unit_pull_outs.POUSerialNum, unit_pull_outs.POUArrivalDate, unit_pull_outs.POUAttType, unit_pull_outs.POUMastType, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, 
                                 unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, 
-                                technicians.initials
+                                technicians.initials,
+                                unit_confirms.CUTransferDate
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
                                 INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                 WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                             );
 
             if(count($workshop)>0){
                 foreach($workshop as $WS){
                     $result = array(
+                                    'TransferDate' => $WS->CUTransferDate,
                                     'WSID' => $WS->WSID,
                                     'WSPOUID' => $WS->WSPOUID,
                                     'WSToA' => $WS->WSToA,
