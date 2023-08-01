@@ -197,7 +197,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -385,7 +385,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -573,7 +573,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -761,7 +761,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -949,7 +949,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -1137,7 +1137,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -1325,7 +1325,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -1513,7 +1513,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -1701,7 +1701,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -1889,7 +1889,7 @@
                                                                         <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
                                                                             <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                             <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
-                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                             <div class="grid grid-cols-7 text-xs">
                                                                                 <div class="col-span-3 text-white text-left">
                                                                                     <div class=""><label class="font-medium">Class:</label></div>
@@ -2351,18 +2351,26 @@
                                                     <div style="float: right;" name="green" class="w-full h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
                                                     </div>
                                                     <div class="col-span-2 place-self-center">
+                                                        <label for="blue" class="block text-sm text-gray-900">Target</label>
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
+                                                        <label for="blue" class="block text-sm text-gray-900">(4-6 Months or 180 days)</label>
+                                                    </div>
+                                                    <div style="float: right;" name="blue" class="w-full h-6 bg-blue-400 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                    </div>
+                                                    <div class="col-span-2 place-self-center">
                                                         <label for="yellow" class="block text-sm text-gray-900">Caution</label>
                                                     </div>
                                                     <div class="col-span-2 place-self-center">
-                                                        <label for="yellow" class="block text-sm text-gray-900">(4-6 Months or 180 days)</label>
+                                                        <label for="yellow" class="block text-sm text-gray-900">(7-9 Months or 270 days)</label>
                                                     </div>
-                                                    <div style="float: right;" name="yellow" class="w-full h-6 bg-yellow-400 rounded ring-1 ring-inset ring-black ring-opacity-0">
+                                                    <div style="float: right;" name="yellow" class="w-full h-6 bg-yellow-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
                                                     </div>
                                                     <div class="col-span-2 place-self-center">
                                                         <label for="red" class="block text-sm text-gray-900">Danger</label>
                                                     </div>
                                                     <div class="col-span-2 place-self-center">
-                                                        <label for="red" class="block text-sm text-gray-900">(7-9 Months or 270 days)</label>
+                                                        <label for="red" class="block text-sm text-gray-900">(10 Months or 300 days)</label>
                                                     </div>
                                                     <div style="float: right;" name="red" class="w-full h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
                                                     </div>

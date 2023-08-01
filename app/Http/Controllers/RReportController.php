@@ -58,7 +58,7 @@ class RReportController extends Controller
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
-                                unit_pull_outs.POUMastHeight,
+                                unit_pull_outs.POUMastHeight, unit_pull_outs.POUTransferDate,
                                 unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
                                 unit_confirms.CUTransferDate
                                 FROM unit_workshops
@@ -143,7 +143,7 @@ class RReportController extends Controller
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                     bay_areas.area_name, brands.name,
-                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand,
+                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUTransferDate,
                                     unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                     unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
                                     unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays,
@@ -262,7 +262,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -310,7 +310,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -357,7 +357,7 @@ class RReportController extends Controller
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                     bay_areas.area_name, brands.name,
-                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, 
+                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUTransferDate,
                                     unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType,
                                      unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, 
                                      unit_pull_outs.POUTechnician1, technicians.initials,
@@ -401,7 +401,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -441,7 +441,7 @@ class RReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -1786,6 +1786,7 @@ class RReportController extends Controller
                             'POUStatus' => $request->UnitStatus,
                             'POUTransferArea' => $request->UnitArea,
                             'POUTransferBay' => $request->UnitBay,
+                            'POUTransferDate' => $request->UnitTransferDate,
                             'POUTransferRemarks' => $request->UnitRemarksT,
                         ]);
     
@@ -2384,6 +2385,7 @@ class RReportController extends Controller
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
+                $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
                 $POU->save();
             }else{
@@ -2510,6 +2512,7 @@ class RReportController extends Controller
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
+                $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
                 $POU->save();
 
@@ -3206,6 +3209,7 @@ class RReportController extends Controller
                         'POUStatus' => $request->POUStatus,
                         'POUTransferArea' => $request->POUArea,
                         'POUTransferBay' => $request->POUBay,
+                        'POUTransferDate' => $request->POUTransferDate,
                         'POUTransferRemarks' => $request->POURemarksT
                         ]);
 
@@ -3283,6 +3287,7 @@ class RReportController extends Controller
                         'POUStatus' => "",
                         'POUTransferArea' => "",
                         'POUTransferBay' => "",
+                        'POUTransferDate' => "",
                         'POUTransferRemarks' => ""
                         ]);
         
@@ -3591,6 +3596,7 @@ class RReportController extends Controller
                 $BNU->POUStatus = "";
                 $BNU->POUTransferArea = "";
                 $BNU->POUTransferBay = "";
+                $BNU->POUTransferDate = "";
                 $BNU->POUTransferRemarks = "";
                 $BNU->save();
             }else{
@@ -3717,6 +3723,7 @@ class RReportController extends Controller
                 $BNU->POUStatus = "";
                 $BNU->POUTransferArea = "";
                 $BNU->POUTransferBay = "";
+                $BNU->POUTransferDate = "";
                 $BNU->POUTransferRemarks = "";
                 $BNU->save();
 
@@ -4382,6 +4389,7 @@ class RReportController extends Controller
                         'POUStatus' => $request->BNUStatus,
                         'POUTransferArea' => $request->BNUArea,
                         'POUTransferBay' => $request->BNUBay,
+                        'POUTransferDate' => $request->BNUTransferDate,
                         'POUTransferRemarks' => $request->BNURemarksT
                         ]);
 

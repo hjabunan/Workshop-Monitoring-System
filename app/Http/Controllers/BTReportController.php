@@ -39,7 +39,7 @@ class BTReportController extends Controller
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
-                                unit_pull_outs.POUMastHeight,
+                                unit_pull_outs.POUMastHeight, unit_pull_outs.POUTransferDate,
                                 unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
                                 unit_confirms.CUTransferDate
                                 FROM unit_workshops
@@ -1764,6 +1764,7 @@ class BTReportController extends Controller
                             'POUStatus' => $request->UnitStatus,
                             'POUTransferArea' => $request->UnitArea,
                             'POUTransferBay' => $request->UnitBay,
+                            'POUTransferDate' => $request->UnitTransferDate,
                             'POUTransferRemarks' => $request->UnitRemarksT,
                         ]);
     
@@ -1886,7 +1887,7 @@ class BTReportController extends Controller
 
         $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,
-                                unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
+                                unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUTransferDate,
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1,
                                 technicians.initials
                                 FROM unit_workshops
@@ -2362,6 +2363,7 @@ class BTReportController extends Controller
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
+                $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
                 $POU->save();
             }else{
@@ -2488,6 +2490,7 @@ class BTReportController extends Controller
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
+                $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
                 $POU->save();
 
@@ -3185,6 +3188,7 @@ class BTReportController extends Controller
                         'POUStatus' => strtoupper($request->POUStatus),
                         'POUTransferArea' => strtoupper($request->POUArea),
                         'POUTransferBay' => strtoupper($request->POUBay),
+                        'POUTransferDate' => strtoupper($request->POUTransferDate),
                         'POUTransferRemarks' => strtoupper($request->POURemarksT)
                         ]);
 
@@ -3262,6 +3266,7 @@ class BTReportController extends Controller
                         'POUStatus' => "",
                         'POUTransferArea' => "",
                         'POUTransferBay' => "",
+                        'POUTransferDate' => "",
                         'POUTransferRemarks' => ""
                         ]);
         
@@ -3570,6 +3575,7 @@ class BTReportController extends Controller
                 $BNU->POUStatus = "";
                 $BNU->POUTransferArea = "";
                 $BNU->POUTransferBay = "";
+                $BNU->POUTransferDate = "";
                 $BNU->POUTransferRemarks = "";
                 $BNU->save();
             }else{
@@ -3696,6 +3702,7 @@ class BTReportController extends Controller
                 $BNU->POUStatus = "";
                 $BNU->POUTransferArea = "";
                 $BNU->POUTransferBay = "";
+                $BNU->POUTransferDate = "";
                 $BNU->POUTransferRemarks = "";
                 $BNU->save();
 
@@ -4361,6 +4368,7 @@ class BTReportController extends Controller
                         'POUStatus' => $request->BNUStatus,
                         'POUTransferArea' => $request->BNUArea,
                         'POUTransferBay' => $request->BNUBay,
+                        'POUTransferDate' => $request->BNUTransferDate,
                         'POUTransferRemarks' => $request->BNURemarksT
                         ]);
 
