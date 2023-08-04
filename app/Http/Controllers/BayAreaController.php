@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 class BayAreaController extends Controller
 {
     public function index(){
+        $search = '';
+
         $area = DB::select('SELECT bay_areas.id, bay_areas.area_name, bay_areas.section, sections.name, bay_areas.category, categories.cat_name, bay_areas.status
                             FROM bay_areas
                             INNER JOIN sections ON bay_areas.section = sections.id
@@ -22,7 +24,17 @@ class BayAreaController extends Controller
                     //     ->join('categories','bay_areas.category','=','categories.id')
                     //     ->select('bay_areas.*', 'sections.name', 'categories.cat_name')
                     //     ->groupBy('sections.name');
-        return view('system-management.area.index',compact('area'));
+        return view('system-management.area.index',compact('search','area'));
+    }
+
+    public function search($search){
+        $area = DB::table('bay_areas')
+                    ->select('bay_areas.id', 'bay_areas.area_name', 'bay_areas.section', 'sections.name', 'bay_areas.category', 'categories.cat_name', 'bay_areas.status')
+                    ->leftJoin('sections','bay_areas.section','=','sections.id')
+                    ->leftJoin('categories','bay_areas.category','=','categories.id')
+                    ->whereRaw("CONCAT_WS(' ', bay_areas.id, area_name, name, cat_name, section, category) LIKE '%{$search}%'")->get();
+        // dd($area);
+        return view('system-management.area.index', compact('search','area'));
     }
 
     public function create()

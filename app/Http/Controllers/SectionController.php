@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\DB;
 class SectionController extends Controller
 {
     public function index(){
+        $search = '';
         $section = DB::select('SELECT * FROM sections');
 
-        return view('system-management.section.index', compact('section'));
+        return view('system-management.section.index', compact('search','section'));
+    }
+
+    public function search($search){
+        $section = DB::table('sections')
+                    ->whereRaw("CONCAT_WS(' ', name, status) LIKE '%{$search}%'")->get();
+        // dd($area);
+        return view('system-management.section.index', compact('search','section'));
     }
 
     public function create()

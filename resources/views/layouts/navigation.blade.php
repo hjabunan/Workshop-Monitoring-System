@@ -165,6 +165,7 @@
                                 <a href="{{route('category.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Category</a>
                                 <a href="{{route('company.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer</a>
                                 <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer Area</a>
+                                <a href="{{route('scl.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staging Control Legend</a>
                                 {{-- <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mast</a> --}}
                                 {{-- <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Model</a> --}}
                                 <a href="{{route('parts.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parts</a>

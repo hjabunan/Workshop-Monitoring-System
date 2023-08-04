@@ -9,9 +9,30 @@ use Illuminate\Support\Facades\DB;
 class PartsController extends Controller
 {
     public function index(){
-        $part = DB::table('parts')->orderBy('id','asc')->get();
+        $search = '';
+        // Query the parts based on the search query
+        // $parts = Parts::when($searchQuery, function ($query, $searchQuery) {
+        //     return $query->where('partno', 'like', '%' . $searchQuery . '%')
+        //                  ->orWhere('partname', 'like', '%' . $searchQuery . '%')
+        //                  ->orWhere('brand', 'like', '%' . $searchQuery . '%')
+        //                  ->orWhere('price', 'like', '%' . $searchQuery . '%')
+        //                  ->orWhere('status', 'like', '%' . $searchQuery . '%');
+        //                  ->whereRaw("CONCAT_WS(' ', partno, partname, brand, price, status) LIKE '%{$searchQuery}%'")
+        // })->get();
 
-        return view('system-management.parts.index',compact('part'));
+        // $parts = DB::table('parts')->whereRaw("CONCAT_WS(' ', partno, partname, brand, price, status) LIKE '%{$searchQuery}%'")->get();
+        // $parts = DB::table('parts')->get();
+        // dd($parts);
+    
+        // Pass the filtered parts to the view
+        return view('system-management.parts.index', compact('search'));
+    }
+
+    public function search($search){
+        $parts = DB::table('parts')->whereRaw("CONCAT_WS(' ', partno, partname, brand, price, status) LIKE '%{$search}%'")->get();
+
+        
+        return view('system-management.parts.index', compact('search','parts'));
     }
 
     public function create(){

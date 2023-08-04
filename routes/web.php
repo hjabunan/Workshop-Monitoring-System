@@ -21,6 +21,7 @@ use App\Http\Controllers\PPTReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RReportController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StagingController;
 use App\Http\Controllers\TechnicianController;
 use App\Http\Controllers\TechnicianScheduleController;
 use App\Http\Controllers\TReportController;
@@ -570,6 +571,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::post('/system-management/area/store', [BayAreaController::class, 'store'])->name('area.store');
             Route::get('/system-management/area/edit/{id}', [BayAreaController::class, 'edit'])->name('area.edit');
             Route::post('/system-management/area/update/{id}', [BayAreaController::class, 'update'])->name('area.update');
+            Route::get('/system-management/area/{search}', [BayAreaController::class, 'search']);
 
         // Brand Management
             Route::get('/system-management/brand', [BrandController::class, 'index'])->name('brand.index');
@@ -599,6 +601,13 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::get('/system-management/cust_area/edit/{id}', [CustomerAreaController::class, 'edit'])->name('cust_area.edit');
             Route::post('/system-management/cust_area/update/{id}', [CustomerAreaController::class, 'update'])->name('cust_area.update');
 
+        // Staging Controller Management
+            Route::get('/system-management/scl', [StagingController::class, 'index'])->name('scl.index');
+            Route::get('/system-management/scl/add', [StagingController::class, 'create'])->name('scl.create');
+            Route::post('/system-management/scl/store', [StagingController::class, 'store'])->name('scl.store');
+            Route::get('/system-management/scl/edit/{id}', [StagingController::class, 'edit'])->name('scl.edit');
+            Route::post('/system-management/scl/update/{id}', [StagingController::class, 'update'])->name('scl.update');
+
         // Mast Management
             Route::get('/system-management/mast', [MastController::class, 'index'])->name('mast.index');
             Route::get('/system-management/mast/add', [MastController::class, 'create'])->name('mast.create');
@@ -619,6 +628,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::post('/system-management/parts/store', [PartsController::class, 'store'])->name('parts.store');
             Route::get('/system-management/parts/edit/{id}', [PartsController::class, 'edit'])->name('parts.edit');
             Route::post('/system-management/parts/update/{id}', [PartsController::class, 'update'])->name('parts.update');
+            Route::get('/system-management/parts/{search}', [PartsController::class, 'search']);
 
         // Section Management
             Route::get('/system-management/section', [SectionController::class, 'index'])->name('section.index');
@@ -626,6 +636,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::post('/system-management/section/store', [SectionController::class, 'store'])->name('section.store');
             Route::get('/system-management/section/edit/{id}', [SectionController::class, 'edit'])->name('section.edit');
             Route::post('/system-management/section/update/{id}', [SectionController::class, 'update'])->name('section.update');
+            Route::get('/system-management/section/{search}', [SectionController::class, 'search']);
 
         // Technician Management
             Route::get('/system-management/technician', [TechnicianController::class, 'index'])->name('technician.index');

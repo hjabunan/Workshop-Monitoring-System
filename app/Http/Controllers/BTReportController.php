@@ -50,6 +50,8 @@ class BTReportController extends Controller
                                 LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                 WHERE unit_workshops.WSDelTransfer=0
                             ');
+        
+        $scl = DB::TABLE('stagings')->get();
 
 
         $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());
@@ -67,7 +69,7 @@ class BTReportController extends Controller
         $CUnitHPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',13)->WHERE('WSStatus','<=',4)->count());
         $CUnitTotal = (DB::TABLE('unit_workshops')->WHERE('WSUnitType','!=',"")->WHERE('WSStatus','<=',4)->count());
         
-        return view('workshop-ms.bt-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
+        return view('workshop-ms.bt-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop', 'scl','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
     }
     
     public function getEvents(Request $request){
@@ -118,7 +120,7 @@ class BTReportController extends Controller
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                     bay_areas.area_name, brands.name,
-                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, 
+                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUTransferDate, 
                                     unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, 
                                     unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
                                     unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays,
@@ -237,7 +239,7 @@ class BTReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -286,7 +288,7 @@ class BTReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -334,7 +336,7 @@ class BTReportController extends Controller
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                     bay_areas.area_name, brands.name,
-                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, 
+                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUTransferDate, 
                                     unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, 
                                     unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
                                     unit_confirms.CUTransferDate
@@ -377,7 +379,7 @@ class BTReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -418,7 +420,7 @@ class BTReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
