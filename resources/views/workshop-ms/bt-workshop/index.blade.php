@@ -182,8 +182,6 @@
                                                                 foreach ($scl as $legend) {
                                                                     if ($diffInDays >= $legend->stg_dayin && $diffInDays <= $legend->stg_dayout){
                                                                         $color = $legend->stg_color;
-                                                                    }else{
-                                                                        $color = "bg-gray-500";
                                                                     }
                                                                 }
                                                             @endphp

@@ -166,8 +166,27 @@
                                                                     $Status = "VACANT";
                                                                 @endphp
                                                             @endif
+                                                            @php
+                                                                $TransDate = $WS->POUTransferDate;
+                                                                $dateToday = date('m/d/Y');
+                                                                
+                                                                $dateTimeTransDate = new DateTime($TransDate);
+                                                                $dateTimeToday = new DateTime($dateToday);
+
+                                                                
+                                                                $interval = $dateTimeTransDate->diff($dateTimeToday);
+
+                                                                
+                                                                $diffInDays = $interval->days;
+
+                                                                foreach ($scl as $legend) {
+                                                                    if ($diffInDays >= $legend->stg_dayin && $diffInDays <= $legend->stg_dayout){
+                                                                        $color = $legend->stg_color;
+                                                                    }
+                                                                }
+                                                            @endphp
                                                         <div class="">
-                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block {{$color}} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
                                                                 <input type="hidden" id="hddnTransferDate" value="{{$WS->CUTransferDate}}">
@@ -215,7 +234,7 @@
                                                 @endforeach
                                             @else
                                                 <div class="">
-                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                         <div class=""><label class="font-medium text-lg">{{$bay->area_name}}</label></div>
                                                         <input type="hidden" id="hddnJONum" value="0">
                                                         <div class="grid grid-cols-7 text-xs">
@@ -250,9 +269,15 @@
                                 <label class="font-medium">LEGEND:</label>
                                 <div class="grid grid-rows-5 gap-1 mt-2 ml-8">
                                     <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-gray-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Vacant</label>
+                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-gray-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>VACANT</label>
                                     </div>
-                                    <div class="">
+
+                                    @foreach ($scl as $legend)
+                                        <div class="">
+                                            <div style="float: left;" class="mr-2 w-12 h-6 {{$legend->stg_color}} rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>{{$legend->stg_name}}</label>
+                                        </div>
+                                    @endforeach
+                                    {{-- <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>On-Schedule</label>
                                     </div>
                                     <div class="">
@@ -263,7 +288,7 @@
                                     </div>
                                     <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Critical</label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div id="divTotalCap" class="row-span-3 mt-5">
@@ -1672,36 +1697,36 @@
     <script>
         $(document).ready(function(){
             // Color Changing
-                $(".btnBay").each(function() {
-                    var hddnJONum = $(this).find("#hddnJONum").val();
-                    var hddnTransferDate = $(this).find("#hddnTransferDate").val();
-                    if (hddnJONum == 0) {
-                        $(this).addClass("bg-gray-500");
-                    } else {
-                        // For Running Days
-                        var startDate = new Date(hddnTransferDate);
-                            var today = new Date();
-                            var todayDate = today; 
-                            var rdays = 0;
-                            while (startDate <= todayDate) {
-                                var dayOfWeek = startDate.getDay();
-                                if (dayOfWeek !== 0) {
-                                rdays++;
-                                }
-                                startDate.setDate(startDate.getDate() + 1);
-                            }
+                // $(".btnBay").each(function() {
+                //     var hddnJONum = $(this).find("#hddnJONum").val();
+                //     var hddnTransferDate = $(this).find("#hddnTransferDate").val();
+                //     if (hddnJONum == 0) {
+                //         $(this).addClass("bg-gray-500");
+                //     } else {
+                //         // For Running Days
+                //         var startDate = new Date(hddnTransferDate);
+                //             var today = new Date();
+                //             var todayDate = today; 
+                //             var rdays = 0;
+                //             while (startDate <= todayDate) {
+                //                 var dayOfWeek = startDate.getDay();
+                //                 if (dayOfWeek !== 0) {
+                //                 rdays++;
+                //                 }
+                //                 startDate.setDate(startDate.getDate() + 1);
+                //             }
 
-                            if(rdays <= 90){
-                                $(this).addClass("bg-green-500");
-                            } else if (rdays > 90 && rdays <= 180) {
-                                $(this).addClass("bg-blue-500");
-                            } else if (rdays > 180 && rdays <= 270) {
-                                $(this).addClass("bg-yellow-500");
-                            } else if (rdays >= 300) {
-                                $(this).addClass("bg-red-500");
-                            }
-                    }
-                });
+                //             if(rdays <= 90){
+                //                 $(this).addClass("bg-green-500");
+                //             } else if (rdays > 90 && rdays <= 180) {
+                //                 $(this).addClass("bg-blue-500");
+                //             } else if (rdays > 180 && rdays <= 270) {
+                //                 $(this).addClass("bg-yellow-500");
+                //             } else if (rdays >= 300) {
+                //                 $(this).addClass("bg-red-500");
+                //             }
+                //     }
+                // });
 
             // Calculate Total Units
                 var CUnitTICJ = <?php echo $CUnitTICJ; ?>;
