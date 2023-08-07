@@ -35,6 +35,8 @@ class WStorage5CController extends Controller
                                 WHERE unit_workshops.WSDelTransfer = 0
                             ');
         
+        $scl = DB::TABLE('stagings')->get();
+        
         $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
 
         $baysT = DB::TABLE('bay_areas')
@@ -59,7 +61,7 @@ class WStorage5CController extends Controller
         $CUnitTotal = (DB::TABLE('unit_workshops')->WHERE('WSUnitType','!=',"")->WHERE('WSStatus','<=',4)->count());
 
         
-        return view('workshop-ms.w-storage5c.index',compact('bays', 'workshop', 'sectionT','baysT','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
+        return view('workshop-ms.w-storage5c.index',compact('bays', 'workshop', 'scl', 'sectionT','baysT','CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
     }
 
     public function getBayData(Request $request){
