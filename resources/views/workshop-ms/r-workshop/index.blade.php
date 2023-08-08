@@ -742,7 +742,7 @@
                                             </div>
 
                                             {{-- TRUCK DETAIL TAB --}}
-                                            <div class="hidden p-4 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
+                                            <div class="hidden p-2 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
                                                 <div class="grid grid-cols-2">
                                                     <div class="place-self-center self-center"><label class="font-medium">Code:</label></div>
                                                     <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xl font-medium text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
@@ -1256,13 +1256,13 @@
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
                                         <div class="col-span-2 relative optionDiv">
-                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
                                             <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
                                                 <ul id="PartNo">
                                                     
@@ -1274,25 +1274,25 @@
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" readonly>
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
@@ -1333,7 +1333,7 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 45vh;">
+                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 41vh;">
                                         <canvas id="PartsChart"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
@@ -2919,6 +2919,7 @@
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
                     $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();

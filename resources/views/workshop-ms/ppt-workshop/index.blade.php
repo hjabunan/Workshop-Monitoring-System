@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         select[name="tdept_length"] {
@@ -742,7 +743,7 @@
                                             </div>
 
                                             {{-- TRUCK DETAIL TAB --}}
-                                            <div class="hidden p-4 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
+                                            <div class="hidden p-2 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
                                                 <div class="grid grid-cols-2">
                                                     <div class="place-self-center self-center"><label class="font-medium">Code:</label></div>
                                                     <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xl text-center font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
@@ -1233,7 +1234,7 @@
                         <h3 class="text-xl font-medium text-gray-900 ml-5">
                             Parts Information
                         </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalPartInfo">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center" data-modal-hide="modalPartInfo">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             <span class="sr-only">Close modal</span>
                         </button>
@@ -1251,25 +1252,45 @@
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        {{-- <div class="col-span-2">
                                             <input type="text" id="PIPartNum" name="PIPartNum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                        </div> --}}
+                                        <div class="col-span-2 relative optionDiv">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
+                                                <ul id="PartNo">
+                                                    
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
@@ -2961,6 +2982,22 @@
                     });
                 });
 
+            // Price Computation
+                var quantityInput = $('#PIQuantity');
+                var priceInput = $('#PIPrice');
+                var totalPriceInput = $('#PITPrice');
+
+                function updateTotalPrice() {
+                    var quantity = parseFloat(quantityInput.val()) || 0;
+                    var price = parseFloat(priceInput.val()) || 0;
+                    var totalPrice = quantity * price;
+
+                    totalPriceInput.val(totalPrice.toFixed(2));
+                }
+
+                quantityInput.on('keyup', updateTotalPrice);
+                priceInput.on('change', updateTotalPrice);
+
             // Save Parts Information
                 jQuery(document).on( "click", "#savePI", function(){
                     var JONum = $('#PIJONum').val();
@@ -2978,6 +3015,8 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3104,9 +3143,16 @@
                             $('#PIPartNum').val(result.PIPartNum);
                             $('#PIDescription').val(result.PIDescription);
                             $('#PIQuantity').val(result.PIQuantity);
+                            $('#PIPrice').val(result.PIPrice);
                             $('#PIDateReq').val(result.PIDateReq);
                             $('#PIDateRec').val(result.PIDateRec);
                             $('#PIReason').val(result.PIReason);
+
+                            var quantity = parseFloat(result.PIQuantity) || 0;
+                            var price = parseFloat(result.PIPrice) || 0;
+                            var totalPrice = quantity * price;
+
+                            $('#PITPrice').val(totalPrice.toFixed(2));
                         }
                     });
                 });
@@ -3119,6 +3165,8 @@
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -3162,6 +3210,10 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3288,6 +3340,8 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3795,6 +3849,101 @@
                         $('#divWHTransfer').hide();
                         $('#divDelTransfer').show();
                     }
+                });
+
+            // Parts Search
+                jQuery(document).on( "click", ".inputOption", function(e){
+                    $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                    $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                    var value = $(this).val().toLowerCase();
+                    searchFilter(value);
+                    e.stopPropagation();
+                    
+                    $('.listOption').addClass('hidden');
+                });
+
+                function searchFilter(searchInput){
+                    $(".listOption li").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+                    });
+                }
+                
+                jQuery(document).on( "keyup", ".inputOption", function(e){
+                    var value = $(this).val();
+                    var length = value.length;
+                    var _token = $('input[name="_token"]').val();
+
+                    if (value === "") {
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    
+                    if(length < 3){
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    if (length = 3){
+                        $.ajax({
+                            url:"{{ route('r-workshop.search') }}",
+                            method:"GET",
+                            dataType: 'json',
+                            data:{
+                                value: value,
+                                _token: _token
+                            },
+                            success:function(result){
+                                $('#PartNo').html(result.partno);
+                                
+                                $('.listOption').removeClass('hidden');
+
+                                
+                                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                                var value = $(this).val().toLowerCase();
+                                searchFilter(value);
+                                e.stopPropagation();
+                            }
+                        });
+                    }else if(length > 3){
+                        searchFilter(length);
+                    }else{
+                        $('.listOption').addClass('hidden');
+                    }
+
+                });
+                
+                jQuery(document).on( "click", ".listOption li", function(){
+                    var name = $(this).html();
+                    var id = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.getPartsInfox') }}",
+                        method:"POST",
+                        dataType: 'json',
+                        data:{
+                            id: id,
+                            _token: _token
+                        },
+                        success:function(result){
+                            $('#PIPartNum').val(result.partno);
+                            $('#PIDescription').val(result.partname);
+                            $('#PIPrice').val(result.price);
+
+                            $(".listOption li").closest('.optionDiv').find('input').val(name);
+                            $('.listOption').addClass('hidden');
+                        }
+                    })
+
                 });
                 
         });

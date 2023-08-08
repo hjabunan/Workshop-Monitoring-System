@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         select[name="tdept_length"] {
@@ -742,7 +743,7 @@
                                             </div>
 
                                             {{-- TRUCK DETAIL TAB --}}
-                                            <div class="hidden p-4 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
+                                            <div class="hidden p-2 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
                                                 <div class="grid grid-cols-2">
                                                     <div class="place-self-center self-center"><label class="font-medium">Code:</label></div>
                                                     <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xl text-center font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
@@ -1244,32 +1245,52 @@
                             @csrf
                             <div class="grid grid-cols-9">
                                 <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 45vh;">
+                                    <div class="p-2 grid grid-cols-3" style="height: 46vh;">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        {{-- <div class="col-span-2">
                                             <input type="text" id="PIPartNum" name="PIPartNum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                        </div> --}}
+                                        <div class="col-span-2 relative optionDiv">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
+                                                <ul id="PartNo">
+                                                    
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
+                                        </div>
+                                        <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
@@ -1310,7 +1331,7 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 45vh;">
+                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 41vh;">
                                         <canvas id="PartsChart"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
@@ -2870,6 +2891,8 @@
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
+                    $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -2943,6 +2966,22 @@
                     });
                 });
 
+            // Price Computation
+                var quantityInput = $('#PIQuantity');
+                var priceInput = $('#PIPrice');
+                var totalPriceInput = $('#PITPrice');
+
+                function updateTotalPrice() {
+                    var quantity = parseFloat(quantityInput.val()) || 0;
+                    var price = parseFloat(priceInput.val()) || 0;
+                    var totalPrice = quantity * price;
+
+                    totalPriceInput.val(totalPrice.toFixed(2));
+                }
+
+                quantityInput.on('keyup', updateTotalPrice);
+                priceInput.on('change', updateTotalPrice);
+
             // Save Parts Information
                 jQuery(document).on( "click", "#savePI", function(){
                     var JONum = $('#PIJONum').val();
@@ -2960,6 +2999,8 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3086,9 +3127,16 @@
                             $('#PIPartNum').val(result.PIPartNum);
                             $('#PIDescription').val(result.PIDescription);
                             $('#PIQuantity').val(result.PIQuantity);
+                            $('#PIPrice').val(result.PIPrice);
                             $('#PIDateReq').val(result.PIDateReq);
                             $('#PIDateRec').val(result.PIDateRec);
                             $('#PIReason').val(result.PIReason);
+
+                            var quantity = parseFloat(result.PIQuantity) || 0;
+                            var price = parseFloat(result.PIPrice) || 0;
+                            var totalPrice = quantity * price;
+
+                            $('#PITPrice').val(totalPrice.toFixed(2));
                         }
                     });
                 });
@@ -3101,6 +3149,8 @@
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
+                    $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -3144,6 +3194,8 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3270,6 +3322,8 @@
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3778,6 +3832,101 @@
                         $('#divWHTransfer').hide();
                         $('#divDelTransfer').show();
                     }
+                });
+
+            // Parts Search
+                jQuery(document).on( "click", ".inputOption", function(e){
+                    $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                    $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                    var value = $(this).val().toLowerCase();
+                    searchFilter(value);
+                    e.stopPropagation();
+                    
+                    $('.listOption').addClass('hidden');
+                });
+
+                function searchFilter(searchInput){
+                    $(".listOption li").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+                    });
+                }
+                
+                jQuery(document).on( "keyup", ".inputOption", function(e){
+                    var value = $(this).val();
+                    var length = value.length;
+                    var _token = $('input[name="_token"]').val();
+
+                    if (value === "") {
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    
+                    if(length < 3){
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    if (length = 3){
+                        $.ajax({
+                            url:"{{ route('r-workshop.search') }}",
+                            method:"GET",
+                            dataType: 'json',
+                            data:{
+                                value: value,
+                                _token: _token
+                            },
+                            success:function(result){
+                                $('#PartNo').html(result.partno);
+                                
+                                $('.listOption').removeClass('hidden');
+
+                                
+                                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                                var value = $(this).val().toLowerCase();
+                                searchFilter(value);
+                                e.stopPropagation();
+                            }
+                        });
+                    }else if(length > 3){
+                        searchFilter(length);
+                    }else{
+                        $('.listOption').addClass('hidden');
+                    }
+
+                });
+                
+                jQuery(document).on( "click", ".listOption li", function(){
+                    var name = $(this).html();
+                    var id = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+
+
+                    $.ajax({
+                        url:"{{ route('r-workshop.getPartsInfox') }}",
+                        method:"POST",
+                        dataType: 'json',
+                        data:{
+                            id: id,
+                            _token: _token
+                        },
+                        success:function(result){
+                            $('#PIPartNum').val(result.partno);
+                            $('#PIDescription').val(result.partname);
+                            $('#PIPrice').val(result.price);
+
+                            $(".listOption li").closest('.optionDiv').find('input').val(name);
+                            $('.listOption').addClass('hidden');
+                        }
+                    })
+
                 });
 
 

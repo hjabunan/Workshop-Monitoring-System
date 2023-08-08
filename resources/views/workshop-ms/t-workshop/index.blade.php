@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         select[name="tdept_length"] {
@@ -797,7 +798,7 @@
                                             </div>
 
                                             {{-- TRUCK DETAIL TAB --}}
-                                            <div class="hidden p-4 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
+                                            <div class="hidden p-2 rounded-lg" id="tdetail" role="tabpanel" aria-labelledby="tdetail-tab">
                                                 <div class="grid grid-cols-2">
                                                     <div class="place-self-center self-center"><label class="font-medium">Code:</label></div>
                                                     <div class=""><input type="text" id="UnitInfoCode" name="UnitInfoCode" class="border border-gray-300 text-gray-900 text-xl text-center font-medium rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></div>
@@ -1293,7 +1294,7 @@
                         <h3 class="text-xl font-medium text-gray-900 ml-5">
                             Parts Information
                         </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalPartInfo">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center" data-modal-hide="modalPartInfo">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             <span class="sr-only">Close modal</span>
                         </button>
@@ -1311,13 +1312,13 @@
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
                                         <div class="col-span-2 relative optionDiv">
-                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
                                             <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
                                                 <ul id="PartNo">
                                                     
@@ -1328,25 +1329,25 @@
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" readonly>
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
@@ -1354,7 +1355,7 @@
                                         <div class="col-span-2">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                 </div>
                                                 <input datepicker type="text" id="PIDateReq" name="PIDateReq" datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1.5" placeholder="">
                                             </div>
@@ -1365,7 +1366,7 @@
                                         <div class="col-span-2">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                 </div>
                                                 <input datepicker type="text" id="PIDateRec" name="PIDateRec" datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1.5" placeholder="">
                                             </div>
