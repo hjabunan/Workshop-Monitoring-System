@@ -456,6 +456,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
     
             // Confirm Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/deleteCU', [AdminMonitor::class, 'deleteCU'])->name('admin_monitoring.report.deleteCU');
+                Route::GET('/workshop-ms/admin_monitoring/report/sortConfirm', [AdminMonitor::class, 'sortConfirm'])->name('admin_monitoring.report.sortConfirm');
     
             // Delivered Unit
                 Route::POST('/workshop-ms/admin_monitoring/report/deleteDU', [AdminMonitor::class, 'deleteDU'])->name('admin_monitoring.report.deleteDU');

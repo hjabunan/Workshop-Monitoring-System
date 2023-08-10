@@ -598,7 +598,7 @@
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow">
                     <!-- Modal body -->
-                    <div class="space-y-6" style="height: 82vh;">
+                    <div class="space-y-6" style="height: 85vh;">
                         <form action="" id="FormMonitoring">
                             @csrf
                             <div class="grid grid-cols-2 gap-2">
@@ -1129,7 +1129,7 @@
                                     </div>
                                 </div>
                                 {{-- B SIDE --}}
-                                <div class="bg-slate-700 rounded p-3" style="height: 82vh;">
+                                <div class="bg-slate-700 rounded p-3" style="height: 85vh;">
                                     {{-- PLAN --}}
                                     <div class="grid grid-cols-5">
                                         <div class="col-span-1 mt-5"></div>
@@ -1215,7 +1215,7 @@
                         </form>
                     </div>
                     <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                    <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
                         <button id="saveBayMon" name="saveBayMon" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button id="transferUnit" name="transferUnit" data-modal-target="modalTransferUnit" data-modal-toggle="modalTransferUnit" type="button" class="text-white bg-yellow-600 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
                         <button id="PIBayMon" name="PIBayMon" data-modal-target="modalPartInfo" data-modal-toggle="modalPartInfo" type="button" class="text-white bg-green-600 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">PARTS INFO</button>
@@ -1245,7 +1245,7 @@
                             @csrf
                             <div class="grid grid-cols-9">
                                 <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 45vh;">
+                                    <div class="p-2 grid grid-cols-3" style="height: 50vh;">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
                                         <div class="place-self-center">
@@ -1331,7 +1331,7 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 45vh;">
+                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 40vh;">
                                         <canvas id="PartsChart"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
@@ -1347,9 +1347,9 @@
                                     </div>
                                 </div>
                                 <div class="col-span-6 grid grid-rows-2 ml-2">
-                                    <div class="">
+                                    <div class="" style="height: 45vh;">
                                         <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
-                                        <div class="overflow-y-auto" style="height: 41vh;">
+                                        <div class="overflow-y-auto">
                                             <table id="tablePParts" class="w-full text-sm text-left text-gray-500">
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
@@ -1382,10 +1382,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="">
+                                    <div class="" style="height: 45vh;">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
-                                            <div class="col-span-5 overflow-y-auto" style="height: 40vh;">
+                                            <div class="col-span-5 overflow-y-auto">
                                                 <table id="tablePPartsI" class="w-full text-sm text-left text-gray-500">
                                                     <thead class="text-gray-700 uppercase bg-gray-50">
                                                         <tr class="PPII place-items-center">

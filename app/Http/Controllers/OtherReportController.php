@@ -1016,6 +1016,7 @@ class OtherReportController extends Controller
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
+            $partinfo->PIPrice = $request->PIPrice;
             $partinfo->PIDateReq = $request->PIDateReq;
             $partinfo->PIDateRec = $request->PIDateRec;
             $partinfo->PIReason = $request->PIReason;
@@ -1029,6 +1030,7 @@ class OtherReportController extends Controller
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
+            $partinfo->PIPrice = $request->PIPrice;
             $partinfo->PIDateReq = $request->PIDateReq;
             $partinfo->PIDateRec = $request->PIDateRec;
             $partinfo->PIReason = $request->PIReason;
@@ -1145,6 +1147,7 @@ class OtherReportController extends Controller
             'PIPartNum' => $pinfo->PIPartNum,
             'PIDescription' => $pinfo->PIDescription,
             'PIQuantity' => $pinfo->PIQuantity,
+            'PIPrice' => $pinfo->PIPrice,
             'PIDateReq' => $pinfo->PIDateReq,
             'PIDateRec' => $pinfo->PIDateRec,
             'PIReason' => $pinfo->PIReason,
@@ -1746,6 +1749,7 @@ class OtherReportController extends Controller
                             'POUStatus' => $request->UnitStatus,
                             'POUTransferArea' => $request->UnitArea,
                             'POUTransferBay' => $request->UnitBay,
+                            'POUTransferDate' => $request->UnitTransferDate,
                             'POUTransferRemarks' => $request->UnitRemarksT,
                         ]);
     

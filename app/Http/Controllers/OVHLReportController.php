@@ -1700,6 +1700,7 @@ class OVHLReportController extends Controller
                             'POUStatus' => $request->UnitStatus,
                             'POUTransferArea' => $request->UnitArea,
                             'POUTransferBay' => $request->UnitBay,
+                            'POUTransferDate' => $request->UnitTransferDate,
                             'POUTransferRemarks' => $request->UnitRemarksT,
                         ]);
     

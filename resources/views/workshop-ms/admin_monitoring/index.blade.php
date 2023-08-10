@@ -183,10 +183,30 @@
                                                                             $Status = "VACANT";
                                                                         @endphp
                                                                     @endif
+                                                                    @php
+                                                                        $TransDate = $WS->POUTransferDate;
+                                                                        $dateToday = date('m/d/Y');
+                                                                        
+                                                                        $dateTimeTransDate = new DateTime($TransDate);
+                                                                        $dateTimeToday = new DateTime($dateToday);
+        
+                                                                        
+                                                                        $interval = $dateTimeTransDate->diff($dateTimeToday);
+        
+                                                                        
+                                                                        $diffInDays = $interval->days;
+        
+                                                                        foreach ($scl as $legend) {
+                                                                            if ($diffInDays >= $legend->stg_dayin && $diffInDays <= $legend->stg_dayout){
+                                                                                $color = $legend->stg_color;
+                                                                            }
+                                                                        }
+                                                                    @endphp
                                                                 <div class="">
-                                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block {{$color}} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                         <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                         <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
+                                                                        <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                         <div class="grid grid-cols-7 text-xs">
                                                                             <div class="col-span-3 text-white text-left">
                                                                                 <div class=""><label class="font-medium">Class:</label></div>
@@ -231,7 +251,7 @@
                                                         @endforeach
                                                     @else
                                                         <div class="">
-                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="0">
                                                                 <div class="grid grid-cols-7 text-xs">
@@ -364,10 +384,30 @@
                                                                             $Status = "VACANT";
                                                                         @endphp
                                                                     @endif
+                                                                    @php
+                                                                        $TransDate = $WS->POUTransferDate;
+                                                                        $dateToday = date('m/d/Y');
+                                                                        
+                                                                        $dateTimeTransDate = new DateTime($TransDate);
+                                                                        $dateTimeToday = new DateTime($dateToday);
+        
+                                                                        
+                                                                        $interval = $dateTimeTransDate->diff($dateTimeToday);
+        
+                                                                        
+                                                                        $diffInDays = $interval->days;
+        
+                                                                        foreach ($scl as $legend) {
+                                                                            if ($diffInDays >= $legend->stg_dayin && $diffInDays <= $legend->stg_dayout){
+                                                                                $color = $legend->stg_color;
+                                                                            }
+                                                                        }
+                                                                    @endphp
                                                                 <div class="">
-                                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block {{$color}} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                         <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                         <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
+                                                                        <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                         <div class="grid grid-cols-7 text-xs">
                                                                             <div class="col-span-3 text-white text-left">
                                                                                 <div class=""><label class="font-medium">Class:</label></div>
@@ -412,7 +452,7 @@
                                                         @endforeach
                                                     @else
                                                         <div class="">
-                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="0">
                                                                 <div class="grid grid-cols-7 text-xs">
@@ -545,10 +585,30 @@
                                                                             $Status = "VACANT";
                                                                         @endphp
                                                                     @endif
+                                                                    @php
+                                                                        $TransDate = $WS->POUTransferDate;
+                                                                        $dateToday = date('m/d/Y');
+                                                                        
+                                                                        $dateTimeTransDate = new DateTime($TransDate);
+                                                                        $dateTimeToday = new DateTime($dateToday);
+        
+                                                                        
+                                                                        $interval = $dateTimeTransDate->diff($dateTimeToday);
+        
+                                                                        
+                                                                        $diffInDays = $interval->days;
+        
+                                                                        foreach ($scl as $legend) {
+                                                                            if ($diffInDays >= $legend->stg_dayin && $diffInDays <= $legend->stg_dayout){
+                                                                                $color = $legend->stg_color;
+                                                                            }
+                                                                        }
+                                                                    @endphp
                                                                 <div class="">
-                                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                                    <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block {{$color}} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                         <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
                                                                         <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
+                                                                        <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
                                                                         <div class="grid grid-cols-7 text-xs">
                                                                             <div class="col-span-3 text-white text-left">
                                                                                 <div class=""><label class="font-medium">Class:</label></div>
@@ -593,7 +653,7 @@
                                                         @endforeach
                                                     @else
                                                         <div class="">
-                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
+                                                            <div data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" style="cursor: pointer;">
                                                                 <div class=""><label class="font-medium text-lg">{{$bay->area_name}}</label></div>
                                                                 <input type="hidden" id="hddnJONum" value="0">
                                                                 <div class="grid grid-cols-7 text-xs">
@@ -630,9 +690,15 @@
                                 <label class="font-medium">LEGEND:</label>
                                 <div class="grid grid-rows-5 gap-1 mt-2 ml-8">
                                     <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-gray-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Vacant</label>
+                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-gray-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>VACANT</label>
                                     </div>
-                                    <div class="">
+
+                                    @foreach ($scl as $legend)
+                                        <div class="">
+                                            <div style="float: left;" class="mr-2 w-12 h-6 {{$legend->stg_color}} rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>{{$legend->stg_name}}</label>
+                                        </div>
+                                    @endforeach
+                                    {{-- <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>On-Schedule</label>
                                     </div>
                                     <div class="">
@@ -643,7 +709,7 @@
                                     </div>
                                     <div class="">
                                         <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Delivery Bay</label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div id="divTotalCap" class="row-span-3 mt-5">
@@ -952,7 +1018,7 @@
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow">
                     <!-- Modal body -->
-                    <div class="space-y-6" style="height: 82vh;">
+                    <div class="space-y-6" style="height: 85vh;">
                         <form action="" id="FormMonitoring">
                             @csrf
                             <div class="grid grid-cols-2 gap-2">
@@ -1483,7 +1549,7 @@
                                     </div>
                                 </div>
                                 {{-- B SIDE --}}
-                                <div class="bg-slate-700 rounded p-3" style="height: 82vh;">
+                                <div class="bg-slate-700 rounded p-3" style="height: 85vh;">
                                     {{-- PLAN --}}
                                     <div class="grid grid-cols-5">
                                         <div class="col-span-1 mt-5"></div>
@@ -1574,7 +1640,7 @@
                         </form>
                     </div>
                     <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                    <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
                         <button id="saveBayMon" name="saveBayMon" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button id="transferUnit" name="transferUnit" data-modal-target="modalTransferUnit" data-modal-toggle="modalTransferUnit" type="button" class="text-white bg-yellow-600 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">TRANSFER</button>
                         <button id="PIBayMon" name="PIBayMon" data-modal-target="modalPartInfo" data-modal-toggle="modalPartInfo" type="button" class="text-white bg-green-600 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">PARTS INFO</button>
@@ -1604,20 +1670,20 @@
                             @csrf
                             <div class="grid grid-cols-9">
                                 <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 46vh;">
+                                    <div class="p-2 grid grid-cols-3" style="height: 50vh;">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
                                         <div class="col-span-2 relative optionDiv">
-                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
                                             <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
                                                 <ul id="PartNo">
                                                     {{-- @foreach ($part as $parts)
@@ -1631,25 +1697,25 @@
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
+                                            <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
                                         </div>
                                         <div class="col-span-2">
-                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1" readonly>
+                                            <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
@@ -1690,7 +1756,7 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 45vh;">
+                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 40vh;">
                                         <canvas id="PartsChart"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
@@ -1706,9 +1772,9 @@
                                     </div>
                                 </div>
                                 <div class="col-span-6 grid grid-rows-2 ml-2">
-                                    <div class="">
+                                    <div class="" style="height: 45vh;">
                                         <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
-                                        <div class="overflow-y-auto" style="height: 41vh;">
+                                        <div class="overflow-y-auto">
                                             <table id="tablePParts" class="w-full text-sm text-left text-gray-500">
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
@@ -1744,10 +1810,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="">
+                                    <div class="" style="height: 45vh;">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
-                                            <div class="col-span-5 overflow-y-auto" style="height: 40vh;">
+                                            <div class="col-span-5 overflow-y-auto">
                                                 <table id="tablePPartsI" class="w-full text-sm text-left text-gray-500">
                                                     <thead class="text-gray-700 uppercase bg-gray-50">
                                                         <tr class="PPII place-items-center">
@@ -2083,15 +2149,15 @@
 
     <script>
         $(document).ready(function(){
-            // 
-                $(".btnBay").each(function() {
-                    var hddnJONum = $(this).find("#hddnJONum").val();
-                    if (hddnJONum == 0) {
-                        $(this).addClass("bg-gray-500");
-                    } else {
-                        $(this).addClass("bg-green-500");
-                    }
-                });
+            // Change Color
+                // $(".btnBay").each(function() {
+                //     var hddnJONum = $(this).find("#hddnJONum").val();
+                //     if (hddnJONum == 0) {
+                //         $(this).addClass("bg-gray-500");
+                //     } else {
+                //         $(this).addClass("bg-green-500");
+                //     }
+                // });
 
             // 
                 var CUnitTICJ = <?php echo $CUnitTICJ; ?>;
@@ -4309,8 +4375,6 @@
                 })
 
             });
-
-
         });
     </script>
 </x-app-layout>

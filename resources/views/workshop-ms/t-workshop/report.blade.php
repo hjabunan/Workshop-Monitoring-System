@@ -113,7 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableWS" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="WS place-items-center">
@@ -420,7 +420,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 260px);" class="overflow-y-auto">
                                     <table id="tableNewUnit" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="NewUnit place-items-center">
@@ -546,7 +546,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 260px);" class="overflow-y-auto">
                                     <table id="tablePOU" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="POU place-items-center">
@@ -689,7 +689,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="divBodyMiddle" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                        <div id="divBodyMiddle" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                             <table id="tableCU" class="CU w-full text-sm text-left text-gray-500">
                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                                     <tr class="place-items-center">
@@ -823,7 +823,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableDU" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="place-items-center">
@@ -980,7 +980,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableCanUnit" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="CanUnit place-items-center">
@@ -1109,7 +1109,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableDRMon" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="DRMon place-items-center">

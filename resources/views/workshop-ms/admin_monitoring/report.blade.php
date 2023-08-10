@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         button:disabled,button[disabled]{
@@ -112,7 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableWS" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="WS place-items-center">
@@ -419,7 +420,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 260px);" class="overflow-y-auto">
                                     <table id="tableNewUnit" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="NewUnit place-items-center">
@@ -545,7 +546,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 260px);" class="overflow-y-auto">
                                     <table id="tablePOU" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="POU place-items-center">
@@ -648,16 +649,52 @@
                                             <label for="cuURU" class="ml-2 text-sm font-medium text-gray-900">UNDER REPAIR UNIT</label>
                                         </div>
                                         <div class="flex items-center mb-4">
-                                            <input id="cuGU" type="radio" value="cuGU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                            <label for="cuGU" class="ml-2 text-sm font-medium text-gray-900">GOOD UNIT</label>
+                                            <input id="cuUGU" type="radio" value="cuUGU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuUGU" class="ml-2 text-sm font-medium text-gray-900">USED GOOD UNIT</label>
                                         </div>
                                         <div class="flex items-center mb-4">
-                                            <input id="cuSU" type="radio" value="cuSU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                            <label for="cuSU" class="ml-2 text-sm font-medium text-gray-900">SERVICE UNIT</label>
+                                            <input id="cuSeU" type="radio" value="cuSeU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuSeU" class="ml-2 text-sm font-medium text-gray-900">SERVICE UNIT</label>
                                         </div>
                                         <div class="flex items-center mb-4">
-                                            <input id="cuFSU" type="radio" value="cuFSU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                            <label for="cuFSU" class="ml-2 text-sm font-medium text-gray-900">FOR SCRAP UNIT</label>
+                                            <input id="cuFScU" type="radio" value="cuFScU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuFScU" class="ml-2 text-sm font-medium text-gray-900">FOR SCRAP UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuFSaU" type="radio" value="cuFSaU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuFSaU" class="ml-2 text-sm font-medium text-gray-900">FOR SALE UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWP" type="radio" value="cuWP" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWP" class="ml-2 text-sm font-medium text-gray-900">WAITING PARTS</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWBO" type="radio" value="cuWBO" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWBO" class="ml-2 text-sm font-medium text-gray-900">WAITING BACK ORDER</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWSB" type="radio" value="cuWSB" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWSB" class="ml-2 text-sm font-medium text-gray-900">WAITING SPARE BATT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuStU" type="radio" value="cuStU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuStU" class="ml-2 text-sm font-medium text-gray-900">STOCK UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuRU" type="radio" value="cuRU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuRU" class="ml-2 text-sm font-medium text-gray-900">RESERVED UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWFM" type="radio" value="cuWFM" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWFM" class="ml-2 text-sm font-medium text-gray-900">WAITING FOR MCI</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWFP" type="radio" value="cuWFP" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWFP" class="ml-2 text-sm font-medium text-gray-900">WAITING FOR PDI</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuDP" type="radio" value="cuDP" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuDP" class="ml-2 text-sm font-medium text-gray-900">DONE PDI (WFD)</label>
                                         </div>
                                         <div class="flex items-center mb-4">
                                             <input id="cuDU" type="radio" value="cuDU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
@@ -688,7 +725,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="divBodyMiddle" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                        <div id="divBodyMiddle" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                             <table id="tableCU" class="CU w-full text-sm text-left text-gray-500">
                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                                     <tr class="place-items-center">
@@ -725,7 +762,7 @@
                                                                 <button type="button" data-id="{{$CU->POUID}}" data-unittype="{{$CU->POUUnitType}}" class="btnCUView" id="btnCUView"><svg fill="#000000" viewBox="-3.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"> <path d="M12.406 13.844c1.188 0 2.156 0.969 2.156 2.156s-0.969 2.125-2.156 2.125-2.125-0.938-2.125-2.125 0.938-2.156 2.125-2.156zM12.406 8.531c7.063 0 12.156 6.625 12.156 6.625 0.344 0.438 0.344 1.219 0 1.656 0 0-5.094 6.625-12.156 6.625s-12.156-6.625-12.156-6.625c-0.344-0.438-0.344-1.219 0-1.656 0 0 5.094-6.625 12.156-6.625zM12.406 21.344c2.938 0 5.344-2.406 5.344-5.344s-2.406-5.344-5.344-5.344-5.344 2.406-5.344 5.344 2.406 5.344 5.344 5.344z"></path></svg></button>
                                                                 <button type="button" data-id="{{$CU->POUID}}" data-unittype="{{$CU->POUUnitType}}" class="btnCUEdit" id="btnCUEdit"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
                                                                 <button type="button" data-id="{{$CU->POUID}}" data-cubay="{{$CU->CUTransferBay}}" class="btnCUDelete" id="btnCUDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
-                                                                <button type="button" data-id="{{$CU->POUID}}" class="btnCUTransfer" id="btnCUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button>
+                                                                {{-- <button type="button" data-id="{{$CU->POUID}}" class="btnCUTransfer" id="btnCUTransfer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z" fill="#0dd954"/><path d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z" fill="#5F6379"/><path d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z" fill="#5F6379"/></svg></button> --}}
                                                             </td>
                                                             <td class="px-1 py-0.5 text-center">
                                                                 {{$CU->POUCode}}
@@ -822,7 +859,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableDU" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="place-items-center">
@@ -972,7 +1009,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableCanUnit" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="CanUnit place-items-center">
@@ -1101,7 +1138,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="bodyDIV" style="height: calc(100vh - 265px);" class="overflow-y-auto">
+                                <div id="bodyDIV" style="height: calc(100vh - 230px);" class="overflow-y-auto">
                                     <table id="tableDRMon" class="w-full text-sm text-left text-gray-500">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr class="DRMon place-items-center">
@@ -4214,6 +4251,24 @@
                         data: {unitStatus: unitStatus, _token: _token},
                         success: function(result) {
                             $('#tableBPOU').html(result);
+                        }
+                    });
+                });
+
+            // Filter by Status Confirm Unit
+                $('input[name="cuRadioStatus"]').change(function() {
+                    var unitStatus = $('input[name="cuRadioStatus"]:checked').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $('#CTableSearch').val('');
+                    $('#CUnitClassification').val('');
+
+                    $.ajax({
+                        url: "{{ route('admin_monitoring.report.sortConfirm') }}",
+                        type: "GET",
+                        data: {unitStatus: unitStatus, _token: _token},
+                        success: function(result) {
+                            $('#tableBCU').html(result);
                         }
                     });
                 });

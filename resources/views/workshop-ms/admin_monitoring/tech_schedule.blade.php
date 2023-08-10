@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <style>
         #table_id2_length, #table_id1_length, #table_id2_filter {
