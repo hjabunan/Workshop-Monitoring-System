@@ -652,16 +652,52 @@
                                             <label for="cuURU" class="ml-2 text-sm font-medium text-gray-900">UNDER REPAIR UNIT</label>
                                         </div>
                                         <div class="flex items-center mb-4">
-                                            <input id="cuGU" type="radio" value="cuGU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                            <label for="cuGU" class="ml-2 text-sm font-medium text-gray-900">GOOD UNIT</label>
+                                            <input id="cuUGU" type="radio" value="cuUGU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuUGU" class="ml-2 text-sm font-medium text-gray-900">USED GOOD UNIT</label>
                                         </div>
                                         <div class="flex items-center mb-4">
-                                            <input id="cuSU" type="radio" value="cuSU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                            <label for="cuSU" class="ml-2 text-sm font-medium text-gray-900">SERVICE UNIT</label>
+                                            <input id="cuSeU" type="radio" value="cuSeU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuSeU" class="ml-2 text-sm font-medium text-gray-900">SERVICE UNIT</label>
                                         </div>
                                         <div class="flex items-center mb-4">
-                                            <input id="cuFSU" type="radio" value="cuFSU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                                            <label for="cuFSU" class="ml-2 text-sm font-medium text-gray-900">FOR SCRAP UNIT</label>
+                                            <input id="cuFScU" type="radio" value="cuFScU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuFScU" class="ml-2 text-sm font-medium text-gray-900">FOR SCRAP UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuFSaU" type="radio" value="cuFSaU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuFSaU" class="ml-2 text-sm font-medium text-gray-900">FOR SALE UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWP" type="radio" value="cuWP" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWP" class="ml-2 text-sm font-medium text-gray-900">WAITING PARTS</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWBO" type="radio" value="cuWBO" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWBO" class="ml-2 text-sm font-medium text-gray-900">WAITING BACK ORDER</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWSB" type="radio" value="cuWSB" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWSB" class="ml-2 text-sm font-medium text-gray-900">WAITING SPARE BATT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuStU" type="radio" value="cuStU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuStU" class="ml-2 text-sm font-medium text-gray-900">STOCK UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuRU" type="radio" value="cuRU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuRU" class="ml-2 text-sm font-medium text-gray-900">RESERVED UNIT</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWFM" type="radio" value="cuWFM" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWFM" class="ml-2 text-sm font-medium text-gray-900">WAITING FOR MCI</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuWFP" type="radio" value="cuWFP" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuWFP" class="ml-2 text-sm font-medium text-gray-900">WAITING FOR PDI</label>
+                                        </div>
+                                        <div class="flex items-center mb-4">
+                                            <input id="cuDP" type="radio" value="cuDP" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="cuDP" class="ml-2 text-sm font-medium text-gray-900">DONE PDI (WFD)</label>
                                         </div>
                                         <div class="flex items-center mb-4">
                                             <input id="cuDU" type="radio" value="cuDU" name="cuRadioStatus" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
@@ -4246,6 +4282,24 @@
                         data: {unitStatus: unitStatus, _token: _token},
                         success: function(result) {
                             $('#tableBPOU').html(result);
+                        }
+                    });
+                });
+
+            // Filter by Status Confirm Unit
+                $('input[name="cuRadioStatus"]').change(function() {
+                    var unitStatus = $('input[name="cuRadioStatus"]:checked').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $('#CTableSearch').val('');
+                    $('#CUnitClassification').val('');
+
+                    $.ajax({
+                        url: "{{ route('r-workshop.report.sortConfirm') }}",
+                        type: "GET",
+                        data: {unitStatus: unitStatus, _token: _token},
+                        success: function(result) {
+                            $('#tableBCU').html(result);
                         }
                     });
                 });

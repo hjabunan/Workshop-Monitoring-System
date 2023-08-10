@@ -163,6 +163,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
     
         // Confirm Unit
             Route::POST('/workshop-ms/bt-workshop/report/deleteCU', [BTReportController::class, 'deleteCU'])->name('bt-workshop.report.deleteCU');
+            Route::GET('/workshop-ms/bt-workshop/report/sortConfirm', [BTReportController::class, 'sortConfirm'])->name('bt-workshop.report.sortConfirm');
 
         // Delivered Unit
             Route::POST('/workshop-ms/bt-workshop/report/deleteDU', [BTReportController::class, 'deleteDU'])->name('bt-workshop.report.deleteDU');
@@ -223,6 +224,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         
         // Confirm Unit
             Route::POST('/workshop-ms/t-workshop/report/deleteCU', [TReportController::class, 'deleteCU'])->name('t-workshop.report.deleteCU');
+            Route::GET('/workshop-ms/t-workshop/report/sortConfirm', [TReportController::class, 'sortConfirm'])->name('t-workshop.report.sortConfirm');
 
         // Delivered Unit
             Route::POST('/workshop-ms/t-workshop/report/deleteDU', [TReportController::class, 'deleteDU'])->name('t-workshop.report.deleteDU');
@@ -293,6 +295,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         
         // Confirm Unit
             Route::POST('/workshop-ms/r-workshop/report/deleteCU', [RReportController::class, 'deleteCU'])->name('r-workshop.report.deleteCU');
+            Route::GET('/workshop-ms/r-workshop/report/sortConfirm', [RReportController::class, 'sortConfirm'])->name('r-workshop.report.sortConfirm');
 
         // Delivered Unit
             Route::POST('/workshop-ms/r-workshop/report/deleteDU', [RReportController::class, 'deleteDU'])->name('r-workshop.report.deleteDU');
