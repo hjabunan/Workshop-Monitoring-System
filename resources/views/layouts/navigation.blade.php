@@ -106,9 +106,9 @@
                                         <li>
                                             <a href="{{route('admin_monitoring.report')}}" class="block px-4 py-2 hover:bg-gray-100">Report</a>
                                         </li>
-                                        <li>
+                                        {{-- <li>
                                             <a href="#" class="block px-4 py-2 hover:bg-gray-100">File Maintenance</a>
-                                        </li>
+                                        </li> --}}
                                         <li>
                                             <a href="{{route('admin_monitoring.tech_schedule')}}" class="block px-4 py-2 hover:bg-gray-100">Technician Schedule</a>
                                         </li>

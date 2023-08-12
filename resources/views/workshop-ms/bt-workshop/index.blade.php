@@ -1817,22 +1817,6 @@
                             });
                         }
                     });
-                    // });
-
-                        // // Fetch events data using AJAX
-                        // $.ajax({
-                        //     url: '{{ route('t-workshop.getEvents') }}',
-                        //     type: 'GET',
-                        //     data: { bay: bay, _token: _token,},
-                        //     success: function(response) {
-                        //         // Add events to the calendar
-                        //         calendar.addEventSource(response);
-                        //     },
-                        //     error: function(xhr) {
-                        //         // Handle error
-                        //         console.log(xhr.responseText);
-                        //     }
-                    // });
 
                     calendar.render();
                 });

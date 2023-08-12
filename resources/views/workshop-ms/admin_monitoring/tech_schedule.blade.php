@@ -17,6 +17,7 @@
             outline: none;
             border: none;
         }
+
     </style>
     <div style="height: calc(100vh - 60px);" class="py-1">
         <div class="max-w-7xl mx-auto sm:px-3 lg:px-5 h-full">
@@ -31,9 +32,13 @@
                                 <li class="mr-2" role="presentation">
                                     <button class="inline-block p-2 border-b-2 rounded-t-lg" id="activityx-tab" data-tabs-target="#activityx" type="button" role="tab" aria-controls="activityx" aria-selected="false">Summary Report</button>
                                 </li>
+                                <li class="mr-2" role="presentation">
+                                    <button class="inline-block p-2 border-b-2 rounded-t-lg" id="baydetails-tab" data-tabs-target="#baydetails" type="button" role="tab" aria-controls="baydetails" aria-selected="false">Bay Details</button>
+                                </li>
                             </ul>
                         </div>
                         <div id="divSchedule">
+                    {{-- Technician Scheduling --}}
                             <div class="hidden p-2 rounded-lg bg-gray-50" id="technician" role="tabpanel" aria-labelledby="technician-tab">
                                 <form action="" id="formSched">
                                   @csrf
@@ -293,6 +298,13 @@
                                     </div>
                                 </div>
                             </div>
+                    {{-- Bay Details --}}
+                            <div class="hidden p-2 rounded-lg bg-gray-50" id="baydetails" role="tabpanel" aria-labelledby="baydetails-tab">
+                                <div id='calendar-container' style="height: 80vh">
+                                    <div id='calendar'></div>
+                                    <div id="bay-names" class="bay-names"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -301,6 +313,92 @@
     </div>
     <script>
         $(document).ready(function(){
+            // For Calendar
+                // jQuery(document).on("click", "#baydetails-tab", function(){
+                    //     var _token = $('input[name="_token"]').val();
+                        
+                    //     // Calendar
+                    //     var calendarEl = document.getElementById('calendar');
+
+                    //     var calendar = new FullCalendar.Calendar(calendarEl, {
+                    //         initialView: 'dayGridWeek',
+                    //         headerToolbar: {
+                    //             left: '',
+                    //             center: 'title',
+                    //             right: 'today prev,next'
+                    //         },
+                    //         weekends: true,
+                    //         // hiddenDays: [0], // hide Sundays
+                    //         allDaySlot: true,
+                    //         displayEventTime: false,
+                    //         height: 635,
+                    //         events: function(info, successCallback) {
+                    //             $.ajax({
+                    //                 url: '{{ route('admin_monitoring.tech_schedule.getEvents') }}',
+                    //                 type: 'GET',
+                    //                 // data: { bay: bay, _token: _token,},
+                    //                 success: function(response) {
+                    //                     var formattedEvents = response.map(function(event) {
+                    //                         return {
+                    //                             title: event.title,
+                    //                             start: event.start,
+                    //                             end: event.end,
+                    //                             color: event.color
+                    //                         };
+                    //                     });
+                    //                     successCallback(formattedEvents);
+                    //                 },
+                    //                 error: function(xhr) {
+                    //                     console.log(xhr.responseText);
+                    //                 }
+                    //             });
+                    //         }
+                    //     });
+
+                    //     calendar.render();
+                // });
+            jQuery(document).on("click", "#baydetails-tab", function(){
+                    var _token = $('input[name="_token"]').val();
+                // Calendar
+                    var calendarEl = document.getElementById('calendar');
+
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridWeek',
+                            headerToolbar: {
+                            left: '',
+                            center: 'title',
+                            right: 'today prev,next'
+                            },
+                        weekends: true,
+                        hiddenDays: [0], // hide Sundays
+                        allDaySlot: true,
+                        displayEventTime: false,
+                        height: 635,
+                        events: function(info, successCallback) {
+                            $.ajax({
+                                url: '{{ route('admin_monitoring.tech_schedule.getEvents') }}',
+                                type: 'GET',
+                                success: function(response) {
+                                    var formattedEvents = response.map(function(event) {
+                                        return {
+                                            title: event.area_name + ' (' + event.title + ')',
+                                            start: event.start,
+                                            end: event.end,
+                                            color: event.color,
+                                        };
+                                    });
+
+                                    successCallback(formattedEvents);
+                                },
+                                error: function(xhr) {
+                                    console.log(xhr.responseText);
+                                }
+                            });
+                        },
+                    });
+
+                calendar.render();
+            });
 
             jQuery(document).on( "click", "#saveSchedule", function(){
                 

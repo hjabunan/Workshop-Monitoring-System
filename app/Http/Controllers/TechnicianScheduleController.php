@@ -302,4 +302,46 @@ class TechnicianScheduleController extends Controller
         // echo $result;
         return response()->json($result);
     }
+
+    public function getEvents(Request $request){
+        $events = DB::table('technician_schedules')
+                    ->select('baynum', 'area_name','activity', 'scheddate','technician_schedules.status')
+                    // ->where('status', '=', 1)
+                    // ->where('baynum', '=', $request->bay)
+                    ->leftJoin('bay_areas','technician_schedules.baynum','=','bay_areas.id')
+                    ->get();
+        
+        $formattedEvents = [];
+
+        foreach ($events as $event) {
+            if($event->status == 1){
+                $ecolor = "#FF0000";
+            }else if($event->status == 2){
+                $ecolor = "#0000FF";
+            }else{
+                $ecolor = "#008000";
+            }
+
+            $formattedEvents[] = [
+                'baynum' => $event->baynum,
+                'area_name' => $event->area_name,
+                'title' => $event->activity,
+                'start' => \Carbon\Carbon::parse($event->scheddate)->toIso8601String(),
+                'end' => \Carbon\Carbon::parse($event->scheddate)->toIso8601String(),
+                'color' => $ecolor,
+            ];
+        }
+    
+        return response()->json($formattedEvents);
+    }
+
+    public function getActiveBayNames(Request $request) {
+        $activeBayNames = DB::table('bay_areas')
+            ->select('area_name')
+            ->where('status', '=', 1)
+            ->get()
+            ->pluck('area_name');
+
+        return response()->json($activeBayNames);
+    }
 }

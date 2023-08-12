@@ -484,6 +484,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         Route::POST('/workshop-ms/admin_monitoring/filterSchedule', [TechnicianScheduleController::class, 'filterSchedule'])->name('admin_monitoring.tech_schedule.filterSchedule');
         Route::POST('/workshop-ms/admin_monitoring/filterScheduleX', [TechnicianScheduleController::class, 'filterScheduleX'])->name('admin_monitoring.tech_schedule.filterScheduleX');
         Route::GET('/workshop-ms/admin_monitoring/getJONum', [TechnicianScheduleController::class, 'getJONum'])->name('admin_monitoring.tech_schedule.getJONum');
+        Route::GET('/workshop-ms/admin_monitoring/getActiveBayNames', [TechnicianScheduleController::class],'getActiveBayNames')->name('admin_monitoring.tech_schedule.getActiveBayNames');
+        Route::GET('/workshop-ms/admin_monitoring/getEvents', [TechnicianScheduleController::class, 'getEvents'])->name('admin_monitoring.tech_schedule.getEvents');
 
     // START OF ADMIN MONITORING > WAREHOUSE
         // WAREHOUSE 1
