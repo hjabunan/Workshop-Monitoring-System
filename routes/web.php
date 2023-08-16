@@ -19,6 +19,7 @@ use App\Http\Controllers\PartsController;
 use App\Http\Controllers\PDIController;
 use App\Http\Controllers\PPTReportController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\RReportController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StagingController;
@@ -635,6 +636,14 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::get('/system-management/parts/edit/{id}', [PartsController::class, 'edit'])->name('parts.edit');
             Route::post('/system-management/parts/update/{id}', [PartsController::class, 'update'])->name('parts.update');
             Route::get('/system-management/parts/{search}', [PartsController::class, 'search']);
+             
+        // Reason for Downtime Management
+            Route::get('/system-management/reason', [ReasonsController::class, 'index'])->name('reason.index');
+            Route::get('/system-management/reason/add', [ReasonsController::class, 'create'])->name('reason.create');
+            Route::post('/system-management/reason/store', [ReasonsController::class, 'store'])->name('reason.store');
+            Route::get('/system-management/reason/edit/{id}', [ReasonsController::class, 'edit'])->name('reason.edit');
+            Route::post('/system-management/reason/update/{id}', [ReasonsController::class, 'update'])->name('reason.update');
+            Route::get('/system-management/reason/{search}', [ReasonsController::class, 'search']);
 
         // Section Management
             Route::get('/system-management/section', [SectionController::class, 'index'])->name('section.index');

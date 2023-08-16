@@ -1,11 +1,5 @@
 @section('title','Workshop Monitoring System')
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-black text-2xl text-blue-600 leading-tight">
-            {{ __('Department Management') }}
-        </h2>
-    </x-slot> --}}
-
     <style>
         select[name="tdept_length"] {
             padding-right: 40px !important;
@@ -22,10 +16,10 @@
                 <div class="p-3 text-gray-900 h-full">
                     <div class="px-4 grid grid-cols-2 gap-x-3 ">
                         <div class="self-center font-black text-2xl text-red-500 leading-tight">
-                            Section Management
+                            Reason For Pending Management
                         </div>
                         <div class="self-center justify-self-end">
-                            <a id="btn-add" href="{{route('section.create')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-16 py-2.5 text-center">ADD SECTION</a>
+                            <a id="btn-add" href="{{route('reason.create')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-16 py-2.5 text-center">ADD REASON</a>
                         </div>
                     </div> 
                     <div class="grid grid-cols-2 gap-x-3 ">
@@ -39,7 +33,7 @@
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                         </svg>
                                     </div>
-                                    <input type="search" id="STableSearch" value="{{$search}}" class="block w-96 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Section..." required>
+                                    <input type="search" id="STableSearch" value="{{$search}}" class="block w-96 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Reason..." required>
                                     <button id="clearButton" type="button" class=" absolute right-20 bottom-3 mr-2">
                                         <i class="uil uil-times text-2xl"></i>
                                     </button>
@@ -58,7 +52,7 @@
                                             ID
                                         </th>
                                         <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
-                                            Section
+                                            Reason
                                         </th>
                                         <th style="box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);" scope="col" class="px-6 py-3">
                                             Status
@@ -72,24 +66,23 @@
                                     @php
                                         $x=1;
                                     @endphp
-                                    @foreach ($section as $sections)
+                                    @foreach ($reason as $reasons)
                                     <tr class="bg-white border-b ">
                                         <th scope="row" class="px-6 py-1.5 font-medium text-gray-900 whitespace-nowrap">
                                             {{$x++}}
                                         </th>
-                                        <td data-id="{{$sections->id}}" class="px-6 py-1.5">
-                                            {{$sections->name}}
+                                        <td data-id="{{$reasons->id}}" class="px-6 py-1.5">
+                                            {{$reasons->reason_name}}
                                         </td>
                                         <td class="px-6 py-1.5">
-                                            @if ($sections->status ==0)
+                                            @if ($reasons->reason_status ==0)
                                                 <p class="text-red-500">Inactive</p>
                                             @else
                                             <p class="text-green-500">Active</p>
                                             @endif 
                                         </td>
                                         <td class="px-6 py-1.5">
-                                            <a href="{{ url('/system-management/section/edit/'.$sections->id ) }}" class="font-medium text-blue-600  hover:underline ">Edit</a>
-                                            
+                                            <a href="{{ url('/system-management/reason/edit/'.$reasons->id ) }}" class="font-medium text-blue-600  hover:underline ">Edit</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -129,10 +122,10 @@
                 function performSearch() {
                     const value = $("#STableSearch").val().trim();
                     if (value !== "") {
-                        window.location.href = `/system-management/section/${encodeURIComponent(value)}`;
+                        window.location.href = `/system-management/reason/${encodeURIComponent(value)}`;
                     } else {
                         // If the search input is empty, reload the page to show all results
-                        window.location.href = `/system-management/section`;
+                        window.location.href = `/system-management/reason`;
                     }
                 }
 

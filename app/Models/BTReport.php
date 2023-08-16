@@ -10,4 +10,6 @@ class BTReport extends Model
     use HasFactory;
 
     protected $fillable = ['reportID','brandz','unitstatus','bayarea','ucode','umodel','userial','uheight','remarks'];
+
+    
 }

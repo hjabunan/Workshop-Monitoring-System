@@ -1,3 +1,4 @@
+@section('title','Workshop Monitoring System')
 <x-app-layout>
     <div style="height: calc(100vh - 60px);" class="py-1 overflow-x-auto">
         <div class="max-w-7xl mx-auto sm:px-3 lg:px-5 h-full">

@@ -46,7 +46,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->role = $request->role;
         $user->dept = $request->dept;
-        $user->area = implode(',', $request->area);
+        $user->area = implode(',', $request->input('area', []));
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -83,7 +83,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->role = $request->role;
             $user->dept = $request->dept;
-            $user->area = implode(',', $request->area);
+            $user->area = implode(',', $request->input('area', []));
             $user->update();
         }else{
             $user = User::find($id);
