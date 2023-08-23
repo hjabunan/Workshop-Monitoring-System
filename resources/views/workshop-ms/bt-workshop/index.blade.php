@@ -419,179 +419,6 @@
 
     
     {{-- MODALS --}}
-    {{-- <div id="modalUR" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-2 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-        <div class="relative w-full h-full max-w-2xl md:h-auto">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow h-full">
-                <!-- Modal header -->
-                <div class="grid items-start justify-between px-4 pt-2 rounded-t">
-                    <div class="grid grid-cols-4">
-                        <div class="mb-2">
-                            <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Activity Type</label>
-                            <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:text-xs focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center" name="role" >
-                                <option value="0">Parking</option>
-                                <option value="1">Workshop</option>
-                            </select>
-                        </div>
-                        <div class="mb-2 col-span-1">
-                            <label for="idnum" class="block mb-2 text-sm font-medium text-gray-900">Job Order Number</label>
-                            <input type="text" id="idnum" name="idnum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center" value="" readonly>
-                        </div>
-                        <div class="mb-2">
-                            <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                            <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:text-xs focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center" name="role">
-                                <option value="0">Active</option>
-                                <option value="1">Done</option>
-                                <option value="2">Vacant</option>
-                            </select>
-                        </div>
-                        <div class="mb-2">
-                            <label for="bayNum" class="block mb-2 text-sm font-medium text-gray-900">Bay Number</label>
-                            <input type="text" id="bayNum" name="bayNum" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center font-medium" value="" readonly>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal body -->
-                <hr>
-                <div style="max-height: calc(100vh - 200px);" class="grid px-3 pb-3 space-y-1 h-full overflow-y-auto">
-                    <div class="text-left gap-1">
-                        <label for="fifo" class="block mb-1 text-md font-medium text-gray-900">FIFO : First In First Out Process</label>
-                    </div>
-                    <div class="grid grid-cols-4 gap-1">
-                        <div class="place-self-center">
-                            <label for="unitm" class="block text-sm text-gray-900">Unit</label>
-                        </div>
-                        <div class="">
-                            <input type="text" id="unitm" name="unitm" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="utype" class="block text-sm text-gray-900">Type</label>
-                        </div>
-                        <div class="">
-                            <select id="utype" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" name="utype">
-                                <option value="0">F</option>
-                                <option value="1">V</option>
-                                <option value="2">M</option>
-                            </select>
-                        </div>
-                        <div class="place-self-center">
-                            <label for="serialnum" class="block text-sm text-gray-900">Serial No.</label>
-                        </div>
-                        <div class="place-self-center">
-                            <input type="text" id="serialnum" name="serialnum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="codez" class="block text-sm text-gray-900">Code</label>
-                        </div>
-                        <div class="">
-                            <input type="text" id="codez" name="codez" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="file_input" class="block text-sm text-gray-900">Attachment</label>
-                        </div>
-                        <div class="col-span-2">
-                            <input class="block w-full text-sm sm:text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="file_input" type="file">
-                        </div>
-                        <div class="place-self-center">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="mastt" class="block text-sm text-gray-900">Mast Type</label>
-                        </div>
-                        <div class="">
-                            <select id="mastt" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" name="mastt">
-                                <option value="0">F</option>
-                                <option value="1">V</option>
-                                <option value="2">M</option>
-                            </select>
-                        </div>
-                        <div class="col-span-2 row-span-4 place-self-center">
-                            <label for="" class="block text-sm text-gray-900 text-center">Running Days</label>
-                            <input type="text" id="" name="" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg sm:text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1 font-medium" value="30" readonly>
-                        </div>
-                        <div class="place-self-center">
-                            <label for="" class="block text-sm text-gray-900">Arrival Date</label>
-                        </div>
-                        <div class="">
-                            <div class="relative max-w-sm">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <input datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1" placeholder="Arrival Date">
-                            </div>
-                        </div>
-                        <div class="place-self-center">
-                            <label for="pic" class="block text-sm text-gray-900">P.I.C.</label>
-                        </div>
-                        <div class="place-self-center">
-                            <input type="text" id="pic" name="pic" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="verby" class="block text-sm text-gray-900">Verified By</label>
-                        </div>
-                        <div class="">
-                            <select id="veryby" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" name="verby">
-                                <option value="0">Tech 1</option>
-                                <option value="1">Tech 2</option>
-                                <option value="2">Tech 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-1 place-items-center">
-                        <div class="flex items-center mb-1">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="default-radio" class="ml-2 text-sm font-medium text-gray-900">New Unit</label>
-                        </div>
-                        <div class="flex items-center mb-1">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="default-radio" class="ml-2 text-sm font-medium text-gray-900">Old Unit</label>
-                        </div>
-                        <div class="flex items-center mb-1">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="default-radio" class="ml-2 text-sm font-medium text-gray-900">Repair Unit</label>
-                        </div>
-                    </div>
-                    <hr class="mt-3 mb-3">
-                    <div class="">
-                        <div class="text-left gap-1">
-                            <label for="legz" class="block mb-1 text-md font-medium text-red-500">LEGEND</label>
-                        </div>
-                        <div class="grid grid-cols-5 gap-1">
-                            <div class="col-span-2 place-self-center">
-                                <label for=green" class="block text-sm text-gray-900">Shorter than Target</label>
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="green" class="block text-sm text-gray-900">1-3 Months or 90 Days</label>
-                            </div>
-                            <div style="float: right;" name="green" class="w-full h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="yellow" class="block text-sm text-gray-900">Caution</label>
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="yellow" class="block text-sm text-gray-900">(4-6 Months or 180 days)</label>
-                            </div>
-                            <div style="float: right;" name="yellow" class="w-full h-6 bg-yellow-400 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="red" class="block text-sm text-gray-900">Danger</label>
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="red" class="block text-sm text-gray-900">7-9 Months or 270/days</label>
-                            </div>
-                            <div style="float: right;" name="red" class="w-full h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-2 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button data-modal-hide="modalUR" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
-                    <button data-modal-hide="modalUR" type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Transfer</button>
-                    <button data-modal-hide="modalUR" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Exit</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     {{-- Large Modal - Unit Info --}}
         <div id="modalUnitInfo" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
             <div class="relative w-full h-full max-w-7xl md:h-auto">
@@ -1071,12 +898,15 @@
                                                                 <div id="input" class="col-span-3 uppercase mr-1">
                                                                     <select id="DTReason" name="DTReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
                                                                         <option value="" selected disabled></option>
-                                                                        <option value="1">LACK OF SPACE</option>
+                                                                        @foreach ($reason as $reasons)
+                                                                            <option value="{{$reasons->id}}">{{$reasons->reason_name}}</option>
+                                                                        @endforeach
+                                                                        {{-- <option value="1">LACK OF SPACE</option>
                                                                         <option value="2">LACK OF TECHNICIAN</option>
                                                                         <option value="3">NO WORK</option>
                                                                         <option value="4">WAITING FOR MACHINING</option>
                                                                         <option value="5">WAITING FOR PARTS</option>
-                                                                        <option value="6">WAITING FOR PO</option>
+                                                                        <option value="6">WAITING FOR PO</option> --}}
                                                                     </select>
                                                                 </div>
                                                                 <div id="label" class="col-span-2 mt-1">
@@ -1193,20 +1023,26 @@
                                         <div class=""></div>
                                         <div class="col-span-1"></div>
                                         <div class="col-span-2 grid grid-rows-6 items-center">
-                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">LACK OF SPACE</label></div>
+                                            @foreach ($reason as $reasons)
+                                                <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">{{$reasons->reason_name}}</label></div>
+                                            @endforeach
+                                            {{-- <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">LACK OF SPACE</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">LACK OF TECHNICIAN</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">NO WORK</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR MACHINING</label></div>
-                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR PARTS</label></div>
-                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR PO</label></div>
+                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR MACHINING</label></div>
+                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR PO</label></div> --}}
                                         </div>
                                         <div class="col-span-1 grid grid-rows-6">
-                                            <div class="mt-0.5"><input type="text" id="DTLOS" name="DTLOS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
+                                            @foreach ($reason as $reasons)
+                                                <div class="mt-0.5"><input type="text" id="{{$reasons->reason_code}}" name="{{$reasons->reason_code}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
+                                            @endforeach
+                                            {{-- <div class="mt-0.5"><input type="text" id="DTLOS" name="DTLOS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTLOT" name="DTLOT" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTNW" name="DTNW" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTWFM" name="DTWFM" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTWFP" name="DTWFP" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
-                                            <div class="mt-0.5"><input type="text" id="DTWFPO" name="DTWFPO" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
+                                            <div class="mt-0.5"><input type="text" id="DTWFPO" name="DTWFPO" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div> --}}
                                         </div>
                                         <div class="col-span-1 mt-16">
                                             <div class="grid">
@@ -1722,6 +1558,14 @@
 
     <script>
         $(document).ready(function(){
+            $('#PIQuantity').on('keydown', function(event) {
+                var keyCode = event.which ? event.which : event.keyCode;
+                
+                if ((keyCode < 48 || keyCode > 57) && keyCode !== 8 && keyCode !== 46) {
+                    event.preventDefault();
+                }
+            });
+
             // Color Changing
                 // $(".btnBay").each(function() {
                 //     var hddnJONum = $(this).find("#hddnJONum").val();

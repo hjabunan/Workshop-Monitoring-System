@@ -19,28 +19,28 @@ class OtherReportController extends Controller
     // -------------------------------------------------------------MONITORING---------------------------------------------------------------//
     public function index(){
         $seclist = [8, 10, 11];
-        $bays = DB::TABLE('bay_areas')
+        $bays = DB::TABLE('wms_bay_areas')
                 ->WHEREIn('section',$seclist)
                 ->WHERE('status','1')
                 ->orderBy('id','asc')->get();
 
-        $baysT = DB::TABLE('bay_areas')
+        $baysT = DB::TABLE('wms_bay_areas')
                 ->WHERE('status','1')
                 ->orderBy('area_name','asc')->get();
 
                 
-        $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
+        $sectionT = DB::SELECT('SELECT * FROM wms_sections WHERE status="1"');
         
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name,
+                                wms_bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POUMastHeight, unit_pull_outs.POUTransferDate, 
-                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
+                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials,
                                 unit_confirms.CUTransferDate
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                 WHERE unit_workshops.WSDelTransfer = 0 AND unit_workshops.WSStatus <= 4
@@ -103,7 +103,7 @@ class OtherReportController extends Controller
         $date = $request->output;
 
         $DT = 0;
-        $WSf = (DB::TABLE('unit_workshops')->WHERE('WSBayNum',$bay)->first());
+        $WSf = (DB::TABLE('unit_workshops')->WHERE('WSBayNum',$bay)->where('WSDelTransfer', 0)->first());
         if($WSf != null){
             $WSIDf =$WSf->id;
             $DT = (DB::TABLE('unit_downtimes')->WHERE('DTJONum',$WSIDf)->get())->count();
@@ -116,16 +116,16 @@ class OtherReportController extends Controller
             $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType, 
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
-                                    bay_areas.area_name, brands.name,
+                                    wms_bay_areas.area_name, brands.name,
                                     unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, 
                                     unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, 
-                                    unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
+                                    unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials,
                                     unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays,
                                     unit_confirms.CUTransferDate
                                     FROM unit_workshops
                                     INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                    INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                    INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                    INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                    INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
@@ -209,9 +209,9 @@ class OtherReportController extends Controller
                     $dtReasons[$dtReason] += $WS->DTTDays;
 
                     $technicians = '';
-                    $TechICharge = DB::SELECT('SELECT DISTINCT(techid), technicians.initials as TInitials  
+                    $TechICharge = DB::SELECT('SELECT DISTINCT(techid), wms_technicians.initials as TInitials  
                                                 FROM technician_schedules 
-                                                INNER JOIN technicians on techid=technicians.id 
+                                                INNER JOIN wms_technicians on techid=wms_technicians.id 
                                                 WHERE baynum=?',[$request->bay]);
 
                         if(count($TechICharge)>0){
@@ -330,15 +330,15 @@ class OtherReportController extends Controller
             $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType, 
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
-                                    bay_areas.area_name, brands.name,
+                                    wms_bay_areas.area_name, brands.name,
                                     unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, 
                                     unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, 
-                                    unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials,
+                                    unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials,
                                     unit_confirms.CUTransferUnit
                                     FROM unit_workshops
                                     INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                    INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                    INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                    INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                    INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                     WHERE unit_workshops.WSDelTransfer = 0 AND WSStatus<=4 AND WSBayNum = ?',[$bay]
@@ -346,9 +346,9 @@ class OtherReportController extends Controller
 
             if(count($workshop)>0){
                 foreach($workshop as $WS){
-                    $TechICharge = DB::SELECT('SELECT DISTINCT(techid), technicians.initials as TInitials  
+                    $TechICharge = DB::SELECT('SELECT DISTINCT(techid), wms_technicians.initials as TInitials  
                                                 FROM technician_schedules 
-                                                INNER JOIN technicians on techid=technicians.id 
+                                                INNER JOIN wms_technicians on techid=wms_technicians.id 
                                                 WHERE baynum=?',[$request->bay]);
 
                     $technicians = '';
@@ -1575,10 +1575,10 @@ class OtherReportController extends Controller
         $TechEDate = $request->TechEDate;
 
         $result = '';
-        $TechSchedule = DB::select('SELECT technician_schedules.id, technician_schedules.techid, technicians.id AS techid1, technicians.initials AS techname, technician_schedules.baynum, 
+        $TechSchedule = DB::select('SELECT technician_schedules.id, technician_schedules.techid, wms_technicians.id AS techid1, wms_technicians.initials AS techname, technician_schedules.baynum, 
                                     technician_schedules.scheddate, technician_schedules.scopeofwork, technician_schedules.activity, technician_schedules.status as TSStatus
                                     FROM technician_schedules
-                                    INNER JOIN technicians on technicians.id = technician_schedules.techid
+                                    INNER JOIN wms_technicians on wms_technicians.id = technician_schedules.techid
                                     WHERE baynum=? and scheddate BETWEEN ? and ?', [$request->bay, $TechSDate, $TechEDate]);
 
         if(count($TechSchedule)>0){
@@ -1668,9 +1668,9 @@ class OtherReportController extends Controller
         $WorkShop = DB::TABLE('unit_pull_outs')->WHERE('id','=',$request->WSPOUID)
                                                     ->first();
         
-        $bays = DB::select('SELECT bay_areas.id as BayID, bay_areas.area_name as BayName FROM bay_areas WHERE bay_areas.section = ? AND bay_areas.category=1 and status=1', [$WorkShop->POUTransferArea]);
+        $bays = DB::select('SELECT wms_bay_areas.id as BayID, wms_bay_areas.area_name as BayName FROM wms_bay_areas WHERE wms_bay_areas.section = ? AND wms_bay_areas.category=1 and status=1', [$WorkShop->POUTransferArea]);
 
-        $curBay = DB::table('bay_areas')->where('id', $request->UnitBayNum)->first();
+        $curBay = DB::table('wms_bay_areas')->where('id', $request->UnitBayNum)->first();
         $bayres .= '<option hidden value="'.$curBay->id.'">'.$curBay->area_name.'</option>';
 
         foreach($bays as $bay){
@@ -1688,53 +1688,6 @@ class OtherReportController extends Controller
     }
 
     public function saveTransferUnit(Request $request){
-        // UnitConfirm::WHERE('POUID', $request->WSPOUID)
-            //             ->UPDATE([
-            //                 'CUTransferStatus' => $request->UnitStatus,
-            //                 'CUTransferArea' => $request->UnitArea,
-            //                 'CUTransferBay' => $request->UnitBay,
-            //                 'CUTransferRemarks' => $request->UnitRemarks,
-            //             ]);
-    
-            // UnitPullOut::WHERE('id', $request->WSPOUID)
-            //             ->UPDATE([
-            //                 'POUStatus' => $request->UnitStatus,
-            //                 'POUTransferArea' => $request->UnitArea,
-            //                 'POUTransferBay' => $request->UnitBay,
-            //                 'POUTransferRemarks' => $request->UnitRemarks,
-            //             ]);
-
-            //     if($request->UnitArea == 7){
-            //         $ToA = "3";
-            //     }else if(($request->UnitArea >= 14)){
-            //         $ToA = "1";
-            //     }else if(($request->UnitArea <= 3)){
-            //         $ToA = "2";
-            //     }else{
-            //         $ToA = "2";
-            //     }
-
-            // UnitWorkshop::WHERE('WSPOUID', $request->WSPOUID)
-            //             ->UPDATE([
-            //                 'WSToA' => $ToA,
-            //                 'WSBayNum' => $request->UnitBay,
-            //                 'WSStatus' => $request->UnitStatus,
-            //             ]);
-
-            // TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
-            //                     ->UPDATE([
-            //                         'baynum' => $request->UnitBay,
-            //                     ]);
-
-            // BayArea::WHERE('id',$request->UnitBayNum)
-            //         ->UPDATE([
-            //             'category' => 1
-            //         ]);
-
-            // BayArea::WHERE('id',$request->UnitBay)
-            //         ->UPDATE([
-            //             'category' => 2
-        //         ]);
         if($request->input('Radio_Transfer') == 1){
             UnitConfirm::WHERE('POUID', $request->POUIDx)
                         ->UPDATE([

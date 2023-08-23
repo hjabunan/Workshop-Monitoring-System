@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
 class TechnicianController extends Controller
 {
     public function index(){
-        $tech = DB::select('SELECT * FROM technicians');
-        $section = DB::select('SELECT * FROM sections');
+        $tech = DB::select('SELECT * FROM wms_technicians');
+        $section = DB::select('SELECT * FROM wms_sections');
 
         return view('system-management.technician.index',compact('tech','section'));
     }
 
     public function create()
     {
-        $section = DB::select('SELECT * FROM sections');
+        $section = DB::select('SELECT * FROM wms_sections');
         return view('system-management.technician.add',compact('section'));
     }
 
@@ -41,8 +41,8 @@ class TechnicianController extends Controller
 
     public function edit($id)
     {
-        $tech = DB::table('technicians')->where('id', $id)->first();
-        $section = DB::select('SELECT * FROM sections');
+        $tech = DB::table('wms_technicians')->where('id', $id)->first();
+        $section = DB::select('SELECT * FROM wms_sections');
         return view('system-management.technician.edit',compact('tech','section'));
     }
 

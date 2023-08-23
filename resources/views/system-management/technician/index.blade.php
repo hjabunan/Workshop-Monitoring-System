@@ -26,9 +26,9 @@
                     </div>
 
                     {{-- Start Table --}}
-                        <div class="bg-white p-4 mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="bg-white mt-4 shadow-md rounded-lg overflow-y-auto" style="height: calc(100vh - 170px);">
                             <table id="tdept" class="w-full h-full text-sm text-left text-gray-500 row-border stripe">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <thead class="text-xs text-gray-700 uppercase bg-white" style="position: sticky; top: 0;">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
                                             ID

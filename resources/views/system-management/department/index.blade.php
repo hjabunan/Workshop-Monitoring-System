@@ -1,10 +1,5 @@
 @section('title','Workshop Monitoring System')
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-black text-2xl text-blue-600 leading-tight">
-            {{ __('Department Management') }}
-        </h2>
-    </x-slot> --}}
 
     <style>
         select[name="tdept_length"] {

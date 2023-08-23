@@ -10,4 +10,6 @@ class BayArea extends Model
     use HasFactory;
 
     protected $fillable = ['name','section','category','status'];
+
+    protected $table = 'wms_bay_areas';
 }

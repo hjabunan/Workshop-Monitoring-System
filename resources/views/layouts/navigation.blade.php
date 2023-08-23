@@ -1,4 +1,10 @@
-
+<style>
+    .disabled-link {
+    color: gray; /* Change the color to indicate it's disabled */
+    pointer-events: none; /* Disable pointer events to prevent clicking */
+    text-decoration: none; /* Optionally remove underline */
+}
+</style>
 <nav class="px-1 bg-white border-gray-200 shadow z-50 relative w-full">
     <div class="container flex flex-wrap items-center justify-between mx-auto w-auto">
         <!-- Logo -->
@@ -159,15 +165,15 @@
                                 </li>
                             </ul>
                             <div class="py-2">
-                                {{-- <a href="{{route('activity.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Activity</a> --}}
+                                {{-- <a href="{{route('activity.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Activity</a> --}}
                                 <a href="{{route('area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bay/Area</a>
                                 <a href="{{route('brand.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Brand</a>
                                 <a href="{{route('category.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Category</a>
-                                <a href="{{route('company.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer</a>
-                                <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer Area</a>
+                                {{-- <a href="{{route('company.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Customer</a> --}}
+                                {{-- <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Customer Area</a> --}}
                                 <a href="{{route('scl.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staging Control Legend</a>
-                                {{-- <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mast</a> --}}
-                                {{-- <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Model</a> --}}
+                                {{-- <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Mast</a> --}}
+                                {{-- <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Model</a> --}}
                                 <a href="{{route('parts.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parts</a>
                                 <a href="{{route('reason.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Reasons</a>
                                 <a href="{{route('section.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Section</a>

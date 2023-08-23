@@ -17,15 +17,32 @@
                                 <div class="grid grid-flow-row-dense grid-cols-3 gap-x-5">
                                     <div class="mb-6 col-span-1">
                                         <label for="fname" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
-                                        <input type="text" id="fname" name="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{explode(' ', trim($tech->name))[0];}}" required>
+                                        @php
+                                            $nameParts = explode(' ', trim($tech->name));
+                                            $firstName = $nameParts[0];
+                                            if (count($nameParts) >= 4) {
+                                                $firstName .= ' ' . $nameParts[1];
+                                            }
+                                        @endphp
+                                        <input type="text" id="fname" name="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $firstName }}" required>
                                     </div>
+                                    {{-- <div class="mb-6 col-span-1">
+                                        <label for="fname" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
+                                        <input type="text" id="fname" name="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{explode(' ', trim($tech->name))[0];}}" required>
+                                    </div> --}}
                                     <div class="mb-6 col-span-1">
                                         <label for="mname" class="block mb-2 text-sm font-medium text-gray-900">Middle Name</label>
-                                        <input type="text" id="mname" name="mname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{explode(' ', trim($tech->name))[1];}}">
+                                        @php
+                                            $middleName = (count($nameParts) >= 4) ? $nameParts[2] : $nameParts[1];
+                                        @endphp
+                                        <input type="text" id="mname" name="mname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $middleName }}">
                                     </div>
                                     <div class="mb-6 col-span-1">
                                         <label for="lname" class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
-                                        <input type="text" id="lname" name="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{explode(' ', trim($tech->name))[2];}}" required>
+                                        @php
+                                            $lastName = end($nameParts);
+                                        @endphp
+                                        <input type="text" id="lname" name="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ $lastName }}" required>
                                     </div>
                                 </div>
                                 <div class="grid grid-flow-row-dense grid-cols-3 gap-x-5">
@@ -35,12 +52,6 @@
                                             @foreach ($section as $sections)
                                                 <option {{ ($tech->section == $sections->name) ? 'selected' : ''; }} value="{{$sections->name}}">{{$sections->name}}</option>
                                             @endforeach
-                                            {{-- <option {{ ($tech->section == "BT SECTION") ? 'selected' : ''; }} value="BT SECTION">BT SECTION</option>
-                                            <option {{ ($tech->section == "MCI SECTION") ? 'selected' : ''; }} value="MCI SECTION">MCI SECTION</option>
-                                            <option {{ ($tech->section == "PDI") ? 'selected' : ''; }} value="PDI SECTION">PDI SECTION</option>
-                                            <option {{ ($tech->section == "PPT SECTION") ? 'selected' : ''; }} value="PPT SECTION">PPT SECTION</option>
-                                            <option {{ ($tech->section == "RAYMOND SECTION") ? 'selected' : ''; }} value="RAYMOND SECTION">RAYMOND SECTION</option>
-                                            <option {{ ($tech->section == "TOYOTA/OVERHAULING SECTION") ? 'selected' : ''; }} value="TOYOTA/OVERHAULING SECTION">TOYOTA/OVERHAULING SECTION</option> --}}
                                         </select>
                                     </div>
                                     <div class="mb-6 col-span-1">

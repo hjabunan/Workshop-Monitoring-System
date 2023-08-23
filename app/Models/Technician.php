@@ -10,4 +10,6 @@ class Technician extends Model
     use HasFactory;
 
     protected $fillable = ['fname','mname','lname','section','status'];
+
+    protected $table = 'wms_technicians';
 }

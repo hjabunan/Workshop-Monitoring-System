@@ -42,9 +42,9 @@
                                         <th scope="col" class="px-6 py-3">
                                             Department
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        {{-- <th scope="col" class="px-6 py-3">
                                             Area/Section
-                                        </th>
+                                        </th> --}}
                                         <th scope="col" class="px-6 py-3">
                                             Role
                                         </th>
@@ -71,9 +71,9 @@
                                             <td class="px-6 py-4">
                                                 {{$users->deptname}}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            {{-- <td class="px-6 py-4">
                                                 {{$users->sname}}
-                                            </td>
+                                            </td> --}}
                                             <td class="px-6 py-4">
                                                 @if ($users->role ==0)
                                                     User

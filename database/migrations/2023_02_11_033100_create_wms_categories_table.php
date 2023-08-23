@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('wms_categories', function (Blueprint $table) {
             $table->id();
             $table->string('cat_name');
             $table->tinyInteger('status')->default(1);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('wms_categories');
     }
 };

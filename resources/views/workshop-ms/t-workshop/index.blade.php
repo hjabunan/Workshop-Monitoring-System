@@ -1126,12 +1126,15 @@
                                                                 <div id="input" class="col-span-3 uppercase mr-1">
                                                                     <select id="DTReason" name="DTReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
                                                                         <option value="" selected disabled></option>
-                                                                        <option value="1">LACK OF SPACE</option>
+                                                                        @foreach ($reason as $reasons)
+                                                                            <option value="{{$reasons->id}}">{{$reasons->reason_name}}</option>
+                                                                        @endforeach
+                                                                        {{-- <option value="1">LACK OF SPACE</option>
                                                                         <option value="2">LACK OF TECHNICIAN</option>
                                                                         <option value="3">NO WORK</option>
                                                                         <option value="4">WAITING FOR MACHINING</option>
                                                                         <option value="5">WAITING FOR PARTS</option>
-                                                                        <option value="6">WAITING FOR PO</option>
+                                                                        <option value="6">WAITING FOR PO</option> --}}
                                                                     </select>
                                                                 </div>
                                                                 <div id="label" class="col-span-2 mt-1">
@@ -1248,20 +1251,26 @@
                                         <div class=""></div>
                                         <div class="col-span-1"></div>
                                         <div class="col-span-2 grid grid-rows-6 items-center">
-                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">LACK OF SPACE</label></div>
+                                            @foreach ($reason as $reasons)
+                                                <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">{{$reasons->reason_name}}</label></div>
+                                            @endforeach
+                                            {{-- <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">LACK OF SPACE</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">LACK OF TECHNICIAN</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">NO WORK</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR MACHINING</label></div>
                                             <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR PARTS</label></div>
-                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR PO</label></div>
+                                            <div class="place-self-left mt-0.5"><label for="" class="block text-xs text-white">WAITING FOR PO</label></div> --}}
                                         </div>
                                         <div class="col-span-1 grid grid-rows-6">
-                                            <div class="mt-0.5"><input type="text" id="DTLOS" name="DTLOS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
+                                            @foreach ($reason as $reasons)
+                                                <div class="mt-0.5"><input type="text" id="{{$reasons->reason_code}}" name="{{$reasons->reason_code}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
+                                            @endforeach
+                                            {{-- <div class="mt-0.5"><input type="text" id="DTLOS" name="DTLOS" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTLOT" name="DTLOT" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTNW" name="DTNW" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTWFM" name="DTWFM" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
                                             <div class="mt-0.5"><input type="text" id="DTWFP" name="DTWFP" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
-                                            <div class="mt-0.5"><input type="text" id="DTWFPO" name="DTWFPO" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div>
+                                            <div class="mt-0.5"><input type="text" id="DTWFPO" name="DTWFPO" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1 font-medium" placeholder="0" disabled></div> --}}
                                         </div>
                                         <div class="col-span-1 mt-16">
                                             <div class="grid">
@@ -1777,6 +1786,13 @@
 
     <script>
         $(document).ready(function(){
+            $('#PIQuantity').on('keydown', function(event) {
+                var keyCode = event.which ? event.which : event.keyCode;
+                
+                if ((keyCode < 48 || keyCode > 57) && keyCode !== 8 && keyCode !== 46) {
+                    event.preventDefault();
+                }
+            });
             // Color Changing
                 // $(".btnBay").each(function() {
                 //     var hddnJONum = $(this).find("#hddnJONum").val();

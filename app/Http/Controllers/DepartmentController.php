@@ -50,8 +50,6 @@ class DepartmentController extends Controller
         $department0->name = strtoupper($request->deptname);
         $department0->status = strtoupper($request->status);
         $department0->update();
-        
-        //DB::update('update departments set name = ?, status = ?, where id = ?', [$dname,$dstatus,$id]);
 
         return redirect()->route('department.index');
     }

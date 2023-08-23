@@ -174,10 +174,10 @@
                                                     {{$WS->POUMastType}}
                                                 </td>
                                                 <td class="px-1 py-0.5 text-center">
-                                                    
+                                                    {{$WS->WSAAIDS}}
                                                 </td>
                                                 <td class="px-1 py-0.5 text-center">
-                                                    
+                                                    {{$WS->WSATIDS}}
                                                 </td>
                                                 <td class="px-1 py-0.5 text-center">
                                                     {{$WS->initials}}
@@ -4227,31 +4227,6 @@
                 });
             
 
-            // Filter by Classification Pull Out Unit
-                $(".RadioBrand").on("change", function() {
-                    alert('HI!');
-                    // var input, filter, table, tr, td, i, txtValue;
-                    // input = document.getElementById("PUnitClassification");
-                    // filter = input.value.toUpperCase();
-                    // table = document.getElementById("tableBPOU");
-                    // tr = table.getElementsByTagName("tr");
-
-                    // for (i = 0; i < tr.length; i++) {
-                    //     td = tr[i].getElementsByTagName("td")[9];
-                    //     if (td) {
-                    //         txtValue = td.textContent || td.innerText;
-                    //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    //             tr[i].style.display = "";
-                    //         } else {
-                    //             tr[i].style.display = "none";
-                    //         }
-                    //     }
-                    // }
-                    
-                    // $('#PTableSearch').val('');
-                });
-            
-
             // Filter by Brand Workshop Unit
                 $('input[name="RadioBrand"]').change(function() {
                     var unitBrand = $('input[name="RadioBrand"]:checked').val();
@@ -4291,6 +4266,40 @@
                 $('input[name="cuRadioStatus"]').change(function() {
                     var unitStatus = $('input[name="cuRadioStatus"]:checked').val();
                     var _token = $('input[name="_token"]').val();
+
+                    if(unitStatus == "cuAllStatus"){
+                        $('.cuHeading span').text('ALL STATUS');
+                    }else if(unitStatus == "cuWFRU"){
+                        $('.cuHeading span').text('WAITING FOR REPAIR UNIT');
+                    }else if(unitStatus == "cuURU"){
+                        $('.cuHeading span').text('UNDER REPAIR UNIT');
+                    }else if(unitStatus == "cuUGU"){
+                        $('.cuHeading span').text('USED GOOD UNIT');
+                    }else if(unitStatus == "cuSeU"){
+                        $('.cuHeading span').text('SERVICE UNIT');
+                    }else if(unitStatus == "cuFScU"){
+                        $('.cuHeading span').text('FOR SCRAP UNIT');
+                    }else if(unitStatus == "cuFSaU"){
+                        $('.cuHeading span').text('FOR SALE UNIT');
+                    }else if(unitStatus == "cuWP"){
+                        $('.cuHeading span').text('WAITING PARTS');
+                    }else if(unitStatus == "cuWBO"){
+                        $('.cuHeading span').text('WAITING BACK ORDER');
+                    }else if(unitStatus == "cuWSB"){
+                        $('.cuHeading span').text('WAITING SPARE BATT');
+                    }else if(unitStatus == "cuStU"){
+                        $('.cuHeading span').text('STOCK UNIT');
+                    }else if(unitStatus == "cuRU"){
+                        $('.cuHeading span').text('RESERVED UNIT');
+                    }else if(unitStatus == "cuWFM"){
+                        $('.cuHeading span').text('WAITING FOR MCI');
+                    }else if(unitStatus == "cuWFP"){
+                        $('.cuHeading span').text('WAITING FOR PDI');
+                    }else if(unitStatus == "cuDP"){
+                        $('.cuHeading span').text('DONE PDI (WFD)');
+                    }else{
+                        $('.cuHeading span').text('DELIVERED UNIT');
+                    }
 
                     $('#CTableSearch').val('');
                     $('#CUnitClassification').val('');

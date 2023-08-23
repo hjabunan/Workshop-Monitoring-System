@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     public function index(){
-        $category = DB::select('SELECT * FROM categories');
-
-        //$dept = DB::select('select * from departments where id=?,' [1]);
-        //$depts =DB::table('departments')->select('id','name')->get();
+        $category = DB::select('SELECT * FROM wms_categories');
+        
         return view('system-management.category.index', compact('category'));
     }
 
@@ -49,8 +47,6 @@ class CategoryController extends Controller
         $cat->cat_name = strtoupper($request->cname);
         $cat->status = $request->status;
         $cat->update();
-        
-        //DB::update('update category set name = ?, status = ?, where id = ?', [$dname,$dstatus,$id]);
 
         return redirect()->route('category.index');
     }

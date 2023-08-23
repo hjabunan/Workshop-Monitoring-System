@@ -12,16 +12,14 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index(){
-        $users = DB::select('SELECT users.id, users.name, users.email, users.idnum, users.email_verified_at, users.dept, 
-        departments.name AS deptname, users.area, users.password, users.role, users.status, sections.name as sname
-        FROM users 
-        LEFT JOIN sections ON sections.id = users.area
-        INNER JOIN departments ON users.dept = departments.id');
+        $users = DB::select('SELECT wms_users.id, wms_users.name, wms_users.email, wms_users.idnum, wms_users.email_verified_at, wms_users.dept, 
+        departments.name AS deptname, wms_users.area, wms_users.password, wms_users.role, wms_users.status, sections.name as sname
+        FROM wms_users 
+        LEFT JOIN sections ON sections.id = wms_users.area
+        INNER JOIN departments ON wms_users.dept = departments.id');
 
         $sections = Section::pluck('name', 'id');   
 
-        //$dept = DB::select('select * from departments where id=?,' [1]);
-        //$depts =DB::table('departments')->select('id','name')->get();
         return view('system-management.user.index', compact('users', 'sections'));
     }
 
@@ -58,7 +56,7 @@ class UserController extends Controller
         $user = User::find($id);
         $selectedAreas = explode(',', $user->area);
 
-        $users = DB::table('users')->where('id', $id)->first();
+        $users = DB::table('wms_users')->where('id', $id)->first();
 
         $depts = DB::select('SELECT * FROM departments');
         $sects = DB::select('SELECT * FROM sections');
@@ -99,8 +97,4 @@ class UserController extends Controller
 
         return redirect()->route('user.index');
     }
-
-    // public function getUserData(Request $request){
-    //     $role = DB::table('users')->
-    // }
 }

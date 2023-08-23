@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('wms_sections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->tinyInteger('status')->default(1);
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('wms_sections');
     }
 };

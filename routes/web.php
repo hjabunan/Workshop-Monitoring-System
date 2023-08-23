@@ -483,7 +483,10 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         Route::POST('/workshop-ms/admin_monitoring/getSchedule', [TechnicianScheduleController::class, 'getSchedule'])->name('admin_monitoring.tech_schedule.getSchedule');
         Route::POST('/workshop-ms/admin_monitoring/deleteSchedule', [TechnicianScheduleController::class, 'deleteSchedule'])->name('admin_monitoring.tech_schedule.deleteSchedule');
         Route::POST('/workshop-ms/admin_monitoring/filterSchedule', [TechnicianScheduleController::class, 'filterSchedule'])->name('admin_monitoring.tech_schedule.filterSchedule');
+        Route::POST('/workshop-ms/admin_monitoring/resetSchedule', [TechnicianScheduleController::class, 'resetSchedule'])->name('admin_monitoring.tech_schedule.resetSchedule');
         Route::POST('/workshop-ms/admin_monitoring/filterScheduleX', [TechnicianScheduleController::class, 'filterScheduleX'])->name('admin_monitoring.tech_schedule.filterScheduleX');
+        Route::POST('/workshop-ms/admin_monitoring/clearSearch', [TechnicianScheduleController::class, 'clearSearch'])->name('admin_monitoring.tech_schedule.clearSearch');
+        Route::POST('/workshop-ms/admin_monitoring/generateSReport', [TechnicianScheduleController::class, 'generateSReport'])->name('admin_monitoring.tech_schedule.generateSReport');
         Route::GET('/workshop-ms/admin_monitoring/getJONum', [TechnicianScheduleController::class, 'getJONum'])->name('admin_monitoring.tech_schedule.getJONum');
         Route::GET('/workshop-ms/admin_monitoring/getActiveBayNames', [TechnicianScheduleController::class],'getActiveBayNames')->name('admin_monitoring.tech_schedule.getActiveBayNames');
         Route::GET('/workshop-ms/admin_monitoring/getEvents', [TechnicianScheduleController::class, 'getEvents'])->name('admin_monitoring.tech_schedule.getEvents');

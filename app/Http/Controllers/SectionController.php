@@ -11,15 +11,15 @@ class SectionController extends Controller
 {
     public function index(){
         $search = '';
-        $section = DB::select('SELECT * FROM sections');
+        $section = DB::select('SELECT * FROM wms_sections');
 
         return view('system-management.section.index', compact('search','section'));
     }
 
     public function search($search){
-        $section = DB::table('sections')
+        $section = DB::table('wms_sections')
                     ->whereRaw("CONCAT_WS(' ', name, status) LIKE '%{$search}%'")->get();
-        // dd($area);
+                    
         return view('system-management.section.index', compact('search','section'));
     }
 
@@ -37,7 +37,7 @@ class SectionController extends Controller
         $section->name = strtoupper($request->name);
         $section->save();
 
-        $user = DB::TABLE('users')->where('role',1)->first();
+        $user = DB::TABLE('wms_users')->where('role',1)->first();
         
         if($user){
             User::WHERE('role', 1)
@@ -51,7 +51,7 @@ class SectionController extends Controller
 
     public function edit($id)
     {
-        $section = DB::table('sections')->where('id', $id)->first();
+        $section = DB::table('wms_sections')->where('id', $id)->first();
         return view('system-management.section.edit',compact('section'));
     }
 

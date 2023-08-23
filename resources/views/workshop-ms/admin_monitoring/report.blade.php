@@ -4260,6 +4260,40 @@
                     var unitStatus = $('input[name="cuRadioStatus"]:checked').val();
                     var _token = $('input[name="_token"]').val();
 
+                    if(unitStatus == "cuAllStatus"){
+                        $('.cuHeading span').text('ALL STATUS');
+                    }else if(unitStatus == "cuWFRU"){
+                        $('.cuHeading span').text('WAITING FOR REPAIR UNIT');
+                    }else if(unitStatus == "cuURU"){
+                        $('.cuHeading span').text('UNDER REPAIR UNIT');
+                    }else if(unitStatus == "cuUGU"){
+                        $('.cuHeading span').text('USED GOOD UNIT');
+                    }else if(unitStatus == "cuSeU"){
+                        $('.cuHeading span').text('SERVICE UNIT');
+                    }else if(unitStatus == "cuFScU"){
+                        $('.cuHeading span').text('FOR SCRAP UNIT');
+                    }else if(unitStatus == "cuFSaU"){
+                        $('.cuHeading span').text('FOR SALE UNIT');
+                    }else if(unitStatus == "cuWP"){
+                        $('.cuHeading span').text('WAITING PARTS');
+                    }else if(unitStatus == "cuWBO"){
+                        $('.cuHeading span').text('WAITING BACK ORDER');
+                    }else if(unitStatus == "cuWSB"){
+                        $('.cuHeading span').text('WAITING SPARE BATT');
+                    }else if(unitStatus == "cuStU"){
+                        $('.cuHeading span').text('STOCK UNIT');
+                    }else if(unitStatus == "cuRU"){
+                        $('.cuHeading span').text('RESERVED UNIT');
+                    }else if(unitStatus == "cuWFM"){
+                        $('.cuHeading span').text('WAITING FOR MCI');
+                    }else if(unitStatus == "cuWFP"){
+                        $('.cuHeading span').text('WAITING FOR PDI');
+                    }else if(unitStatus == "cuDP"){
+                        $('.cuHeading span').text('DONE PDI (WFD)');
+                    }else{
+                        $('.cuHeading span').text('DELIVERED UNIT');
+                    }
+
                     $('#CTableSearch').val('');
                     $('#CUnitClassification').val('');
 

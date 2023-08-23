@@ -11,36 +11,30 @@ class BayAreaController extends Controller
     public function index(){
         $search = '';
 
-        $area = DB::select('SELECT bay_areas.id, bay_areas.area_name, bay_areas.section, sections.name, bay_areas.category, categories.cat_name, bay_areas.status
-                            FROM bay_areas
-                            INNER JOIN sections ON bay_areas.section = sections.id
-                            INNER JOIN categories
-                            ON bay_areas.category = categories.id
-                            ORDER BY sections.name,  bay_areas.id, bay_areas.area_name
+        $area = DB::select('SELECT wms_bay_areas.id, wms_bay_areas.area_name, wms_bay_areas.section, wms_sections.name, wms_bay_areas.category, wms_categories.cat_name, wms_bay_areas.status
+                            FROM wms_bay_areas
+                            INNER JOIN wms_sections ON wms_bay_areas.section = wms_sections.id
+                            INNER JOIN wms_categories
+                            ON wms_bay_areas.category = wms_categories.id
+                            ORDER BY wms_sections.name,  wms_bay_areas.id, wms_bay_areas.area_name
                         ');
-        
-                    // TABLE('bay_areas')
-                    //     ->join('sections','bay_areas.section','=','sections.id')
-                    //     ->join('categories','bay_areas.category','=','categories.id')
-                    //     ->select('bay_areas.*', 'sections.name', 'categories.cat_name')
-                    //     ->groupBy('sections.name');
         return view('system-management.area.index',compact('search','area'));
     }
 
     public function search($search){
-        $area = DB::table('bay_areas')
-                    ->select('bay_areas.id', 'bay_areas.area_name', 'bay_areas.section', 'sections.name', 'bay_areas.category', 'categories.cat_name', 'bay_areas.status')
-                    ->leftJoin('sections','bay_areas.section','=','sections.id')
-                    ->leftJoin('categories','bay_areas.category','=','categories.id')
-                    ->whereRaw("CONCAT_WS(' ', bay_areas.id, area_name, name, cat_name, section, category) LIKE '%{$search}%'")->get();
-        // dd($area);
+        $area = DB::table('wms_bay_areas')
+                    ->select('wms_bay_areas.id', 'wms_bay_areas.area_name', 'wms_bay_areas.section', 'wms_sections.name', 'wms_bay_areas.category', 'wms_categories.cat_name', 'wms_bay_areas.status')
+                    ->leftJoin('wms_sections','wms_bay_areas.section','=','wms_sections.id')
+                    ->leftJoin('wms_categories','wms_bay_areas.category','=','wms_categories.id')
+                    ->whereRaw("CONCAT_WS(' ', wms_bay_areas.id, area_name, name, cat_name, section, category) LIKE '%{$search}%'")->get();
+                    
         return view('system-management.area.index', compact('search','area'));
     }
 
     public function create()
     {
-        $cat = DB::select('select id, cat_name from categories where status=1');
-        $sec = DB::SELECT('SELECT id, name FROM sections WHERE status=1');
+        $cat = DB::select('select id, cat_name from wms_categories where status=1');
+        $sec = DB::SELECT('SELECT id, name FROM wms_sections WHERE status=1');
         return view('system-management.area.add', compact('cat', 'sec'));
     }
 
@@ -62,9 +56,9 @@ class BayAreaController extends Controller
 
     public function edit($id)
     {
-        $area = DB::table('bay_areas')->where('id', $id)->first();
-        $cat = DB::select('SELECT * FROM categories');
-        $sec = DB::SELECT('SELECT id, name FROM sections WHERE status=1');
+        $area = DB::table('wms_bay_areas')->where('id', $id)->first();
+        $cat = DB::select('SELECT * FROM wms_categories');
+        $sec = DB::SELECT('SELECT id, name FROM wms_sections WHERE status=1');
         return view('system-management.area.edit',compact('area','cat','sec'));
     }
 
@@ -83,8 +77,6 @@ class BayAreaController extends Controller
         $area->category = strtoupper($request->categ);
         $area->status = $request->status;
         $area->update();
-        
-        // //DB::update('update departments set name = ?, status = ?, where id = ?', [$dname,$dstatus,$id]);
 
         return redirect()->route('area.index');
     }

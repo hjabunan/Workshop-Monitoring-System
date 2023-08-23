@@ -8,9 +8,6 @@
                             <div class="self-center font-black text-2xl text-red-500 leading-tight">
                                 Edit User
                             </div>
-                            {{-- <div class="self-center justify-self-end">
-                                <a id="btn-add" href="{{route('department.create')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-16 py-2.5 text-center">ADD</a>
-                            </div> --}}
                         </div>
     
                         {{-- Start Add{{route('user.store')}} --}}
@@ -44,14 +41,6 @@
                                         @endforeach
                                         </select>
                                     </div>
-                                    {{-- <div class="mb-6 col-span-1">
-                                        <label for="area" class="block mb-2 text-sm font-medium text-gray-900">Area/Bay</label>
-                                        <select id="area" name="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="role" required >
-                                        @foreach ($sects as $sections)
-                                            <option value="{{$sections->id}}" {{ ($users->area == $sections->id) ? 'selected' : ''; }}>{{$sections->name}}</option>
-                                        @endforeach
-                                        </select>
-                                    </div> --}}
                                     <div class="mb-6 col-span-1">
                                         <label class="block mb-2 text-sm font-medium text-gray-900">Area/Bay</label>
                                         <div class="grid grid-cols-3 gap-4">

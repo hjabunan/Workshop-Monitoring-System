@@ -2139,6 +2139,13 @@
 
     <script>
         $(document).ready(function(){
+            $('#PIQuantity').on('keydown', function(event) {
+                var keyCode = event.which ? event.which : event.keyCode;
+                
+                if ((keyCode < 48 || keyCode > 57) && keyCode !== 8 && keyCode !== 46) {
+                    event.preventDefault();
+                }
+            });
             // Color Changing
                 // $(".btnBay").each(function() {
                 //     var hddnJONum = $(this).find("#hddnJONum").val();

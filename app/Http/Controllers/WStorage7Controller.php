@@ -15,29 +15,29 @@ use Illuminate\Support\Facades\DB;
 class WStorage7Controller extends Controller
 {
     public function index(){
-        $bays = DB::TABLE('bay_areas')
+        $bays = DB::TABLE('wms_bay_areas')
                 ->WHERE('status','1')
                 ->orderBy('id', 'asc')
                 ->orderBy('area_name','asc')->get();
         
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name,
+                                wms_bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                 unit_pull_outs.POUMastHeight, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUTransferDate,
-                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials
+                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_workshops.WSDelTransfer = 0
                             ');
         
         $scl = DB::TABLE('stagings')->get();
         
-        $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
+        $sectionT = DB::SELECT('SELECT * FROM wms_sections WHERE status="1"');
 
-        $baysT = DB::TABLE('bay_areas')
+        $baysT = DB::TABLE('wms_bay_areas')
                 ->WHERE('status','1')
                 ->orderBy('area_name','asc')->get();
 
@@ -70,15 +70,15 @@ class WStorage7Controller extends Controller
                                 unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                 unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                 unit_workshops.WSVerifiedBy, unit_workshops.WSUnitCondition,
-                                bay_areas.area_name, brands.name,
+                                wms_bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, 
                                 unit_pull_outs.POUSerialNum, unit_pull_outs.POUArrivalDate, unit_pull_outs.POUAttType, unit_pull_outs.POUMastType, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POUTransferDate,
                                 unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, 
-                                technicians.initials
+                                wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                             );
@@ -118,7 +118,6 @@ class WStorage7Controller extends Controller
                                     'WSAAIDE' => $WS->WSAAIDE,
                                     'WSAARDS' => $WS->WSAARDS,
                                     'WSAARDE' => $WS->WSAARDE,
-                                    // 'WSStatus' => $WS->WSStatus,
                         
                     );
                 }
@@ -131,9 +130,9 @@ class WStorage7Controller extends Controller
     public function getBay(Request $request){
         $result = '<option value=""></option>';
         if($request->area == ''){
-            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" AND status="1" ORDER BY bay_areas.id');
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" AND status="1" ORDER BY wms_bay_areas.id');
         }else{
-            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" AND status="1" AND section=? ORDER BY bay_areas.id',[$request->area]);
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" AND status="1" AND section=? ORDER BY wms_bay_areas.id',[$request->area]);
         }
 
         foreach ($bay as $bays) {
@@ -151,9 +150,9 @@ class WStorage7Controller extends Controller
         $WorkShop = DB::TABLE('unit_pull_outs')->WHERE('id','=',$request->WSPOUID)
                                                     ->first();
         
-        $bays = DB::select('SELECT bay_areas.id as BayID, bay_areas.area_name as BayName FROM bay_areas WHERE bay_areas.section = ? AND bay_areas.category=1 and status=1', [$WorkShop->POUTransferArea]);
+        $bays = DB::select('SELECT wms_bay_areas.id as BayID, wms_bay_areas.area_name as BayName FROM wms_bay_areas WHERE wms_bay_areas.section = ? AND wms_bay_areas.category=1 and status=1', [$WorkShop->POUTransferArea]);
 
-        $curBay = DB::table('bay_areas')->where('id', $request->UnitBayNum)->first();
+        $curBay = DB::table('wms_bay_areas')->where('id', $request->UnitBayNum)->first();
         $bayres .= '<option hidden value="'.$curBay->id.'">'.$curBay->area_name.'</option>';
 
         foreach($bays as $bay){

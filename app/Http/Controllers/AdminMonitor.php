@@ -19,29 +19,29 @@ use League\Csv\Writer;
 class AdminMonitor extends Controller
 {
     public function index(){
-        $bays = DB::TABLE('bay_areas')
+        $bays = DB::TABLE('wms_bay_areas')
                 ->whereIn('section',[1, 2, 3])
                 ->WHERE('status','1')
                 ->orderBy('id','asc')->get();
 
-        $baysT = DB::TABLE('bay_areas')
+        $baysT = DB::TABLE('wms_bay_areas')
                 ->WHERE('status','1')
                 ->orderBy('area_name','asc')->get();
 
                 
-        $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
+        $sectionT = DB::SELECT('SELECT * FROM wms_sections WHERE status="1"');
         
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name,
+                                wms_bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification,
                                 unit_pull_outs.POUMastHeight, unit_pull_outs.POUTransferDate,
-                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, technicians.initials
+                                unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.WSDelTransfer = 0 AND unit_workshops.WSStatus <= 4
+                                WHERE unit_workshops.WSDelTransfer = 0
                             ');
         
         $scl = DB::TABLE('stagings')->get();
@@ -71,11 +71,11 @@ class AdminMonitor extends Controller
 
     public function indexR(){
         $brand = DB::SELECT('SELECT * FROM brands WHERE status="1"');
-        $section = DB::SELECT('SELECT * FROM sections WHERE status="1"');
-        $technician = DB::SELECT('SELECT * FROM technicians WHERE status="1"');
-        $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" and status="1" ORDER BY bay_areas.id');
+        $section = DB::SELECT('SELECT * FROM wms_sections WHERE status="1"');
+        $technician = DB::SELECT('SELECT * FROM wms_technicians WHERE status="1"');
+        $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" and status="1" ORDER BY wms_bay_areas.id');
 
-        $bayR = DB::SELECT('SELECT * FROM bay_areas WHERE status="1" ORDER BY bay_areas.id');
+        $bayR = DB::SELECT('SELECT * FROM wms_bay_areas WHERE status="1" ORDER BY wms_bay_areas.id');
 
         $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1');
         
@@ -105,11 +105,11 @@ class AdminMonitor extends Controller
                                 cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                 cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                 cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                sections.name as SecName
+                                wms_sections.name as SecName
                             FROM cannibalized_units
                             INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                            INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                            INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                            INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                            INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                             ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                         ');
 
@@ -124,14 +124,14 @@ class AdminMonitor extends Controller
                             ');
 
         $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name,
+                                wms_bay_areas.area_name, brands.name,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1,
-                                technicians.initials
+                                wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
@@ -145,53 +145,53 @@ class AdminMonitor extends Controller
         $result = '';
         if($brand == 'BrandALL'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
+                                wms_bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1,
-                                technicians.initials
+                                wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_workshops.isBrandNew = 0
                         ');
         }else if($brand == 'BrandToyota'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
+                                wms_bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1,
-                                technicians.initials
+                                wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew = 0
                                 ');
         }else if($brand == 'BrandBT'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
+                                wms_bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1,
-                                technicians.initials
+                                wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew = 0
                         ');
         }else{
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
-                                bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
+                                wms_bay_areas.area_name, brands.name, unit_workshops.WSATIDS, unit_workshops.WSAAIDS,
                                 unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
                                 unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1,
-                                technicians.initials
+                                wms_technicians.initials
                                 FROM unit_workshops
                                 INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
-                                INNER JOIN bay_areas on bay_areas.id = unit_workshops.WSBayNum
-                                INNER JOIN technicians on technicians.id = unit_pull_outs.POUTechnician1
+                                INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
+                                INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew = 0
                         ');
@@ -1265,9 +1265,9 @@ class AdminMonitor extends Controller
     public function getBay(Request $request){
         $result = '<option value=""></option>';
         if($request->area == ''){
-            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" AND status="1" ORDER BY bay_areas.id');
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" AND status="1" ORDER BY wms_bay_areas.id');
         }else{
-            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE category="1" AND status="1" AND section=? ORDER BY bay_areas.id',[$request->area]);
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" AND status="1" AND section=? ORDER BY wms_bay_areas.id',[$request->area]);
         }
 
         foreach ($bay as $bays) {
@@ -1326,6 +1326,7 @@ class AdminMonitor extends Controller
                         'POUStatus' => strtoupper($request->POUStatus),
                         'POUTransferArea' => strtoupper($request->POUArea),
                         'POUTransferBay' => strtoupper($request->POUBay),
+                        'POUTransferDate' => $request->UnitTransferDate,
                         'POUTransferRemarks' => strtoupper($request->POURemarksT)
                         ]);
 
@@ -2782,9 +2783,9 @@ class AdminMonitor extends Controller
     public function getBayR(Request $request){
         $result = '<option value=""></option>';
         if($request->area == ''){
-            $bay = DB::SELECT('SELECT * FROM bay_areas ORDER BY bay_areas.id');
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas ORDER BY wms_bay_areas.id');
         }else{
-            $bay = DB::SELECT('SELECT * FROM bay_areas WHERE section=? ORDER BY bay_areas.id',[$request->area]);
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE section=? ORDER BY wms_bay_areas.id',[$request->area]);
         }
 
         foreach ($bay as $bays) {
@@ -2808,12 +2809,12 @@ class AdminMonitor extends Controller
         $title = "BRAND REPORT";
 
         $datas = DB::table('unit_workshops')
-            ->select('unit_workshops.id','bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
-            'unit_workshops.WSAARDE', 'technicians.initials'
+            ->select('unit_workshops.id','wms_bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
+            'unit_workshops.WSAARDE', 'wms_technicians.initials'
                     )
             ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_workshops.WSPOUID')
-            ->join('bay_areas', 'bay_areas.id', '=', 'unit_workshops.WSBayNum')
-            ->join('technicians', 'technicians.id', '=', 'unit_pull_outs.POUTechnician1')
+            ->join('wms_bay_areas', 'wms_bay_areas.id', '=', 'unit_workshops.WSBayNum')
+            ->join('wms_technicians', 'wms_technicians.id', '=', 'unit_pull_outs.POUTechnician1')
             ->leftJoin('unit_pull_out_bats', 'unit_pull_out_bats.POUID', '=', 'unit_pull_outs.id')
             ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
             ->where('unit_workshops.isBrandNew','=',0)
@@ -2851,12 +2852,12 @@ class AdminMonitor extends Controller
         $title = "BAY REPORT";
 
         $datas = DB::table('unit_workshops')
-            ->select('unit_workshops.id','bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
-            'unit_workshops.WSAARDE', 'technicians.initials', 'unit_workshops.WSDelTransfer'
+            ->select('unit_workshops.id','wms_bay_areas.area_name', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUMastType', 'unit_workshops.WSRemarks', 'unit_workshops.WSATRDE', 'unit_workshops.WSAAIDS', 
+            'unit_workshops.WSAARDE', 'wms_technicians.initials', 'unit_workshops.WSDelTransfer'
                     )
             ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_workshops.WSPOUID')
-            ->join('bay_areas', 'bay_areas.id', '=', 'unit_workshops.WSBayNum')
-            ->join('technicians', 'technicians.id', '=', 'unit_pull_outs.POUTechnician1')
+            ->join('wms_bay_areas', 'wms_bay_areas.id', '=', 'unit_workshops.WSBayNum')
+            ->join('wms_technicians', 'wms_technicians.id', '=', 'unit_pull_outs.POUTechnician1')
             ->leftJoin('unit_pull_out_bats', 'unit_pull_out_bats.POUID', '=', 'unit_pull_outs.id')
             ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
             ->where('unit_workshops.isBrandNew','=',0)
@@ -2973,8 +2974,8 @@ class AdminMonitor extends Controller
                     )
             ->join('unit_pull_outs', 'unit_pull_outs.id', '=', 'unit_deliveries.POUID')
             ->join('brands', 'unit_pull_outs.POUBrand', '=', 'brands.id')
-            ->leftJoin('technicians as t1', 'unit_pull_outs.POUTechnician1', '=', 't1.id')
-            ->leftJoin('technicians as t2', 'unit_pull_outs.POUTechnician2', '=', 't2.id')
+            ->leftJoin('wms_technicians as t1', 'unit_pull_outs.POUTechnician1', '=', 't1.id')
+            ->leftJoin('wms_technicians as t2', 'unit_pull_outs.POUTechnician2', '=', 't2.id')
             ->leftJoin('unit_pull_out_bats', 'unit_pull_outs.id', '=', 'unit_pull_out_bats.POUID')
             ->where('isBrandNew','=',0)
             ->whereBetween('POUArrivalDate',[$request->fromDate, $request->toDate])
@@ -3030,13 +3031,13 @@ class AdminMonitor extends Controller
 
         $datas = DB::table('cannibalized_units')
             ->select('cannibalized_units.id as CanUnitID', 'cannibalized_units.CanUnitDate', 'cannibalized_units.CanUnitCONum', 'cannibalized_parts.CanPartPartNum', 'cannibalized_parts.CanPartDescription', 'cannibalized_parts.CanPartQuantity', 'cannibalized_units.CanUnitITCustomer', 
-                    'cannibalized_units.CanUnitITCustAddress', 'brands.name as BName', 'cannibalized_units.CanUnitCFModelNum', 'cannibalized_units.CanUnitITModelNum', 'technicians.initials', 'cannibalized_parts.CanPartRemarks', 'sections.name as SName', 'cannibalized_parts.CanPartStatus',
+                    'cannibalized_units.CanUnitITCustAddress', 'brands.name as BName', 'cannibalized_units.CanUnitCFModelNum', 'cannibalized_units.CanUnitITModelNum', 'wms_technicians.initials', 'cannibalized_parts.CanPartRemarks', 'wms_sections.name as SName', 'cannibalized_parts.CanPartStatus',
                     'cannibalized_units.CanUnitRPRetDate', 'cannibalized_units.CanUnitRPRecBy','cannibalized_units.CanUnitDocRefNum'
                     )
             ->leftjoin('cannibalized_parts', 'cannibalized_units.id', '=', 'cannibalized_parts.CanPartCUID')
             ->leftjoin('brands', 'brands.id', '=', 'cannibalized_units.CanUnitBrand')
-            ->leftjoin('technicians', 'technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
-            ->leftjoin('sections', 'sections.id', '=', 'cannibalized_units.CanUnitCFSection')
+            ->leftjoin('wms_technicians', 'wms_technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
+            ->leftjoin('wms_sections', 'wms_sections.id', '=', 'cannibalized_units.CanUnitCFSection')
             ->whereBetween('CanUnitDate',[$request->fromDate, $request->toDate])
             ->orderBy('cannibalized_units.id', 'asc')
             ->get();
@@ -3088,11 +3089,7 @@ class AdminMonitor extends Controller
                     'd_r_parts.DRPartPartNum', 'd_r_parts.DRPartDescription', 'd_r_parts.DRPartQuantity', 'd_r_parts.DRPartPurpose', 'd_r_parts.DRPartRemarks', 'd_r_parts.DRPartStatus'
                     )
             ->leftjoin('d_r_parts', 'd_r_parts.DRPartMonID', '=', 'd_r_monitorings.id')
-            // ->leftjoin('brands', 'brands.id', '=', 'cannibalized_units.CanUnitBrand')
-            // ->leftjoin('technicians', 'technicians.id', '=', 'cannibalized_units.CanUnitCFPIC')
-            // ->leftjoin('sections', 'sections.id', '=', 'cannibalized_units.CanUnitCFSection')
             ->whereBetween('DRMonDate',[$request->fromDate, $request->toDate])
-            // ->orderBy('cannibalized_units.id', 'asc')
             ->get();
     
         $csv = Writer::createFromString('');
@@ -3282,11 +3279,11 @@ class AdminMonitor extends Controller
                                 cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                 cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                 cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                sections.name as SecName
+                                wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
 
@@ -3446,11 +3443,11 @@ class AdminMonitor extends Controller
                                 cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                 cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                 cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                sections.name as SecName
+                                wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
 
@@ -3516,11 +3513,11 @@ class AdminMonitor extends Controller
                                     cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                     cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                     cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                    sections.name as SecName
+                                    wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
         }else if($id == "CanUnitClosed"){
@@ -3531,11 +3528,11 @@ class AdminMonitor extends Controller
                                     cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                     cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                     cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                    sections.name as SecName
+                                    wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 1
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
@@ -3547,11 +3544,11 @@ class AdminMonitor extends Controller
                                     cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                     cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                     cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                    sections.name as SecName
+                                    wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 2
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
@@ -3563,11 +3560,11 @@ class AdminMonitor extends Controller
                                     cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                     cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                     cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                    sections.name as SecName
+                                    wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 3
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
@@ -3579,11 +3576,11 @@ class AdminMonitor extends Controller
                                     cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
                                     cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
                                     cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
-                                    sections.name as SecName
+                                    wms_sections.name as SecName
                                 FROM cannibalized_units
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
-                                INNER JOIN sections ON sections.id = cannibalized_units.CanUnitCFSection
-                                INNER JOIN technicians ON technicians.id = cannibalized_units.CanUnitCFPIC
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 4
                                 ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
                             ');
