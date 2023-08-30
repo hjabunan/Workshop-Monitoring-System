@@ -244,7 +244,6 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/t-workshop/report/deletePOU', [TReportController::class, 'deletePOU'])->name('t-workshop.report.deletePOU');
             Route::GET('/workshop-ms/t-workshop/report/getBay', [TReportController::class, 'getBay'])->name('t-workshop.report.getBay');
             Route::POST('/workshop-ms/t-workshop/report/transferPullOut', [TReportController::class, 'transferPullOut'])->name('t-workshop.report.transferPullOut');
-            // Route::GET('/workshop-ms/t-workshop/report/getUnitStatus', [TReportController::class, 'getUnitStatus'])->name('t-workshop.report.getUnitStatus');
             Route::GET('/workshop-ms/t-workshop/report/sortPullOut', [TReportController::class, 'sortPullOut'])->name('t-workshop.report.sortPullOut');
         
         // Confirm Unit

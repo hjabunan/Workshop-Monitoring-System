@@ -50,23 +50,23 @@
                                 <tbody>
                                     @foreach ($tech as $techs)
                                     <tr class="bg-white border-b ">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{$techs->id}}
                                         </th>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-2">
                                             {{$techs->name}}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-2">
                                             {{$techs->section}}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-2">
                                             @if ($techs->status ==0)
                                                 <p class="text-red-500">Inactive</p>
                                             @else
                                             <p class="text-green-500">Active</p>
                                             @endif 
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-2">
                                             <a href="{{ url('/system-management/technician/edit/'.$techs->id ) }}" class="font-medium text-blue-600  hover:underline ">Edit</a>
                                         </td>
                                     </tr>
