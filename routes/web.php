@@ -147,6 +147,18 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Workshop
             Route::GET('/workshop-ms/bt-workshop/report/sortBrand', [BTReportController::class, 'sortBrand'])->name('bt-workshop.report.sortBrand');
 
+        // Report
+            Route::GET('/workshop-ms/bt-workshop/report/getBayR', [BTReportController::class, 'getBayR'])->name('bt-workshop.report.getBayR');
+            Route::POST('/workshop-ms/bt-workshop/report/generateBrandReport', [BTReportController::class, 'generateBrandReport'])->name('bt-workshop.report.generateBrandReport');
+            Route::POST('/workshop-ms/bt-workshop/report/generateBayReport', [BTReportController::class, 'generateBayReport'])->name('bt-workshop.report.generateBayReport');
+            Route::POST('/workshop-ms/bt-workshop/report/searchRPU', [BTReportController::class, 'searchRPU'])->name('bt-workshop.report.searchRPU');
+            Route::POST('/workshop-ms/bt-workshop/report/generateUnitReport', [BTReportController::class, 'generateUnitReport'])->name('bt-workshop.report.generateUnitReport');
+            Route::POST('/workshop-ms/bt-workshop/report/generateUnitRecord', [BTReportController::class, 'generateUnitRecord'])->name('bt-workshop.report.generateUnitRecord');
+            Route::POST('/workshop-ms/bt-workshop/report/generatePOUReport', [BTReportController::class, 'generatePOUReport'])->name('bt-workshop.report.generatePOUReport');
+            Route::POST('/workshop-ms/bt-workshop/report/generateDUReport', [BTReportController::class, 'generateDUReport'])->name('bt-workshop.report.generateDUReport');
+            Route::POST('/workshop-ms/bt-workshop/report/generateCanUnitReport', [BTReportController::class, 'generateCanUnitReport'])->name('bt-workshop.report.generateCanUnitReport');
+            Route::POST('/workshop-ms/bt-workshop/report/generateDRMonReport', [BTReportController::class, 'generateDRMonReport'])->name('bt-workshop.report.generateDRMonReport');
+
         // Brand New Unit
             Route::POST('/workshop-ms/bt-workshop/report/saveBrandNew', [BTReportController::class, 'saveBrandNew'])->name('bt-workshop.report.saveBrandNew');
             Route::GET('/workshop-ms/bt-workshop/report/getBNUData', [BTReportController::class, 'getBNUData'])->name('bt-workshop.report.getBNUData');
@@ -207,6 +219,18 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
 
         // Workshop
             Route::GET('/workshop-ms/t-workshop/report/sortBrand', [TReportController::class, 'sortBrand'])->name('t-workshop.report.sortBrand');
+
+        // Report
+            Route::GET('/workshop-ms/t-workshop/report/getBayR', [TReportController::class, 'getBayR'])->name('t-workshop.report.getBayR');
+            Route::POST('/workshop-ms/t-workshop/report/generateBrandReport', [TReportController::class, 'generateBrandReport'])->name('t-workshop.report.generateBrandReport');
+            Route::POST('/workshop-ms/t-workshop/report/generateBayReport', [TReportController::class, 'generateBayReport'])->name('t-workshop.report.generateBayReport');
+            Route::POST('/workshop-ms/t-workshop/report/searchRPU', [TReportController::class, 'searchRPU'])->name('t-workshop.report.searchRPU');
+            Route::POST('/workshop-ms/t-workshop/report/generateUnitReport', [TReportController::class, 'generateUnitReport'])->name('t-workshop.report.generateUnitReport');
+            Route::POST('/workshop-ms/t-workshop/report/generateUnitRecord', [TReportController::class, 'generateUnitRecord'])->name('t-workshop.report.generateUnitRecord');
+            Route::POST('/workshop-ms/t-workshop/report/generatePOUReport', [TReportController::class, 'generatePOUReport'])->name('t-workshop.report.generatePOUReport');
+            Route::POST('/workshop-ms/t-workshop/report/generateDUReport', [TReportController::class, 'generateDUReport'])->name('t-workshop.report.generateDUReport');
+            Route::POST('/workshop-ms/t-workshop/report/generateCanUnitReport', [TReportController::class, 'generateCanUnitReport'])->name('t-workshop.report.generateCanUnitReport');
+            Route::POST('/workshop-ms/t-workshop/report/generateDRMonReport', [TReportController::class, 'generateDRMonReport'])->name('t-workshop.report.generateDRMonReport');
 
         // Brand New Unit
             Route::POST('/workshop-ms/t-workshop/report/saveBrandNew', [TReportController::class, 'saveBrandNew'])->name('t-workshop.report.saveBrandNew');
@@ -273,6 +297,9 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::GET('/workshop-ms/r-workshop/report/getBayR', [RReportController::class, 'getBayR'])->name('r-workshop.report.getBayR');
             Route::POST('/workshop-ms/r-workshop/report/generateBrandReport', [RReportController::class, 'generateBrandReport'])->name('r-workshop.report.generateBrandReport');
             Route::POST('/workshop-ms/r-workshop/report/generateBayReport', [RReportController::class, 'generateBayReport'])->name('r-workshop.report.generateBayReport');
+            Route::POST('/workshop-ms/r-workshop/report/searchRPU', [RReportController::class, 'searchRPU'])->name('r-workshop.report.searchRPU');
+            Route::POST('/workshop-ms/r-workshop/report/generateUnitReport', [RReportController::class, 'generateUnitReport'])->name('r-workshop.report.generateUnitReport');
+            Route::POST('/workshop-ms/r-workshop/report/generateUnitRecord', [RReportController::class, 'generateUnitRecord'])->name('r-workshop.report.generateUnitRecord');
             Route::POST('/workshop-ms/r-workshop/report/generatePOUReport', [RReportController::class, 'generatePOUReport'])->name('r-workshop.report.generatePOUReport');
             Route::POST('/workshop-ms/r-workshop/report/generateDUReport', [RReportController::class, 'generateDUReport'])->name('r-workshop.report.generateDUReport');
             Route::POST('/workshop-ms/r-workshop/report/generateCanUnitReport', [RReportController::class, 'generateCanUnitReport'])->name('r-workshop.report.generateCanUnitReport');

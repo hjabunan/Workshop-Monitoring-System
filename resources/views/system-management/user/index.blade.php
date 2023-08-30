@@ -26,9 +26,9 @@
                     </div>
 
                     {{-- Start Table --}}
-                        <div class="bg-white p-4 mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="bg-white p-4 mt-4 relative overflow-x-auto shadow-md sm:rounded-lg" style="height: calc(100vh - 155px);">
                             <table id="tdept" class="w-full h-full text-sm text-left text-gray-500 row-border stripe">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <thead class="text-xs text-gray-700 uppercase bg-white" style="position: sticky; top: 0;">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
                                             NAME
@@ -42,9 +42,6 @@
                                         <th scope="col" class="px-6 py-3">
                                             Department
                                         </th>
-                                        {{-- <th scope="col" class="px-6 py-3">
-                                            Area/Section
-                                        </th> --}}
                                         <th scope="col" class="px-6 py-3">
                                             Role
                                         </th>
@@ -71,9 +68,6 @@
                                             <td class="px-6 py-4">
                                                 {{$users->deptname}}
                                             </td>
-                                            {{-- <td class="px-6 py-4">
-                                                {{$users->sname}}
-                                            </td> --}}
                                             <td class="px-6 py-4">
                                                 @if ($users->role ==0)
                                                     User

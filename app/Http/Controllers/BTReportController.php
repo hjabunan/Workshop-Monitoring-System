@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use League\Csv\Writer;
+use League\Csv\Statement;
 
 class BTReportController extends Controller
 {
@@ -4701,6 +4702,181 @@ class BTReportController extends Controller
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'attachment; filename="data.csv"');
 
+    }
+
+    public function searchRPU(Request $request){
+        $column = $request->CatSearch;
+        $term = $request->RPUTableSearch;
+        $query = DB::table('unit_workshops')
+                    ->select('unit_workshops.id as WSID','brands.name as BName','POUModel','POUCode','POUSerialNum','wms_technicians.initials as TInitials')
+                    ->leftJoin('unit_pull_outs','unit_pull_outs.id','=','unit_workshops.WSPOUID')
+                    ->leftJoin('wms_technicians','wms_technicians.id','=','unit_pull_outs.POUTechnician1')
+                    ->leftJoin('brands','unit_pull_outs.POUBrand','=','brands.id');
+
+        if ($request->CatSearch == ' ' || $request->CatSearch == null) {
+            $data = $query->WHERE(function ($where) use ($term){
+                $columnsL = ['brands.name','POUModel','POUCode','POUSerialNum','initials'];
+                foreach($columnsL as $columns){
+                    $where->orWhere($columns,'LIKE',"%$term%");
+                }
+            });
+        }else{
+            $data = $query->WHERE($column,'LIKE',"%$term%");
+        }
+        $fquery = $data->get();
+
+        $result = "";
+        if(count($fquery)>0){
+            foreach ($fquery as $spu) {
+                $result .='
+                            <tr class="bg-white border-b hover:bg-gray-200 text-xs">
+                                <td class="px-1 whitespace-nowrap gap-1">
+                                    <div class="flex justify-center items-center">
+                                        <button type="button" data-id="'.$spu->WSID.'" class="btnPrint mr-1" id="btnPrint">
+                                            <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier"> <g id="Printer"> 
+                                                    <path d="M57.7881012,14.03125H52.5v-8.0625c0-2.2091999-1.7909012-4-4-4h-33c-2.2091999,0-4,1.7908001-4,4v8.0625H6.2119002 C2.7871001,14.03125,0,16.8183498,0,20.2431507V46.513649c0,3.4248009,2.7871001,6.2119026,6.2119002,6.2119026h2.3798995 c0.5527,0,1-0.4472008,1-1c0-0.5527-0.4473-1-1-1H6.2119002C3.8896,50.7255516,2,48.8359489,2,46.513649V20.2431507 c0-2.3223,1.8896-4.2119007,4.2119002-4.2119007h51.5762024C60.1102982,16.03125,62,17.9208508,62,20.2431507V46.513649 c0,2.3223-1.8897018,4.2119026-4.2118988,4.2119026H56c-0.5527992,0-1,0.4473-1,1c0,0.5527992,0.4472008,1,1,1h1.7881012 C61.2128983,52.7255516,64,49.9384499,64,46.513649V20.2431507C64,16.8183498,61.2128983,14.03125,57.7881012,14.03125z M13.5,5.96875c0-1.1027999,0.8971996-2,2-2h33c1.1027985,0,2,0.8972001,2,2v8h-37V5.96875z"></path> <path d="M44,45.0322495H20c-0.5517998,0-0.9990005,0.4472008-0.9990005,0.9990005S19.4482002,47.0302505,20,47.0302505h24 c0.5517006,0,0.9990005-0.4472008,0.9990005-0.9990005S44.5517006,45.0322495,44,45.0322495z"></path> <path d="M44,52.0322495H20c-0.5517998,0-0.9990005,0.4472008-0.9990005,0.9990005S19.4482002,54.0302505,20,54.0302505h24 c0.5517006,0,0.9990005-0.4472008,0.9990005-0.9990005S44.5517006,52.0322495,44,52.0322495z"></path>
+                                                    <circle cx="7.9590998" cy="21.8405495" r="2"></circle> <circle cx="14.2856998" cy="21.8405495" r="2"></circle> <circle cx="20.6121998" cy="21.8405495" r="2"></circle> 
+                                                    <path d="M11,62.03125h42v-26H11V62.03125z M13.4036999,38.4349518h37.1925964v21.1925964H13.4036999V38.4349518z"></path> 
+                                                </g> </g>
+                                            </svg>
+                                        </button>
+                                        <button type="button" data-id="'.$spu->POUSerialNum.'" class="btnPrintAll" id="btnPrintAll">
+                                        <svg fill="#0212e8" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" stroke="#0212e8">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier"> <g id="Printer"> 
+                                                <path d="M57.7881012,14.03125H52.5v-8.0625c0-2.2091999-1.7909012-4-4-4h-33c-2.2091999,0-4,1.7908001-4,4v8.0625H6.2119002 C2.7871001,14.03125,0,16.8183498,0,20.2431507V46.513649c0,3.4248009,2.7871001,6.2119026,6.2119002,6.2119026h2.3798995 c0.5527,0,1-0.4472008,1-1c0-0.5527-0.4473-1-1-1H6.2119002C3.8896,50.7255516,2,48.8359489,2,46.513649V20.2431507 c0-2.3223,1.8896-4.2119007,4.2119002-4.2119007h51.5762024C60.1102982,16.03125,62,17.9208508,62,20.2431507V46.513649 c0,2.3223-1.8897018,4.2119026-4.2118988,4.2119026H56c-0.5527992,0-1,0.4473-1,1c0,0.5527992,0.4472008,1,1,1h1.7881012 C61.2128983,52.7255516,64,49.9384499,64,46.513649V20.2431507C64,16.8183498,61.2128983,14.03125,57.7881012,14.03125z M13.5,5.96875c0-1.1027999,0.8971996-2,2-2h33c1.1027985,0,2,0.8972001,2,2v8h-37V5.96875z"></path> <path d="M44,45.0322495H20c-0.5517998,0-0.9990005,0.4472008-0.9990005,0.9990005S19.4482002,47.0302505,20,47.0302505h24 c0.5517006,0,0.9990005-0.4472008,0.9990005-0.9990005S44.5517006,45.0322495,44,45.0322495z"></path> <path d="M44,52.0322495H20c-0.5517998,0-0.9990005,0.4472008-0.9990005,0.9990005S19.4482002,54.0302505,20,54.0302505h24 c0.5517006,0,0.9990005-0.4472008,0.9990005-0.9990005S44.5517006,52.0322495,44,52.0322495z"></path> 
+                                                <circle cx="7.9590998" cy="21.8405495" r="2"></circle> <circle cx="14.2856998" cy="21.8405495" r="2"></circle> <circle cx="20.6121998" cy="21.8405495" r="2"></circle> 
+                                                <path d="M11,62.03125h42v-26H11V62.03125z M13.4036999,38.4349518h37.1925964v21.1925964H13.4036999V38.4349518z"></path> 
+                                            </g> </g>
+                                        </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$spu->BName.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$spu->POUModel.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$spu->POUCode.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$spu->POUSerialNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center">
+                                    '.$spu->TInitials.'
+                                </td>
+                            </tr>
+                ';
+            }
+        }else{
+            $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                            No data.
+                        </td>
+                    </tr>
+            ';
+        }
+
+        echo $result;
+    }
+
+    public function generateUnitReport(Request $request){
+        $id = $request->id;
+        $title = "UNIT REPORT";
+
+        $datas = DB::table('unit_workshops')
+                    ->select('unit_workshops.id as WSID','WSAAIDS','WSAARDE','WSATRDE','brands.name as BName','POUMastType','POUModel','POUCode','POUSerialNum','tech1.initials as T1Initials','tech2.initials as T2Initials','POUCustomer','area_name',
+                    'PIPartNum','PIDescription','PIQuantity','PIMRINum','PIDateReq','PIDateRec','PIDateInstalled')
+                    ->leftJoin('unit_pull_outs','unit_pull_outs.id','=','unit_workshops.WSPOUID')
+                    ->leftJoin('wms_technicians as tech1','tech1.id','=','unit_pull_outs.POUTechnician1')
+                    ->leftJoin('wms_technicians as tech2','tech2.id','=','unit_pull_outs.POUTechnician2')
+                    ->leftJoin('brands','unit_pull_outs.POUBrand','=','brands.id')
+                    ->leftJoin('wms_bay_areas','wms_bay_areas.id','=','unit_workshops.WSBayNum')
+                    ->leftJoin('unit_parts','unit_parts.PIJONum','=','unit_workshops.id')
+                    ->where('unit_workshops.id','=',$id)
+                    ->get();
+    
+        $csv = Writer::createFromString('');
+        $csv->setOutputBOM(Writer::BOM_UTF8); 
+    
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['Bay Num:', $datas[0]->area_name,'','Code:',$datas[0]->POUCode,'','Activity:']);
+        $csv->insertOne(['Company Name:', $datas[0]->POUCustomer,'','','','','Person-in-Charge:',$datas[0]->T1Initials]);
+        $csv->insertOne(['','','','','','','',$datas[0]->T2Initials]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['Brand:',$datas[0]->BName,'','Serial Num:',$datas[0]->POUSerialNum,'','Date Started:',$datas[0]->WSAAIDS,'','Date Started:',$datas[0]->WSAARDE]);
+        $csv->insertOne(['Model:',$datas[0]->POUModel,'','Mast Type:',$datas[0]->POUMastType,'','Target Date:',$datas[0]->WSATRDE,]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['Parts Number', 'Description', 'Quantity', 'MRI Number', 'Date Requested', 'Date Received', 'Date Installed', 'Parts Status']);
+
+        foreach ($datas as $row) {
+            if($row->PIDateInstalled != '' || $row->PIDateInstalled != null){
+                $status = "INSTALLED";
+            }else{
+                $status = "PENDING";
+            }
+
+            $csv->insertOne([$row->PIPartNum,$row->PIDescription,$row->PIQuantity,$row->PIMRINum,$row->PIDateReq,$row->PIDateRec,$row->PIDateInstalled,$status]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    public function generateUnitRecord(Request $request){
+        $id = $request->snum;
+        $title = "UNIT REPORT";
+
+        $datas = DB::table('unit_workshops')
+                    ->select('unit_workshops.id as WSID','WSAAIDS','WSAARDE','WSATRDE','brands.name as BName','POUMastType','POUModel','POUCode','POUSerialNum','tech1.initials as T1Initials','tech2.initials as T2Initials','POUCustomer','area_name',
+                    'PIPartNum','PIDescription','PIQuantity','PIMRINum','PIDateReq','PIDateRec','PIDateInstalled')
+                    ->leftJoin('unit_pull_outs','unit_pull_outs.id','=','unit_workshops.WSPOUID')
+                    ->leftJoin('wms_technicians as tech1','tech1.id','=','unit_pull_outs.POUTechnician1')
+                    ->leftJoin('wms_technicians as tech2','tech2.id','=','unit_pull_outs.POUTechnician2')
+                    ->leftJoin('brands','unit_pull_outs.POUBrand','=','brands.id')
+                    ->leftJoin('wms_bay_areas','wms_bay_areas.id','=','unit_workshops.WSBayNum')
+                    ->leftJoin('unit_parts','unit_parts.PIJONum','=','unit_workshops.id')
+                    ->where('unit_pull_outs.POUSerialNum','=',$id)
+                    ->get();
+    
+        $csv = Writer::createFromString('');
+        $csv->setOutputBOM(Writer::BOM_UTF8); 
+    
+        $csv->insertOne([$title]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['Bay Num:', $datas[0]->area_name,'','Code:',$datas[0]->POUCode,'','Activity:']);
+        $csv->insertOne(['Company Name:', $datas[0]->POUCustomer,'','','','','Person-in-Charge:',$datas[0]->T1Initials]);
+        $csv->insertOne(['','','','','','','',$datas[0]->T2Initials]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['Brand:',$datas[0]->BName,'','Serial Num:',$datas[0]->POUSerialNum,'','Date Started:',$datas[0]->WSAAIDS,'','Date Started:',$datas[0]->WSAARDE]);
+        $csv->insertOne(['Model:',$datas[0]->POUModel,'','Mast Type:',$datas[0]->POUMastType,'','Target Date:',$datas[0]->WSATRDE,]);
+        $csv->insertOne(['']);
+        $csv->insertOne(['Parts Number', 'Description', 'Quantity', 'MRI Number', 'Date Requested', 'Date Received', 'Date Installed', 'Parts Status']);
+
+        foreach ($datas as $row) {
+            if($row->PIDateInstalled != '' || $row->PIDateInstalled != null){
+                $status = "INSTALLED";
+            }else{
+                $status = "PENDING";
+            }
+
+            $csv->insertOne([$row->PIPartNum,$row->PIDescription,$row->PIQuantity,$row->PIMRINum,$row->PIDateReq,$row->PIDateRec,$row->PIDateInstalled,$status]);
+        }
+    
+        $csvContent = $csv->getContent();
+    
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="data.csv"');
     }
 
     public function generatePOUReport(Request $request){

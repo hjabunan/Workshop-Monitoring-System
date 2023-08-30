@@ -190,211 +190,312 @@
                             </div>
                             {{-- REPORT --}}
                             <div class="hidden p-2 rounded-lg bg-gray-50" id="report" role="tabpanel" aria-labelledby="report-tab">
-                                <div class="grid grid-cols-4">
-                                    {{-- Brand --}}
-                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
-                                        <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BRAND</span></label>
-                                        </div>
-                                        <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">BRAND:</label></div>
-                                            <div class="col-span-4">
-                                                <select name="RBrand" id="RBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
-                                                    <option value="1">TOYOTA</option>
-                                                    <option value="2">BT</option>
-                                                    <option value="3">RAYMOND</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                <div id="indicators-carousel" class="relative w-full" data-carousel="static">
+                                    <!-- Carousel wrapper -->
+                                    <div class="relative h-[80vh] overflow-hidden rounded-lg">
+                                        <!-- Item 1 -->
+                                        <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+                                            <div class="grid grid-cols-4">
+                                                {{-- Brand --}}
+                                                <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BRAND</span></label>
                                                     </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandFromDate" id="RBrandFromDate">
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">BRAND:</label></div>
+                                                        <div class="col-span-4">
+                                                            <select name="RBrand" id="RBrand" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                                                <option value="1">TOYOTA</option>
+                                                                <option value="2">BT</option>
+                                                                <option value="3">RAYMOND</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandFromDate" id="RBrandFromDate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandToDate" id="RBrandToDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline-flex items-center justify-center w-full mt-2">
+                                                        <button type="button" id="RGenBrand" name="RGenBrand" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                                        {{-- <a href="{{ route('r-workshop.report.generateBrandReport') }}" target="_blank" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</a> --}}
+                                                    </div>
+                                                </div>
+                                                {{-- Per Bay --}}
+                                                <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BAY</span></label>
+                                                    </div>
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">AREA:</label></div>
+                                                        <div class="col-span-4">
+                                                            <select name="RBayArea" id="RBayArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-xs">
+                                                                    <option value=""></option>
+                                                                @foreach ($section as $sections)
+                                                                    <option value="{{$sections->id}}">{{$sections->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">BAY:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <select name="RBayNum" id="RBayNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                                                    <option value=""></option>
+                                                                @foreach ($bayR as $bayR1)
+                                                                    <option value="{{$bayR1->id}}">{{$bayR1->area_name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                                <input type="hidden" id="RBayName" name="RBayName" value="">
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayFromDate" id="RBayFromDate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayToDate" id="RBayToDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline-flex items-center justify-center w-full mt-2">
+                                                        <button type="button" id="RGenBay" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                                    </div>
+                                                </div>
+                                                {{-- Per Unit --}}
+                                                <div class="col-span-2 m-4 bg-gray-100 rounded-lg" style="height: 40vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER UNIT</span></label>
+                                                    </div>
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2 mr-2">
+                                                            <select name="CatSearch" id="CatSearch" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
+                                                                    <option value=""></option>
+                                                                    <option value="brands.name">BRAND</option>
+                                                                    <option value="POUModel">MODEL</option>
+                                                                    <option value="POUCode">CODE</option>
+                                                                    <option value="POUSerialNum">SERIAL NUMBER</option>
+                                                                    <option value="initials">PERSON IN CHARGE</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-span-3 ml-1 mr-1">
+                                                            <div class="relative">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" id="RPUTableSearch" name="RPUTableSearch" class="block p-1.5 pl-10 text-xs text-gray-900 border border-gray-300 rounded-lg h-10 w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for details">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-1 ml-2">
+                                                            <button type="submit" id="RPUSearch" class="p-2.5 w-full text-sm font-medium flex items-center justify-center text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">SEARCH</button>
+                                                        </div>
+
+                                                        <div class="col-span-6">
+                                                            <div id="bodyDIV" style="height: 33vh;" class="overflow-y-auto">
+                                                                <table id="tableRPU" class="w-full text-sm text-left text-gray-500">
+                                                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                                        <tr class="WS place-items-center">
+                                                                            <th scope="col" class="px-2 py-1 text-center">
+                                                                                ACTION
+                                                                            </th>
+                                                                            <th scope="col" class="px-3 py-1 text-center">
+                                                                                BRAND
+                                                                            </th>
+                                                                            <th scope="col" class="px-6 py-1 text-center">
+                                                                                MODEL
+                                                                            </th>
+                                                                            <th scope="col" class="px-6 py-1 text-center">
+                                                                                CODE
+                                                                            </th>
+                                                                            <th scope="col" class="px-6 py-1 text-center">
+                                                                                SERIAL NUMBER
+                                                                            </th>
+                                                                            <th scope="col" class="px-3 py-1 text-center">
+                                                                                P.I.C.
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tableRPUB" name="tableRPUB" class="tableRPUB">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{-- Pull Out Unit --}}
+                                                <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">PULL OUT UNIT</span></label>
+                                                    </div>
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RPOUFromDate" id="RPOUFromDate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RPOUToDate" id="RPOUToDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline-flex items-center justify-center w-full mt-2">
+                                                        <button type="button" id="RGenPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                                    </div>
+                                                </div>
+                                                {{-- Delivered Unit --}}
+                                                <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">DELIVERED UNIT</span></label>
+                                                    </div>
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDUFromDate" id="RDUFromDate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDUToDate" id="RDUToDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline-flex items-center justify-center w-full mt-2">
+                                                        <button type="button" id="RGenDU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                                    </div>
+                                                </div>
+                                                {{-- Cannibalized Unit --}}
+                                                <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">CANNIBALIZED UNIT</span></label>
+                                                    </div>
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RCanUnitFromDate" id="RCanUnitFromDate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RCanUnitToDate" id="RCanUnitToDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline-flex items-center justify-center w-full mt-2">
+                                                        <button type="button" id="RGenCanUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                                    </div>
+                                                </div>
+                                                {{-- DR Monitoring --}}
+                                                <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div class="inline-flex items-center justify-center w-full">
+                                                        <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">D.R. MONITORING</span></label>
+                                                    </div>
+                                                    <div class="grid grid-cols-6 items-center">
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDRMonFromDate" id="RDRMonFromDate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
+                                                        <div class="col-span-4 mt-1">
+                                                            <div class="relative max-w-sm">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                                </div>
+                                                                <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDRMonToDate" id="RDRMonToDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline-flex items-center justify-center w-full mt-2">
+                                                        <button type="button" id="RGenDRMon" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBrandToDate" id="RBrandToDate">
-                                                </div>
-                                            </div>
                                         </div>
-                                        <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenBrand" name="RGenBrand" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
-                                            {{-- <a href="{{ route('r-workshop.report.generateBrandReport') }}" target="_blank" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</a> --}}
+                                        <!-- Item 2 -->
+                                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                            <div class="grid grid-cols-4">
+                                                <div class="">OTHER REPORTS FOR ADDING</div>
+                                                <div class="">OTHER REPORTS FOR ADDING</div>
+                                            </div>
                                         </div>
                                     </div>
-                                    {{-- Per Bay --}}
-                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
-                                        <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">REPORT PER BAY</span></label>
-                                        </div>
-                                        <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2"><label for="" class="block text-sm font-medium text-gray-900">AREA:</label></div>
-                                            <div class="col-span-4">
-                                                <select name="RBayArea" id="RBayArea" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-xs">
-                                                        <option value=""></option>
-                                                    @foreach ($section as $sections)
-                                                        <option value="{{$sections->id}}">{{$sections->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">BAY:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <select name="RBayNum" id="RBayNum" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
-                                                        <option value=""></option>
-                                                    @foreach ($bayR as $bayR1)
-                                                        <option value="{{$bayR1->id}}">{{$bayR1->area_name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                    <input type="hidden" id="RBayName" name="RBayName" value="">
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayFromDate" id="RBayFromDate">
-                                                </div>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RBayToDate" id="RBayToDate">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenBay" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
-                                        </div>
+                                    <!-- Slider indicators -->
+                                    <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+                                        <button type="button" class="w-3 h-3 rounded-full bg-gray-300" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                                        <button type="button" class="w-3 h-3 rounded-full bg-gray-300" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+                                        {{-- 
+                                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+                                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+                                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button> 
+                                        --}}
                                     </div>
-                                    {{-- Pull Out Unit --}}
-                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
-                                        <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">PULL OUT UNIT</span></label>
-                                        </div>
-                                        <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RPOUFromDate" id="RPOUFromDate">
-                                                </div>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RPOUToDate" id="RPOUToDate">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenPOU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
-                                        </div>
-                                    </div>
-                                    {{-- Delivered Unit --}}
-                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
-                                        <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">DELIVERED UNIT</span></label>
-                                        </div>
-                                        <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDUFromDate" id="RDUFromDate">
-                                                </div>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDUToDate" id="RDUToDate">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenDU" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
-                                        </div>
-                                    </div>
-                                    {{-- Cannibalized Unit --}}
-                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
-                                        <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">CANNIBALIZED UNIT</span></label>
-                                        </div>
-                                        <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RCanUnitFromDate" id="RCanUnitFromDate">
-                                                </div>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RCanUnitToDate" id="RCanUnitToDate">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenCanUnit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
-                                        </div>
-                                    </div>
-                                    {{-- DR Monitoring --}}
-                                    <div class="m-4 bg-gray-100 rounded-lg" style="height: 29vh; display: flex; flex-direction: column; justify-content: space-between;">
-                                        <div class="inline-flex items-center justify-center w-full">
-                                            <label class="text-xl font-extrabold text-gray-900"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">D.R. MONITORING</span></label>
-                                        </div>
-                                        <div class="grid grid-cols-6 items-center">
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">FROM:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDRMonFromDate" id="RDRMonFromDate">
-                                                </div>
-                                            </div>
-                                            <div class="col-span-2 mt-1"><label for="" class="block text-sm font-medium text-gray-900">TO:</label></div>
-                                            <div class="col-span-4 mt-1">
-                                                <div class="relative max-w-sm">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                                    </div>
-                                                    <input type="text" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2" name="RDRMonToDate" id="RDRMonToDate">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="inline-flex items-center justify-center w-full mt-2">
-                                            <button type="button" id="RGenDRMon" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none w-1/2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">GENERATE</button>
-                                        </div>
-                                    </div>
-                                    <div class="">OTHER REPORTS FOR ADDING</div>
-                                    <div class="">OTHER REPORTS FOR ADDING</div>
+                                    <!-- Slider controls -->
+                                    <button type="button" class="absolute top-0 left-[-80px] z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/30 group-hover:bg-black/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                                            <svg class="w-4 h-4 text-black dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                                            </svg>
+                                            <span class="sr-only">Previous</span>
+                                        </span>
+                                    </button>
+                                    <button type="button" class="absolute top-0 right-[-80px] z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                            <svg class="w-4 h-4 text-black dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                            </svg>
+                                            <span class="sr-only">Next</span>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                             {{-- NEW UNIT --}}
@@ -5280,7 +5381,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getBayR') }}",
+                        url:"{{ route('t-workshop.report.getBayR') }}",
                         method:"GET",
                         data:{area: area, _token: _token,},
                         success:function(result){
@@ -5297,7 +5398,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.generateBrandReport') }}",
+                        url: "{{ route('t-workshop.report.generateBrandReport') }}",
                         method: 'POST',
                         data: {
                             UBrand: UBrand,
@@ -5324,7 +5425,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.generateBayReport') }}",
+                        url: "{{ route('t-workshop.report.generateBayReport') }}",
                         method: 'POST',
                         data: {
                             bayName: bayName,
@@ -5343,6 +5444,70 @@
                     });
                 });
 
+            // Search
+                jQuery(document).on( "click", "#RPUSearch", function(){
+                    var CatSearch = $('#CatSearch').val();
+                    var RPUTableSearch = $('#RPUTableSearch').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url: "{{ route('t-workshop.report.searchRPU') }}",
+                        method: 'POST',
+                        data: {
+                            CatSearch: CatSearch,
+                            RPUTableSearch: RPUTableSearch,
+                            _token: _token
+                        },
+                        success:function(result){
+                            $('#tableRPUB').html(result);
+                        },
+                    });
+                });
+
+            // Unit Report
+                jQuery(document).on("click", ".btnPrint", function() {
+                    var id = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+                    
+                    $.ajax({
+                        url: "{{ route('t-workshop.report.generateUnitReport') }}",
+                        method: 'POST',
+                        data: {
+                            id: id,
+                            _token: _token
+                        },
+                        success: function(response) {
+                            var link = document.createElement('a');
+                            link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                            link.target = '_blank';
+                            link.download = 'Unit Report.csv';
+                            link.click();
+                        },
+                    });
+                });
+
+            // Unit Report
+                jQuery(document).on("click", ".btnPrintAll", function() {
+                    var snum = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+                    
+                    $.ajax({
+                        url: "{{ route('t-workshop.report.generateUnitRecord') }}",
+                        method: 'POST',
+                        data: {
+                            snum: snum,
+                            _token: _token
+                        },
+                        success: function(response) {
+                            var link = document.createElement('a');
+                            link.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+                            link.target = '_blank';
+                            link.download = 'Unit Record.csv';
+                            link.click();
+                        },
+                    });
+                });
+
             // Pull Out Unit Report
                 jQuery(document).on("click", "#RGenPOU", function() {
                     var fromDate = $('#RPOUFromDate').val();
@@ -5350,7 +5515,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.generatePOUReport') }}",
+                        url: "{{ route('t-workshop.report.generatePOUReport') }}",
                         method: 'POST',
                         data: {
                             fromDate: fromDate,
@@ -5374,7 +5539,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.generateDUReport') }}",
+                        url: "{{ route('t-workshop.report.generateDUReport') }}",
                         method: 'POST',
                         data: {
                             fromDate: fromDate,
@@ -5398,7 +5563,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.generateCanUnitReport') }}",
+                        url: "{{ route('t-workshop.report.generateCanUnitReport') }}",
                         method: 'POST',
                         data: {
                             fromDate: fromDate,
@@ -5422,7 +5587,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.report.generateDRMonReport') }}",
+                        url: "{{ route('t-workshop.report.generateDRMonReport') }}",
                         method: 'POST',
                         data: {
                             fromDate: fromDate,
