@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\ActivityLog;
 use App\Models\Section;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -82,7 +84,6 @@ class UserController extends Controller
             $user->role = $request->role;
             $user->dept = $request->dept;
             $user->area = implode(',', $request->input('area', []));
-            $user->update();
         }else{
             $user = User::find($id);
             $user->name = $request->uname;
@@ -92,8 +93,33 @@ class UserController extends Controller
             $user->dept = $request->dept;
             $user->area = implode(',', $request->area);
             $user->password = Hash::make($request->password);
-            $user->update();
         }
+
+            $dirtyAttributes = $user->getDirty();
+        
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $user->getOriginal($attribute);
+    
+                $field = ucwords(str_replace('_', ' ', $attribute));
+            
+                if($attribute == "password"){
+                    $oldValue = "";
+                    $newValue = "";
+                }
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'UserTable';
+                $newLog->table_key = $id;
+                $newLog->action = 'UPDATE';
+                $newLog->description = $user->name;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->save();
+            }
+
+            $user->update();
 
         return redirect()->route('user.index');
     }

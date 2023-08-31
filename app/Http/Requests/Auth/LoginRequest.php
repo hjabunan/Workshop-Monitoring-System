@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use Illuminate\Auth\Events\Failed;
 
 class LoginRequest extends FormRequest
 {
@@ -56,6 +57,10 @@ class LoginRequest extends FormRequest
             ->first();
 
             if(!$user || !Hash::check($this->password, $user->password)){
+                session(['failed_login' => $this->login]);
+
+                event(new Failed($this, ['login' => $this->login], __('auth.failed')));
+
                 RateLimiter::hit($this->throttleKey());
 
                 throw ValidationException::withMessages([
