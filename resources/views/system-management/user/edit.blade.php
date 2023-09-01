@@ -14,34 +14,34 @@
                             <form action="{{ url('/system-management/user/update/'.$users->id ) }}" method="POST" class="px-40 ">
                                 @csrf
                                 <div class="grid grid-flow-row-dense grid-cols-2 gap-x-5">
-                                    <div class="mb-6 col-span-1">
+                                    <div class="mb-3 col-span-1">
                                         <label for="uname" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                                         <input type="text" id="uname" name="uname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{$users->name}}" required>
                                     </div>
-                                    <div class="mb-6 col-span-1">
+                                    <div class="mb-3 col-span-1">
                                         <label for="idnum" class="block mb-2 text-sm font-medium text-gray-900">ID Number</label>
                                         <input type="text" id="idnum" name="idnum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{$users->idnum}}" required>
                                     </div>
-                                    <div class="mb-6 col-span-1">
+                                    <div class="mb-3 col-span-1">
                                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                                         <input type="text" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="username@toyotaforklifts-philippines.com"  value="{{$users->email}}" required>
                                     </div>
-                                    <div class="mb-6">
+                                    <div class="mb-3">
                                         <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Role</label>
-                                        <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="role" required >
+                                        <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required >
                                             <option {{ ($users->role == 0) ? 'selected' : ''; }} value="0">User</option>
                                             <option {{ ($users->role == 1) ? 'selected' : ''; }} value="1">Admin</option>
                                         </select>
                                     </div>
-                                    <div class="mb-6">
+                                    <div class="mb-3">
                                         <label for="dept" class="block mb-2 text-sm font-medium text-gray-900">Department</label>
-                                        <select id="dept" name="dept" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="role" required >
-                                        @foreach ($depts as $dept)
-                                            <option value="{{$dept->id}}" {{ ($users->dept == $dept->id) ? 'selected' : ''; }}>{{$dept->name}}</option>
-                                        @endforeach
+                                        <select id="dept" name="dept" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                                            @foreach ($depts as $dept)
+                                                <option {{ ($users->dept == $dept->id) ? 'selected' : '' }} value="{{ $dept->id }}">{{ $dept->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-6 col-span-1">
+                                    <div class="mb-3 col-span-1">
                                         <label class="block mb-2 text-sm font-medium text-gray-900">Area/Bay</label>
                                         <div class="grid grid-cols-3 gap-4">
                                             @foreach ($sects as $section)
@@ -52,19 +52,25 @@
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="mb-6 col-span-2">
+                                    <div class="mb-3 col-span-1">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                        <select id="ustatus" name="ustatus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required >
+                                            <option {{ ($users->status == 0) ? 'selected' : ''; }} value="0">Inactive</option>
+                                            <option {{ ($users->status == 1) ? 'selected' : ''; }} value="1">Active</option>
+                                        </select>
                                     </div>
-                                    <div class="mb-6 col-span-2">
+                                    <div class="mb-3 col-span-1"></div>
+                                    <div class="mb-3 col-span-2">
                                         <div class="flex items-center">
                                             <input id="checked-checkbox" name="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Check to change password</label>
                                         </div>
                                     </div>
-                                    <div class="mb-6 password" id="passwordbox">
+                                    <div class="mb-3 password" id="passwordbox">
                                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                                         <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"  value="">
                                     </div>
-                                    <div class="mb-6" id="cpasswordbox">
+                                    <div class="mb-3" id="cpasswordbox">
                                         <label for="cpassword" class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
                                         <input type="password" id="cpassword" name="cpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="">
                                     </div>

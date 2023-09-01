@@ -48,6 +48,26 @@ class UserController extends Controller
         $user->dept = $request->dept;
         $user->area = implode(',', $request->input('area', []));
         $user->password = Hash::make($request->password);
+
+        // $dirtyAttributes = $user->getDirty();
+        //     foreach ($dirtyAttributes as $attribute => $newValue) {
+        //         $field = ucwords(str_replace('_', ' ', $attribute));
+        //         $newValue = $user->getAttribute($attribute);  // Use getAttribute to get the new value
+        //             if($attribute == "password"){
+        //                 $newValue = "";
+        //             }
+                
+        //         $newLog = new ActivityLog();
+        //         $newLog->table = 'UserTable';
+        //         $newLog->table_key = $user->idnum;  // You need to set $id before this loop
+        //         $newLog->action = 'ADD';   // Changed action to 'ADD'
+        //         $newLog->description = $user->name;
+        //         $newLog->field = $field;
+        //         $newLog->before = null;    // No "before" value for add action
+        //         $newLog->after = $newValue;
+        //         $newLog->user_id = Auth::user()->id;
+        //         $newLog->save();
+        //     }
         $user->save();
 
         return redirect()->route('user.index');
@@ -60,7 +80,7 @@ class UserController extends Controller
 
         $users = DB::table('wms_users')->where('id', $id)->first();
 
-        $depts = DB::select('SELECT * FROM departments');
+        $depts = DB::select('SELECT * FROM departments where status=1');
         $sects = DB::select('SELECT * FROM sections');
         
         return view('system-management.user.edit',compact('selectedAreas','users','depts', 'sects'));
@@ -83,6 +103,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->role = $request->role;
             $user->dept = $request->dept;
+            $user->status = $request->ustatus;
             $user->area = implode(',', $request->input('area', []));
         }else{
             $user = User::find($id);
@@ -91,6 +112,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->role = $request->role;
             $user->dept = $request->dept;
+            $user->status = $request->ustatus;
             $user->area = implode(',', $request->area);
             $user->password = Hash::make($request->password);
         }

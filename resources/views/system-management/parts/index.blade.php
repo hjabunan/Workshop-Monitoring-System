@@ -90,7 +90,7 @@
                         <div class="bg-white mt-2 shadow-md rounded-lg overflow-y-auto" style="height: calc(100vh - 210px);">
                             <table id="tableBay" class="w-full text-sm text-left text-gray-500 row-border stripe">
                                 <thead class="text-sm text-gray-700 uppercase bg-white" style="position: sticky; top: 0;">
-                                    <tr bg-white>
+                                    <tr>
                                         <th scope="col" class="px-6 py-1 text-center">
                                             ID
                                         </th>

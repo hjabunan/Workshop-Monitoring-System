@@ -45,28 +45,65 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         // if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-        //     RateLimiter::hit($this->throttleKey());
+            //     RateLimiter::hit($this->throttleKey());
 
-        //     throw ValidationException::withMessages([
-        //         'email' => trans('auth.failed'),
-        //     ]);
+            //     throw ValidationException::withMessages([
+            //         'email' => trans('auth.failed'),
+            //     ]);
         // }
 
         $user =  User::where('email',$this->login)
             ->orWhere('idnum',$this->login)
             ->first();
 
-            if(!$user || !Hash::check($this->password, $user->password)){
-                session(['failed_login' => $this->login]);
-
-                event(new Failed($this, ['login' => $this->login], __('auth.failed')));
-
-                RateLimiter::hit($this->throttleKey());
-
+        if (!$user) {
+            // User doesn't exist
+            session(['failed_login' => [
+                'login' => $this->login,
+                'reason' => __('auth.failed'),
+            ]]);
+    
+            event(new Failed($this, ['login' => $this->login], __('auth.failed')));
+    
+            RateLimiter::hit($this->throttleKey());
+    
+            throw ValidationException::withMessages([
+                'login' => __('auth.failed'),
+            ]);
+        }
+    
+        // Proceed to password check
+        if (!Hash::check($this->password, $user->password)) {
+            session(['failed_login' => [
+                'login' => $this->login,
+                'reason' => __('auth.password'),
+            ]]);
+    
+            event(new Failed($this, ['login' => $this->login], __('auth.password')));
+    
+            RateLimiter::hit($this->throttleKey());
+    
+            throw ValidationException::withMessages([
+                'login' => __('auth.password'),
+            ]);
+        }else{
+            // Check if the user is inactive
+            if ($user->status == 0) {
+                session(['failed_login' => [
+                    'login' => $this->login,
+                    'reason' => __('auth.inactive'),
+                ]]);
+        
+                event(new Failed($this, ['login' => $this->login], __('auth.inactive')));
+        
                 throw ValidationException::withMessages([
-                    'login'=> __(key:'auth.failed'),
+                    'login' => __('auth.inactive'),
                 ]);
             }
+        }
+
+
+    
         Auth::login($user, $this->boolean(key:'remember'));
         RateLimiter::clear($this->throttleKey());
     }

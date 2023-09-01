@@ -31,20 +31,21 @@ class LogFailedLogin
         
         $failedLogin = Session::get('failed_login');
 
+            $reason = $failedLogin['reason'];
+
+            if ($failedLogin) {
+                $reason = $failedLogin['reason'];
         
-        if ($failedLogin) {
-            $reason = __('auth.failed');
-
-            LoginLog::create([
-                'login_username' => $failedLogin,
-                'login_time' => now(),
-                'login_ipaddress' => request()->ip(),
-                'login_eventtype' => 'login',
-                'login_status' => 'failed',
-                'failure_reason' => $reason,
-            ]);
+                LoginLog::create([
+                    'login_username' => $failedLogin['login'], // Access 'login' key
+                    'login_time' => now(),
+                    'login_ipaddress' => request()->ip(),
+                    'login_eventtype' => 'login',
+                    'login_status' => 'failed',
+                    'failure_reason' => $reason,
+                ]);
+            }
+        
+            Session::forget('failed_login');
         }
-
-        Session::forget('failed_login');
-    }
 }
