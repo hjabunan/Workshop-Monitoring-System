@@ -278,18 +278,6 @@
                                             <div style="float: left;" class="mr-2 w-12 h-6 {{$legend->stg_color}} rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>{{$legend->stg_name}}</label>
                                         </div>
                                     @endforeach
-                                    {{-- <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>On-Schedule</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Target</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-yellow-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Caution</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Critical</label>
-                                    </div> --}}
                                 </div>
                             </div>
                             <div id="divTotalCap" class="row-span-3 mt-5">
@@ -419,179 +407,6 @@
 
     
     {{-- MODALS --}}
-    {{-- <div id="modalUR" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-2 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-        <div class="relative w-full h-full max-w-2xl md:h-auto">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow h-full">
-                <!-- Modal header -->
-                <div class="grid items-start justify-between px-4 pt-2 rounded-t">
-                    <div class="grid grid-cols-4">
-                        <div class="mb-2">
-                            <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Activity Type</label>
-                            <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:text-xs focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center" name="role" >
-                                <option value="0">Parking</option>
-                                <option value="1">Workshop</option>
-                            </select>
-                        </div>
-                        <div class="mb-2 col-span-1">
-                            <label for="idnum" class="block mb-2 text-sm font-medium text-gray-900">Job Order Number</label>
-                            <input type="text" id="idnum" name="idnum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center" value="" readonly>
-                        </div>
-                        <div class="mb-2">
-                            <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                            <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:text-xs focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center" name="role">
-                                <option value="0">Active</option>
-                                <option value="1">Done</option>
-                                <option value="2">Vacant</option>
-                            </select>
-                        </div>
-                        <div class="mb-2">
-                            <label for="bayNum" class="block mb-2 text-sm font-medium text-gray-900">Bay Number</label>
-                            <input type="text" id="bayNum" name="bayNum" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 text-center font-medium" value="" readonly>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal body -->
-                <hr>
-                <div style="max-height: calc(100vh - 200px);" class="grid px-3 pb-3 space-y-1 h-full overflow-y-auto">
-                    <div class="text-left gap-1">
-                        <label for="fifo" class="block mb-1 text-md font-medium text-gray-900">FIFO : First In First Out Process</label>
-                    </div>
-                    <div class="grid grid-cols-4 gap-1">
-                        <div class="place-self-center">
-                            <label for="unitm" class="block text-sm text-gray-900">Unit</label>
-                        </div>
-                        <div class="">
-                            <input type="text" id="unitm" name="unitm" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="utype" class="block text-sm text-gray-900">Type</label>
-                        </div>
-                        <div class="">
-                            <select id="utype" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" name="utype">
-                                <option value="0">F</option>
-                                <option value="1">V</option>
-                                <option value="2">M</option>
-                            </select>
-                        </div>
-                        <div class="place-self-center">
-                            <label for="serialnum" class="block text-sm text-gray-900">Serial No.</label>
-                        </div>
-                        <div class="place-self-center">
-                            <input type="text" id="serialnum" name="serialnum" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="codez" class="block text-sm text-gray-900">Code</label>
-                        </div>
-                        <div class="">
-                            <input type="text" id="codez" name="codez" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="file_input" class="block text-sm text-gray-900">Attachment</label>
-                        </div>
-                        <div class="col-span-2">
-                            <input class="block w-full text-sm sm:text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="file_input" type="file">
-                        </div>
-                        <div class="place-self-center">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="mastt" class="block text-sm text-gray-900">Mast Type</label>
-                        </div>
-                        <div class="">
-                            <select id="mastt" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" name="mastt">
-                                <option value="0">F</option>
-                                <option value="1">V</option>
-                                <option value="2">M</option>
-                            </select>
-                        </div>
-                        <div class="col-span-2 row-span-4 place-self-center">
-                            <label for="" class="block text-sm text-gray-900 text-center">Running Days</label>
-                            <input type="text" id="" name="" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg sm:text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1 font-medium" value="30" readonly>
-                        </div>
-                        <div class="place-self-center">
-                            <label for="" class="block text-sm text-gray-900">Arrival Date</label>
-                        </div>
-                        <div class="">
-                            <div class="relative max-w-sm">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <input datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1" placeholder="Arrival Date">
-                            </div>
-                        </div>
-                        <div class="place-self-center">
-                            <label for="pic" class="block text-sm text-gray-900">P.I.C.</label>
-                        </div>
-                        <div class="place-self-center">
-                            <input type="text" id="pic" name="pic" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1">
-                        </div>
-                        <div class="place-self-center">
-                            <label for="verby" class="block text-sm text-gray-900">Verified By</label>
-                        </div>
-                        <div class="">
-                            <select id="veryby" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" name="verby">
-                                <option value="0">Tech 1</option>
-                                <option value="1">Tech 2</option>
-                                <option value="2">Tech 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-1 place-items-center">
-                        <div class="flex items-center mb-1">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="default-radio" class="ml-2 text-sm font-medium text-gray-900">New Unit</label>
-                        </div>
-                        <div class="flex items-center mb-1">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="default-radio" class="ml-2 text-sm font-medium text-gray-900">Old Unit</label>
-                        </div>
-                        <div class="flex items-center mb-1">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="default-radio" class="ml-2 text-sm font-medium text-gray-900">Repair Unit</label>
-                        </div>
-                    </div>
-                    <hr class="mt-3 mb-3">
-                    <div class="">
-                        <div class="text-left gap-1">
-                            <label for="legz" class="block mb-1 text-md font-medium text-red-500">LEGEND</label>
-                        </div>
-                        <div class="grid grid-cols-5 gap-1">
-                            <div class="col-span-2 place-self-center">
-                                <label for=green" class="block text-sm text-gray-900">Shorter than Target</label>
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="green" class="block text-sm text-gray-900">1-3 Months or 90 Days</label>
-                            </div>
-                            <div style="float: right;" name="green" class="w-full h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="yellow" class="block text-sm text-gray-900">Caution</label>
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="yellow" class="block text-sm text-gray-900">(4-6 Months or 180 days)</label>
-                            </div>
-                            <div style="float: right;" name="yellow" class="w-full h-6 bg-yellow-400 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="red" class="block text-sm text-gray-900">Danger</label>
-                            </div>
-                            <div class="col-span-2 place-self-center">
-                                <label for="red" class="block text-sm text-gray-900">7-9 Months or 270/days</label>
-                            </div>
-                            <div style="float: right;" name="red" class="w-full h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-2 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button data-modal-hide="modalUR" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
-                    <button data-modal-hide="modalUR" type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Transfer</button>
-                    <button data-modal-hide="modalUR" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Exit</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     {{-- Large Modal - Unit Info --}}
         <div id="modalUnitInfo" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
             <div class="relative w-full h-full max-w-7xl md:h-auto">
@@ -1240,27 +1055,27 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="space-y-6" style="height: 90vh;">
-                        <form action="" id="PartsInfo">
+                    <div class="space-y-6 h-[calc(100vh-70px)]">
+                        <form action="" id="PartsInfo" class="h-full">
                             @csrf
-                            <div class="grid grid-cols-9">
-                                <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 50vh;">
+                            <div class="grid grid-cols-9 gap-x-4 h-full">
+                                <div class="col-span-3 h-full p-4">
+                                    <div class="grid grid-cols-3 place-items-center h-[59%] pb-8">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
+                                        <input type="hidden" id="PIPartIDx" name="PIPartIDx">
+
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
+
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
-                                        {{-- <div class="col-span-2">
-                                            <input type="text" id="PIPartNum" name="PIPartNum" class="border border-gray-300 text-gray-900 text-lg rounded-lg block w-full text-center py-1">
-                                        </div> --}}
-                                        <div class="col-span-2 relative optionDiv">
+                                        <div class="col-span-2 relative optionDiv w-full">
                                             <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
                                             <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
                                                 <ul id="PartNo">
@@ -1271,31 +1086,31 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
@@ -1306,7 +1121,7 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Received</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
@@ -1317,8 +1132,8 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Reason</label>
                                         </div>
-                                        <div class="col-span-2">
-                                            <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                        <div class="col-span-2 w-full">
+                                            <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1">
                                                 <option value="" selected disabled></option>
                                                 <option value="1">(B) - Back Order</option>
                                                 <option value="2">(M) - Machining</option>
@@ -1331,8 +1146,8 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 40vh;">
-                                        <canvas id="PartsChart"></canvas>
+                                    <div class="pointer-events-none h-[41%]">
+                                        <canvas id="PartsChart" class="!h-[200px]"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
                                                 <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
@@ -1346,10 +1161,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-6 grid grid-rows-2 ml-2">
-                                    <div class="" style="height: 45vh;">
+                                <div class="col-span-6 flex flex-col h-full gap-y-4">
+                                    <div class="h-1/2">
                                         <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
-                                        <div class="overflow-y-auto">
+                                        <div class="overflow-y-auto" style="height: calc(100vh - 475px);">
                                             <table id="tablePParts" class="w-full text-sm text-left text-gray-500">
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
@@ -1382,10 +1197,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="" style="height: 45vh;">
+                                    <div class="h-1/2">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
-                                            <div class="col-span-5 overflow-y-auto">
+                                            <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 475px);">
                                                 <table id="tablePPartsI" class="w-full text-sm text-left text-gray-500">
                                                     <thead class="text-gray-700 uppercase bg-gray-50">
                                                         <tr class="PPII place-items-center">
@@ -1418,7 +1233,7 @@
                                                     </div>
                                                     <div class=""></div>
                                                     <div class="col-span-2">
-                                                        <textarea id="PIRemarks" name="PIRemarks" rows="8" class="remarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea>
+                                                        <textarea id="PIRemarks" name="PIRemarks" rows="10" class="remarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" style="resize: none;" required></textarea>
                                                     </div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="updateRemarks" name="updateRemarks" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">UPDATE</button></div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="closePI" name="closePI" data-modal-hide="modalPartInfo" type="button" class="text-white bg-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">EXIT</button></div>
@@ -1720,10 +1535,16 @@
             $('#PIQuantity').on('keydown', function(event) {
                 var keyCode = event.which ? event.which : event.keyCode;
                 
-                if ((keyCode < 48 || keyCode > 57) && keyCode !== 8 && keyCode !== 46) {
+                if (
+                    (keyCode >= 48 && keyCode <= 57) ||
+                    (keyCode >= 96 && keyCode <= 105) || 
+                    keyCode === 8 || keyCode === 46
+                ) {
+                } else {
                     event.preventDefault();
                 }
             });
+
             // Color Changing
                 // $(".btnBay").each(function() {
                 //     var hddnJONum = $(this).find("#hddnJONum").val();
@@ -2913,9 +2734,12 @@
                     $('#installPI').hide();
                     $('#PIID').val('');
                     $('#PIMRINum').val('');
+                    $('#PIPartIDx').val('');
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
+                    $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -3019,6 +2843,7 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
@@ -3147,6 +2972,7 @@
                             $('#installPI').show();
                             $('#PIID').val(result.PIID);
                             $('#PIMRINum').val(result.PIMRINum);
+                            $('#PIPartIDx').val(result.PIPartID);
                             $('#PIPartNum').val(result.PIPartNum);
                             $('#PIDescription').val(result.PIDescription);
                             $('#PIQuantity').val(result.PIQuantity);
@@ -3169,11 +2995,12 @@
                     $('#installPI').hide();
                     $('#PIID').val('');
                     $('#PIMRINum').val('');
+                    $('#PIPartIDx').val('');
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
-                            $('#PIPrice').val('');
-                            $('#PITPrice').val('');
+                    $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -3214,11 +3041,10 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
-                            $('#PIPrice').val('');
-                            $('#PITPrice').val('');
                             $('#PIPrice').val('');
                             $('#PITPrice').val('');
                                 var currentDate = new Date();
@@ -3344,6 +3170,7 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
@@ -3899,7 +3726,7 @@
 
                     if (length = 3){
                         $.ajax({
-                            url:"{{ route('r-workshop.search') }}",
+                            url:"{{ route('ppt-workshop.search') }}",
                             method:"GET",
                             dataType: 'json',
                             data:{
@@ -3929,16 +3756,17 @@
                 
                 jQuery(document).on( "click", ".listOption li", function(){
                     var name = $(this).html();
-                    var id = $(this).data('id');
+                    var partid = $(this).data('id');
                     var _token = $('input[name="_token"]').val();
+                    $('#PIPartIDx').val(partid);
 
 
                     $.ajax({
-                        url:"{{ route('r-workshop.getPartsInfox') }}",
+                        url:"{{ route('ppt-workshop.getPartsInfox') }}",
                         method:"POST",
                         dataType: 'json',
                         data:{
-                            id: id,
+                            id: partid,
                             _token: _token
                         },
                         success:function(result){

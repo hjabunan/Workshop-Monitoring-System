@@ -14,8 +14,11 @@
                 </div>
                 <div class="grid grid-cols-2 border-t pt-4">
                     <div>
-                        {{-- <button data-modal-target="addModal" data-modal-toggle="addModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-plus align-middle"></i></span>ADD</button> --}}
-                        <button id="editorTab" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10">EDITOR</button>
+                        @if (Auth::user()->role === '1')
+                            <button id="editorTab" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10">EDITOR</button>
+                        @else
+                            <button id="editorTab" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10" hidden>EDITOR</button>
+                        @endif
                     </div>
                     <div class="justify-self-end">
                         <button class="hidden text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
@@ -34,54 +37,8 @@
 
                             $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                         ?>
-                        
-                        {{-- @if (Auth::user()->role === '0')
-                            @php
-                                $areaValues = explode(',', Auth::user()->area);
-                                $isEnabled = in_array($area->id, $areaValues);
-                            @endphp
-                        @else
-                        @endif --}}
 
                         <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-10" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button>
-
-                        {{-- @if (Auth::user()->role === '0')
-                            @php
-                                $areaValues = explode(',', Auth::user()->area);
-                                $isEnabled = in_array($area->id, $areaValues);
-                            @endphp
-                    
-                            <button
-                                data-id="{{ $area->id }}"
-                                data-name="{{ $area->name }}"
-                                style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px)));
-                                height: calc(({{ $area->height_ratio }} * (100vh - 205px)));
-                                position: absolute;
-                                top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px);
-                                left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }}));
-                                background-color: {{ $rgbaColor }};
-                                border: 2px solid #000000;"
-                                class="thisArea"
-                                @if (!$isEnabled) disabled @endif
-                            ></button>
-                    
-                        @elseif (Auth::user()->role === '1')
-                            <button
-                                data-id="{{ $area->id }}"
-                                data-name="{{ $area->name }}"
-                                style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px)));
-                                height: calc(({{ $area->height_ratio }} * (100vh - 205px)));
-                                position: absolute;
-                                top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px);
-                                left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }}));
-                                background-color: {{ $rgbaColor }};
-                                border: 2px solid #000000;"
-                                class="thisArea"
-                            ></button>
-                        @endif --}}
-
-                        {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">
-                        </button> --}}
                     @endforeach
                 </div>
             </div>

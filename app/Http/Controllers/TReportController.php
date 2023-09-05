@@ -927,9 +927,6 @@ class TReportController extends Controller
 
                 $result1 .= '
                         <tr class="bg-white border-b hover:bg-gray-200">
-                            <td class="px-1 py-0.5 text-center text-xs">
-                                '.$PI1->PIMRINum.'
-                            </td>
                             <td scope="row" class="px-1 py-0.5 text-center text-xs">
                                 <span data-id="'.$PI1->id.'"></span>
                                 '.$PI1->PIPartNum.'
@@ -938,10 +935,10 @@ class TReportController extends Controller
                                 '.$PI1->PIDescription.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIPrice.'
+                            '.$PI1->PIQuantity.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIQuantity.'
+                                '.$PI1->PIMRINum.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
                                 '.$PI1->PIDateReq.'
@@ -1026,6 +1023,7 @@ class TReportController extends Controller
             $partinfo = new UnitParts();
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIPrice = $request->PIPrice;
@@ -1040,6 +1038,7 @@ class TReportController extends Controller
             $partinfo = UnitParts::find($request->PIID);
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIPrice = $request->PIPrice;
@@ -1155,19 +1154,26 @@ class TReportController extends Controller
     }
 
     public function getPInfo(Request $request){
-        $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
+
+        $pinfo = UnitParts::with('part')->where('id', $request->PIID)->first();
+
+        // $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
+
+        $result = '';
 
         $result = array(
             'PIID' => $pinfo->id,
             'PIMRINum' => $pinfo->PIMRINum,
-            'PIPartNum' => $pinfo->PIPartNum,
-            'PIDescription' => $pinfo->PIDescription,
-            'PIPrice' => $pinfo->PIPrice,
+            'PIPartID' => $pinfo->part->id,
+            'PIPartNum' => $pinfo->part->partno,
+            'PIDescription' => $pinfo->part->partname,
+            'PIPrice' => $pinfo->part->price,
             'PIQuantity' => $pinfo->PIQuantity,
             'PIDateReq' => $pinfo->PIDateReq,
             'PIDateRec' => $pinfo->PIDateRec,
             'PIReason' => $pinfo->PIReason,
         );
+
         return json_encode($result);
     }
 
@@ -1279,6 +1285,9 @@ class TReportController extends Controller
 
     public function installPI(Request $request){
         $partinfo = UnitParts::find($request->PIID);
+        $partinfo->PIPartNum = $request->PartNum;
+        $partinfo->PIDescription = $request->Description;
+        $partinfo->PIPrice = $request->Price;
         $partinfo->PIDateInstalled = $request->PIDateInstalled;
         $partinfo->update();
 
@@ -1622,18 +1631,20 @@ class TReportController extends Controller
     public function getPartsInfox(Request $request){
         // $result .= "";
 
-        $part = DB::SELECT('SELECT * from parts where id=?',[$request->id]);
+        echo json_encode(Parts::where('id',$request->id)->first());
+        // $part = DB::SELECT('SELECT * from parts where id=?',[$request->id]);
 
-        foreach ($part as $parts) {
-            $result = array(
-                    'id' => $parts->partname,
-                    'partno' => $parts->partno,
-                    'partname' => $parts->partname,
-                    'price' => $parts->price,
-            );
-        }
+        // foreach ($part as $parts) {
+        //     $result = array(
+        //             'partid' => $parts->id,
+        //             'id' => $parts->partname,
+        //             'partno' => $parts->partno,
+        //             'partname' => $parts->partname,
+        //             'price' => $parts->price,
+        //     );
+        // }
 
-        return json_encode($result);
+        // return json_encode($result);
     }
 
     public function viewSchedule(Request $request){

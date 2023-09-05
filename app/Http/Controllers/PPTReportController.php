@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BayArea;
+use App\Models\Parts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -1010,6 +1011,7 @@ class PPTReportController extends Controller
             $partinfo = new UnitParts();
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
@@ -1024,6 +1026,7 @@ class PPTReportController extends Controller
             $partinfo = UnitParts::find($request->PIID);
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
@@ -1136,15 +1139,17 @@ class PPTReportController extends Controller
     }
 
     public function getPInfo(Request $request){
-        $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
+        $pinfo = UnitParts::with('part')->where('id', $request->PIID)->first();
+        // $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
 
         $result = array(
             'PIID' => $pinfo->id,
             'PIMRINum' => $pinfo->PIMRINum,
-            'PIPartNum' => $pinfo->PIPartNum,
-            'PIDescription' => $pinfo->PIDescription,
+            'PIPartID' => $pinfo->part->id,
+            'PIPartNum' => $pinfo->part->partno,
+            'PIDescription' => $pinfo->part->partname,
+            'PIPrice' => $pinfo->part->price,
             'PIQuantity' => $pinfo->PIQuantity,
-            'PIPrice' => $pinfo->PIPrice,
             'PIDateReq' => $pinfo->PIDateReq,
             'PIDateRec' => $pinfo->PIDateRec,
             'PIReason' => $pinfo->PIReason,
@@ -1564,6 +1569,32 @@ class PPTReportController extends Controller
         );
         
         return json_encode($result);
+    }
+
+    public function search(Request $request){
+        $query = $request->value;
+
+        $matches = Parts::where('partno', 'like', "$query%")
+                    ->orderBy('partno')
+                    ->get();
+
+        $partno = "";
+        foreach ($matches as $parts){
+            $partno .= '<li data-id="'.$parts->id.'" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">'.$parts->partno.'</li>';
+        }
+
+        $partname = $matches->pluck('partname')->first();
+
+        $result = array(
+                    'partno' => $partno,
+                    'partname' => $partname,
+        );
+
+        return json_encode($result);
+    }
+
+    public function getPartsInfox(Request $request){
+        echo json_encode(Parts::where('id',$request->id)->first());
     }
 
     public function viewSchedule(Request $request){

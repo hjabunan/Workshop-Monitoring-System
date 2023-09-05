@@ -931,9 +931,6 @@ class RReportController extends Controller
 
                 $result1 .= '
                         <tr class="bg-white border-b hover:bg-gray-200">
-                            <td class="px-1 py-0.5 text-center text-xs">
-                                '.$PI1->PIMRINum.'
-                            </td>
                             <td scope="row" class="px-1 py-0.5 text-center text-xs">
                                 <span data-id="'.$PI1->id.'"></span>
                                 '.$PI1->PIPartNum.'
@@ -942,10 +939,10 @@ class RReportController extends Controller
                                 '.$PI1->PIDescription.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIPrice.'
+                            '.$PI1->PIQuantity.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIQuantity.'
+                                '.$PI1->PIMRINum.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
                                 '.$PI1->PIDateReq.'
@@ -986,7 +983,7 @@ class RReportController extends Controller
                                 '.$PI2->PIDescription.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI2->PIQuantity.'
+                            '.$PI2->PIQuantity.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
                                 '.$PI2->PIMRINum.'
@@ -1030,6 +1027,7 @@ class RReportController extends Controller
             $partinfo = new UnitParts();
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIPrice = $request->PIPrice;
@@ -1044,6 +1042,7 @@ class RReportController extends Controller
             $partinfo = UnitParts::find($request->PIID);
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIPrice = $request->PIPrice;
@@ -1159,14 +1158,17 @@ class RReportController extends Controller
     }
 
     public function getPInfo(Request $request){
-        $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
+
+        $pinfo = UnitParts::with('part')->where('id', $request->PIID)->first();
+        // $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
 
         $result = array(
             'PIID' => $pinfo->id,
             'PIMRINum' => $pinfo->PIMRINum,
-            'PIPartNum' => $pinfo->PIPartNum,
-            'PIDescription' => $pinfo->PIDescription,
-            'PIPrice' => $pinfo->PIPrice,
+            'PIPartID' => $pinfo->part->id,
+            'PIPartNum' => $pinfo->part->partno,
+            'PIDescription' => $pinfo->part->partname,
+            'PIPrice' => $pinfo->part->price,
             'PIQuantity' => $pinfo->PIQuantity,
             'PIDateReq' => $pinfo->PIDateReq,
             'PIDateRec' => $pinfo->PIDateRec,
@@ -1624,18 +1626,19 @@ class RReportController extends Controller
     }
 
     public function getPartsInfox(Request $request){
-        $part = DB::SELECT('SELECT * from parts where id=?',[$request->id]);
+        echo json_encode(Parts::where('id',$request->id)->first());
+        // $part = DB::SELECT('SELECT * from parts where id=?',[$request->id]);
 
-        foreach ($part as $parts) {
-            $result = array(
-                    'id' => $parts->partname,
-                    'partno' => $parts->partno,
-                    'partname' => $parts->partname,
-                    'price' => $parts->price,
-            );
-        }
+        // foreach ($part as $parts) {
+        //     $result = array(
+        //             'id' => $parts->partname,
+        //             'partno' => $parts->partno,
+        //             'partname' => $parts->partname,
+        //             'price' => $parts->price,
+        //     );
+        // }
 
-        return json_encode($result);
+        // return json_encode($result);
     }
 
     public function viewSchedule(Request $request){

@@ -171,11 +171,11 @@
                                 <a href="{{route('category.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Category</a>
                                 {{-- <a href="{{route('company.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Customer</a> --}}
                                 {{-- <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Customer Area</a> --}}
-                                <a href="{{route('scl.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staging Control Legend</a>
+                                <a href="{{route('scl.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staging Control</a>
                                 {{-- <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Mast</a> --}}
                                 {{-- <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Model</a> --}}
                                 <a href="{{route('parts.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parts</a>
-                                <a href="{{route('reason.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Reasons</a>
+                                <a href="{{route('reason.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Reasons - Downtime</a>
                                 <a href="{{route('section.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Section</a>
                                 <a href="{{route('technician.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technician</a>
                             </div>

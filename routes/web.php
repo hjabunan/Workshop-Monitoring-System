@@ -368,6 +368,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/ppt-workshop/revertParts', [PPTReportController::class, 'revertParts'])->name('ppt-workshop.revertParts');
             Route::POST('/workshop-ms/ppt-workshop/deleteIParts', [PPTReportController::class, 'deleteIParts'])->name('ppt-workshop.deleteIParts');
             Route::POST('/workshop-ms/ppt-workshop/saveRemarks', [PPTReportController::class, 'saveRemarks'])->name('ppt-workshop.saveRemarks');
+            Route::GET('/workshop-ms/ppt-workshop/search', [PPTReportController::class, 'search'])->name('ppt-workshop.search');
+            Route::POST('/workshop-ms/ppt-workshop/getPartsInfox', [PPTReportController::class, 'getPartsInfox'])->name('ppt-workshop.getPartsInfox');
 
         // Technician Schedule
             Route::POST('/workshop-ms/ppt-workshop/viewSchedule', [PPTReportController::class, 'viewSchedule'])->name('ppt-workshop.viewSchedule');
@@ -376,7 +378,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
 
             Route::GET('/workshop-ms/ppt-workshop/report/getBay', [PPTReportController::class, 'getBay'])->name('ppt-workshop.report.getBay');
 
-    // START OF OVERHAULING WORKSHOP > MONITORING
+    // START OF OTHER WORKSHOP > MONITORING
         Route::GET('/workshop-ms/other-workshop', [OtherReportController::class, 'index'])->name('other-workshop.index');
 
         // Unit Info
@@ -404,6 +406,8 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::POST('/workshop-ms/other-workshop/revertParts', [OtherReportController::class, 'revertParts'])->name('other-workshop.revertParts');
             Route::POST('/workshop-ms/other-workshop/deleteIParts', [OtherReportController::class, 'deleteIParts'])->name('other-workshop.deleteIParts');
             Route::POST('/workshop-ms/other-workshop/saveRemarks', [OtherReportController::class, 'saveRemarks'])->name('other-workshop.saveRemarks');
+            Route::GET('/workshop-ms/other-workshop/search', [OtherReportController::class, 'search'])->name('other-workshop.search');
+            Route::POST('/workshop-ms/other-workshop/getPartsInfox', [OtherReportController::class, 'getPartsInfox'])->name('other-workshop.getPartsInfox');
 
         // Technician Schedule
             Route::POST('/workshop-ms/other-workshop/viewSchedule', [OtherReportController::class, 'viewSchedule'])->name('other-workshop.viewSchedule');
@@ -413,41 +417,43 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
             Route::GET('/workshop-ms/other-workshop/report/getBay', [OtherReportController::class, 'getBay'])->name('other-workshop.report.getBay');
 
 
-            // START OF OVERHAULING WORKSHOP > MONITORING
-                Route::GET('/workshop-ms/ovhl-workshop', [OVHLReportController::class, 'index'])->name('ovhl-workshop.index');
-        
-                // Unit Info
-                    Route::GET('/workshop-ms/ovhl-workshop/getEvents', [OVHLReportController::class, 'getEvents'])->name('ovhl-workshop.getEvents');
-                    Route::GET('/workshop-ms/ovhl-workshop/getBayData', [OVHLReportController::class, 'getBayData'])->name('ovhl-workshop.getBayData');
-                    Route::POST('/workshop-ms/ovhl-workshop/saveBayData', [OVHLReportController::class, 'saveBayData'])->name('ovhl-workshop.saveBayData');
-                    Route::POST('/workshop-ms/ovhl-workshop/saveTargetActivity', [OVHLReportController::class, 'saveTargetActivity'])->name('ovhl-workshop.saveTargetActivity');
-                    Route::POST('/workshop-ms/ovhl-workshop/resetActual', [OVHLReportController::class, 'resetActual'])->name('ovhl-workshop.resetActual');
-                    Route::POST('/workshop-ms/ovhl-workshop/updateIDS', [OVHLReportController::class, 'updateIDS'])->name('ovhl-workshop.updateIDS');
-                    Route::POST('/workshop-ms/ovhl-workshop/updateIDE', [OVHLReportController::class, 'updateIDE'])->name('ovhl-workshop.updateIDE');
-                    Route::POST('/workshop-ms/ovhl-workshop/updateRDS', [OVHLReportController::class, 'updateRDS'])->name('ovhl-workshop.updateRDS');
-                    Route::POST('/workshop-ms/ovhl-workshop/updateRDE', [OVHLReportController::class, 'updateRDE'])->name('ovhl-workshop.updateRDE');
-                    Route::GET('/workshop-ms/ovhl-workshop/getTransferData', [OVHLReportController::class, 'getTransferData'])->name('ovhl-workshop.getTransferData');
-                    Route::POST('/workshop-ms/ovhl-workshop/saveTransferUnit', [OVHLReportController::class, 'saveTransferUnit'])->name('ovhl-workshop.saveTransferUnit');
-                // Downtime
-                    Route::POST('/workshop-ms/ovhl-workshop/saveDowntime', [OVHLReportController::class, 'saveDowntime'])->name('ovhl-workshop.saveDowntime');
-                    Route::POST('/workshop-ms/ovhl-workshop/getDowntime', [OVHLReportController::class, 'getDowntime'])->name('ovhl-workshop.getDowntime');
-                    Route::POST('/workshop-ms/ovhl-workshop/deleteDowntime', [OVHLReportController::class, 'deleteDowntime'])->name('ovhl-workshop.deleteDowntime');
-                // Parts
-                    Route::POST('/workshop-ms/ovhl-workshop/getPI', [OVHLReportController::class, 'getPI'])->name('ovhl-workshop.getPI');
-                    Route::POST('/workshop-ms/ovhl-workshop/savePI', [OVHLReportController::class, 'savePI'])->name('ovhl-workshop.savePI');
-                    Route::POST('/workshop-ms/ovhl-workshop/getPInfo', [OVHLReportController::class, 'getPInfo'])->name('ovhl-workshop.getPInfo');
-                    Route::POST('/workshop-ms/ovhl-workshop/deletePI', [OVHLReportController::class, 'deletePI'])->name('ovhl-workshop.deletePI');
-                    Route::POST('/workshop-ms/ovhl-workshop/installPI', [OVHLReportController::class, 'installPI'])->name('ovhl-workshop.installPI');
-                    Route::POST('/workshop-ms/ovhl-workshop/revertParts', [OVHLReportController::class, 'revertParts'])->name('ovhl-workshop.revertParts');
-                    Route::POST('/workshop-ms/ovhl-workshop/deleteIParts', [OVHLReportController::class, 'deleteIParts'])->name('ovhl-workshop.deleteIParts');
-                    Route::POST('/workshop-ms/ovhl-workshop/saveRemarks', [OVHLReportController::class, 'saveRemarks'])->name('ovhl-workshop.saveRemarks');
-        
-                // Technician Schedule
-                    Route::POST('/workshop-ms/ovhl-workshop/viewSchedule', [OVHLReportController::class, 'viewSchedule'])->name('ovhl-workshop.viewSchedule');
-                    Route::POST('/workshop-ms/ovhl-workshop/saveActivity', [OVHLReportController::class, 'saveActivity'])->name('ovhl-workshop.saveActivity');
-            
-        
-                    Route::GET('/workshop-ms/ovhl-workshop/report/getBay', [OVHLReportController::class, 'getBay'])->name('ovhl-workshop.report.getBay');
+    // START OF OVERHAULING WORKSHOP > MONITORING
+        Route::GET('/workshop-ms/ovhl-workshop', [OVHLReportController::class, 'index'])->name('ovhl-workshop.index');
+
+        // Unit Info
+            Route::GET('/workshop-ms/ovhl-workshop/getEvents', [OVHLReportController::class, 'getEvents'])->name('ovhl-workshop.getEvents');
+            Route::GET('/workshop-ms/ovhl-workshop/getBayData', [OVHLReportController::class, 'getBayData'])->name('ovhl-workshop.getBayData');
+            Route::POST('/workshop-ms/ovhl-workshop/saveBayData', [OVHLReportController::class, 'saveBayData'])->name('ovhl-workshop.saveBayData');
+            Route::POST('/workshop-ms/ovhl-workshop/saveTargetActivity', [OVHLReportController::class, 'saveTargetActivity'])->name('ovhl-workshop.saveTargetActivity');
+            Route::POST('/workshop-ms/ovhl-workshop/resetActual', [OVHLReportController::class, 'resetActual'])->name('ovhl-workshop.resetActual');
+            Route::POST('/workshop-ms/ovhl-workshop/updateIDS', [OVHLReportController::class, 'updateIDS'])->name('ovhl-workshop.updateIDS');
+            Route::POST('/workshop-ms/ovhl-workshop/updateIDE', [OVHLReportController::class, 'updateIDE'])->name('ovhl-workshop.updateIDE');
+            Route::POST('/workshop-ms/ovhl-workshop/updateRDS', [OVHLReportController::class, 'updateRDS'])->name('ovhl-workshop.updateRDS');
+            Route::POST('/workshop-ms/ovhl-workshop/updateRDE', [OVHLReportController::class, 'updateRDE'])->name('ovhl-workshop.updateRDE');
+            Route::GET('/workshop-ms/ovhl-workshop/getTransferData', [OVHLReportController::class, 'getTransferData'])->name('ovhl-workshop.getTransferData');
+            Route::POST('/workshop-ms/ovhl-workshop/saveTransferUnit', [OVHLReportController::class, 'saveTransferUnit'])->name('ovhl-workshop.saveTransferUnit');
+        // Downtime
+            Route::POST('/workshop-ms/ovhl-workshop/saveDowntime', [OVHLReportController::class, 'saveDowntime'])->name('ovhl-workshop.saveDowntime');
+            Route::POST('/workshop-ms/ovhl-workshop/getDowntime', [OVHLReportController::class, 'getDowntime'])->name('ovhl-workshop.getDowntime');
+            Route::POST('/workshop-ms/ovhl-workshop/deleteDowntime', [OVHLReportController::class, 'deleteDowntime'])->name('ovhl-workshop.deleteDowntime');
+        // Parts
+            Route::POST('/workshop-ms/ovhl-workshop/getPI', [OVHLReportController::class, 'getPI'])->name('ovhl-workshop.getPI');
+            Route::POST('/workshop-ms/ovhl-workshop/savePI', [OVHLReportController::class, 'savePI'])->name('ovhl-workshop.savePI');
+            Route::POST('/workshop-ms/ovhl-workshop/getPInfo', [OVHLReportController::class, 'getPInfo'])->name('ovhl-workshop.getPInfo');
+            Route::POST('/workshop-ms/ovhl-workshop/deletePI', [OVHLReportController::class, 'deletePI'])->name('ovhl-workshop.deletePI');
+            Route::POST('/workshop-ms/ovhl-workshop/installPI', [OVHLReportController::class, 'installPI'])->name('ovhl-workshop.installPI');
+            Route::POST('/workshop-ms/ovhl-workshop/revertParts', [OVHLReportController::class, 'revertParts'])->name('ovhl-workshop.revertParts');
+            Route::POST('/workshop-ms/ovhl-workshop/deleteIParts', [OVHLReportController::class, 'deleteIParts'])->name('ovhl-workshop.deleteIParts');
+            Route::POST('/workshop-ms/ovhl-workshop/saveRemarks', [OVHLReportController::class, 'saveRemarks'])->name('ovhl-workshop.saveRemarks');
+            Route::GET('/workshop-ms/ovhl-workshop/search', [OVHLReportController::class, 'search'])->name('ovhl-workshop.search');
+            Route::POST('/workshop-ms/ovhl-workshop/getPartsInfox', [OVHLReportController::class, 'getPartsInfox'])->name('ovhl-workshop.getPartsInfox');
+
+        // Technician Schedule
+            Route::POST('/workshop-ms/ovhl-workshop/viewSchedule', [OVHLReportController::class, 'viewSchedule'])->name('ovhl-workshop.viewSchedule');
+            Route::POST('/workshop-ms/ovhl-workshop/saveActivity', [OVHLReportController::class, 'saveActivity'])->name('ovhl-workshop.saveActivity');
+    
+
+            Route::GET('/workshop-ms/ovhl-workshop/report/getBay', [OVHLReportController::class, 'getBay'])->name('ovhl-workshop.report.getBay');
         
 
 

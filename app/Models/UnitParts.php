@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class UnitParts extends Model
 {
     use HasFactory;
+
+    public function part(){
+        return $this->belongsTo(Parts::class, 'PIPartID');
+    }
 }

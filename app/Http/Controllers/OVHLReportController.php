@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BayArea;
+use App\Models\Parts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -1009,6 +1010,7 @@ class OVHLReportController extends Controller
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
             $partinfo->PIPartNum = $request->PIPartNum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
             $partinfo->PIPrice = $request->PIPrice;
@@ -1023,6 +1025,7 @@ class OVHLReportController extends Controller
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
             $partinfo->PIPartNum = $request->PIPartNum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
             $partinfo->PIPrice = $request->PIPrice;
@@ -1562,6 +1565,32 @@ class OVHLReportController extends Controller
         );
         
         return json_encode($result);
+    }
+
+    public function search(Request $request){
+        $query = $request->value;
+
+        $matches = Parts::where('partno', 'like', "$query%")
+                    ->orderBy('partno')
+                    ->get();
+
+        $partno = "";
+        foreach ($matches as $parts){
+            $partno .= '<li data-id="'.$parts->id.'" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">'.$parts->partno.'</li>';
+        }
+
+        $partname = $matches->pluck('partname')->first();
+
+        $result = array(
+                    'partno' => $partno,
+                    'partname' => $partname,
+        );
+
+        return json_encode($result);
+    }
+
+    public function getPartsInfox(Request $request){
+        echo json_encode(Parts::where('id',$request->id)->first());
     }
 
     public function viewSchedule(Request $request){

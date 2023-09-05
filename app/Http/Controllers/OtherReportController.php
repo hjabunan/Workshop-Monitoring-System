@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BayArea;
+use App\Models\Parts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -117,9 +118,8 @@ class OtherReportController extends Controller
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                     wms_bay_areas.area_name, brands.name,
-                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, 
-                                    unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, 
-                                    unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials,
+                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUTransferDate,
+                                    unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, 
                                     unit_downtimes.id as DTID, unit_downtimes.DTJONum, unit_downtimes.DTSDate, unit_downtimes.DTEDate, unit_downtimes.DTReason, unit_downtimes.DTRemarks, unit_downtimes.DTTDays,
                                     unit_confirms.CUTransferDate
                                     FROM unit_workshops
@@ -127,8 +127,8 @@ class OtherReportController extends Controller
                                     INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                     INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                    LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
+                                    LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                     WHERE unit_workshops.WSDelTransfer = 0 AND WSStatus<=4 AND WSBayNum = ?',[$bay]
                                 );
         
@@ -236,7 +236,7 @@ class OtherReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -284,7 +284,7 @@ class OtherReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -331,10 +331,9 @@ class OtherReportController extends Controller
                                     unit_workshops.WSATIDS, unit_workshops.WSATIDE, unit_workshops.WSATRDS, unit_workshops.WSATRDE, 
                                     unit_workshops.WSAAIDS, unit_workshops.WSAAIDE, unit_workshops.WSAARDS, unit_workshops.WSAARDE, unit_workshops.WSRemarks,
                                     wms_bay_areas.area_name, brands.name,
-                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, 
-                                    unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, 
-                                    unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials,
-                                    unit_confirms.CUTransferUnit
+                                    unit_pull_outs.POUBrand, unit_pull_outs.POUCustomer, unit_pull_outs.POUCustAddress, unit_pull_outs.POUSalesman, unit_pull_outs.POUBrand, unit_pull_outs.POUModel, unit_pull_outs.POUCode, unit_pull_outs.POUSerialNum, 
+                                    unit_pull_outs.POUTransferDate, unit_pull_outs.POUMastType, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks, unit_pull_outs.POUTechnician1, wms_technicians.initials,
+                                    unit_confirms.CUTransferDate
                                     FROM unit_workshops
                                     INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_workshops.WSPOUID
                                     INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
@@ -374,7 +373,7 @@ class OtherReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -414,7 +413,7 @@ class OtherReportController extends Controller
                             $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
 
                             $result = array(
-                                            'TransferDate' => $WS->CUTransferDate,
+                                            'TransferDate' => $WS->POUTransferDate,
                                             'WSPOUID' => $WS->WSPOUID,
                                             'WSID' => $WS->WSID,
                                             'WSToA' => $WS->WSToA,
@@ -1013,6 +1012,7 @@ class OtherReportController extends Controller
             $partinfo = new UnitParts();
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
@@ -1027,6 +1027,7 @@ class OtherReportController extends Controller
             $partinfo = UnitParts::find($request->PIID);
             $partinfo->PIJONum = $request->PIJONum;
             $partinfo->PIMRINum = $request->PIMRINum;
+            $partinfo->PIPartID = $request->PIPartIDx;
             $partinfo->PIPartNum = $request->PIPartNum;
             $partinfo->PIDescription = $request->PIDescription;
             $partinfo->PIQuantity = $request->PIQuantity;
@@ -1139,15 +1140,16 @@ class OtherReportController extends Controller
     }
 
     public function getPInfo(Request $request){
-        $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
+        $pinfo = UnitParts::with('part')->where('id', $request->PIID)->first();
 
         $result = array(
             'PIID' => $pinfo->id,
             'PIMRINum' => $pinfo->PIMRINum,
-            'PIPartNum' => $pinfo->PIPartNum,
-            'PIDescription' => $pinfo->PIDescription,
+            'PIPartID' => $pinfo->part->id,
+            'PIPartNum' => $pinfo->part->partno,
+            'PIDescription' => $pinfo->part->partname,
+            'PIPrice' => $pinfo->part->price,
             'PIQuantity' => $pinfo->PIQuantity,
-            'PIPrice' => $pinfo->PIPrice,
             'PIDateReq' => $pinfo->PIDateReq,
             'PIDateRec' => $pinfo->PIDateRec,
             'PIReason' => $pinfo->PIReason,
@@ -1569,6 +1571,32 @@ class OtherReportController extends Controller
         return json_encode($result);
     }
 
+    public function search(Request $request){
+        $query = $request->value;
+
+        $matches = Parts::where('partno', 'like', "$query%")
+                    ->orderBy('partno')
+                    ->get();
+
+        $partno = "";
+        foreach ($matches as $parts){
+            $partno .= '<li data-id="'.$parts->id.'" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">'.$parts->partno.'</li>';
+        }
+
+        $partname = $matches->pluck('partname')->first();
+
+        $result = array(
+                    'partno' => $partno,
+                    'partname' => $partname,
+        );
+
+        return json_encode($result);
+    }
+
+    public function getPartsInfox(Request $request){
+        echo json_encode(Parts::where('id',$request->id)->first());
+    }
+
     public function viewSchedule(Request $request){
         $bay = $request->bay;
         $TechSDate = $request->TechSDate;
@@ -1764,5 +1792,22 @@ class OtherReportController extends Controller
                     ]);
             
         } 
+    }
+
+    public function getBay(Request $request){
+        $result = '<option value=""></option>';
+        if($request->area == ''){
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" AND status="1" ORDER BY wms_bay_areas.id');
+        }else{
+            $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" AND status="1" AND section=? ORDER BY wms_bay_areas.id',[$request->area]);
+        }
+
+        foreach ($bay as $bays) {
+            $result .='
+                        <option value="'.$bays->id.'">'.$bays->area_name.'</option>
+                    ';
+        }
+
+        echo $result;
     }
 }

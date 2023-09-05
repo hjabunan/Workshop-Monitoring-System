@@ -1075,30 +1075,33 @@
                         <h3 class="text-xl font-medium text-gray-900 ml-5">
                             Parts Information
                         </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="modalPartInfo">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center" data-modal-hide="modalPartInfo">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="space-y-6" style="height: 90vh;">
-                        <form action="" id="PartsInfo">
+                    <div class="space-y-6 h-[calc(100vh-70px)]">
+                        <form action="" id="PartsInfo" class="h-full">
                             @csrf
-                            <div class="grid grid-cols-9">
-                                <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 50vh;">
+                            <div class="grid grid-cols-9 gap-x-4 h-full">
+                                <div class="col-span-3 h-full p-4">
+                                    <div class="grid grid-cols-3 place-items-center h-[59%] pb-8">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
+                                        <input type="hidden" id="PIPartIDx" name="PIPartIDx">
+
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
+
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
                                         </div>
-                                        <div class="col-span-2 relative optionDiv">
+                                        <div class="col-span-2 relative optionDiv w-full">
                                             <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
                                             <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
                                                 <ul id="PartNo">
@@ -1109,34 +1112,34 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                 </div>
                                                 <input datepicker type="text" id="PIDateReq" name="PIDateReq" datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1.5" placeholder="">
                                             </div>
@@ -1144,10 +1147,10 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Received</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                                 </div>
                                                 <input datepicker type="text" id="PIDateRec" name="PIDateRec" datepicker-format="mm/dd/yyyy" value="{{ date('m/d/Y') }}" class="border border-gray-300 text-gray-900 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-1.5" placeholder="">
                                             </div>
@@ -1155,8 +1158,8 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Reason</label>
                                         </div>
-                                        <div class="col-span-2">
-                                            <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                        <div class="col-span-2 w-full">
+                                            <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1">
                                                 <option value="" selected disabled></option>
                                                 <option value="1">(B) - Back Order</option>
                                                 <option value="2">(M) - Machining</option>
@@ -1169,8 +1172,8 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="p-2 ml-2 pointer-events-none" style="height: 40vh;">
-                                        <canvas id="PartsChart"></canvas>
+                                    <div class="pointer-events-none h-[41%]">
+                                        <canvas id="PartsChart" class="!h-[200px]"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
                                                 <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
@@ -1184,16 +1187,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-6 grid grid-rows-2 ml-2">
-                                    <div class="" style="height: 45vh;">
+                                <div class="col-span-6 flex flex-col h-full gap-y-4">
+                                    <div class="h-1/2">
                                         <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
-                                        <div class="overflow-y-auto">
+                                        <div class="overflow-y-auto" style="height: calc(100vh - 475px);">
                                             <table id="tablePParts" class="w-full text-sm text-left text-gray-500">
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
-                                                        <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            MRI NUMBER
-                                                        </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             PARTS NUMBER
                                                         </th>
@@ -1201,10 +1201,10 @@
                                                             DESCRIPTION
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            PRICE
+                                                            QUANTITY
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            QUANTITY
+                                                            MRI NUMBER
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             DATE REQUESTED
@@ -1223,10 +1223,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="" style="height: 45vh;">
+                                    <div class="h-1/2">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
-                                            <div class="col-span-5 overflow-y-auto">
+                                            <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 475px);">
                                                 <table id="tablePPartsI" class="w-full text-sm text-left text-gray-500">
                                                     <thead class="text-gray-700 uppercase bg-gray-50">
                                                         <tr class="PPII place-items-center">
@@ -1254,14 +1254,14 @@
                                             </div>
                                             <div class="col-span-2 bg-green-200 p-2">
                                                 <div class="grid grid-cols-2">
-                                                    <div class="col-span-2">
-                                                        <label for="" class="block text-lg text-gray-900 font-medium">PARTS REMARKS</label>
+                                                    <div class="">
+                                                        <label for="" class="block text-lg text-gray-900 font-medium">REMARKS</label>
                                                     </div>
-                                                    {{-- <div class=""></div> --}}
+                                                    <div class=""></div>
                                                     <div class="col-span-2">
-                                                        <textarea id="PIRemarks" name="PIRemarks" rows="8" class="piremarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea>
+                                                        <textarea id="PIRemarks" name="PIRemarks" rows="10" class="remarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" style="resize: none;" required></textarea>
                                                     </div>
-                                                    <div class="ml-1 mr-1 mt-2"><button id="updatePIRemarks" name="updatePIRemarks" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">UPDATE</button></div>
+                                                    <div class="ml-1 mr-1 mt-2"><button id="updateRemarks" name="updateRemarks" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">UPDATE</button></div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="closePI" name="closePI" data-modal-hide="modalPartInfo" type="button" class="text-white bg-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">EXIT</button></div>
                                                 </div>
                                             </div>
@@ -1561,7 +1561,12 @@
             $('#PIQuantity').on('keydown', function(event) {
                 var keyCode = event.which ? event.which : event.keyCode;
                 
-                if ((keyCode < 48 || keyCode > 57) && keyCode !== 8 && keyCode !== 46) {
+                if (
+                    (keyCode >= 48 && keyCode <= 57) ||
+                    (keyCode >= 96 && keyCode <= 105) || 
+                    keyCode === 8 || keyCode === 46
+                ) {
+                } else {
                     event.preventDefault();
                 }
             });
@@ -2738,6 +2743,7 @@
                     $('#installPI').hide();
                     $('#PIID').val('');
                     $('#PIMRINum').val('');
+                    $('#PIPartIDx').val('');
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
@@ -2846,6 +2852,7 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
@@ -2974,6 +2981,7 @@
                             $('#installPI').show();
                             $('#PIID').val(result.PIID);
                             $('#PIMRINum').val(result.PIMRINum);
+                            $('#PIPartIDx').val(result.PIPartID);
                             $('#PIPartNum').val(result.PIPartNum);
                             $('#PIDescription').val(result.PIDescription);
                             $('#PIQuantity').val(result.PIQuantity);
@@ -2996,6 +3004,7 @@
                     $('#installPI').hide();
                     $('#PIID').val('');
                     $('#PIMRINum').val('');
+                    $('#PIPartIDx').val('');
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
@@ -3041,9 +3050,12 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
+                            $('#PIPrice').val('');
+                            $('#PITPrice').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3155,6 +3167,9 @@
                 jQuery(document).on( "click", "#saveInstall", function(){
                     var PIID = $('#PIID').val();
                     var JONum = $('#PIJONum').val();
+                    var PartNum = $('#PIPartNum').val();
+                    var Description = $('#PIDescription').val();
+                    var Price = $('#PIPrice').val();
                     var PIDateInstalled = $('#PIDateInstalled').val();
                     var _token = $('input[name="_token"]').val();
                     
@@ -3167,6 +3182,7 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
@@ -3753,8 +3769,9 @@
 
                 jQuery(document).on( "click", ".listOption li", function(){
                     var name = $(this).html();
-                    var id = $(this).data('id');
+                    var partid = $(this).data('id');
                     var _token = $('input[name="_token"]').val();
+                    $('#PIPartIDx').val(partid);
 
 
                     $.ajax({
@@ -3762,7 +3779,7 @@
                         method:"POST",
                         dataType: 'json',
                         data:{
-                            id: id,
+                            id: partid,
                             _token: _token
                         },
                         success:function(result){
