@@ -12,6 +12,7 @@ class AreaController extends Controller
         $name = $request->area;
         $id = $request->input('selectedDataId');
         $areacolor = $request->colorpicker;
+        $area_loc = $request->area_loc;
 
         $request->validate([
             'area' => 'required',
@@ -30,15 +31,17 @@ class AreaController extends Controller
         $newArea->left_ratio = 1.15;
         $newArea->left_ratio = 1.15;
         $newArea->hexcolor = $areacolor;
+        $newArea->area_location = $area_loc;
         $newArea->save();
 
         return redirect()->route('dashboard');
     }
 
-    public function edit($id){
+    public function edit($tab,$id){
         $areas = DB::table('area_tables')->get();
         $thisArea = DB::table('area_tables')->where('id', $id)->first();
-        return view('edit-area', compact('areas', 'id', 'thisArea'));
+
+        return view('edit-area', compact('areas', 'id', 'thisArea', 'tab'));
     }
 
     public function delete(Request $request){

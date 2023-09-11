@@ -35,6 +35,7 @@ use App\Http\Controllers\WStorage7Controller;
 use App\Http\Controllers\WStorage8Controller;
 use App\Http\Controllers\XModelController;
 use App\Models\User;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -85,11 +86,11 @@ Route::get('/dashboard', function () {
 
 Route::GET('/dashboard/getSName', [BTReportController::class, 'getEvents'])->name('bt-workshop.getEvents');
 
-Route::get('/editor-area', function () {
+Route::get('/editor-area/{tab}', function ($tab) {
     $sections = DB::table('sections')->get();
     $areas = DB::table('area_tables')->get();
 
-    return view('editor-area', compact('areas', 'sections'));
+    return view('editor-area', compact('areas', 'sections', 'tab'));
 });
 
 Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashboard.getSName');
@@ -101,7 +102,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
-        Route::GET('/area/edit/{id}', [AreaController::class, 'edit']);
+        Route::GET('/area/edit/{tab}/{id}', [AreaController::class, 'edit']);
         Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
         Route::POST('/area/updateC', [AreaController::class, 'updateC'])->name('area.updateC');
         Route::POST('/area/update/{id}', [AreaController::class, 'update']);

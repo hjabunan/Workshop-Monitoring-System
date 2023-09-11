@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('height_ratio');
             $table->string('left_ratio');
             $table->string('hexcolor');
+            $table->string('area_location');
             $table->timestamps();
         });
     }

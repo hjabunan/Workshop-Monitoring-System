@@ -128,26 +128,26 @@
 {{-- End Workshop Monitoring System --}}
 
 {{-- Start PDI Monitoring System --}}
-<li>
-    <button id="dropdownDividerButtonb" data-dropdown-toggle="dropdownDividerb" class="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto" type="button">PDI Monitoring System <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-    <!-- Dropdown menu -->
-    <div id="dropdownDividerb" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtonb">
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Delivery</a>
-            </li>
-            <li>
-                <a href="{{route('mci-monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">MCI Monitoring</a>
-            </li>
-            <li>
-                <a href="{{route('pdi-monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">PDI Monitoring</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Schedule Monitoring</a>
-            </li>
-        </ul>
-    </div>
-</li>
+                <li>
+                    <button id="dropdownDividerButtonb" data-dropdown-toggle="dropdownDividerb" class="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto" type="button">PDI Monitoring System <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdownDividerb" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtonb">
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Delivery</a>
+                            </li>
+                            <li>
+                                <a href="{{route('mci-monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">MCI Monitoring</a>
+                            </li>
+                            <li>
+                                <a href="{{route('pdi-monitoring.index')}}" class="block px-4 py-2 hover:bg-gray-100">PDI Monitoring</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Schedule Monitoring</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 {{-- End PDI Monitoring System --}}
 
 {{-- Start System Management --}}

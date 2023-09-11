@@ -65,54 +65,108 @@
         </div>
     {{-- Edit Location Modal End --}}
 
-    <div class="py-6">
-        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div style="height: calc(100vh - 205px);" class="relative">
+    <div class="py-3">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex justify-between mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myDashboard" data-tabs-toggle="#myDashboardContent" role="tablist">
+                    @if ($tab === "W5A")
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-2 border-b-2 rounded-t-lg" id="w5a-tab" data-tabs-target="#w5a" type="button" role="tab" aria-controls="w5a" aria-selected="false">Warehouse 5A</button>
+                    </li>
+                    @elseif ($tab === "W6")
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-2 border-b-2 rounded-t-lg" id="w6-tab" data-tabs-target="#w6" type="button" role="tab" aria-controls="w6" aria-selected="false">Warehouse 6</button>
+                    </li>
+                    @endif
+                </ul>
+                
+                <div class="flex gap-x-5">
+                    <button data-modal-toggle="saveModal" data-modal-target="saveModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
+                    <button id="cancelEdit" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2 hover:text-gray-900 focus:z-10">CANCEL</button>
+                </div>
+            </div>
+            <div id="myDashboardContent">
+                @if ($tab === "W5A")
+                <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="w5a" role="tabpanel" aria-labelledby="w5a-tab">
+                    <div style="height: calc(100vh - 180px);" class="relative">
                         <img src="{{ asset('images/ws - layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
-                    </div>
-                    <div class="grid grid-cols-2 border-t pt-4">
-                        <div>
-                        </div>
-                        <div class="justify-self-end">
-                            <button data-modal-toggle="saveModal" data-modal-target="saveModal" class="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10"><span class="mr-1 text-xl"><i class="uil uil-save align-middle"></i></span>SAVE</button>
-                            <button id="cancelEdit" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
-                        </div>
                     </div>
                     <div class="">
                         @foreach ($areas as $area)
-                        <?php 
-                            $hexColor = $area->hexcolor;
-                            $rgbColor = sscanf($hexColor, "#%02x%02x%02x");
-    
-                            $red = $rgbColor[0];
-                            $green = $rgbColor[1];
-                            $blue = $rgbColor[2];
-                            $alpha = 0.5;
-    
-                            $rgbaColor = "rgba($red, $green, $blue, $alpha)";
-                        ?>
-                        @if ($area->id == $id)
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; cursor: move;" class="item">{{ $area->name }}
-                                <div class="resizer ne"></div>
-                                <div class="resizer nw"></div>
-                                <div class="resizer sw"></div>
-                                <div class="resizer se"></div>
-                            </button>
-                        @else
-                            <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">{{ $area->name }}
-                            </button>
-                        @endif
+                            @if ($area->area_location == 'W5A')
+                                <?php 
+                                    $hexColor = $area->hexcolor;
+                                    $rgbColor = sscanf($hexColor, "#%02x%02x%02x");
+            
+                                    $red = $rgbColor[0];
+                                    $green = $rgbColor[1];
+                                    $blue = $rgbColor[2];
+                                    $alpha = 0.5;
+            
+                                    $rgbaColor = "rgba($red, $green, $blue, $alpha)";
+                                ?>
+                                @if ($area->id == $id)
+                                    <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; cursor: move;" class="item">{{ $area->name }}
+                                        <div class="resizer ne"></div>
+                                        <div class="resizer nw"></div>
+                                        <div class="resizer sw"></div>
+                                        <div class="resizer se"></div>
+                                    </button>
+                                @else
+                                    <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">{{ $area->name }}
+                                    </button>
+                                @endif
+                            @endif
                         @endforeach
                     </div>
+                </div>
+                @elseif ($tab === "W6")
+                <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="w6" role="tabpanel" aria-labelledby="w6-tab">
+                    <div style="height: calc(100vh - 180px);" class="relative">
+                        <img src="{{ asset('images/ws - layout1.jpg') }}" class="absolute h-full left-1/2 -translate-x-1/2 z-30" alt="">
+                    </div>
+                    <div class="">
+                        @foreach ($areas as $area)
+                            @if ($area->area_location == 'W6')
+                                <?php 
+                                    $hexColor = $area->hexcolor;
+                                    $rgbColor = sscanf($hexColor, "#%02x%02x%02x");
+            
+                                    $red = $rgbColor[0];
+                                    $green = $rgbColor[1];
+                                    $blue = $rgbColor[2];
+                                    $alpha = 0.5;
+            
+                                    $rgbaColor = "rgba($red, $green, $blue, $alpha)";
+                                ?>
+                                @if ($area->id == $id)
+                                    <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; cursor: move;" class="item">{{ $area->name }}
+                                        <div class="resizer ne"></div>
+                                        <div class="resizer nw"></div>
+                                        <div class="resizer sw"></div>
+                                        <div class="resizer se"></div>
+                                    </button>
+                                @else
+                                    <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea">{{ $area->name }}
+                                    </button>
+                                @endif
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+                @endif
             </div>
+            {{-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            </div> --}}
         </div>
     </div>
     
     <script>
         $(document).ready(function(){
+            var tab = "{{ $tab }}";
+            
             $("#cancelEdit").click(function () { 
-                window.location.href = "{{ url('/editor-area') }}";
+                window.location.href = `{{ url('/editor-area') }}/{{$tab}}`;
             });
 
 
