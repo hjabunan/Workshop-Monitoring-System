@@ -3406,10 +3406,10 @@
                 var totalPriceInput = $('#PITPrice');
 
                 function updateTotalPrice() {
+                    var priceValue = priceInput.val().replace(',', '');
                     var quantity = parseFloat(quantityInput.val()) || 0;
-                    var price = parseFloat(priceInput.val()) || 0;
+                    var price = parseFloat(priceValue) || 0;
                     var totalPrice = quantity * price;
-
                     totalPriceInput.val(totalPrice.toFixed(2));
                 }
 

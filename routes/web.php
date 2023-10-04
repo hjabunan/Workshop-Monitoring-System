@@ -60,10 +60,6 @@ Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
 
 Route::redirect(uri:'/', destination:'login');
 
-// Route::get('/management', function () {
-//     return view('management');
-// })->middleware(['auth', 'verified'])->name('management');
-
 Route::GET('/layouts/navigation/getUserData', [UserController::class, 'getUserData'])->name('layouts.navigation.getUserData');
 
 Route::get('/navigation', function () {

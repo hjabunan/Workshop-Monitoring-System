@@ -2,4 +2,4 @@
     <img class="h-auto max-w-lg rounded-lg" src="{{ URL::to('/') }}/icon/toyota1.png" alt="">
 </svg> --}}
 
-<img class="h-auto max-w-lg rounded-lg" src="{{ URL::to('/') }}/icon/toyota1.png" alt="">
+<img class="h-auto max-w-lg rounded-lg" src="{{ URL::to('/') }}/icon/toyota2.png" alt="">

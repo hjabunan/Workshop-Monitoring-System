@@ -15,14 +15,13 @@ return new class extends Migration
     {
         Schema::create('parts', function (Blueprint $table) {
             $table->id();
-            $table->string('pno');
             $table->string('itemno');
             $table->string('partno');
             $table->string('partname');
             $table->string('brand');
             $table->string('price');
             $table->string('status');
-            $table->string('date');
+            $table->bigInteger('is_deleted')->default('0');
             $table->timestamps();
         });
     }

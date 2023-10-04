@@ -3327,6 +3327,7 @@
         $(document).ready(function () {
             
             // 
+            
                 jQuery(document).on( "click", "#SCloseButton", function(){
                     $("#success-modal").removeClass("flex");
                     $("#success-modal").addClass("hidden");
