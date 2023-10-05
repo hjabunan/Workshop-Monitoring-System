@@ -45,11 +45,6 @@ class AdminMonitor extends Controller
                             ');
         
         $scl = DB::TABLE('stagings')->get();
-        
-        $part = DB::TABLE('parts')
-                ->orderBy('id','asc')
-                ->get();
-
 
         $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());
         $CUnitTEJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',2)->WHERE('WSStatus','<=',4)->count());
