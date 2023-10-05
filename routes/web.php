@@ -71,7 +71,7 @@ Route::get('/navigation', function () {
 
 Route::get('/dashboard', function () {
     $areas = DB::table('area_tables')->get();
-    $sections = DB::table('sections')->get();
+    $sections = DB::table('wms_sections')->get();
 
     
     $user = User::find(auth()->id());
