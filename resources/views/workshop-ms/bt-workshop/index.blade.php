@@ -3177,7 +3177,7 @@
                         url:"{{ route('bt-workshop.installPI') }}",
                         method:"POST",
                         dataType: 'json',
-                        data:{PIID: PIID, JONum: JONum, PIDateInstalled: PIDateInstalled, _token: _token,},
+                        data:{PIID: PIID, JONum: JONum, PartNum: PartNum, Description: Description, Price: Price, PIDateInstalled: PIDateInstalled, _token: _token,},
                         success:function(result){
                             $('#installPI').hide();
                             $('#PIID').val('');
