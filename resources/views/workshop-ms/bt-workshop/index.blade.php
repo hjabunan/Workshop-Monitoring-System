@@ -3605,7 +3605,7 @@
                 });
 
             // Save Remarks
-                jQuery(document).on( "click", "#updatePIRemarks", function(){
+                jQuery(document).on( "click", "#updateRemarks", function(){
                     var WSJONum = $('#UnitInfoJON').val();
                     var URemarks = $('#PIRemarks').val();
                     var _token = $('input[name="_token"]').val();
