@@ -12,4 +12,6 @@ class UnitParts extends Model
     public function part(){
         return $this->belongsTo(Parts::class, 'PIPartID');
     }
+
+    protected $table = "unit_parts";
 }
