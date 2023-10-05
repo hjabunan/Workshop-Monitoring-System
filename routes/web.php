@@ -71,7 +71,7 @@ Route::get('/navigation', function () {
 
 Route::get('/dashboard', function () {
     $areas = DB::table('area_tables')->get();
-    $sections = DB::table('sections')->get();
+    $sections = DB::table('wms_sections')->get();
 
     
     $user = User::find(auth()->id());
@@ -83,7 +83,7 @@ Route::get('/dashboard', function () {
 Route::GET('/dashboard/getSName', [BTReportController::class, 'getEvents'])->name('bt-workshop.getEvents');
 
 Route::get('/editor-area/{tab}', function ($tab) {
-    $sections = DB::table('sections')->get();
+    $sections = DB::table('wms_sections')->get();
     $areas = DB::table('area_tables')->get();
 
     return view('editor-area', compact('areas', 'sections', 'tab'));
