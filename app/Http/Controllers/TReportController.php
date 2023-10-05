@@ -56,10 +56,6 @@ class TReportController extends Controller
         $scl = DB::TABLE('stagings')->get();
 
         $reason = DB::TABLE('wms_reasons')->where('reason_status','=','1')->get();
-        
-        $part = DB::TABLE('parts')
-                ->orderBy('id','asc')
-                ->get();
 
 
         $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());

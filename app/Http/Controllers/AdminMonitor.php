@@ -110,7 +110,7 @@ class AdminMonitor extends Controller
                             INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
                             INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                             INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
-                            ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ORDER BY cast(CanPartCUID as UNSIGNED), CanPartPartNum ASC
                         ');
 
         $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
