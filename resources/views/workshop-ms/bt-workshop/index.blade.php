@@ -2990,7 +2990,7 @@
                             $('#PIDateRec').val(result.PIDateRec);
                             $('#PIReason').val(result.PIReason);
 
-                            var priceValue = (result.PIPrice).val().replace(',', '');
+                            var priceValue = $('#PIPrice').val().replace(',', '');
                             var quantity = parseFloat(result.PIQuantity) || 0;
                             var price = parseFloat(priceValue) || 0;
                             var totalPrice = quantity * price;
