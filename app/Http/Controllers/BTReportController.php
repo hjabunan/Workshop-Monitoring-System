@@ -1283,8 +1283,8 @@ class BTReportController extends Controller
     public function installPI(Request $request){
         $partinfo = UnitParts::find($request->PIID);
         $partinfo->PIPartNum = $request->PartNum;
-        $partinfo->PIDescription = $request->Description;
-        $partinfo->PIPrice = $request->Price;
+        $partinfo->PIDescription = $request->PIDescription;
+        $partinfo->PIPrice = $request->PIPrice;
         $partinfo->PIDateInstalled = $request->PIDateInstalled;
         $partinfo->update();
 
