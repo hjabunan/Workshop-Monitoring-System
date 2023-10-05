@@ -19,7 +19,7 @@ class MCIController extends Controller
                 ->orderBy('area_name','asc')->get();
 
                 
-        $sectionT = DB::SELECT('SELECT * FROM sections WHERE status="1"');
+        $sectionT = DB::SELECT('SELECT * FROM wms_sections WHERE status="1"');
         
         $workshop = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
                                 bay_areas.area_name, brands.name,

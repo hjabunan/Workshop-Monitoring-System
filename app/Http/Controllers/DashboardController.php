@@ -11,7 +11,7 @@ class DashboardController extends Controller
     {
         $areaName = $request->areaName;
 
-        $SNames = DB::table('sections')->where('name', $areaName)->get();
+        $SNames = DB::table('wms_sections')->where('name', $areaName)->get();
 
         $result = "";
         foreach ($SNames as $SName) {

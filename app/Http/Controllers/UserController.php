@@ -15,9 +15,9 @@ class UserController extends Controller
 {
     public function index(){
         $users = DB::select('SELECT wms_users.id, wms_users.name, wms_users.email, wms_users.idnum, wms_users.email_verified_at, wms_users.dept, 
-        departments.name AS deptname, wms_users.area, wms_users.password, wms_users.role, wms_users.status, sections.name as sname
+        departments.name AS deptname, wms_users.area, wms_users.password, wms_users.role, wms_users.status, wms_sections.name as sname
         FROM wms_users 
-        LEFT JOIN sections ON sections.id = wms_users.area
+        LEFT JOIN wms_sections ON wms_sections.id = wms_users.area
         INNER JOIN departments ON wms_users.dept = departments.id');
 
         $sections = Section::pluck('name', 'id');   
@@ -81,7 +81,7 @@ class UserController extends Controller
         $users = DB::table('wms_users')->where('id', $id)->first();
 
         $depts = DB::select('SELECT * FROM departments where status=1');
-        $sects = DB::select('SELECT * FROM sections');
+        $sects = DB::select('SELECT * FROM wms_sections');
         
         return view('system-management.user.edit',compact('selectedAreas','users','depts', 'sects'));
     }
