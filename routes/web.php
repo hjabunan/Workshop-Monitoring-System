@@ -63,7 +63,7 @@ Route::redirect(uri:'/', destination:'login');
 Route::GET('/layouts/navigation/getUserData', [UserController::class, 'getUserData'])->name('layouts.navigation.getUserData');
 
 Route::get('/navigation', function () {
-    $sections = DB::table('sections')->get();
+    $sections = DB::table('wms_sections')->get();
     $areas = DB::table('area_tables')->get();
 
     return view('/navigation', compact('areas', 'sections'));
