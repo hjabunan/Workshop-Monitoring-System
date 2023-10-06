@@ -3070,7 +3070,7 @@
                             var formattedTotalPrice = quantity * price;
                             var totalPrice = formattedTotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-                            $('#PITPrice').val(totalPrice.toFixed(2));
+                            $('#PITPrice').val(totalPrice);
                         }
                     });
                 });
