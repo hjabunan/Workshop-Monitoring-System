@@ -2831,8 +2831,9 @@
                     var priceValue = priceInput.val().replace(',', '');
                     var quantity = parseFloat(quantityInput.val()) || 0;
                     var price = parseFloat(priceValue) || 0;
-                    var totalPrice = quantity * price;
-                    totalPriceInput.val(totalPrice.toFixed(2));
+                    var formattedTotalPrice = quantity * price;
+                    var totalPrice = formattedTotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    totalPriceInput.val(totalPrice);
                 }
 
                 quantityInput.on('keyup', updateTotalPrice);
