@@ -2994,9 +2994,9 @@
                             var quantity = parseFloat(result.PIQuantity) || 0;
                             var price = parseFloat(priceValue) || 0;
                             var formattedTotalPrice = quantity * price;
-                            var totalPrice = formattedTotalPrice.toLocaleString();
+                            var totalPrice = formattedTotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-                            $('#PITPrice').val(totalPrice.toFixed(2));
+                            $('#PITPrice').val(totalPrice);
                         }
                     });
                 });
