@@ -2993,7 +2993,8 @@
                             var priceValue = $('#PIPrice').val().replace(',', '');
                             var quantity = parseFloat(result.PIQuantity) || 0;
                             var price = parseFloat(priceValue) || 0;
-                            var totalPrice = quantity * price;
+                            var formattedTotalPrice = quantity * price;
+                            var totalPrice = formattedTotalPrice.toLocaleString();
 
                             $('#PITPrice').val(totalPrice.toFixed(2));
                         }
