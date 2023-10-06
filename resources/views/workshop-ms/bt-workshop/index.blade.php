@@ -1226,7 +1226,7 @@
                                     <div class="h-1/2">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
-                                            <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 475px);">
+                                            <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 550px);">
                                                 <table id="tablePPartsI" class="w-full text-sm text-left text-gray-500">
                                                     <thead class="text-gray-700 uppercase bg-gray-50">
                                                         <tr class="PPII place-items-center">
