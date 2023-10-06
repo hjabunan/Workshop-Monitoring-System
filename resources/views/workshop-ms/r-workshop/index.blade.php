@@ -2995,8 +2995,9 @@
                             $('#PIDateRec').val(result.PIDateRec);
                             $('#PIReason').val(result.PIReason);
 
+                            var priceValue = $('#PIPrice').val().replace(',', '');
                             var quantity = parseFloat(result.PIQuantity) || 0;
-                            var price = parseFloat(result.PIPrice) || 0;
+                            var price = parseFloat(priceValue) || 0;
                             var formattedTotalPrice = quantity * price;
                             var totalPrice = formattedTotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
