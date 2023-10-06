@@ -1252,7 +1252,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="col-span-2 bg-green-200 p-2" style="height: calc(100vh - 500px);>
+                                            <div class="col-span-2 bg-green-200 p-2" style="height: calc(100vh - 500px);">
                                                 <div class="grid grid-cols-2">
                                                     <div class="">
                                                         <label for="" class="block text-lg text-gray-900 font-medium">REMARKS</label>
