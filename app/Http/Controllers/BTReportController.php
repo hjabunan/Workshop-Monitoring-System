@@ -1191,9 +1191,6 @@ class BTReportController extends Controller
 
                 $result1 .= '
                         <tr class="bg-white border-b hover:bg-gray-200">
-                            <td class="px-1 py-0.5 text-center text-xs">
-                                '.$PI1->PIMRINum.'
-                            </td>
                             <td scope="row" class="px-1 py-0.5 text-center text-xs">
                                 <span data-id="'.$PI1->id.'"></span>
                                 '.$PI1->PIPartNum.'
@@ -1202,10 +1199,10 @@ class BTReportController extends Controller
                                 '.$PI1->PIDescription.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIPrice.'
+                               '.$PI1->PIQuantity.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIQuantity.'
+                                '.$PI1->PIMRINum.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
                                 '.$PI1->PIDateReq.'
@@ -1309,10 +1306,10 @@ class BTReportController extends Controller
                                 '.$PI1->PIDescription.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                                '.$PI1->PIMRINum.'
+                               '.$PI1->PIQuantity.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
-                               '.$PI1->PIQuantity.'
+                                '.$PI1->PIMRINum.'
                             </td>
                             <td class="px-1 py-0.5 text-center text-xs">
                                 '.$PI1->PIDateReq.'
