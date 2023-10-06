@@ -2071,7 +2071,7 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="p-2 space-y-6">
+                    <div class="p-2 space-y-4">
                         <form action="" id="formPOU">
                             @csrf
                             <input type="hidden" id="POUIDe" name="POUIDe">
@@ -2104,7 +2104,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="dataPOU" style="height: calc(100vh - 360px);" class="mt-2">
+                            <div id="dataPOU" style="height: calc(100vh - 350px);" class="mt-2">
                                 <div class="mb-4 border-b border-gray-200">
                                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="POUnit" data-tabs-toggle="#POUnitContent" role="tablist">
                                         <li class="mr-2" role="presentation">
@@ -2555,7 +2555,7 @@
                         </form>
                     </div>
                     <!-- Modal footer -->
-                    <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
+                    <div class="flex items-center p-2 space-x-2 border-t border-gray-200 rounded-b">
                         <button type="button" id="savePullOutH" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="savePullOut" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">SAVE</button>
                         <button type="button" id="clearPullOut" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">CLEAR</button>
