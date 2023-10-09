@@ -26,7 +26,7 @@ class UserController extends Controller
     }
 
     public function create(){
-        $depts = DB::select('select id, name from departments where status=1');
+        $depts = DB::select('select id, name from departments where is_active=1');
         $sections = Section::pluck('name', 'id');   
         return view('system-management.user.add',compact('depts','sections'));
     }
@@ -80,7 +80,7 @@ class UserController extends Controller
 
         $users = DB::table('wms_users')->where('id', $id)->first();
 
-        $depts = DB::select('SELECT * FROM departments where status=1');
+        $depts = DB::select('SELECT * FROM departments where is_active=1');
         $sects = DB::select('SELECT * FROM wms_sections');
         
         return view('system-management.user.edit',compact('selectedAreas','users','depts', 'sects'));

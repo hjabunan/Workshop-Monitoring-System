@@ -49,7 +49,7 @@
                                             {{$dept->name}}
                                         </td>
                                         <td class="px-6 py-4">
-                                            @if ($dept->status ==0)
+                                            @if ($dept->is_active ==0)
                                                 <p class="text-red-500">Inactive</p>
                                             @else
                                             <p class="text-green-500">Active</p>

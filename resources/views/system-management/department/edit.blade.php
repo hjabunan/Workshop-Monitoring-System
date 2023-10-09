@@ -25,8 +25,8 @@
                                     <div class="mb-6">
                                         <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                         <select id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="status" required >
-                                            <option {{ ($depts->status == 0) ? 'selected' : ''; }} value="0">Inactive</option>
-                                            <option {{ ($depts->status == 1) ? 'selected' : ''; }} value="1">Active</option>
+                                            <option {{ ($depts->is_active == 0) ? 'selected' : ''; }} value="0">Inactive</option>
+                                            <option {{ ($depts->is_active == 1) ? 'selected' : ''; }} value="1">Active</option>
                                         </select>
                                     </div>
                                 </div>
