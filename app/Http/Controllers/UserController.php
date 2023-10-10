@@ -145,4 +145,18 @@ class UserController extends Controller
 
         return redirect()->route('user.index');
     }
+
+    // public function searchUser(Request $request){
+    //     $query = $request->input('searchText');
+
+    //     $users = User::select('wms_users.name','wms_users.email','wms_users.idnum','wms_users.role','wms_users.status','departments.name as deptname')
+    //                 ->where('wms_users.name', 'like', '%' . $query . '%')
+    //                 ->orWhere('email', 'like', '%' . $query . '%')
+    //                 ->orWhere('idnum', 'like', '%' . $query . '%')
+    //                 ->leftJoin('departments','wms_users.dept','departments.id')
+    //                 ->get();
+
+    //     $tbody = view('system-management.user.partial', compact('users'))->render();
+    //     return response()->json(['body' => $tbody]);
+    // }
 }

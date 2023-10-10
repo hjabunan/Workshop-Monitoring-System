@@ -51,10 +51,6 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
 ->name('logout');
 
@@ -88,6 +84,8 @@ Route::get('/editor-area/{tab}', function ($tab) {
 
     return view('editor-area', compact('areas', 'sections', 'tab'));
 });
+
+// Route::GET('/system-management/user/searchUser', [UserController::class, 'searchUser'])->name('system-management.user.searchUser');
 
 Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashboard.getSName');
 
