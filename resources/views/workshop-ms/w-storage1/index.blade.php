@@ -81,6 +81,9 @@
                                     <li role="presentation">
                                         <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BayJ-tab" data-tabs-target="#BayJ" type="button" role="tab" aria-controls="BayJ" aria-selected="false">J Bays</button>
                                     </li>
+                                    <li role="presentation">
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BayJ-tab" data-tabs-target="#BayJ" type="button" role="tab" aria-controls="BayJ" aria-selected="false">Temporary Bays</button>
+                                    </li>
                                 </ul>
                             </div>
                                 

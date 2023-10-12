@@ -1834,16 +1834,16 @@ class BTReportController extends Controller
         $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" and status="1" ORDER BY wms_bay_areas.id');
         $bayR = DB::SELECT('SELECT * FROM wms_bay_areas WHERE status="1" ORDER BY wms_bay_areas.id');
 
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2 AND is_PPT=0');
         
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
 
         $cunit = DB::SELECT('SELECT unit_confirms.id, unit_confirms.POUID, unit_confirms.CUTransferDate, unit_confirms.CUTransferRemarks, unit_confirms.CUTransferStatus, unit_confirms.CUTransferArea, unit_confirms.CUTransferBay,
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, 
                             unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
-                            WHERE unit_confirms.CUDelTransfer=0 AND unit_pull_outs.POUBrand = 2
+                            WHERE unit_confirms.CUDelTransfer=0 AND unit_pull_outs.POUBrand = 2 AND is_PPT=0
                             ');
 
         $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDelDate,
@@ -1853,7 +1853,7 @@ class BTReportController extends Controller
                             FROM unit_deliveries
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_deliveries.POUID
                             INNER JOIN unit_confirms on unit_deliveries.POUID = unit_confirms.POUID
-                            WHERE unit_pull_outs.POUBrand = 2
+                            WHERE unit_pull_outs.POUBrand = 2 AND is_PPT=0
                             ');
 
         $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
@@ -1912,7 +1912,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0
+                                WHERE unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
                         ');
         }else if($brand == 'BrandToyota'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1925,7 +1925,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0
+                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
                                 ');
         }else if($brand == 'BrandBT'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1938,7 +1938,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0
+                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
                         ');
         }else{
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1951,7 +1951,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0
+                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
                         ');
         }
 
@@ -2009,13 +2009,13 @@ class BTReportController extends Controller
 
         $result = '';
         if($UStatus == 'pouRadioPOU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND isBrandNew=0 AND POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'pouRadioCU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_confirms ON unit_pull_outs.id = unit_confirms.POUID WHERE isBrandNew=0 AND POUBrand=2 AND CUDelTransfer=0');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_confirms ON unit_pull_outs.id = unit_confirms.POUID WHERE isBrandNew=0 AND POUBrand=2 AND CUDelTransfer=0 AND is_PPT=0');
         }else if($UStatus == 'pouRadioDU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_deliveries ON unit_pull_outs.id = unit_deliveries.POUID WHERE isBrandNew=0 AND POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_deliveries ON unit_pull_outs.id = unit_deliveries.POUID WHERE isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
         }else{
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE isBrandNew=0 AND POUBrand=2');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
         }
 
         if(count($pounit)>0){
@@ -2860,7 +2860,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3056,7 +3056,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3192,7 +3192,7 @@ class BTReportController extends Controller
                 ->UPDATE(['category' => "2"]);
 
         $result = '';
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3279,7 +3279,7 @@ class BTReportController extends Controller
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
-                            WHERE unit_pull_outs.POUBrand = 2 AND unit_confirms.CUDElTransfer = 0
+                            WHERE unit_pull_outs.POUBrand = 2 AND unit_confirms.CUDElTransfer = 0 AND is_PPT=0
                         ');
         if(count($cunit)>0){
             foreach ($cunit as $CU) {
@@ -3355,37 +3355,37 @@ class BTReportController extends Controller
 
         $result = '';
         if($UStatus == 'cuAllStatus'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuWFRU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=1 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=1 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuURU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=2 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=2 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuUGU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=3 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=3 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuSeU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=4 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=4 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuFScU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=5 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=5 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuFSaU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=6 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=6 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuWP'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=7 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=7 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuWBO'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=8 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=8 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuWSB'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=9 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=9 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuStU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=10 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=10 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuRU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=11 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=11 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuWFM'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=12 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=12 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuWFP'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=13 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=13 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else if($UStatus == 'cuDP'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=14 AND CUDelTransfer=0 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=14 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
         }else{
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=1 AND POUBrand=2');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=1 AND POUBrand=2 AND is_PPT=0');
         }
         
         if(count($cunit)>0){
@@ -4231,7 +4231,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2 AND is_PPT=0');
 
         if(count($bnunit)>0){
             foreach ($bnunit as $BNU) {
@@ -4431,7 +4431,7 @@ class BTReportController extends Controller
         }
 
         $result = "";
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2 AND is_PPT=0');
 
         if(count($bnunit)>0){
             foreach ($bnunit as $BNU) {
@@ -4529,7 +4529,7 @@ class BTReportController extends Controller
                 ->UPDATE(['category' => "2"]);
 
         $result = '';
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2 AND is_PPT=0');
 
         if(count($bnunit)>0){
             foreach ($bnunit as $BNU) {

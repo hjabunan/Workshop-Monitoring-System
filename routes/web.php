@@ -369,6 +369,58 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/ppt-workshop/viewSchedule', [PPTReportController::class, 'viewSchedule'])->name('ppt-workshop.viewSchedule');
             Route::POST('/workshop-ms/ppt-workshop/saveActivity', [PPTReportController::class, 'saveActivity'])->name('ppt-workshop.saveActivity');
+
+            Route::GET('/workshop-ms/ppt-workshop/report', [PPTReportController::class, 'indexR'])->name('ppt-workshop.report');
+
+        // Workshop
+            Route::GET('/workshop-ms/ppt-workshop/report/sortBrand', [PPTReportController::class, 'sortBrand'])->name('ppt-workshop.report.sortBrand');
+
+        // Report
+            Route::GET('/workshop-ms/ppt-workshop/report/getBayR', [PPTReportController::class, 'getBayR'])->name('ppt-workshop.report.getBayR');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateBrandReport', [PPTReportController::class, 'generateBrandReport'])->name('ppt-workshop.report.generateBrandReport');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateBayReport', [PPTReportController::class, 'generateBayReport'])->name('ppt-workshop.report.generateBayReport');
+            Route::POST('/workshop-ms/ppt-workshop/report/searchRPU', [PPTReportController::class, 'searchRPU'])->name('ppt-workshop.report.searchRPU');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateUnitReport', [PPTReportController::class, 'generateUnitReport'])->name('ppt-workshop.report.generateUnitReport');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateUnitRecord', [PPTReportController::class, 'generateUnitRecord'])->name('ppt-workshop.report.generateUnitRecord');
+            Route::POST('/workshop-ms/v-workshop/report/generatePOUReport', [PPTReportController::class, 'generatePOUReport'])->name('ppt-workshop.report.generatePOUReport');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateDUReport', [PPTReportController::class, 'generateDUReport'])->name('ppt-workshop.report.generateDUReport');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateCanUnitReport', [PPTReportController::class, 'generateCanUnitReport'])->name('ppt-workshop.report.generateCanUnitReport');
+            Route::POST('/workshop-ms/ppt-workshop/report/generateDRMonReport', [PPTReportController::class, 'generateDRMonReport'])->name('ppt-workshop.report.generateDRMonReport');
+
+
+        // Brand New Unit
+            Route::POST('/workshop-ms/ppt-workshop/report/saveBrandNew', [PPTReportController::class, 'saveBrandNew'])->name('ppt-workshop.report.saveBrandNew');
+            Route::GET('/workshop-ms/ppt-workshop/report/getBNUData', [PPTReportController::class, 'getBNUData'])->name('ppt-workshop.report.getBNUData');
+            Route::POST('/workshop-ms/ppt-workshop/report/deleteBNU', [PPTReportController::class, 'deleteBNU'])->name('ppt-workshop.report.deleteBNU');
+            Route::POST('/workshop-ms/ppt-workshop/report/transferNewUnit', [PPTReportController::class, 'transferNewUnit'])->name('ppt-workshop.report.transferNewUnit');
+
+        // Pull Out Unit
+            Route::POST('/workshop-ms/ppt-workshop/report/savePullOut', [PPTReportController::class, 'savePullOut'])->name('ppt-workshop.report.savePullOut');
+            Route::GET('/workshop-ms/ppt-workshop/report/getPOUData', [PPTReportController::class, 'getPOUData'])->name('ppt-workshop.report.getPOUData');
+            Route::POST('/workshop-ms/ppt-workshop/report/deletePOU', [PPTReportController::class, 'deletePOU'])->name('ppt-workshop.report.deletePOU');
+            Route::GET('/workshop-ms/ppt-workshop/report/getBay', [PPTReportController::class, 'getBay'])->name('ppt-workshop.report.getBay');
+            Route::POST('/workshop-ms/ppt-workshop/report/transferPullOut', [PPTReportController::class, 'transferPullOut'])->name('ppt-workshop.report.transferPullOut');
+            Route::GET('/workshop-ms/ppt-workshop/report/getUnitStatus', [PPTReportController::class, 'getUnitStatus'])->name('ppt-workshop.report.getUnitStatus');
+            Route::GET('/workshop-ms/ppt-workshop/report/sortPullOut', [PPTReportController::class, 'sortPullOut'])->name('ppt-workshop.report.sortPullOut');
+        
+        // Confirm Unit
+            Route::POST('/workshop-ms/ppt-workshop/report/deleteCU', [PPTReportController::class, 'deleteCU'])->name('ppt-workshop.report.deleteCU');
+            Route::GET('/workshop-ms/ppt-workshop/report/sortConfirm', [PPTReportController::class, 'sortConfirm'])->name('ppt-workshop.report.sortConfirm');
+
+        // Delivered Unit
+            Route::POST('/workshop-ms/ppt-workshop/report/deleteDU', [PPTReportController::class, 'deleteDU'])->name('ppt-workshop.report.deleteDU');
+
+        // Cannibalized Unit
+            Route::GET('/workshop-ms/ppt-workshop/report/getCanUnitStatus', [PPTReportController::class, 'getCanUnitStatus'])->name('ppt-workshop.report.getCanUnitStatus');
+            Route::POST('/workshop-ms/ppt-workshop/report/saveCanUnit', [PPTReportController::class, 'saveCanUnit'])->name('ppt-workshop.report.saveCanUnit');
+            Route::POST('/workshop-ms/ppt-workshop/report/getCanParts', [PPTReportController::class, 'getCanParts'])->name('ppt-workshop.report.getCanParts');
+            Route::POST('/workshop-ms/ppt-workshop/report/deleteCanUnit', [PPTReportController::class, 'deleteCanUnit'])->name('ppt-workshop.report.deleteCanUnit');
+
+        // DR Monitoring
+            Route::GET('/workshop-ms/ppt-workshop/report/getDRMonStatus', [PPTReportController::class, 'getDRMonStatus'])->name('ppt-workshop.report.getDRMonStatus');
+            Route::POST('/workshop-ms/ppt-workshop/report/saveDRMon', [PPTReportController::class, 'saveDRMon'])->name('ppt-workshop.report.saveDRMon');
+            Route::POST('/workshop-ms/ppt-workshop/report/getDRParts', [PPTReportController::class, 'getDRParts'])->name('ppt-workshop.report.getDRParts');
+            Route::POST('/workshop-ms/ppt-workshop/report/deleteDRMon', [PPTReportController::class, 'deleteDRMon'])->name('ppt-workshop.report.deleteDRMon');
     
 
             Route::GET('/workshop-ms/ppt-workshop/report/getBay', [PPTReportController::class, 'getBay'])->name('ppt-workshop.report.getBay');

@@ -39,12 +39,12 @@
                                     $red = $rgbColor[0];
                                     $green = $rgbColor[1];
                                     $blue = $rgbColor[2];
-                                    $alpha = 0.5;
+                                    $alpha = 0.8;
         
                                     $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                                 ?>
         
-                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-10 font-bold tracking-widest" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>{{$area->name}}</button>
+                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20 font-bold tracking-widest" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>{{$area->name}}</button>
                             @endif
                         @endforeach
                     </div>
@@ -63,12 +63,12 @@
                                     $red = $rgbColor[0];
                                     $green = $rgbColor[1];
                                     $blue = $rgbColor[2];
-                                    $alpha = 0.5;
+                                    $alpha = 0.8;
         
                                     $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                                 ?>
         
-                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-10" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button>
+                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button>
                             @endif
                         @endforeach
                     </div>
