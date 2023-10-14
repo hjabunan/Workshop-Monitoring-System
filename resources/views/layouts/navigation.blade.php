@@ -121,7 +121,7 @@
                             <li>
                                 <a href="{{route('w-storage8.index')}}" class="block px-4 py-2 hover:bg-gray-100 ">Warehouse 8 -  Monitoring</a>
                             </li>
-                            @if (Auth::check() && Auth::user()->role == 1)
+                            @if ((Auth::check() && Auth::user()->role == 0) || Auth::check() && Auth::user()->role == 1)
                                 <li>
                                     <button id="doubleDropdownButtone" data-dropdown-toggle="doubleDropdowne" data-dropdown-trigger="hover" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">Admin Monitoring<svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
                                     <div id="doubleDropdowne" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-45">
@@ -135,13 +135,13 @@
                                         {{-- <li>
                                             <a href="#" class="block px-4 py-2 hover:bg-gray-100">File Maintenance</a>
                                         </li> --}}
-                                        <li>
-                                            <a href="{{route('admin_monitoring.tech_schedule')}}" class="block px-4 py-2 hover:bg-gray-100">Technician Schedule</a>
-                                        </li>
                                         </ul>
                                     </div>
                                 </li>
                             @endif
+                            <li>
+                                <a href="{{route('admin_monitoring.tech_schedule')}}" class="block px-4 py-2 hover:bg-gray-100">Technician Schedule</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -171,31 +171,41 @@
 {{-- End PDI Monitoring System --}}
 
 {{-- Start System Management --}}
-                @if (Auth::check() && Auth::user()->role == 1)
+                @if ((Auth::check() && Auth::user()->role == 0) || (Auth::check() && Auth::user()->role == 1))
                     <li>
                         <button id="dropdownDividerButtonc" data-dropdown-toggle="dropdownDividerc" class="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto" type="button">System Management <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
                         <!-- Dropdown menu -->
                         <div id="dropdownDividerc" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                            <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtonc">
-                                <li>
-                                    <a href="{{route('user.index')}}" class="block px-4 py-2 hover:bg-gray-100">Users</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('department.index')}}" class="block px-4 py-2 hover:bg-gray-100">Department</a>
-                                </li>
-                            </ul>
+                            @if (Auth::check() && Auth::user()->role == 0)
+                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtonc">
+                                    <li>
+                                        <a href="{{route('user.index')}}" class="block px-4 py-2 hover:bg-gray-100">Users</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('department.index')}}" class="block px-4 py-2 hover:bg-gray-100">Department</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('brand.index')}}" class="block px-4 py-2 hover:bg-gray-100">Brand</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('scl.index')}}" class="block px-4 py-2 hover:bg-gray-100">Staging Control</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('parts.index')}}" class="block px-4 py-2 hover:bg-gray-100">Parts</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('reason.index')}}" class="block px-4 py-2 hover:bg-gray-100">Reasons - Downtime</a>
+                                    </li>
+                                </ul>
+                            @endif
                             <div class="py-2">
                                 {{-- <a href="{{route('activity.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Activity</a> --}}
                                 <a href="{{route('area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bay/Area</a>
-                                <a href="{{route('brand.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Brand</a>
                                 <a href="{{route('category.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Category</a>
                                 {{-- <a href="{{route('company.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Customer</a> --}}
                                 {{-- <a href="{{route('cust_area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Customer Area</a> --}}
-                                <a href="{{route('scl.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staging Control</a>
                                 {{-- <a href="{{route('mast.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Mast</a> --}}
                                 {{-- <a href="{{route('model.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Model</a> --}}
-                                <a href="{{route('parts.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parts</a>
-                                <a href="{{route('reason.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Reasons - Downtime</a>
                                 <a href="{{route('section.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Section</a>
                                 <a href="{{route('technician.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technician</a>
                             </div>

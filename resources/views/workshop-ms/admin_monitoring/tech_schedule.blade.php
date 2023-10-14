@@ -325,10 +325,10 @@
                             </div>
                     {{-- Bay Details --}}
                             <div class="hidden p-2 rounded-lg bg-gray-50" id="baydetails" role="tabpanel" aria-labelledby="baydetails-tab">
-                                <div id='calendar-container' style="height: 80vh">
+                                {{-- <div id='calendar-container' style="height: 80vh">
                                     <div id='calendar'></div>
                                     <div id="bay-names" class="bay-names"></div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

@@ -71,9 +71,11 @@
                                             </td>
                                             <td class="px-3 py-2 text-center">
                                                 @if ($users->role ==0)
-                                                    User
-                                                @else
+                                                    Super Admin
+                                                @elseif ($users->role == 1)
                                                     Admin
+                                                @else
+                                                    User
                                                 @endif 
                                             </td>
                                             <td class="px-3 py-2 text-center">

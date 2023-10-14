@@ -19,7 +19,7 @@
                 </ul>
                 
                 <div>
-                    @if (Auth::user()->role === '1')
+                    @if ((Auth::user()->role == '0') || (Auth::user()->role == '1'))
                         <button class="btnEditor text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 focus:outline-none h-10">EDITOR</button>
                     @endif
                 </div>
@@ -44,7 +44,25 @@
                                     $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                                 ?>
         
-                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20 font-bold tracking-widest" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>{{$area->name}}</button>
+                                {{-- <button
+                                    data-id="{{ $area->id }}"
+                                    data-name="{{ $area->name }}"
+                                    style="z-index:40;
+                                            width: calc(({{ $area->width_ratio }} * (100vh - 205px)));
+                                            height: calc(({{ $area->height_ratio }} * (100vh - 205px)));
+                                            position: absolute;
+                                            top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px);
+                                            left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }}));
+                                            background-color: {{ $rgbaColor }};
+
+
+                                            border: 2px solid #000000;"
+                                    class="thisArea disabled:opacity-1/2 font-bold tracking-widest"
+                                    {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>
+                                    {{ $area->name }}
+                                </button> --}}
+                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-3 font-bold tracking-widest" {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>{{$area->name}}</button>
+                                {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index: 40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'opacity: 0.5;' : '' }}" class="thisArea {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}"></button> --}}
                             @endif
                         @endforeach
                     </div>
@@ -68,7 +86,8 @@
                                     $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                                 ?>
         
-                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20" {{ (Auth::user()->role === '0') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button>
+                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20" {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button>
+                                {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index: 40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'opacity: 0.5;' : '' }}" class="thisArea {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}"></button> --}}
                             @endif
                         @endforeach
                     </div>

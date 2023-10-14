@@ -81,7 +81,7 @@ class UserController extends Controller
         $users = DB::table('wms_users')->where('id', $id)->first();
 
         $depts = DB::select('SELECT * FROM departments where is_active=1');
-        $sects = DB::select('SELECT * FROM wms_sections');
+        $sects = DB::select('SELECT * FROM wms_sections WHERE status=1');
         
         return view('system-management.user.edit',compact('selectedAreas','users','depts', 'sects'));
     }

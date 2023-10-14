@@ -263,61 +263,6 @@
                                         @endif
                                     @endforeach
                                 </div>
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 8)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 10)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 11)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 7)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
-                                {{-- <div class="grid content-start gap-2 ml-2 mr-5">
-                                    @foreach ($bays as $bay)
-                                        @if ($bay->section == 9)
-                                        <div class="">
-                                            <button data-modal-target="modalUnitInfo" data-modal-toggle="modalUnitInfo" value="{{$bay->id}}" class="btnBay block text-white bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full" type="button">
-                                                {{$bay->area_name}}
-                                            </button>
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div> --}}
                             </div>
                         </div>
                         {{-- LEGEND AND TOTAL CAPACITY --}}
@@ -333,18 +278,6 @@
                                             <div style="float: left;" class="mr-2 w-12 h-6 {{$legend->stg_color}} rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>{{$legend->stg_name}}</label>
                                         </div>
                                     @endforeach
-                                    {{-- <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-green-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>On-Schedule</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-blue-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Target</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-yellow-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Caution</label>
-                                    </div>
-                                    <div class="">
-                                        <div style="float: left;" class="mr-2 w-12 h-6 bg-red-500 rounded ring-1 ring-inset ring-black ring-opacity-0"></div><label>Critical</label>
-                                    </div> --}}
                                 </div>
                             </div>
                             <div id="divTotalCap" class="row-span-3 mt-5">
@@ -1278,7 +1211,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="h-1/2">
+                                    <div class="h-1/2 gap-y-5">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
                                             <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 535px);">
@@ -1307,7 +1240,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="col-span-2 bg-green-200 p-2" style="height: calc(100vh - 535px);">
+                                            <div class="col-span-2 p-2" style="height: calc(100vh - 535px);">
                                                 <div class="grid grid-cols-2">
                                                     <div class="">
                                                         <label for="" class="block text-lg text-gray-900 font-medium">REMARKS</label>

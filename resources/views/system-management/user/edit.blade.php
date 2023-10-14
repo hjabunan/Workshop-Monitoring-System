@@ -29,8 +29,8 @@
                                     <div class="mb-3">
                                         <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Role</label>
                                         <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required >
-                                            <option {{ ($users->role == 0) ? 'selected' : ''; }} value="0">User</option>
                                             <option {{ ($users->role == 1) ? 'selected' : ''; }} value="1">Admin</option>
+                                            <option {{ ($users->role == 2) ? 'selected' : ''; }} value="2">User</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">

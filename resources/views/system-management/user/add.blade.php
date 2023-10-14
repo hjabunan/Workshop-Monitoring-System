@@ -33,8 +33,8 @@
                                     <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Role</label>
                                     <select id="role" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="role" required >
                                         <option selected disabled>Choose a Role</option>
-                                        <option value="0">User</option>
                                         <option value="1">Admin</option>
+                                        <option value="2">User</option>
                                     </select>
                                 </div>
                                 <div class="mb-6">

@@ -1223,7 +1223,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="h-1/2">
+                                    <div class="h-1/2 gap-y-5">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
                                             <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 535px);">
@@ -1252,7 +1252,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="col-span-2 bg-green-200 p-2" style="height: calc(100vh - 535px);">
+                                            <div class="col-span-2 p-2" style="height: calc(100vh - 535px);">
                                                 <div class="grid grid-cols-2">
                                                     <div class="">
                                                         <label for="" class="block text-lg text-gray-900 font-medium">REMARKS</label>
