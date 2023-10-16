@@ -914,8 +914,10 @@ class PPTReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1054,8 +1056,10 @@ class PPTReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1176,8 +1180,10 @@ class PPTReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1280,8 +1286,10 @@ class PPTReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1383,8 +1391,10 @@ class PPTReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1487,8 +1497,10 @@ class PPTReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -3049,7 +3061,7 @@ class PPTReportController extends Controller
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=3 AND is_PPT=1');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND is_PPT=1');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {

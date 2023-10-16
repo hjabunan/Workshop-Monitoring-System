@@ -918,13 +918,6 @@
                                     </div>
                                     <div id="div2" class="grid grid-cols-4">
                                         <div class="grid justify-items-start">
-                                            {{-- <select id="duSelectStatus" name="duSelectStatus" class="bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 font-medium block w-3/4 h-10 p-2.5">
-                                                <option selected value="">CLASSIFICATION</option>
-                                                <option value="CLASS A">CLASS A</option>
-                                                <option value="CLASS B">CLASS B</option>
-                                                <option value="CLASS C">CLASS C</option>
-                                                <option value="CLASS D">CLASS D</option>
-                                            </select> --}}
                                         </div>
                                         <div class="col-span-2">
                                             {{-- <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex">
@@ -3418,10 +3411,12 @@
 
             // Saving of Pull Out Unit
                 $('#savePullOut').on( "click", function(){
+                    $(this).prop("disabled", true);
                     if($('#POUUnitType').val() == 1){
                         if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POURemarks').val() == '' ){
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
+                            $('#savePullOut').prop("disabled", false);
                         } else {
                             $('#savePullOutH').click();
                         }
@@ -3429,6 +3424,7 @@
                         if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUBABrand').val() == '' || $('#POUBABatType').val() == '' || $('#POUBASerialNum').val() == '' || $('#POUBACode').val() == '' || $('#POUBAAmper').val() == '' || $('#POUBAVolt').val() == '' || $('#POUCBrand').val() == '' || $('#POUCModel').val() == '' || $('#POUCSerialNum').val() == '' || $('#POUCCode').val() == '' || $('#POUCAmper').val() == '' || $('#POUCVolt').val() == '' || $('#POUCInput').val() == '' || $('#POURemarks').val() == '' ){
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
+                            $('#savePullOut').prop("disabled", false);
                         } else {
                             $('#savePullOutH').click();
                         }
@@ -3441,6 +3437,7 @@
                         type: "POST",
                         data: $("#formPOU").serialize(),
                         success: function(result) {
+                            $('#savePullOut').prop("disabled", false);
                             $("#POUnit li:first-child button").click();
                             $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
                             $('#PAttachment').addClass("disabled");
@@ -3459,6 +3456,7 @@
                             $("#closedPullOut").click();
                         },
                         error: function(error){
+                            $('#savePullOut').prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -3874,12 +3872,14 @@
 
             // Transfer POU
                 jQuery(document).on( "click", "#transferPOU", function(){
+                    $(this).prop("disabled", true);
                     
                     $.ajax({
                         url:"{{ route('r-workshop.report.transferPullOut') }}",
                         method:"POST",
                         data: $("#formPOUT").serialize(),
                         success:function(result){
+                            $("#transferPOU").prop("disabled", false);
                             $('#tableBPOU').html(result);
                             $('#tableBCU').load(location.href + ' #tableBCU>*','');
                             $('#tableBWS').load(location.href + ' #tableBWS>*','');
@@ -3887,6 +3887,7 @@
                             $("#btnSuccessH").click();
                         },
                         error: function(error){
+                            $("#transferPOU").prop("disabled", false);
                             $("#btnFailedH").click();
                         }
                     });
@@ -4573,10 +4574,12 @@
 
             // Saving of Brand New
                 $('#saveNewUnit').on( "click", function(){
+                    $(this).prop("disabled", true);
                     if($('#BNUnitType').val() == 1){
                         if ($('#BNUBrand').val() == '' || $('#BNUClassification').val() == '' || $('#BNUModel').val() == '' || $('#BNUSerialNum').val() == '' || $('#BNUCode').val() == '' || $('#BNUMastType').val() == '' || $('#BNUMastHeight').val() == '' || $('#BNUForkSize').val() == '' || $('#BNUTechnician1').val() == '' || $('#BNUCustomer').val() == '' || $('#BNUCustAddress').val() == '' || $('#BNURemarks').val() == '' ){
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
+                            $('#saveNewUnit').prop("disabled", false);
                         } else {
                             $('#saveNewUnitH').click();
                         }
@@ -4584,6 +4587,7 @@
                         if ($('#BNUBrand').val() == '' || $('#BNUClassification').val() == '' || $('#BNUModel').val() == '' || $('#BNUSerialNum').val() == '' || $('#BNUCode').val() == '' || $('#BNUMastType').val() == '' || $('#BNUMastHeight').val() == '' || $('#BNUForkSize').val() == '' || $('#BNUTechnician1').val() == '' || $('#BNUCustomer').val() == '' || $('#BNUCustAddress').val() == '' || $('#BNUBABrand').val() == '' || $('#BNUBABatType').val() == '' || $('#BNUBASerialNum').val() == '' || $('#BNUBACode').val() == '' || $('#BNUBAAmper').val() == '' || $('#BNUBAVolt').val() == '' || $('#BNUCBrand').val() == '' || $('#BNUCModel').val() == '' || $('#BNUCSerialNum').val() == '' || $('#BNUCCode').val() == '' || $('#BNUCAmper').val() == '' || $('#BNUCVolt').val() == '' || $('#BNUCInput').val() == '' || $('#BNURemarks').val() == '' ){
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
+                            $('#saveNewUnit').prop("disabled", false);
                         } else {
                             $('#saveNewUnitH').click();
                         }
@@ -4596,6 +4600,7 @@
                         type: "POST",
                         data: $("#formNewUnit").serialize(),
                         success: function(result) {
+                            $('#saveNewUnit').prop("disabled", false);
                             $("#NewUnit li:first-child button").click();
                             $("#BatteryDetails-tab, #ChargerDetails-tab").hide();
                             $('#PAttachment').addClass("disabled");
@@ -4612,6 +4617,7 @@
                             $("#closeNewUnit").click();
                         },
                         error: function(error){
+                            $('#saveNewUnit').prop("disabled", false);
                             $("#btnFailedH").click();
                         }
                     });
@@ -5006,18 +5012,21 @@
                 });
 
             // Transfer Brand New
-                jQuery(document).on( "click", "#transferBNU", function(){
+                jQuery(document).on( "click", "#transferBNU", function(){ 
+                    $(this).prop("disabled", true);
                     
                     $.ajax({
                         url:"{{ route('r-workshop.report.transferNewUnit') }}",
                         method:"POST",
                         data: $("#formBNUT").serialize(),
                         success:function(result){
+                            $("#transferBNU").prop("disabled", false);
                             $('#tableBNewUnit').html(result);
                             $("#btnSuccessH").click();
                             $("#closeBNTransfer").click();
                         },
                         error: function(error){
+                            $("#transferBNU").prop("disabled", false);
                             $("#btnFailedH").click();
                         }
                     });
@@ -5733,6 +5742,7 @@
 
         // Saving of Cannibalized Unit
             $('#saveCanUnit').on( "click", function(){
+                $(this).prop("disabled", true);
                 var id = $('#CanUnitID').val();
 
                 $('#CanUnitSection').val('');
@@ -5743,6 +5753,7 @@
                     type: "POST",
                     data: $("#formCanUnit").serialize(),
                     success: function(result) {
+                        $("#saveCanUnit").prop("disabled", false);
                         document.getElementById('formCanUnit').reset()
                         $('#CanUnitTable').html(result);
                         $('#CanUnitALL').prop('checked', true);
@@ -5750,6 +5761,7 @@
                         $("#success-modal").addClass("flex");
                     },
                     error: function(error){
+                        $("#saveCanUnit").prop("disabled", false);
                         $("#failed-modal").removeClass("hidden");
                         $("#failed-modal").addClass("flex");
                     }
@@ -5932,6 +5944,7 @@
         
         // Saving of DR Monitoring
             $('#saveDRMon').on( "click", function(){
+                $(this).prop("disabled", true);
                 var id = $('#DRMonID').val();
 
                 $('#DRMonTableSearch').val('');
@@ -5941,6 +5954,7 @@
                     type: "POST",
                     data: $("#formDRMon").serialize(),
                     success: function(result) {
+                        $("#saveDRMon").prop("disabled", false);
                         document.getElementById('formDRMon').reset()
                         $('#DRMonTable').html(result);
                         $('#DRMonALL').prop('checked', true);
@@ -5948,6 +5962,7 @@
                         $("#success-modal").addClass("flex");
                     },
                     error: function(error){
+                        $("#saveDRMon").prop("disabled", false);
                         $("#failed-modal").removeClass("hidden");
                         $("#failed-modal").addClass("flex");
                     }
