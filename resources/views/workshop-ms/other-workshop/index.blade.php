@@ -1560,6 +1560,7 @@
                                         <div class="col-span-2 w-full">
                                             <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1">
                                                 <option value="" selected disabled></option>
+                                                <option value="3">(R) - Received</option>
                                                 <option value="1">(B) - Back Order</option>
                                                 <option value="2">(M) - Machining</option>
                                             </select>
@@ -2433,17 +2434,20 @@
 
             // Save Other Data of Unit
                 jQuery(document).on( "click", "#saveBayMon", function(){
+                    $(this).prop("disabled", true);
                     $.ajax({
                         url: "{{ route('other-workshop.saveBayData') }}",
                         type: "POST",
                         dataType: "JSON",
                         data: $("#FormMonitoring").serialize(),
                         success: function(result) {
+                            $("#saveBayMon").prop("disabled", false);
                             $('#divTotalCap').html(result.TotalCap);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $("#saveBayMon").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -2502,6 +2506,7 @@
 
             // Save Dates on Target
                 jQuery(document).on( "click", "#TUpdate", function(){
+                            $(this).prop("disabled", true);
                     var TIStart = $("#TInspectDStart").val();
                     var TIEnd = $("#TInspectDEnd").val();
                     var TRStart = $("#TRepairDStart").val();
@@ -2514,6 +2519,7 @@
                         method: "POST",
                         data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, _token: _token,},
                         success: function(result) {
+                            $("#TUpdate").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                             
@@ -2570,6 +2576,7 @@
                                     }
                         },
                         error: function(error){
+                            $("#TUpdate").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -2950,6 +2957,7 @@
 
             // Save Downtime
                 jQuery(document).on( "click", "#saveDT", function(){
+                    $(this).prop("disabled", true);
                     var JONum = $('#UnitInfoJON').val();
                     var DTID = $('#DTID').val();
                     var DTSDate = $('#DTSDate').val();
@@ -2976,6 +2984,7 @@
                         method: "POST",
                         data: {DTID: DTID, DTSDate: DTSDate, DTEDate: DTEDate, DTReason: DTReason, DTRemarks: DTRemarks, DTTDays: DTTDays, JONum: JONum, _token: _token,},
                         success: function(result) {
+                            $("#saveDT").prop("disabled", false);
                             $('#DTID').val('');
                             $('#DTSDate').val('');
                             $('#DTEDate').val('');
@@ -3025,6 +3034,7 @@
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $("#saveDT").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -3239,6 +3249,7 @@
 
             // Save Parts Information
                 jQuery(document).on( "click", "#savePI", function(){
+                    $(this).prop("disabled", true);
                     var JONum = $('#PIJONum').val();
                     var _token = $('input[name="_token"]').val();
 
@@ -3248,6 +3259,7 @@
                         dataType: 'json',
                         data: $('#PartsInfo').serialize(),
                         success: function(result) {
+                            $("#savePI").prop("disabled", false);
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
@@ -3360,6 +3372,7 @@
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $("#savePI").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -3933,6 +3946,7 @@
 
             // Save Technician Activity
                 jQuery(document).on( "click", "#saveActivity", function(){
+                    $(this).prop("disabled", true);
                     var bay = $('#UnitBayNum').val();
                     var UnitTSID = $('#UnitTSID').val();
                     var UnitActivityStatus = $('#UnitActivityStatus').val();
@@ -3954,6 +3968,7 @@
                         dataType: "JSON",
                         data: {bay: bay, UnitTSID: UnitTSID, UnitActivityStatus: UnitActivityStatus, UnitInfoRemarks: UnitInfoRemarks, _token: _token, output: output,},
                         success: function(result) {
+                            $("#saveActivity").prop("disabled", false);
                             $('#UnitTSID').val(result.UnitTSID);
                             $('#UnitInfoAOTD').val(result.Activity);
                             $('#UnitActivityStatus').val(result.UnitActivityStatus);
@@ -3995,6 +4010,7 @@
                             calendar.render();
                         },
                         error: function(error){
+                            $("#saveActivity").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -4003,6 +4019,7 @@
 
             // Save Remarks
                 jQuery(document).on( "click", "#updateRemarks", function(){
+                    $(this).prop("disabled", true);
                     var WSJONum = $('#UnitInfoJON').val();
                     var URemarks = $('#PIRemarks').val();
                     var _token = $('input[name="_token"]').val();
@@ -4012,10 +4029,12 @@
                         type: "POST",
                         data: {WSJONum: WSJONum, URemarks: URemarks, _token: _token,},
                         success: function(result) {
+                            $("#updateRemarks").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $("#updateRemarks").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -4062,6 +4081,7 @@
 
             // Save Transfer
                 jQuery(document).on( "click", "#saveTransferUnit", function(){
+                    $(this).prop("disabled", true);
 
                     $.ajax({
                         url: "{{ route('other-workshop.saveTransferUnit') }}",
@@ -4069,6 +4089,7 @@
                         data: $('#formPOUT').serialize(),
                         // data: {WSPOUID: WSPOUID, UnitInfoJON: UnitInfoJON, UnitBayNum:UnitBayNum, UnitStatus: UnitStatus, UnitArea: UnitArea, UnitBay: UnitBay, UnitRemarks: UnitRemarks, _token: _token,},
                         success: function(result) {
+                            $("#saveTransferUnit").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                             $("#closeTransfer").click();
@@ -4076,6 +4097,7 @@
                             location.reload();
                         },
                         error: function(error){
+                            $("#saveTransferUnit").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }

@@ -910,8 +910,10 @@ class OtherReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1050,8 +1052,10 @@ class OtherReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1171,8 +1175,10 @@ class OtherReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1275,8 +1281,10 @@ class OtherReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1378,8 +1386,10 @@ class OtherReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
@@ -1482,8 +1492,10 @@ class OtherReportController extends Controller
             foreach($partinfo1 as $PI1){
                 if($PI1->PIReason == 1){
                     $PIReason = "Back Order";
-                }else{
+                }else if($PI1->PIReason == 2){
                     $PIReason = "Machining";
+                }else{
+                    $PIReason = "Received";
                 }
 
                 $result1 .= '
