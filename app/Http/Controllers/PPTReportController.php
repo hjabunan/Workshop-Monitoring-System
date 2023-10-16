@@ -2373,6 +2373,7 @@ class PPTReportController extends Controller
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
+                $POU->is_PPT = 1;
                 $POU->POUClassification = strtoupper($request->POUClassification);
                 $POU->POUModel = strtoupper($request->POUModel);
                 $POU->POUSerialNum = strtoupper($request->POUSerialNum);
