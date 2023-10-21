@@ -900,8 +900,26 @@
                                                                     GOOD UNIT
                                                                 @elseif ($CU->CUTransferStatus == '4')
                                                                     SERVICE UNIT
-                                                                @else
+                                                                @elseif ($CU->CUTransferStatus == '5')
                                                                     FOR SCRAP UNIT
+                                                                @elseif ($CU->CUTransferStatus == '6')
+                                                                    FOR SALE UNIT
+                                                                @elseif ($CU->CUTransferStatus == '7')
+                                                                    WAITING PARTS
+                                                                @elseif ($CU->CUTransferStatus == '8')
+                                                                    WAITING BACK ORDER
+                                                                @elseif ($CU->CUTransferStatus == '9')
+                                                                    WAITING SPARE BATT
+                                                                @elseif ($CU->CUTransferStatus == '10')
+                                                                    STOCK UNIT
+                                                                @elseif ($CU->CUTransferStatus == '11')
+                                                                    RESERVED UNIT
+                                                                @elseif ($CU->CUTransferStatus == '12')
+                                                                    WAITING FOR MCI
+                                                                @elseif ($CU->CUTransferStatus == '13')
+                                                                    WAITING FOR PDI
+                                                                @else
+                                                                    DONE PDI (WFD)
                                                                 @endif
                                                             </td>
                                                         </tr>
