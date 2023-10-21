@@ -1388,7 +1388,7 @@
                                                 <div id='calendar-container'>
                                                     <div id='calendar'></div>
                                                 </div>
-                                                <hr class="mt-2 mb-2">
+                                                {{-- <hr class="mt-2 mb-2">
                                                 <div class="grid grid-cols-2">
                                                     <input type="hidden" id="UnitTSID" name="UnitTSID">
                                                     <div class="">
@@ -1397,7 +1397,6 @@
                                                         </div>
                                                         <div class="ml-5 mr-5 mt-3 justify-self-center">
                                                             <input type="text" name="UnitInfoAOTD" id="UnitInfoAOTD" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg text-sm text-center pointer-events-none font-medium">
-                                                            {{-- <select id="UnitInfoAOTD" name="UnitInfoAOTD" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center"> --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1419,7 +1418,7 @@
                                                             <button type="button" id="saveActivity" name="saveActivity" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full">SAVE</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
 
                                             {{-- PARTS INFO TAB --}}
@@ -1668,59 +1667,59 @@
                     <div class="space-y-6" style="height: 90vh;">
                         <form action="" id="PartsInfo">
                             @csrf
-                            <div class="grid grid-cols-9">
-                                <div class="col-span-3 grid grid-rows-2 mr-2">
-                                    <div class="p-2 grid grid-cols-3" style="height: 50vh;">
+                            <div class="grid grid-cols-9 gap-x-4 h-full">
+                                <div class="col-span-3 h-full p-4">
+                                    <div class="grid grid-cols-3 place-items-center h-[59%] pb-8">
                                         <input type="hidden" id="PIID" name="PIID">
                                         <input type="hidden" id="PIJONum" name="PIJONum">
+                                        <input type="hidden" id="PIPartIDx" name="PIPartIDx">
+
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">MRI Number</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIMRINum" name="PIMRINum" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
-                                        </div>
-                                        <div class="place-self-center">
-                                            <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
-                                        </div>
-                                        <div class="col-span-2 relative optionDiv">
-                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
-                                            <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
-                                                <ul id="PartNo">
-                                                    {{-- @foreach ($part as $parts)
-                                                        <li data-id="{{ $parts->id }}" class="p-2 first:border-0 border-t border-gray-300 hover:bg-gray-200 cursor-pointer">{{ $parts->partno }}</li>
-                                                    @endforeach --}}
-                                                </ul>
-                                            </div>
                                         </div>
 
                                         <div class="place-self-center">
+                                            <label for="" class="block text-sm text-gray-900 font-medium">Part Number</label>
+                                        </div>
+                                        <div class="col-span-2 relative optionDiv w-full">
+                                            <input type="text" id="PIPartNum" name="PIPartNum" class="inputOption border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" required autocomplete="off">
+                                            <div class="listOption hidden absolute top-[62px] w-full rounded-lg border-x border-b border-gray-300 overflow-y-auto max-h-[30vh] text-gray-600 bg-white z-[99] shadow-xl">
+                                                <ul id="PartNo">
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Description</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIDescription" name="PIDescription" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Quantity</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIQuantity" name="PIQuantity" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Unit Price</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PIPrice" name="PIPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1">
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Total Price</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <input type="text" id="PITPrice" name="PITPrice" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full text-center py-1" readonly>
                                         </div>
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Requested</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
@@ -1731,7 +1730,7 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Date Received</label>
                                         </div>
-                                        <div class="col-span-2">
+                                        <div class="col-span-2 w-full">
                                             <div class="relative max-w-sm">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
@@ -1742,9 +1741,10 @@
                                         <div class="place-self-center">
                                             <label for="" class="block text-sm text-gray-900 font-medium">Reason</label>
                                         </div>
-                                        <div class="col-span-2">
-                                            <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                        <div class="col-span-2 w-full">
+                                            <select id="PIReason" name="PIReason" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1">
                                                 <option value="" selected disabled></option>
+                                                <option value="3">(R) - Received</option>
                                                 <option value="1">(B) - Back Order</option>
                                                 <option value="2">(M) - Machining</option>
                                             </select>
@@ -1756,8 +1756,8 @@
                                             <div class="ml-1 mr-1"><button id="clearPI" name="clearPI" type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">CLEAR</button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-1 ml-2 pointer-events-none" style="height: 40vh;">
-                                        <canvas id="PartsChart"></canvas>
+                                    <div class="pointer-events-none h-[41%]">
+                                        <canvas id="PartsChart" class="!h-[200px]"></canvas>
                                         <div class="grid grid-cols-3">
                                             <div class="">
                                                 <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
@@ -1771,16 +1771,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-6 grid grid-rows-2 ml-2">
-                                    <div class="" style="height: 45vh;">
+                                <div class="col-span-6 flex flex-col h-full gap-y-4">
+                                    <div class="h-1/2">
                                         <label for="" class="block text-lg font-medium text-red-600">Pending Parts</label>
-                                        <div class="overflow-y-auto">
+                                        <div class="overflow-y-auto" style="height: calc(100vh - 475px);">
                                             <table id="tablePParts" class="w-full text-sm text-left text-gray-500">
                                                 <thead class="text-gray-700 uppercase bg-gray-50">
                                                     <tr class="PPI place-items-center">
-                                                        <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            MRI NUMBER
-                                                        </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             PARTS NUMBER
                                                         </th>
@@ -1788,10 +1785,10 @@
                                                             DESCRIPTION
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            PRICE
+                                                            QUANTITY
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
-                                                            QUANTITY
+                                                            MRI NUMBER
                                                         </th>
                                                         <th scope="col" class="px-6 py-1 text-xs text-center">
                                                             DATE REQUESTED
@@ -1810,10 +1807,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="" style="height: 45vh;">
+                                    <div class="h-1/2 gap-y-5">
                                         <label for="" class="block text-lg font-medium text-red-600">Installed Parts</label>
                                         <div class="grid grid-cols-7">
-                                            <div class="col-span-5 overflow-y-auto">
+                                            <div class="col-span-5 overflow-y-auto" style="height: calc(100vh - 535px);">
                                                 <table id="tablePPartsI" class="w-full text-sm text-left text-gray-500">
                                                     <thead class="text-gray-700 uppercase bg-gray-50">
                                                         <tr class="PPII place-items-center">
@@ -1839,14 +1836,14 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="col-span-2 bg-green-200 p-2">
+                                            <div class="col-span-2 p-2" style="height: calc(100vh - 535px);">
                                                 <div class="grid grid-cols-2">
                                                     <div class="">
                                                         <label for="" class="block text-lg text-gray-900 font-medium">REMARKS</label>
                                                     </div>
                                                     <div class=""></div>
                                                     <div class="col-span-2">
-                                                        <textarea id="PIRemarks" name="PIRemarks" rows="8" class="remarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" required></textarea>
+                                                        <textarea id="PIRemarks" name="PIRemarks" rows="10" class="remarks block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 py-1" style="resize: none;" required></textarea>
                                                     </div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="updateRemarks" name="updateRemarks" type="button" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">UPDATE</button></div>
                                                     <div class="ml-1 mr-1 mt-2"><button id="closePI" name="closePI" data-modal-hide="modalPartInfo" type="button" class="text-white bg-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center w-full">EXIT</button></div>
@@ -2146,16 +2143,104 @@
               </div>
             </div>
         </div>
+    <!-- TECHNICIAN ACTIVITY -->
+        <div id="modalTechAct" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-300 bg-opacity-50">
+            <div class="rounded-lg shadow-lg w-full max-w-2xl mx-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 class="text-xl font-semibold text-gray-900">
+                            Technician Activity
+                        </h3>
+                        <button id="closeTAa" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <form action="" id="formActivityInfo">
+                            @csrf
+                            <div class="grid gap-4 mb-4 md:grid-cols-2">
+                                <input type="hidden" class="" id="TAID" name="TAID">
+                                <input type="hidden" class="" id="TABayNum">
+                                <div>
+                                    <label for="TAStatus" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                    <select id="TAStatus" name="TAStatus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <option value="1">PENDING</option>
+                                        <option value="2">ONGOING</option>
+                                        <option value="3">DONE</option>
+                                    </select>
+                                </div>
+                                <div class=""></div>
+                                <div>
+                                    <label for="TATechnician" class="block mb-2 text-sm font-medium text-gray-900">Technician</label>
+                                    <input type="text" id="TATechnician" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                </div>
+                                <div>
+                                    <label for="TASchedDate" class="block mb-2 text-sm font-medium text-gray-900">Schedule Date</label>
+                                    {{-- <input type="date" id="TASchedDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required> --}}
+                                    <div class="relative max-w-sm">
+                                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                        </div>
+                                        <input type="text" id="TASchedDate" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" class="bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 pointer-events-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="TASTime" class="block mb-2 text-sm font-medium text-gray-900">Start Time</label>
+                                    <div class="relative max-w-sm">
+                                        <input type="time" id="TASTime" name="TASTime" class="bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="TAETime" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
+                                    <div class="relative max-w-sm">
+                                        <input type="time" id="TAETime" name="TAETime" class="bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="TASoW" class="block mb-2 text-sm font-medium text-gray-900">Scope of Work</label>
+                                    <input type="text" id="TASoW" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                </div>
+                                <div>
+                                    <label for="TAActivity" class="block mb-2 text-sm font-medium text-gray-900">Activity</label>
+                                    <input type="text" id="TAActivity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                </div>
+                                <div class="col-span-2">
+                                    <label for="TARemarks" class="block mb-2 text-sm font-medium text-gray-900">Remarks</label>
+                                    <textarea rows="4" id="TARemarks" name="TARemarks" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" style="resize: none;" required></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-3 space-x-2 border-t border-gray-200 rounded-b">
+                        <button id="saveTActivity" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">UPDATE</button>
+                        <button id="closeTAb" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script>
         $(document).ready(function(){
             $('#PIQuantity').on('keydown', function(event) {
                 var keyCode = event.which ? event.which : event.keyCode;
                 
-                if ((keyCode < 48 || keyCode > 57) && keyCode !== 8 && keyCode !== 46) {
+                if (
+                    (keyCode >= 48 && keyCode <= 57) ||
+                    (keyCode >= 96 && keyCode <= 105) || 
+                    keyCode === 8 || keyCode === 46
+                ) {
+                } else {
                     event.preventDefault();
                 }
             });
+
             // Change Color
                 // $(".btnBay").each(function() {
                 //     var hddnJONum = $(this).find("#hddnJONum").val();
@@ -2205,19 +2290,21 @@
                     var calendarEl = document.getElementById('calendar');
 
                     var calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGridWeek',
-                            headerToolbar: {
+                        height: 450,
+                        // initialView: 'dayGridWeek',
+                        initialView: 'timeGridWeek',
+                        headerToolbar: {
                             left: '',
                             center: 'title',
                             right: 'today prev,next'
-                            },
+                        },
                         weekends: true,
                         hiddenDays: [0], // hide Sundays
-                        allDaySlot: true,
+                        allDaySlot: false,
                         displayEventTime: false,
                         events: function(info, successCallback) {
                             $.ajax({
-                            url: '{{ route('r-workshop.getEvents') }}',
+                            url: '{{ route('admin-monitoring.getEvents') }}',
                             type: 'GET',
                             data: { bay: bay, _token: _token,},
                             success: function(response) {
@@ -2227,26 +2314,44 @@
                                 console.log(xhr.responseText);
                             }
                             });
+                        },
+                        eventClick: function(info) {
+                            var today = new Date();
+                            var eventDate = new Date(info.event.start);
+                            
+                            if (eventDate.toDateString() <= today.toDateString()) {
+                                var eventId = info.event.id;
+                                var baynum = info.event.extendedProps.baynum;
+                                var technician = info.event.extendedProps.technician;
+                                var scheddate = info.event.extendedProps.scheddate;
+                                var stime = info.event.extendedProps.stime;
+                                var etime = info.event.extendedProps.etime;
+                                var sow = info.event.extendedProps.sow;
+                                var activity = info.event.extendedProps.activity;
+                                var status = info.event.extendedProps.status;
+                                var remarks = info.event.extendedProps.remarks;
+
+                                $('#modalTechAct').removeClass('hidden');
+                                $('#TAID').val(eventId);
+                                $('#TABayNum').val(baynum);
+                                $('#TATechnician').val(technician);
+                                $('#TASchedDate').val(scheddate);
+                                $('#TASTime').val(stime);
+                                $('#TAETime').val(etime);
+                                $('#TASoW').val(sow);
+                                $('#TAActivity').val(activity);
+                                $('#TAStatus').val(status);
+                                $('#TARemarks').val(remarks);
+                            }
                         }
                     });
-                    // });
-
-                        // // Fetch events data using AJAX
-                        // $.ajax({
-                        //     url: '{{ route('r-workshop.getEvents') }}',
-                        //     type: 'GET',
-                        //     data: { bay: bay, _token: _token,},
-                        //     success: function(response) {
-                        //         // Add events to the calendar
-                        //         calendar.addEventSource(response);
-                        //     },
-                        //     error: function(xhr) {
-                        //         // Handle error
-                        //         console.log(xhr.responseText);
-                        //     }
-                    // });
-
                     calendar.render();
+                });
+
+            // 
+                jQuery(document).on( "click", "#closeTAa, #closeTAb", function(){
+                    $("#modalTechAct").removeClass("flex");
+                    $("#modalTechAct").addClass("hidden");
                 });
 
             // 
@@ -2254,11 +2359,13 @@
                     $("#success-modal").removeClass("flex");
                     $("#success-modal").addClass("hidden");
                 });
+
             // 
                 jQuery(document).on( "click", "#FCloseButton", function(){
                     $("#failed-modal").removeClass("flex");
                     $("#failed-modal").addClass("hidden");
                 });
+
             // 
                 jQuery(document).on( "click", "#modalClosePart", function(){
                     $("#modalDeleteParts").removeClass("flex");
@@ -2287,7 +2394,7 @@
                     $('#DTTable').html('No Result Found!');
 
                     $.ajax({
-                        url: "{{ route('r-workshop.getBayData') }}",
+                        url: "{{ route('admin-monitoring.getBayData') }}",
                         type: "GET",
                         dataType: "json",
                         data: {bay:bay, output: output, _token: _token,},
@@ -2324,7 +2431,7 @@
                                         }
                                 $('#BTargetDays').val(sdays);
                                     // For Running Days
-                                        var startDate = new Date(result.WSAAIDS);
+                                        var startDate = new Date(result.TransferDate);
                                         var today = new Date();
                                         var todayDate = today; 
                                         var rdays = 0;
@@ -2590,12 +2697,10 @@
                         $('#UnitActivityStatus').val(result.UnitActivityStatus);
                         $('#UnitInfoRemarks').val(result.UnitInfoRemarks);
                         $('#UnitInfoSoW').val(result.MonSoW);
-                        $('#WSRemarks').val(result.WSRemarks);
 
                         }
                     });
                 });
-                
                 
             // Get Total Date for PLAN
                 $('.datepicker-picker').on("click", function() {
@@ -2615,17 +2720,20 @@
 
             // Save Other Data of Unit
                 jQuery(document).on( "click", "#saveBayMon", function(){
+                    $(this).prop("disabled", true);
                     $.ajax({
-                        url: "{{ route('r-workshop.saveBayData') }}",
+                        url: "{{ route('admin-monitoring.saveBayData') }}",
                         type: "POST",
                         dataType: "JSON",
                         data: $("#FormMonitoring").serialize(),
                         success: function(result) {
+                            $('#saveBayMon').prop("disabled", false);
                             $('#divTotalCap').html(result.TotalCap);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $('#saveBayMon').prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -2684,6 +2792,7 @@
 
             // Save Dates on Target
                 jQuery(document).on( "click", "#TUpdate", function(){
+                    $(this).prop("disabled", true);
                     var TIStart = $("#TInspectDStart").val();
                     var TIEnd = $("#TInspectDEnd").val();
                     var TRStart = $("#TRepairDStart").val();
@@ -2692,10 +2801,11 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.saveTargetActivity') }}",
+                        url:"{{ route('admin-monitoring.saveTargetActivity') }}",
                         method: "POST",
                         data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, _token: _token,},
                         success: function(result) {
+                            $("#TUpdate").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                             
@@ -2752,12 +2862,91 @@
                                     }
                         },
                         error: function(error){
+                            $("#TUpdate").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
                     });
                 });
             
+            // Save Date of Inspection Start
+                jQuery(document).on( "click", "#TUpdate", function(){
+                    $(this).prop("disabled", true);
+                    var TIStart = $("#TInspectDStart").val();
+                    var TIEnd = $("#TInspectDEnd").val();
+                    var TRStart = $("#TRepairDStart").val();
+                    var TREnd = $("#TRepairDEnd").val();
+                    var JONum = $('#UnitInfoJON').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url:"{{ route('admin-monitoring.saveTargetActivity') }}",
+                        method: "POST",
+                        data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, _token: _token,},
+                        success: function(result) {
+                            $("#TUpdate").prop("disabled", false);
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                            
+                                // Create the Chart for PlanvActualChart
+                                    var planTotalDays = $("#TTotalDays").val();
+                                    var actualTotalDays = $("#ATotalDays").val();
+                                    var ctx = document.getElementById("PlanvActualChart").getContext("2d");
+                                    var PlanvActualChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ["Target Total Days", "Actual Total Days"],
+                                            datasets: [{
+                                                data: [planTotalDays, actualTotalDays],
+                                                backgroundColor: [
+                                                'rgba(255, 99, 132, 5)',
+                                                'rgba(54, 162, 235, 5)',
+                                                ],
+                                                borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            legend: {
+                                                display: false
+                                            },
+                                            scales: {
+                                                yAxes: [{
+                                                    ticks: {
+                                                        beginAtZero: true
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+
+                                    if ($('#TTotalDays').val() != 0 && $('#ATotalDays').val() != 0){
+                                        var percent1 = ((planTotalDays/actualTotalDays) * 100);
+                                        var percent2 = ((actualTotalDays/planTotalDays) * 100);
+
+                                        $('#WERPercentage').val(percent1.toFixed(2)+'%');
+                                        $('#TDPPercentage').val(percent2.toFixed(2)+'%');
+                                    }else if($('#TTotalDays').val() != 0 && $('#ATotalDays').val() == 0){
+                                        $('#WERPercentage').val(100+'%');
+                                        $('#TDPPercentage').val(0+'%');
+                                    }else if($('#TTotalDays').val() == 0 && $('#ATotalDays').val() != 0){
+                                        $('#WERPercentage').val(0+'%');
+                                        $('#TDPPercentage').val(100+'%');
+                                    }else{
+                                        $('#WERPercentage').val(0+'%');
+                                        $('#TDPPercentage').val(0+'%');
+                                    }
+                        },
+                        error: function(error){
+                            $("#TUpdate").prop("disabled", false);
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        }
+                    });
+                });
 
             // Save Date of Inspection Start
                 jQuery(document).on( "click", "#updateIDS", function(){
@@ -2766,7 +2955,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.updateIDS') }}",
+                        url:"{{ route('admin-monitoring.updateIDS') }}",
                         method: "POST",
                         data: {AIDStart: AIDStart, JONum: JONum, _token: _token,},
                         success: function(result) {
@@ -2868,7 +3057,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.updateIDE') }}",
+                        url:"{{ route('admin-monitoring.updateIDE') }}",
                         method: "POST",
                         data: {AIDEnd: AIDEnd, JONum: JONum, _token: _token,},
                         success: function(result) {
@@ -2907,7 +3096,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.updateRDS') }}",
+                        url:"{{ route('admin-monitoring.updateRDS') }}",
                         method: "POST",
                         data: {ARDStart: ARDStart, JONum: JONum, _token: _token,},
                         success: function(result) {
@@ -2936,7 +3125,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.updateRDE') }}",
+                        url:"{{ route('admin-monitoring.updateRDE') }}",
                         method: "POST",
                         data: {ARDEnd: ARDEnd, JONum: JONum, _token: _token,},
                         success: function(result) {
@@ -3041,7 +3230,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.resetActual') }}",
+                        url:"{{ route('admin-monitoring.resetActual') }}",
                         method: "POST",
                         data: {JONum: JONum, _token: _token,},
                         success: function(result) {
@@ -3132,6 +3321,7 @@
 
             // Save Downtime
                 jQuery(document).on( "click", "#saveDT", function(){
+                    $(this).prop("disabled", true);
                     var JONum = $('#UnitInfoJON').val();
                     var DTID = $('#DTID').val();
                     var DTSDate = $('#DTSDate').val();
@@ -3154,10 +3344,11 @@
                         var aRDEnd = $('#ActualRDEnd').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.saveDowntime') }}",
+                        url:"{{ route('admin-monitoring.saveDowntime') }}",
                         method: "POST",
                         data: {DTID: DTID, DTSDate: DTSDate, DTEDate: DTEDate, DTReason: DTReason, DTRemarks: DTRemarks, DTTDays: DTTDays, JONum: JONum, _token: _token,},
                         success: function(result) {
+                            $("#saveDT").prop("disabled", false);
                             $('#DTID').val('');
                             $('#DTSDate').val('');
                             $('#DTEDate').val('');
@@ -3207,6 +3398,7 @@
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $("#saveDT").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -3219,7 +3411,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.getDowntime') }}",
+                        url:"{{ route('admin-monitoring.getDowntime') }}",
                         method:"POST",
                         dataType: 'json',
                         data:{DTID: DTID, _token: _token,},
@@ -3242,7 +3434,7 @@
                         var aRDEnd = $('#ActualRDEnd').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.deleteDowntime') }}",
+                        url:"{{ route('admin-monitoring.deleteDowntime') }}",
                         method: "POST",
                         dataType: 'json',
                         data: {JONum: JONum, DTID: DTID, _token: _token,},
@@ -3306,7 +3498,6 @@
                     });
                 });
 
-
             // Clear Downtime
                 jQuery(document).on( "click", "#clearDT", function(){
                     $('#DTID').val('');
@@ -3323,10 +3514,12 @@
                     $('#installPI').hide();
                     $('#PIID').val('');
                     $('#PIMRINum').val('');
+                    $('#PIPartIDx').val('');
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
                     $('#PIPrice').val('');
+                    $('#PITPrice').val('');
                         var currentDate = new Date();
                         var month = currentDate.getMonth() + 1;
                         var day = currentDate.getDate();
@@ -3349,14 +3542,14 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.getPI') }}",
+                        url:"{{ route('admin-monitoring.getPI') }}",
                         method: "POST",
                         dataType: 'json',
                         data: {JONum: JONum, _token: _token,},
                         success: function(result) {
                             $('#PIRemarks').val(result.remarks);
-                            $('#PParts').html(result.result1);
-                            $('#PPartsI').html(result.result2);
+                                $('#PParts').html(result.result1);
+                                $('#PPartsI').html(result.result2);
 
                             var count1 = (result.count1);
                             var count2 = (result.count2);
@@ -3409,8 +3602,9 @@
                     var priceValue = priceInput.val().replace(',', '');
                     var quantity = parseFloat(quantityInput.val()) || 0;
                     var price = parseFloat(priceValue) || 0;
-                    var totalPrice = quantity * price;
-                    totalPriceInput.val(totalPrice.toFixed(2));
+                    var formattedTotalPrice = quantity * price;
+                    var totalPrice = formattedTotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    totalPriceInput.val(totalPrice);
                 }
 
                 quantityInput.on('keyup', updateTotalPrice);
@@ -3418,18 +3612,21 @@
 
             // Save Parts Information
                 jQuery(document).on( "click", "#savePI", function(){
+                    $(this).prop("disabled", true);
                     var JONum = $('#PIJONum').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.savePI') }}",
+                        url:"{{ route('admin-monitoring.savePI') }}",
                         method: "POST",
                         dataType: 'json',
                         data: $('#PartsInfo').serialize(),
                         success: function(result) {
+                            $("#savePI").prop("disabled", false);
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
@@ -3538,6 +3735,7 @@
                             $("#success-modal").addClass("flex");
                         },
                         error: function(error){
+                            $("#savePI").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -3550,7 +3748,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.getPInfo') }}",
+                        url:"{{ route('admin-monitoring.getPInfo') }}",
                         method:"POST",
                         dataType: 'json',
                         data:{PIID: PIID, _token: _token,},
@@ -3558,6 +3756,7 @@
                             $('#installPI').show();
                             $('#PIID').val(result.PIID);
                             $('#PIMRINum').val(result.PIMRINum);
+                            $('#PIPartIDx').val(result.PIPartID);
                             $('#PIPartNum').val(result.PIPartNum);
                             $('#PIDescription').val(result.PIDescription);
                             $('#PIQuantity').val(result.PIQuantity);
@@ -3566,11 +3765,13 @@
                             $('#PIDateRec').val(result.PIDateRec);
                             $('#PIReason').val(result.PIReason);
 
+                            var priceValue = $('#PIPrice').val().replace(',', '');
                             var quantity = parseFloat(result.PIQuantity) || 0;
-                            var price = parseFloat(result.PIPrice) || 0;
-                            var totalPrice = quantity * price;
+                            var price = parseFloat(priceValue) || 0;
+                            var formattedTotalPrice = quantity * price;
+                            var totalPrice = formattedTotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-                            $('#PITPrice').val(totalPrice.toFixed(2));
+                            $('#PITPrice').val(totalPrice);
                         }
                     });
                 });
@@ -3580,6 +3781,7 @@
                     $('#installPI').hide();
                     $('#PIID').val('');
                     $('#PIMRINum').val('');
+                    $('#PIPartIDx').val('');
                     $('#PIPartNum').val('');
                     $('#PIDescription').val('');
                     $('#PIQuantity').val('');
@@ -3617,7 +3819,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.deletePI') }}",
+                        url:"{{ route('admin-monitoring.deletePI') }}",
                         method:"POST",
                         dataType: 'json',
                         data:{PIID: PIID, JONum: JONum, _token: _token,},
@@ -3625,12 +3827,12 @@
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
                             $('#PIPrice').val('');
                             $('#PITPrice').val('');
-                            $('#PIQuantity').val('');
                                 var currentDate = new Date();
                                 var month = currentDate.getMonth() + 1;
                                 var day = currentDate.getDate();
@@ -3742,18 +3944,22 @@
                 jQuery(document).on( "click", "#saveInstall", function(){
                     var PIID = $('#PIID').val();
                     var JONum = $('#PIJONum').val();
+                    var PartNum = $('#PIPartNum').val();
+                    var Description = $('#PIDescription').val();
+                    var Price = $('#PIPrice').val();
                     var PIDateInstalled = $('#PIDateInstalled').val();
                     var _token = $('input[name="_token"]').val();
                     
                     $.ajax({
-                        url:"{{ route('r-workshop.installPI') }}",
+                        url:"{{ route('admin-monitoring.installPI') }}",
                         method:"POST",
                         dataType: 'json',
-                        data:{PIID: PIID, JONum: JONum, PIDateInstalled: PIDateInstalled, _token: _token,},
+                        data:{PIID: PIID, JONum: JONum, PartNum: PartNum, Description: Description, Price: Price, PIDateInstalled: PIDateInstalled, _token: _token,},
                         success:function(result){
                             $('#installPI').hide();
                             $('#PIID').val('');
                             $('#PIMRINum').val('');
+                            $('#PIPartIDx').val('');
                             $('#PIPartNum').val('');
                             $('#PIDescription').val('');
                             $('#PIQuantity').val('');
@@ -3883,7 +4089,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.revertParts') }}",
+                        url:"{{ route('admin-monitoring.revertParts') }}",
                         method:"POST",
                         dataType: 'json',
                         data:{id: id, JONum: JONum, _token: _token,},
@@ -3986,7 +4192,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.deleteIParts') }}",
+                        url:"{{ route('admin-monitoring.deleteIParts') }}",
                         method:"POST",
                         dataType: 'json',
                         data:{id: id, JONum: JONum, _token: _token,},
@@ -4086,7 +4292,6 @@
                     });
                 });
 
-
             // View Technician Schedule
                 jQuery(document).on( "click", "#viewSchedule", function(){
                     var bay = $('#UnitBayNum').val();
@@ -4095,7 +4300,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.viewSchedule') }}",
+                        url: "{{ route('admin-monitoring.viewSchedule') }}",
                         type: "POST",
                         dataType: "JSON",
                         data: {bay: bay, TechSDate: TechSDate, TechEDate: TechEDate, _token: _token,},
@@ -4105,8 +4310,96 @@
                     });
                 });
 
+            // Update Technician Schedule
+                jQuery(document).on( "click", "#saveTActivity", function(){
+                    $(this).prop("disabled", true);
+                    $.ajax({
+                        url:"{{ route('admin-monitoring.saveTActivity') }}",
+                        method: "POST",
+                        data: $('#formActivityInfo').serialize(),
+                        success: function(result) {
+                            $("#saveTActivity").prop("disabled", false);
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                            $("#modalTechAct").addClass("hidden");
+
+                            var bay = $('#TABayNum').val();
+                            var _token = $('input[name="_token"]').val();
+
+                            var calendarEl = document.getElementById('calendar');
+
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                height: 450,
+                                // initialView: 'dayGridWeek',
+                                initialView: 'timeGridWeek',
+                                headerToolbar: {
+                                    left: '',
+                                    center: 'title',
+                                    right: 'today prev,next'
+                                },
+                                weekends: true,
+                                hiddenDays: [0], // hide Sundays
+                                allDaySlot: false,
+                                displayEventTime: false,
+                                events: function(info, successCallback) {
+                                    $.ajax({
+                                    url: '{{ route('bt-workshop.getEvents') }}',
+                                    type: 'GET',
+                                    data: { bay: bay, _token: _token,},
+                                    success: function(response) {
+                                        successCallback(response);
+                                    },
+                                    error: function(xhr) {
+                                        console.log(xhr.responseText);
+                                    }
+                                    });
+                                },
+                                eventClick: function(info) {
+                                    var today = new Date();
+                                    var eventDate = new Date(info.event.start);
+                                    
+                                    if (eventDate.toDateString() <= today.toDateString()) {
+                                        var eventId = info.event.id;
+                                        var baynum = info.event.extendedProps.baynum;
+                                        var technician = info.event.extendedProps.technician;
+                                        var scheddate = info.event.extendedProps.scheddate;
+                                        var stime = info.event.extendedProps.stime;
+                                        var etime = info.event.extendedProps.etime;
+                                        var sow = info.event.extendedProps.sow;
+                                        var activity = info.event.extendedProps.activity;
+                                        var status = info.event.extendedProps.status;
+                                        var remarks = info.event.extendedProps.remarks;
+
+                                        $('#modalTechAct').removeClass('hidden');
+                                        $('#TAID').val(eventId);
+                                        $('#TABayNum').val(baynum);
+                                        $('#TATechnician').val(technician);
+                                        $('#TASchedDate').val(scheddate);
+                                        $('#TASTime').val(stime);
+                                        $('#TAETime').val(etime);
+                                        $('#TASoW').val(sow);
+                                        $('#TAActivity').val(activity);
+                                        $('#TAStatus').val(status);
+                                        $('#TARemarks').val(remarks);
+                                    }
+                                }
+                            });
+
+                            calendar.render();
+                        },
+                        error: function(error){
+                            $("#saveTActivity").prop("disabled", false);
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                            $("#modalTechAct").addClass("hidden");
+                        }
+                    });
+
+                });
+
             // Save Technician Activity
                 jQuery(document).on( "click", "#saveActivity", function(){
+                    $(this).prop("disabled", true);
                     var bay = $('#UnitBayNum').val();
                     var UnitTSID = $('#UnitTSID').val();
                     var UnitActivityStatus = $('#UnitActivityStatus').val();
@@ -4123,11 +4416,12 @@
                                 d.getFullYear();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.saveActivity') }}",
+                        url: "{{ route('admin-monitoring.saveActivity') }}",
                         type: "POST",
                         dataType: "JSON",
                         data: {bay: bay, UnitTSID: UnitTSID, UnitActivityStatus: UnitActivityStatus, UnitInfoRemarks: UnitInfoRemarks, _token: _token, output: output,},
                         success: function(result) {
+                            $("#saveActivity").prop("disabled", false);
                             $('#UnitTSID').val(result.UnitTSID);
                             $('#UnitInfoAOTD').val(result.Activity);
                             $('#UnitActivityStatus').val(result.UnitActivityStatus);
@@ -4153,7 +4447,7 @@
                                 displayEventTime: false,
                                 events: function(info, successCallback) {
                                     $.ajax({
-                                    url: '{{ route('r-workshop.getEvents') }}',
+                                    url: '{{ route('bt-workshop.getEvents') }}',
                                     type: 'GET',
                                     data: { bay: bay, _token: _token,},
                                     success: function(response) {
@@ -4163,33 +4457,35 @@
                                         console.log(xhr.responseText);
                                     }
                                     });
+                                },
+                                eventClick: function(info) {
+                                    var today = new Date();
+                                    var eventDate = new Date(info.event.start);
+                                    
+                                    if (eventDate.toDateString() <= today.toDateString()) {
+                                        var eventId = info.event.extendedProps.id;
+                                        var technician = info.event.extendedProps.technician;
+                                        var scheddate = info.event.extendedProps.scheddate;
+                                        var sow = info.event.extendedProps.sow;
+                                        var activity = info.event.extendedProps.activity;
+                                        var status = info.event.extendedProps.status;
+                                        var remarks = info.event.extendedProps.remarks;
+                                        $('#modalTechAct').removeClass('hidden');
+                                        $('#TAID').val(eventId);
+                                        $('#TATechnician').val(technician);
+                                        $('#TASchedDate').val(scheddate);
+                                        $('#TASoW').val(sow);
+                                        $('#TAActivity').val(activity);
+                                        $('#TAStatus').val(status);
+                                        $('#TARemarks').val(remarks);
+                                    }
                                 }
                             });
 
                             calendar.render();
                         },
                         error: function(error){
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        }
-                    });
-                });
-
-            // Save Remarks
-                jQuery(document).on( "click", "#updateRemarks", function(){
-                    var WSJONum = $('#UnitInfoJON').val();
-                    var URemarks = $('#PIRemarks').val();
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url: "{{ route('r-workshop.saveRemarks') }}",
-                        type: "POST",
-                        data: {WSJONum: WSJONum, URemarks: URemarks, _token: _token,},
-                        success: function(result) {
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
-                        },
-                        error: function(error){
+                            $("#saveActivity").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -4202,7 +4498,7 @@
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url:"{{ route('r-workshop.report.getBay') }}",
+                        url:"{{ route('admin_monitoring.report.getBay') }}",
                         method:"GET",
                         data:{area: area, _token: _token,},
                         success:function(result){
@@ -4213,13 +4509,13 @@
 
             // Get Data of Transfer Unit
                 jQuery(document).on( "click", "#transferUnit", function(){
-                    var WSJONum = $('#UnitInfoJON').val();UnitBayNum
+                    var WSJONum = $('#UnitInfoJON').val();
                     var WSPOUID = $('#UnitInfoPOUID').val();
                     var UnitBayNum = $('#UnitBayNum').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
-                        url: "{{ route('r-workshop.getTransferData') }}",
+                        url: "{{ route('admin-monitoring.getTransferData') }}",
                         type: "GET",
                         dataType: "JSON",
                         data: {WSJONum: WSJONum, WSPOUID: WSPOUID, UnitBayNum: UnitBayNum, _token: _token,},
@@ -4236,21 +4532,14 @@
 
             // Save Transfer
                 jQuery(document).on( "click", "#saveTransferUnit", function(){
-                    // var WSPOUID = $('#UnitInfoPOUID').val();
-                    // var UnitInfoJON = $('#UnitInfoJON').val();
-                    // var UnitBayNum = $('#UnitBayNum').val();
-                    // var UnitStatus = $('#UnitStatus').val();
-                    // var UnitArea = $('#UnitArea').val();
-                    // var UnitBay = $('#UnitBay').val();
-                    // var UnitRemarks = $('#UnitRemarksT').val();
-                    // var _token = $('input[name="_token"]').val();
-
+                    $(this).prop("disabled", true);
+                    
                     $.ajax({
-                        url: "{{ route('r-workshop.saveTransferUnit') }}",
+                        url: "{{ route('admin-monitoring.saveTransferUnit') }}",
                         type: "POST",
                         data: $('#formPOUT').serialize(),
-                        // data: {WSPOUID: WSPOUID, UnitInfoJON: UnitInfoJON, UnitBayNum:UnitBayNum, UnitStatus: UnitStatus, UnitArea: UnitArea, UnitBay: UnitBay, UnitRemarks: UnitRemarks, _token: _token,},
                         success: function(result) {
+                            $("#saveTransferUnit").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                             $("#closeTransfer").click();
@@ -4258,6 +4547,7 @@
                             location.reload();
                         },
                         error: function(error){
+                            $("#saveTransferUnit").prop("disabled", false);
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                         }
@@ -4277,111 +4567,101 @@
                     }
                 });
 
-            jQuery(document).on( "click", ".inputOption", function(e){
-                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
-                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
-                var value = $(this).val().toLowerCase();
-                searchFilter(value);
-                e.stopPropagation();
-                
-                $('.listOption').addClass('hidden');
-            });
-
-            function searchFilter(searchInput){
-                $(".listOption li").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+            // For Part Searching
+                jQuery(document).on( "click", ".inputOption", function(e){
+                    $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                    $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                    var value = $(this).val().toLowerCase();
+                    searchFilter(value);
+                    e.stopPropagation();
+                    
+                    $('.listOption').addClass('hidden');
                 });
-            }
-            
-            jQuery(document).on( "keyup", ".inputOption", function(e){
-                var value = $(this).val();
-                var length = value.length;
-                var _token = $('input[name="_token"]').val();
 
-                if (value === "") {
-                    $('.listOption').addClass('hidden');
-                    if (ajaxRequest) {
-                    ajaxRequest.abort();
-                    }
-                    return;
+                function searchFilter(searchInput){
+                    $(".listOption li").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1)
+                    });
                 }
 
-                
-                if(length < 3){
-                    $('.listOption').addClass('hidden');
-                    if (ajaxRequest) {
-                    ajaxRequest.abort();
-                    }
-                    return;
-                }
+                jQuery(document).on( "keyup", ".inputOption", function(e){
+                    var value = $(this).val();
+                    var length = value.length;
+                    var _token = $('input[name="_token"]').val();
 
-                if (length = 3){
+                    if (value === "") {
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    
+                    if(length < 3){
+                        $('.listOption').addClass('hidden');
+                        if (ajaxRequest) {
+                        ajaxRequest.abort();
+                        }
+                        return;
+                    }
+
+                    if (length = 3){
+                        $.ajax({
+                            url:"{{ route('admin-monitoring.search') }}",
+                            method:"GET",
+                            dataType: 'json',
+                            data:{
+                                value: value,
+                                _token: _token
+                            },
+                            success:function(result){
+                                $('#PartNo').html(result.partno);
+                                
+                                $('.listOption').removeClass('hidden');
+
+                                
+                                $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
+                                $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
+                                var value = $(this).val().toLowerCase();
+                                searchFilter(value);
+                                e.stopPropagation();
+                            }
+                        });
+                    }else if(length > 3){
+                        searchFilter(length);
+                    }else{
+                        $('.listOption').addClass('hidden');
+                    }
+
+                });
+
+                jQuery(document).on( "click", ".listOption li", function(){
+                    var name = $(this).html();
+                    var partid = $(this).data('id');
+                    var _token = $('input[name="_token"]').val();
+                    $('#PIPartIDx').val(partid);
+
+
                     $.ajax({
-                        url:"{{ route('r-workshop.search') }}",
-                        method:"GET",
+                        url:"{{ route('admin-monitoring.getPartsInfox') }}",
+                        method:"POST",
                         dataType: 'json',
                         data:{
-                            value: value,
+                            id: partid,
                             _token: _token
                         },
                         success:function(result){
-                            $('#PartNo').html(result.partno);
-                            
-                            $('.listOption').removeClass('hidden');
+                            $('#PIPartNum').val(result.partno);
+                            $('#PIDescription').val(result.partname);
+                            $('#PIPrice').val(result.price);
 
-                            
-                            $('.content').not($(this).closest('.optionDiv').find('.listOption')).addClass('hidden');
-                            $(this).closest('.optionDiv').find('.listOption').toggleClass('hidden');
-                            var value = $(this).val().toLowerCase();
-                            searchFilter(value);
-                            e.stopPropagation();
+                            $(".listOption li").closest('.optionDiv').find('input').val(name);
+                            $('.listOption').addClass('hidden');
                         }
-                    });
-                }else if(length > 3){
-                    searchFilter(length);
-                }else{
-                    $('.listOption').addClass('hidden');
-                }
+                    })
 
-            });
-            
-            jQuery(document).on( "click", ".listOption li", function(){
-                var name = $(this).html();
-                var id = $(this).data('id');
-                var _token = $('input[name="_token"]').val();
-
-
-                $.ajax({
-                    url:"{{ route('r-workshop.getPartsInfox') }}",
-                    method:"POST",
-                    dataType: 'json',
-                    data:{
-                        id: id,
-                        _token: _token
-                    },
-                    success:function(result){
-                        $('#PIPartNum').val(result.partno);
-                        $('#PIDescription').val(result.partname);
-                        $('#PIPrice').val(result.price);
-
-                        // $('#inputCP1_name').val(result.cp1_name);
-                        // $('#inputCP1_number').val(result.cp1_number);
-                        // $('#inputCP1_email').val(result.cp1_email);
-
-                        // $('#inputCP2_name').val(result.cp2_name);
-                        // $('#inputCP2_number').val(result.cp2_number);
-                        // $('#inputCP2_email').val(result.cp2_email);
-
-                        // $('#inputCP3_name').val(result.cp3_name);
-                        // $('#inputCP3_number').val(result.cp3_number);
-                        // $('#inputCP3_email').val(result.cp3_email);
-
-                        $(".listOption li").closest('.optionDiv').find('input').val(name);
-                        $('.listOption').addClass('hidden');
-                    }
-                })
-
-            });
+                });
         });
     </script>
 </x-app-layout>

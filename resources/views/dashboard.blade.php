@@ -1,5 +1,10 @@
 @section('title','Workshop Monitoring System')
-<x-app-layout>
+<x-app-layout>                  
+    <style>
+        .disabled {
+            opacity: 0.75;
+        }
+    </style>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -43,6 +48,20 @@
         
                                     $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                                 ?>
+                                
+                                @php
+                                    $isDisabled = (Auth::user()->role === '2') ? !in_array($area->areaid, explode(',', Auth::user()->area)) : false;
+                                @endphp
+
+                                <button
+                                    data-id="{{ $area->id }}"
+                                    data-name="{{ $area->name }}"
+                                    style="z-index: 40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;"
+                                    class="thisArea {{ $isDisabled ? 'disabled' : '' }} font-bold tracking-widest"
+                                    {{ $isDisabled ? 'disabled' : '' }}
+                                >
+                                    {{ $area->name }}
+                                </button>
         
                                 {{-- <button
                                     data-id="{{ $area->id }}"
@@ -61,8 +80,7 @@
                                     {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>
                                     {{ $area->name }}
                                 </button> --}}
-                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-3 font-bold tracking-widest" {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>{{$area->name}}</button>
-                                {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index: 40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'opacity: 0.5;' : '' }}" class="thisArea {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}"></button> --}}
+                                {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-25 font-bold tracking-widest" {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}>{{$area->name}}</button> --}}
                             @endif
                         @endforeach
                     </div>
@@ -85,9 +103,22 @@
         
                                     $rgbaColor = "rgba($red, $green, $blue, $alpha)";
                                 ?>
+                                
+                                @php
+                                    $isDisabled = (Auth::user()->role === '2') ? !in_array($area->areaid, explode(',', Auth::user()->area)) : false;
+                                @endphp
+
+                                <button
+                                    data-id="{{ $area->id }}"
+                                    data-name="{{ $area->name }}"
+                                    style="z-index: 40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;"
+                                    class="thisArea {{ $isDisabled ? 'disabled' : '' }} font-bold tracking-widest"
+                                    {{ $isDisabled ? 'disabled' : '' }}
+                                >
+                                    {{ $area->name }}
+                                </button>
         
-                                <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20" {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button>
-                                {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index: 40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000; {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'opacity: 0.5;' : '' }}" class="thisArea {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}"></button> --}}
+                                {{-- <button data-id="{{ $area->id }}" data-name="{{ $area->name }}" style="z-index:40; width: calc(({{ $area->width_ratio }} * (100vh - 205px))); height: calc(({{ $area->height_ratio }} * (100vh - 205px))); position: absolute; top: calc(((100vh - 205px) * ({{ $area->top }} / 100)) + 160px); left: calc((100vw / 2) - ((100vh - 205px) * {{ $area->left_ratio }})); background-color: {{ $rgbaColor }}; border: 2px solid #000000;" class="thisArea disabled:opacity-20" {{ (Auth::user()->role === '2') ? (in_array($area->areaid, explode(',', Auth::user()->area))) ? '' : 'disabled' : '' }}></button> --}}
                             @endif
                         @endforeach
                     </div>

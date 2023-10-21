@@ -77,25 +77,37 @@ class BTReportController extends Controller
     
     public function getEvents(Request $request){
         $events = DB::table('technician_schedules')
-                    ->select('activity', 'scheddate','status')
+                    ->select('technician_schedules.id as TID','baynum','name','scopeofwork','activity', 'scheddate','time_start','time_end','technician_schedules.status as TStatus','remarks')
+                    ->leftJoin('wms_technicians','wms_technicians.id','techid')
                     ->where('baynum', '=', $request->bay)
                     ->get();
         
         $formattedEvents = [];
 
         foreach ($events as $event) {
-            if($event->status == 1){
+            if($event->TStatus == 1){
                 $ecolor = "#FF0000";
-            }else if($event->status == 2){
+            }else if($event->TStatus == 2){
                 $ecolor = "#0000FF";
             }else{
                 $ecolor = "#008000";
             }
 
             $formattedEvents[] = [
+                'id' => $event->TID,
+                'baynum' => $event->baynum,
+                'technician' =>$event->name,
+                'scheddate' => $event->scheddate,
+                'stime' => $event->time_start,
+                'etime' => $event->time_end,
+                'sow' => $event->scopeofwork,
+                'activity' => $event->activity,
+                'status' => $event->TStatus,
+                'remarks' => $event->remarks,
+
                 'title' => $event->activity,
-                'start' => \Carbon\Carbon::parse($event->scheddate)->toIso8601String(),
-                'end' => \Carbon\Carbon::parse($event->scheddate)->toIso8601String(),
+                'start' => \Carbon\Carbon::parse($event->scheddate . ' ' . $event->time_start)->toIso8601String(),
+                'end' => \Carbon\Carbon::parse($event->scheddate . ' ' . $event->time_end)->toIso8601String(),
                 'color' => $ecolor,
             ];
         }
@@ -1640,7 +1652,6 @@ class BTReportController extends Controller
     }
 
     public function viewSchedule(Request $request){
-        $bay = $request->bay;
         $TechSDate = $request->TechSDate;
         $TechEDate = $request->TechEDate;
 
@@ -1655,6 +1666,8 @@ class BTReportController extends Controller
             foreach ($TechSchedule as $TS) {
                 if($TS->TSStatus == 1){
                     $TStatus = 'PENDING';
+                }else if($TS->TSStatus == 2){
+                    $TStatus = 'ONGOING';
                 }else{
                     $TStatus = 'DONE';
                 }
@@ -1723,6 +1736,16 @@ class BTReportController extends Controller
             );
         }
         return response()->json($result);
+    }
+
+    public function saveTActivity(Request $request){
+        TechnicianSchedule::where('id', $request->TAID)
+        ->update([
+            'time_start' => $request->TASTime,
+            'time_end' => $request->TAETime,
+            'status' => $request->TAStatus,
+            'remarks' => $request->TARemarks,
+        ]);
     }
 
     public function saveRemarks(Request $request){

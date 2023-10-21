@@ -783,7 +783,7 @@
                                                 <div id='calendar-container'>
                                                     <div id='calendar'></div>
                                                 </div>
-                                                <hr class="mt-5 mb-5">
+                                                {{-- <hr class="mt-5 mb-5">
                                                 <div class="grid grid-cols-2">
                                                     <input type="hidden" id="UnitTSID" name="UnitTSID">
                                                     <div class="">
@@ -792,7 +792,6 @@
                                                         </div>
                                                         <div class="ml-5 mr-5 mt-3 justify-self-center">
                                                             <input type="text" name="UnitInfoAOTD" id="UnitInfoAOTD" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg text-sm text-center pointer-events-none font-medium">
-                                                            {{-- <select id="UnitInfoAOTD" name="UnitInfoAOTD" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center"> --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -814,7 +813,7 @@
                                                             <button type="button" id="saveActivity" name="saveActivity" class="text-white bg-blue-600 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full">SAVE</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
 
                                             {{-- PARTS INFO TAB --}}
@@ -1544,6 +1543,88 @@
               </div>
             </div>
         </div>
+    <!-- TECHNICIAN ACTIVITY -->
+        <div id="modalTechAct" class="fixed items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-300 bg-opacity-50">
+            <div class="rounded-lg shadow-lg w-full max-w-2xl mx-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 class="text-xl font-semibold text-gray-900">
+                            Technician Activity
+                        </h3>
+                        <button id="closeTAa" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <form action="" id="formActivityInfo">
+                            @csrf
+                            <div class="grid gap-4 mb-4 md:grid-cols-2">
+                                <input type="hidden" class="" id="TAID" name="TAID">
+                                <input type="hidden" class="" id="TABayNum">
+                                <div>
+                                    <label for="TAStatus" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                    <select id="TAStatus" name="TAStatus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <option value="1">PENDING</option>
+                                        <option value="2">ONGOING</option>
+                                        <option value="3">DONE</option>
+                                    </select>
+                                </div>
+                                <div class=""></div>
+                                <div>
+                                    <label for="TATechnician" class="block mb-2 text-sm font-medium text-gray-900">Technician</label>
+                                    <input type="text" id="TATechnician" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                </div>
+                                <div>
+                                    <label for="TASchedDate" class="block mb-2 text-sm font-medium text-gray-900">Schedule Date</label>
+                                    {{-- <input type="date" id="TASchedDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required> --}}
+                                    <div class="relative max-w-sm">
+                                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                        </div>
+                                        <input type="text" id="TASchedDate" datepicker datepicker-autohide datepicker-format="mm/dd/yyyy" class="bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 pointer-events-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="TASTime" class="block mb-2 text-sm font-medium text-gray-900">Start Time</label>
+                                    <div class="relative max-w-sm">
+                                        <input type="time" id="TASTime" name="TASTime" class="bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="TAETime" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
+                                    <div class="relative max-w-sm">
+                                        <input type="time" id="TAETime" name="TAETime" class="bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="TASoW" class="block mb-2 text-sm font-medium text-gray-900">Scope of Work</label>
+                                    <input type="text" id="TASoW" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                </div>
+                                <div>
+                                    <label for="TAActivity" class="block mb-2 text-sm font-medium text-gray-900">Activity</label>
+                                    <input type="text" id="TAActivity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                </div>
+                                <div class="col-span-2">
+                                    <label for="TARemarks" class="block mb-2 text-sm font-medium text-gray-900">Remarks</label>
+                                    <textarea rows="4" id="TARemarks" name="TARemarks" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" style="resize: none;" required></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-3 space-x-2 border-t border-gray-200 rounded-b">
+                        <button id="saveTActivity" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">UPDATE</button>
+                        <button id="closeTAb" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">CANCEL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script>
         $(document).ready(function(){
@@ -1630,15 +1711,17 @@
                     var calendarEl = document.getElementById('calendar');
 
                     var calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGridWeek',
-                            headerToolbar: {
+                        height: 450,
+                        // initialView: 'dayGridWeek',
+                        initialView: 'timeGridWeek',
+                        headerToolbar: {
                             left: '',
                             center: 'title',
                             right: 'today prev,next'
-                            },
+                        },
                         weekends: true,
                         hiddenDays: [0], // hide Sundays
-                        allDaySlot: true,
+                        allDaySlot: false,
                         displayEventTime: false,
                         events: function(info, successCallback) {
                             $.ajax({
@@ -1652,26 +1735,45 @@
                                 console.log(xhr.responseText);
                             }
                             });
+                        },
+                        eventClick: function(info) {
+                            var today = new Date();
+                            var eventDate = new Date(info.event.start);
+                            
+                            if (eventDate.toDateString() <= today.toDateString()) {
+                                var eventId = info.event.id;
+                                var baynum = info.event.extendedProps.baynum;
+                                var technician = info.event.extendedProps.technician;
+                                var scheddate = info.event.extendedProps.scheddate;
+                                var stime = info.event.extendedProps.stime;
+                                var etime = info.event.extendedProps.etime;
+                                var sow = info.event.extendedProps.sow;
+                                var activity = info.event.extendedProps.activity;
+                                var status = info.event.extendedProps.status;
+                                var remarks = info.event.extendedProps.remarks;
+
+                                $('#modalTechAct').removeClass('hidden');
+                                $('#TAID').val(eventId);
+                                $('#TABayNum').val(baynum);
+                                $('#TATechnician').val(technician);
+                                $('#TASchedDate').val(scheddate);
+                                $('#TASTime').val(stime);
+                                $('#TAETime').val(etime);
+                                $('#TASoW').val(sow);
+                                $('#TAActivity').val(activity);
+                                $('#TAStatus').val(status);
+                                $('#TARemarks').val(remarks);
+                            }
                         }
                     });
-                    // });
-
-                        // // Fetch events data using AJAX
-                        // $.ajax({
-                        //     url: '{{ route('t-workshop.getEvents') }}',
-                        //     type: 'GET',
-                        //     data: { bay: bay, _token: _token,},
-                        //     success: function(response) {
-                        //         // Add events to the calendar
-                        //         calendar.addEventSource(response);
-                        //     },
-                        //     error: function(xhr) {
-                        //         // Handle error
-                        //         console.log(xhr.responseText);
-                        //     }
-                    // });
 
                     calendar.render();
+                });
+
+            // 
+                jQuery(document).on( "click", "#closeTAa, #closeTAb", function(){
+                    $("#modalTechAct").removeClass("flex");
+                    $("#modalTechAct").addClass("hidden");
                 });
 
             // 
@@ -3553,6 +3655,93 @@
                             $('#BTableSchedule').html(result);
                         },
                     });
+                });
+
+            // Update Technician Schedule
+                jQuery(document).on( "click", "#saveTActivity", function(){
+                    $(this).prop("disabled", true);
+                    $.ajax({
+                        url:"{{ route('bt-workshop.saveTActivity') }}",
+                        method: "POST",
+                        data: $('#formActivityInfo').serialize(),
+                        success: function(result) {
+                            $("#saveTActivity").prop("disabled", false);
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                            $("#modalTechAct").addClass("hidden");
+
+                            var bay = $('#TABayNum').val();
+                            var _token = $('input[name="_token"]').val();
+
+                            var calendarEl = document.getElementById('calendar');
+
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                height: 450,
+                                // initialView: 'dayGridWeek',
+                                initialView: 'timeGridWeek',
+                                headerToolbar: {
+                                    left: '',
+                                    center: 'title',
+                                    right: 'today prev,next'
+                                },
+                                weekends: true,
+                                hiddenDays: [0], // hide Sundays
+                                allDaySlot: false,
+                                displayEventTime: false,
+                                events: function(info, successCallback) {
+                                    $.ajax({
+                                    url: '{{ route('t-workshop.getEvents') }}',
+                                    type: 'GET',
+                                    data: { bay: bay, _token: _token,},
+                                    success: function(response) {
+                                        successCallback(response);
+                                    },
+                                    error: function(xhr) {
+                                        console.log(xhr.responseText);
+                                    }
+                                    });
+                                },
+                                eventClick: function(info) {
+                                    var today = new Date();
+                                    var eventDate = new Date(info.event.start);
+                                    
+                                    if (eventDate.toDateString() <= today.toDateString()) {
+                                        var eventId = info.event.id;
+                                        var baynum = info.event.extendedProps.baynum;
+                                        var technician = info.event.extendedProps.technician;
+                                        var scheddate = info.event.extendedProps.scheddate;
+                                        var stime = info.event.extendedProps.stime;
+                                        var etime = info.event.extendedProps.etime;
+                                        var sow = info.event.extendedProps.sow;
+                                        var activity = info.event.extendedProps.activity;
+                                        var status = info.event.extendedProps.status;
+                                        var remarks = info.event.extendedProps.remarks;
+
+                                        $('#modalTechAct').removeClass('hidden');
+                                        $('#TAID').val(eventId);
+                                        $('#TABayNum').val(baynum);
+                                        $('#TATechnician').val(technician);
+                                        $('#TASchedDate').val(scheddate);
+                                        $('#TASTime').val(stime);
+                                        $('#TAETime').val(etime);
+                                        $('#TASoW').val(sow);
+                                        $('#TAActivity').val(activity);
+                                        $('#TAStatus').val(status);
+                                        $('#TARemarks').val(remarks);
+                                    }
+                                }
+                            });
+
+                            calendar.render();
+                        },
+                        error: function(error){
+                            $("#saveTActivity").prop("disabled", false);
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                            $("#modalTechAct").addClass("hidden");
+                        }
+                    });
+
                 });
 
             // Save Technician Activity

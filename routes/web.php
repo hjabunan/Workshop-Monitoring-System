@@ -136,6 +136,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/bt-workshop/viewSchedule', [BTReportController::class, 'viewSchedule'])->name('bt-workshop.viewSchedule');
             Route::POST('/workshop-ms/bt-workshop/saveActivity', [BTReportController::class, 'saveActivity'])->name('bt-workshop.saveActivity');
+            Route::POST('/workshop-ms/bt-workshop/saveTActivity', [BTReportController::class, 'saveTActivity'])->name('bt-workshop.saveTActivity');
 
             Route::GET('/workshop-ms/bt-workshop/report', [BTReportController::class, 'indexR'])->name('bt-workshop.report');
 
@@ -209,6 +210,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/t-workshop/viewSchedule', [TReportController::class, 'viewSchedule'])->name('t-workshop.viewSchedule');
             Route::POST('/workshop-ms/t-workshop/saveActivity', [TReportController::class, 'saveActivity'])->name('t-workshop.saveActivity');
+            Route::POST('/workshop-ms/t-workshop/saveTActivity', [TReportController::class, 'saveTActivity'])->name('t-workshop.saveTActivity');
 
             Route::GET('/workshop-ms/t-workshop/report', [TReportController::class, 'indexR'])->name('t-workshop.report');
 
@@ -281,6 +283,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/r-workshop/viewSchedule', [RReportController::class, 'viewSchedule'])->name('r-workshop.viewSchedule');
             Route::POST('/workshop-ms/r-workshop/saveActivity', [RReportController::class, 'saveActivity'])->name('r-workshop.saveActivity');
+            Route::POST('/workshop-ms/r-workshop/saveTActivity', [RReportController::class, 'saveTActivity'])->name('r-workshop.saveTActivity');
 
             Route::GET('/workshop-ms/r-workshop/report', [RReportController::class, 'indexR'])->name('r-workshop.report');
 
@@ -369,6 +372,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/ppt-workshop/viewSchedule', [PPTReportController::class, 'viewSchedule'])->name('ppt-workshop.viewSchedule');
             Route::POST('/workshop-ms/ppt-workshop/saveActivity', [PPTReportController::class, 'saveActivity'])->name('ppt-workshop.saveActivity');
+            Route::POST('/workshop-ms/ppt-workshop/saveTActivity', [PPTReportController::class, 'saveTActivity'])->name('ppt-workshop.saveTActivity');
 
             Route::GET('/workshop-ms/ppt-workshop/report', [PPTReportController::class, 'indexR'])->name('ppt-workshop.report');
 
@@ -459,7 +463,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/other-workshop/viewSchedule', [OtherReportController::class, 'viewSchedule'])->name('other-workshop.viewSchedule');
             Route::POST('/workshop-ms/other-workshop/saveActivity', [OtherReportController::class, 'saveActivity'])->name('other-workshop.saveActivity');
-    
+            Route::POST('/workshop-ms/other-workshop/saveTActivity', [OtherReportController::class, 'saveTActivity'])->name('other-workshop.saveTActivity');
 
             Route::GET('/workshop-ms/other-workshop/report/getBay', [OtherReportController::class, 'getBay'])->name('other-workshop.report.getBay');
 
@@ -498,6 +502,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Technician Schedule
             Route::POST('/workshop-ms/ovhl-workshop/viewSchedule', [OVHLReportController::class, 'viewSchedule'])->name('ovhl-workshop.viewSchedule');
             Route::POST('/workshop-ms/ovhl-workshop/saveActivity', [OVHLReportController::class, 'saveActivity'])->name('ovhl-workshop.saveActivity');
+            Route::POST('/workshop-ms/ovhl-workshop/saveTActivity', [OVHLReportController::class, 'saveTActivity'])->name('ovhl-workshop.saveTActivity');
     
 
             Route::GET('/workshop-ms/ovhl-workshop/report/getBay', [OVHLReportController::class, 'getBay'])->name('ovhl-workshop.report.getBay');
@@ -507,6 +512,39 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
     // START OF ADMIN MONITORING > TECHNICIAN SCHEDULE
         // Workshop
         Route::GET('/workshop-ms/admin-monitoring', [AdminMonitor::class, 'index'])->name('admin_monitoring.index');
+
+        // Unit Info
+            Route::GET('/workshop-ms/admin-monitoring/getEvents', [AdminMonitor::class, 'getEvents'])->name('admin-monitoring.getEvents');
+            Route::GET('/workshop-ms/admin-monitoring/getBayData', [AdminMonitor::class, 'getBayData'])->name('admin-monitoring.getBayData');
+            Route::POST('/workshop-ms/admin-monitoring/saveBayData', [AdminMonitor::class, 'saveBayData'])->name('admin-monitoring.saveBayData');
+            Route::POST('/workshop-ms/admin-monitoring/saveTargetActivity', [AdminMonitor::class, 'saveTargetActivity'])->name('admin-monitoring.saveTargetActivity');
+            Route::POST('/workshop-ms/admin-monitoring/resetActual', [AdminMonitor::class, 'resetActual'])->name('admin-monitoring.resetActual');
+            Route::POST('/workshop-ms/admin-monitoring/updateIDS', [AdminMonitor::class, 'updateIDS'])->name('admin-monitoring.updateIDS');
+            Route::POST('/workshop-ms/admin-monitoring/updateIDE', [AdminMonitor::class, 'updateIDE'])->name('admin-monitoring.updateIDE');
+            Route::POST('/workshop-ms/admin-monitoring/updateRDS', [AdminMonitor::class, 'updateRDS'])->name('admin-monitoring.updateRDS');
+            Route::POST('/workshop-ms/admin-monitoring/updateRDE', [AdminMonitor::class, 'updateRDE'])->name('admin-monitoring.updateRDE');
+            Route::GET('/workshop-ms/admin-monitoring/getTransferData', [AdminMonitor::class, 'getTransferData'])->name('admin-monitoring.getTransferData');
+            Route::POST('/workshop-ms/admin-monitoring/saveTransferUnit', [AdminMonitor::class, 'saveTransferUnit'])->name('admin-monitoring.saveTransferUnit');
+        // Downtime
+            Route::POST('/workshop-ms/admin-monitoring/saveDowntime', [AdminMonitor::class, 'saveDowntime'])->name('admin-monitoring.saveDowntime');
+            Route::POST('/workshop-ms/admin-monitoring/getDowntime', [AdminMonitor::class, 'getDowntime'])->name('admin-monitoring.getDowntime');
+            Route::POST('/workshop-ms/admin-monitoring/deleteDowntime', [AdminMonitor::class, 'deleteDowntime'])->name('admin-monitoring.deleteDowntime');
+        // Parts
+            Route::POST('/workshop-ms/admin-monitoring/getPI', [AdminMonitor::class, 'getPI'])->name('admin-monitoring.getPI');
+            Route::POST('/workshop-ms/admin-monitoring/savePI', [AdminMonitor::class, 'savePI'])->name('admin-monitoring.savePI');
+            Route::POST('/workshop-ms/admin-monitoring/getPInfo', [AdminMonitor::class, 'getPInfo'])->name('admin-monitoring.getPInfo');
+            Route::POST('/workshop-ms/admin-monitoring/deletePI', [AdminMonitor::class, 'deletePI'])->name('admin-monitoring.deletePI');
+            Route::POST('/workshop-ms/admin-monitoring/installPI', [AdminMonitor::class, 'installPI'])->name('admin-monitoring.installPI');
+            Route::POST('/workshop-ms/admin-monitoring/revertParts', [AdminMonitor::class, 'revertParts'])->name('admin-monitoring.revertParts');
+            Route::POST('/workshop-ms/admin-monitoring/deleteIParts', [AdminMonitor::class, 'deleteIParts'])->name('admin-monitoring.deleteIParts');
+            Route::POST('/workshop-ms/admin-monitoring/saveRemarks', [AdminMonitor::class, 'saveRemarks'])->name('admin-monitoring.saveRemarks');
+            Route::GET('/workshop-ms/admin-monitoring/search', [AdminMonitor::class, 'search'])->name('admin-monitoring.search');
+            Route::POST('/workshop-ms/admin-monitoring/getPartsInfox', [AdminMonitor::class, 'getPartsInfox'])->name('admin-monitoring.getPartsInfox');
+
+        // Technician Schedule
+            Route::POST('/workshop-ms/admin-monitoring/viewSchedule', [AdminMonitor::class, 'viewSchedule'])->name('admin-monitoring.viewSchedule');
+            Route::POST('/workshop-ms/admin-monitoring/saveActivity', [AdminMonitor::class, 'saveActivity'])->name('admin-monitoring.saveActivity');
+            Route::POST('/workshop-ms/admin-monitoring/saveTActivity', [AdminMonitor::class, 'saveTActivity'])->name('admin-monitoring.saveTActivity');
 
         // Report
         Route::GET('/workshop-ms/admin_monitoring/report', [AdminMonitor::class, 'indexR'])->name('admin_monitoring.report');
