@@ -179,6 +179,9 @@
                             @if (Auth::check() && Auth::user()->role == 0)
                                 <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButtonc">
                                     <li>
+                                        <a href="" class="block px-4 py-2 hover:bg-gray-100">Activity Logs</a>
+                                    </li>
+                                    <li>
                                         <a href="{{route('user.index')}}" class="block px-4 py-2 hover:bg-gray-100">Users</a>
                                     </li>
                                     <li>
