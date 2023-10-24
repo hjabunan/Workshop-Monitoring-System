@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UnitConfirm extends Model
 {
     use HasFactory;
+
+    protected $table = "unit_confirms";
 }

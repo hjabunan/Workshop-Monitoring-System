@@ -1814,6 +1814,11 @@ class PPTReportController extends Controller
                         ->UPDATE([
                             'WSDelTransfer' => 1,
                         ]);
+    
+            BayArea::WHERE('id',$request->BayID)
+                    ->UPDATE([
+                        'category' => 1
+                    ]);
 
                 $currentDate = Carbon::now();
                 $formattedDate = $currentDate->format('m/d/Y');
@@ -1824,11 +1829,6 @@ class PPTReportController extends Controller
             $DU->DURemarks = strtoupper($request->UnitDelRemarksT);
             $DU->DUDelDate = $request->UnitDelDate;
             $DU->save();
-    
-            BayArea::WHERE('id',$request->BayID)
-                    ->UPDATE([
-                        'category' => 1
-                    ]);
             
         } 
     }
