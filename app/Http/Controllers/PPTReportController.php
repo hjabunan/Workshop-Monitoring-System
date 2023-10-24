@@ -1921,7 +1921,7 @@ class PPTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=1
+                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
                         ');
         }else if($brand == 'BrandToyota'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
