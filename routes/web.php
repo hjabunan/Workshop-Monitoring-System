@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ActivityLogsController;
 use App\Http\Controllers\AdminMonitor;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BayAreaController;
@@ -670,6 +671,10 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
 
 // START OF SYSTEM MANAGEMENT
     //Upper Bracket
+        // Logs
+            Route::get('/system-management/activity-logs', [ActivityLogsController::class, 'index'])->name('activity-logs.index');
+            Route::GET('/system-management/activity-logs/getLogs', [ActivityLogsController::class, 'getLogs'])->name('activity-logs.getLogs');
+
         // User Management
             Route::get('/system-management/user', [UserController::class, 'index'])->name('user.index');
             Route::get('/system-management/user/add', [UserController::class, 'create'])->name('user.create');

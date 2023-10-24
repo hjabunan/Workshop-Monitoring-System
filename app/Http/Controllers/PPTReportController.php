@@ -5270,7 +5270,7 @@ class PPTReportController extends Controller
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
 
         if (count($canunit) > 0){
@@ -5434,7 +5434,7 @@ class PPTReportController extends Controller
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
 
         if (count($canunit) > 0){
@@ -5504,7 +5504,7 @@ class PPTReportController extends Controller
                                 INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
         }else if($id == "CanUnitClosed"){
             $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
@@ -5520,7 +5520,7 @@ class PPTReportController extends Controller
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 1
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
         }else if($id == "CanUnitPending"){
             $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
@@ -5536,7 +5536,7 @@ class PPTReportController extends Controller
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 2
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
         }else if($id == "CanUnitNFR"){
             $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
@@ -5552,7 +5552,7 @@ class PPTReportController extends Controller
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 3
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
         }else{
             $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
@@ -5568,7 +5568,7 @@ class PPTReportController extends Controller
                                 INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
                                 INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
                                 WHERE cannibalized_parts.CanPartStatus = 4
-                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                                ORDER BY CAST(CanPartCUID AS SIGNED), CanPartPartNum ASC
                             ');
         }
 

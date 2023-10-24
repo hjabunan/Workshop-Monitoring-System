@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\BayArea;
 use App\Models\CannibalizedParts;
 use App\Models\CannibalizedUnit;
@@ -17,6 +18,7 @@ use App\Models\UnitPullOutBat;
 use App\Models\UnitWorkshop;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\Csv\Writer;
 
@@ -1958,8 +1960,27 @@ class AdminMonitor extends Controller
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
+                $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->save();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POU->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
             }else{
                 $POU = new UnitPullOut();
                 $POU->isBrandNew = 0;
@@ -2084,8 +2105,27 @@ class AdminMonitor extends Controller
                 $POU->POUStatus = "";
                 $POU->POUTransferArea = "";
                 $POU->POUTransferBay = "";
+                $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->save();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POU->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
 
                 $POUB = new UnitPullOutBat();
                 $POUB->POUID = $POU->id;
@@ -2148,6 +2188,24 @@ class AdminMonitor extends Controller
                 $POUB->POUCAmper = strtoupper($request->POUCAmper);
                 $POUB->POUCVolt = strtoupper($request->POUCVolt);
                 $POUB->POUCInput = strtoupper($request->POUCInput);
+                    $dirtyAttributes = $POUB->getDirty();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POUB->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 $POUB->save();
             }
         }else{
