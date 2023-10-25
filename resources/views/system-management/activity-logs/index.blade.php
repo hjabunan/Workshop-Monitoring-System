@@ -28,6 +28,9 @@
                                             ID
                                         </th>
                                         <th scope="col" class="px-6 py-3">
+                                            Description
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
                                             User
                                         </th>
                                         <th scope="col" class="px-6 py-3">
@@ -43,6 +46,9 @@
                                         <tr class="bg-white border-b hover:bg-gray-50">
                                             <td class="px-2 py-1 text-center">
                                                 {{ $x++ }}
+                                            </td>
+                                            <td class="px-2 py-1 text-center">
+                                                {{$log->description}}
                                             </td>
                                             <td class="px-2 py-1 text-center">
                                                 {{$log->name}}

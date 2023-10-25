@@ -490,30 +490,292 @@ class ActivityLogsController extends Controller
                     $additionalClass = "bg-green-300";
                     if($act->field != 'Is Deleted'){
                         // BEFORE
-                            if($act->field == "Role"){
-                                if($act->before == 0){
-                                    $valueB = "Super Admin";
-                                }else if($act->before == 1){
-                                    $valueB = "Admin";
-                                }else{
-                                    $valueB = "User";
-                                }
-                            }else if($act->field == "Dept"){
-                                $valueB = DB::table('departments')->where('id',$act->before)->first()->name;
-                            }else if($act->field == "IsBrandNew"){
-                                if($act->before == 0){
-                                    $valueB = "No";
-                                }else{
-                                    $valueB = "Yes";
-                                }
-                            }else if($act->field == "POUUnitType"){
-                                    if($act->before == 1){
-                                        $valueB = "DIESEL/GASOLINE/LPG";
+                            // USER
+                                if($act->field == "Role"){
+                                    if($act->before == 0){
+                                        $valueB = "Super Admin";
+                                    }else if($act->before == 1){
+                                        $valueB = "Admin";
                                     }else{
-                                        $valueB = "BATTERY";
+                                        $valueB = "User";
                                     }
-                            }else if($act->field == "POUBrand"){
-                                $valueB = DB::table('brands')->where('id',$act->before)->first()->name;
+                                }else if($act->field == "Dept"){
+                                    $valueB = DB::table('departments')->where('id',$act->before)->first()->name;
+                            // Unit - Pullout
+                                }else if($act->field == "IsBrandNew"){
+                                    if($act->before == 0){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUUnitType"){
+                                        if($act->before == 1){
+                                            $valueB = "DIESEL/GASOLINE/LPG";
+                                        }else{
+                                            $valueB = "BATTERY";
+                                        }
+                                }else if($act->field == "POUBrand"){
+                                    $valueB = DB::table('brands')->where('id',$act->before)->first()->name;
+                                }else if($act->field == "POUClassification"){
+                                    if($act->before == 1){
+                                        $valueB = "CLASS A";
+                                    }else if($act->before == 2){
+                                        $valueB = "CLASS B";
+                                    }else if($act->before == 3){
+                                        $valueB = "CLASS C";
+                                    }else{
+                                        $valueB = "CLASS D";
+                                    }
+                                }else if($act->field == "POUwAttachment"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAttType"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUAttModel"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUAttSerialNum"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUwAccesories"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccISite"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccLiftCam"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccRedLight"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccBlueLight"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccFireExt"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccStLight"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccOthers"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUAccOthersDetail"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUTechnician1"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = DB::table('wms_technicians')->where('id',$act->before)->first()->name;
+                                    }
+                                }else if($act->field == "POUTechnician2"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = DB::table('wms_technicians')->where('id',$act->before)->first()->name;
+                                    }
+                                }else if($act->field == "POUStatus"){
+                                    if($act->before == 1){
+                                        $valueB = "WAITING FOR REPAIR UNIT";
+                                    }else if($act->before == 2){
+                                        $valueB = "UNDER REPAIR UNIT";
+                                    }else if($act->before == 3){
+                                        $valueB = "USED GOOD UNIT";
+                                    }else if($act->before == 4){
+                                        $valueB = "SERVICE UNIT";
+                                    }else if($act->before == 5){
+                                        $valueB = "FOR SCRAP UNIT";
+                                    }else if($act->before == 6){
+                                        $valueB = "FOR SALE UNIT";
+                                    }else if($act->before == 7){
+                                        $valueB = "WAITING PARTS";
+                                    }else if($act->before == 8){
+                                        $valueB = "WAITING BACK ORDER";
+                                    }else if($act->before == 9){
+                                        $valueB = "WAITING SPARE BATT";
+                                    }else if($act->before == 10){
+                                        $valueB = "STOCK UNIT";
+                                    }else if($act->before == 11){
+                                        $valueB = "WAITING FOR MCI";
+                                    }else if($act->before == 12){
+                                        $valueB = "WAITING FOR PDI";
+                                    }else{
+                                        $valueB = "DONE PDI (WFD)";
+                                    }
+                                }else if($act->field == "POUTransferArea"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = DB::table('sections')->where('id',$act->before)->first()->name;
+                                    }
+                                }else if($act->field == "POUTransferBay"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                    }
+                                }else if($act->field == "POUTransferDate"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUTransferRemarks"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUwSpareBat1"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUSB1Brand"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1BatType"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1SerialNum"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1Code"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1Amper"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1Volt"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1CCable"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB1CTable"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUwSpareBat2"){
+                                    if($act->before == 0 || $act->before == null ){
+                                        $valueB = "No";
+                                    }else{
+                                        $valueB = "Yes";
+                                    }
+                                }else if($act->field == "POUSB2Brand"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2BatType"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2SerialNum"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2Code"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2Amper"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2Volt"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2CCable"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
+                                }else if($act->field == "POUSB2CTable"){
+                                    if($act->before == null ){
+                                        $valueB = "-";
+                                    }else{
+                                        $valueB = $act->before;
+                                    }
                             }else{
                                 $valueB = $act->before;
                             }
@@ -543,6 +805,266 @@ class ActivityLogsController extends Controller
                                     }
                             }else if($act->field == "POUBrand"){
                                 $valueA = DB::table('brands')->where('id',$act->after)->first()->name;
+                            }else if($act->field == "POUClassification"){
+                                if($act->after == 1){
+                                    $valueA = "CLASS A";
+                                }else if($act->after == 2){
+                                    $valueA = "CLASS B";
+                                }else if($act->after == 3){
+                                    $valueA = "CLASS C";
+                                }else{
+                                    $valueA = "CLASS D";
+                                }
+                            }else if($act->field == "POUwAttachment"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAttType"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUAttModel"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUAttSerialNum"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUwAccesories"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccISite"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccLiftCam"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccRedLight"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccBlueLight"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccFireExt"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccStLight"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccOthers"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUAccOthersDetail"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUTechnician1"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = DB::table('wms_technicians')->where('id',$act->after)->first()->name;
+                                }
+                            }else if($act->field == "POUTechnician2"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = DB::table('wms_technicians')->where('id',$act->after)->first()->name;
+                                }
+                            }else if($act->field == "POUStatus"){
+                                if($act->after == 1){
+                                    $valueA = "WAITING FOR REPAIR UNIT";
+                                }else if($act->after == 2){
+                                    $valueA = "UNDER REPAIR UNIT";
+                                }else if($act->after == 3){
+                                    $valueA = "USED GOOD UNIT";
+                                }else if($act->after == 4){
+                                    $valueA = "SERVICE UNIT";
+                                }else if($act->after == 5){
+                                    $valueA = "FOR SCRAP UNIT";
+                                }else if($act->after == 6){
+                                    $valueA = "FOR SALE UNIT";
+                                }else if($act->after == 7){
+                                    $valueA = "WAITING PARTS";
+                                }else if($act->after == 8){
+                                    $valueA = "WAITING BACK ORDER";
+                                }else if($act->after == 9){
+                                    $valueA = "WAITING SPARE BATT";
+                                }else if($act->after == 10){
+                                    $valueA = "STOCK UNIT";
+                                }else if($act->after == 11){
+                                    $valueA = "WAITING FOR MCI";
+                                }else if($act->after == 12){
+                                    $valueA = "WAITING FOR PDI";
+                                }else{
+                                    $valueA = "DONE PDI (WFD)";
+                                }
+                            }else if($act->field == "POUTransferArea"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = DB::table('sections')->where('id',$act->after)->first()->name;
+                                }
+                            }else if($act->field == "POUTransferBay"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                }
+                            }else if($act->field == "POUTransferDate"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUTransferRemarks"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUwSpareBat1"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUSB1Brand"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1BatType"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1SerialNum"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1Code"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1Amper"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1Volt"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1CCable"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB1CTable"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUwSpareBat2"){
+                                if($act->after == 0 || $act->after == null ){
+                                    $valueA = "No";
+                                }else{
+                                    $valueA = "Yes";
+                                }
+                            }else if($act->field == "POUSB2Brand"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2BatType"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2SerialNum"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2Code"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2Amper"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2Volt"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2CCable"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
+                            }else if($act->field == "POUSB2CTable"){
+                                if($act->after == null ){
+                                    $valueA = "-";
+                                }else{
+                                    $valueA = $act->after;
+                                }
                             }else{
                                 $valueA = $act->after;
                             }
@@ -593,6 +1115,144 @@ class ActivityLogsController extends Controller
                         $label = "Unit Type";
                     }else if($act->field == 'POUArrivalDate'){
                         $label = "Arrival Date";
+                    }else if($act->field == 'POUBrand'){
+                        $label = "Brand";
+                    }else if($act->field == 'POUClassification'){
+                        $label = "Classification";
+                    }else if($act->field == 'POUModel'){
+                        $label = "Model";
+                    }else if($act->field == 'POUSerialNum'){
+                        $label = "Serial Number";
+                    }else if($act->field == 'POUMastType'){
+                        $label = "Mast Type";
+                    }else if($act->field == 'POUMastHeight'){
+                        $label = "Mast Height";
+                    }else if($act->field == 'POUForkSize'){
+                        $label = "Fork Size";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUAttType'){
+                        $label = "Attachment Type";
+                    }else if($act->field == 'POUAttModel'){
+                        $label = "Attachment Model";
+                    }else if($act->field == 'POUAttSerialNum'){
+                        $label = "Attachment Serial Number";
+                    }else if($act->field == 'POUwAccesories'){
+                        $label = "Unit with Accessories";
+                    }else if($act->field == 'POUAccISite'){
+                        $label = "Unit Accessories - I-Site";
+                    }else if($act->field == 'POUAccLiftCam'){
+                        $label = "Unit Accessories - Lift Cam";
+                    }else if($act->field == 'POUAccRedLight'){
+                        $label = "Unit Accessories - Red Light";
+                    }else if($act->field == 'POUAccBlueLight'){
+                        $label = "Unit Accessories - Blue Light";
+                    }else if($act->field == 'POUAccFireExt'){
+                        $label = "Unit Accessories - Fire Extinguiser";
+                    }else if($act->field == 'POUAccStLight'){
+                        $label = "Unit Accessories - Strobe Light";
+                    }else if($act->field == 'POUAccOthers'){
+                        $label = "Unit Accessories - Others";
+                    }else if($act->field == 'POUAccOthersDetail'){
+                        $label = "Unit Accessories - Others-Detail";
+                    }else if($act->field == 'POUTechnician1'){
+                        $label = "Technician 1";
+                    }else if($act->field == 'POUTechnician2'){
+                        $label = "Technician 2";
+                    }else if($act->field == 'POUSalesman'){
+                        $label = "Salesman";
+                    }else if($act->field == 'POUCustomer'){
+                        $label = "Customer";
+                    }else if($act->field == 'POUCustAddress'){
+                        $label = "Customer Address";
+                    }else if($act->field == 'POURemarks'){
+                        $label = "Remarks";
+                    }else if($act->field == 'POUStatus'){
+                        $label = "Unit Status";
+                    }else if($act->field == 'POUTransferArea'){
+                        $label = "Transfer Area";
+                    }else if($act->field == 'POUTransferBay'){
+                        $label = "Transfer Bay";
+                    }else if($act->field == 'POUTransferDate'){
+                        $label = "Transfer Date";
+                    }else if($act->field == 'POUTransferRemarks'){
+                        $label = "Transfer Remarks";
+                    }else if($act->field == 'POUID'){
+                        $label = "Unit ID";
+                    }else if($act->field == 'POUBABrand'){
+                        $label = "Battery Attached - Brand";
+                    }else if($act->field == 'POUBABatType'){
+                        $label = "Battery Attached - Battery Type";
+                    }else if($act->field == 'POUBASerialNum'){
+                        $label = "Battery Attached - Serial Number";
+                    }else if($act->field == 'POUBACode'){
+                        $label = "Battery Attached - Code";
+                    }else if($act->field == 'POUBAAmper'){
+                        $label = "Battery Attached - Amper";
+                    }else if($act->field == 'POUBAVolt'){
+                        $label = "Battery Attached - Volt";
+                    }else if($act->field == 'POUBACCable'){
+                        $label = "Battery Attached - C Cable";
+                    }else if($act->field == 'POUBACTable'){
+                        $label = "Battery Attached - C Table";
+                    }else if($act->field == 'POUwSpareBat1'){
+                        $label = "Unit with Spare Battery 1";
+                    }else if($act->field == 'POUSB1Brand'){
+                        $label = "Spare Battery 1 - Brand";
+                    }else if($act->field == 'POUSB1BatType'){
+                        $label = "Spare Battery 1 - Battery Type";
+                    }else if($act->field == 'POUSB1SerialNum'){
+                        $label = "Spare Battery 1 - Serial Number";
+                    }else if($act->field == 'POUSB1Code'){
+                        $label = "Spare Battery 1 - Code";
+                    }else if($act->field == 'POUSB1Amper'){
+                        $label = "Spare Battery 1 - Amper";
+                    }else if($act->field == 'POUSB1Volt'){
+                        $label = "Spare Battery 1 - Volt";
+                    }else if($act->field == 'POUSB1CCable'){
+                        $label = "Spare Battery 1 - C Cable";
+                    }else if($act->field == 'POUSB1CTable'){
+                        $label = "Spare Battery 1 - C Table";
+                    }else if($act->field == 'POUwSpareBat2'){
+                        $label = "Unit with Spare Battery 2";
+                    }else if($act->field == 'POUSB2Brand'){
+                        $label = "Spare Battery 2 - Brand";
+                    }else if($act->field == 'POUSB2BatType'){
+                        $label = "Spare Battery 2 - Battery Type";
+                    }else if($act->field == 'POUSB2SerialNum'){
+                        $label = "Spare Battery 2 - Serial Number";
+                    }else if($act->field == 'POUSB2Code'){
+                        $label = "Spare Battery 2 - Code";
+                    }else if($act->field == 'POUSB2Amper'){
+                        $label = "Spare Battery 2 - Amper";
+                    }else if($act->field == 'POUSB2Volt'){
+                        $label = "Spare Battery 2 - Volt";
+                    }else if($act->field == 'POUSB2CCable'){
+                        $label = "Spare Battery 2 - C Cable";
+                    }else if($act->field == 'POUSB2CTable'){
+                        $label = "Spare Battery 2 - C Table";
+                    }else if($act->field == 'POUCBrand'){
+                        $label = "Charger - Brand";
+                    }else if($act->field == 'POUCModel'){
+                        $label = "Charger - Model";
+                    }else if($act->field == 'POUCSerialNum'){
+                        $label = "Charger - Serial Number";
+                    }else if($act->field == 'POUCCode'){
+                        $label = "Charger - Code";
+                    }else if($act->field == 'POUCAmper'){
+                        $label = "Charger - Amper";
+                    }else if($act->field == 'POUCVolt'){
+                        $label = "Charger - Volt";
+                    }else if($act->field == 'POUCInput'){
+                        $label = "Charger - Input";
+                    }else{
+                        $label = $act->field;
                     }
     
                     if($act->action == "ADD"){
@@ -640,12 +1300,150 @@ class ActivityLogsController extends Controller
                 }
 
                 if($x != $activity->count()){
-                    if($act->field == 'Itemno'){
-                        $label = "Item Number";
-                    }else if($act->field == 'Partno'){
-                        $label = "Part Number";
-                    }else if($act->field == 'Partname'){
-                        $label = "Part Name";
+                    if($act->field == 'IsBrandNew'){
+                        $label = "Brand New Unit";
+                    }else if($act->field == 'POUUnitType'){
+                        $label = "Unit Type";
+                    }else if($act->field == 'POUArrivalDate'){
+                        $label = "Arrival Date";
+                    }else if($act->field == 'POUBrand'){
+                        $label = "Brand";
+                    }else if($act->field == 'POUClassification'){
+                        $label = "Classification";
+                    }else if($act->field == 'POUModel'){
+                        $label = "Model";
+                    }else if($act->field == 'POUSerialNum'){
+                        $label = "Serial Number";
+                    }else if($act->field == 'POUMastType'){
+                        $label = "Mast Type";
+                    }else if($act->field == 'POUMastHeight'){
+                        $label = "Mast Height";
+                    }else if($act->field == 'POUForkSize'){
+                        $label = "Fork Size";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUwAttachment'){
+                        $label = "Unit with Attachment";
+                    }else if($act->field == 'POUAttType'){
+                        $label = "Attachment Type";
+                    }else if($act->field == 'POUAttModel'){
+                        $label = "Attachment Model";
+                    }else if($act->field == 'POUAttSerialNum'){
+                        $label = "Attachment Serial Number";
+                    }else if($act->field == 'POUwAccesories'){
+                        $label = "Unit with Accessories";
+                    }else if($act->field == 'POUAccISite'){
+                        $label = "Unit Accessories - I-Site";
+                    }else if($act->field == 'POUAccLiftCam'){
+                        $label = "Unit Accessories - Lift Cam";
+                    }else if($act->field == 'POUAccRedLight'){
+                        $label = "Unit Accessories - Red Light";
+                    }else if($act->field == 'POUAccBlueLight'){
+                        $label = "Unit Accessories - Blue Light";
+                    }else if($act->field == 'POUAccFireExt'){
+                        $label = "Unit Accessories - Fire Extinguiser";
+                    }else if($act->field == 'POUAccStLight'){
+                        $label = "Unit Accessories - Strobe Light";
+                    }else if($act->field == 'POUAccOthers'){
+                        $label = "Unit Accessories - Others";
+                    }else if($act->field == 'POUAccOthersDetail'){
+                        $label = "Unit Accessories - Others-Detail";
+                    }else if($act->field == 'POUTechnician1'){
+                        $label = "Technician 1";
+                    }else if($act->field == 'POUTechnician2'){
+                        $label = "Technician 2";
+                    }else if($act->field == 'POUSalesman'){
+                        $label = "Salesman";
+                    }else if($act->field == 'POUCustomer'){
+                        $label = "Customer";
+                    }else if($act->field == 'POUCustAddress'){
+                        $label = "Customer Address";
+                    }else if($act->field == 'POURemarks'){
+                        $label = "Remarks";
+                    }else if($act->field == 'POUStatus'){
+                        $label = "Unit Status";
+                    }else if($act->field == 'POUTransferArea'){
+                        $label = "Transfer Area";
+                    }else if($act->field == 'POUTransferBay'){
+                        $label = "Transfer Bay";
+                    }else if($act->field == 'POUTransferDate'){
+                        $label = "Transfer Date";
+                    }else if($act->field == 'POUTransferRemarks'){
+                        $label = "Transfer Remarks";
+                    }else if($act->field == 'POUID'){
+                        $label = "Unit ID";
+                    }else if($act->field == 'POUBABrand'){
+                        $label = "Battery Attached - Brand";
+                    }else if($act->field == 'POUBABatType'){
+                        $label = "Battery Attached - Battery Type";
+                    }else if($act->field == 'POUBASerialNum'){
+                        $label = "Battery Attached - Serial Number";
+                    }else if($act->field == 'POUBACode'){
+                        $label = "Battery Attached - Code";
+                    }else if($act->field == 'POUBAAmper'){
+                        $label = "Battery Attached - Amper";
+                    }else if($act->field == 'POUBAVolt'){
+                        $label = "Battery Attached - Volt";
+                    }else if($act->field == 'POUBACCable'){
+                        $label = "Battery Attached - C Cable";
+                    }else if($act->field == 'POUBACTable'){
+                        $label = "Battery Attached - C Table";
+                    }else if($act->field == 'POUwSpareBat1'){
+                        $label = "Unit with Spare Battery 1";
+                    }else if($act->field == 'POUSB1Brand'){
+                        $label = "Spare Battery 1 - Brand";
+                    }else if($act->field == 'POUSB1BatType'){
+                        $label = "Spare Battery 1 - Battery Type";
+                    }else if($act->field == 'POUSB1SerialNum'){
+                        $label = "Spare Battery 1 - Serial Number";
+                    }else if($act->field == 'POUSB1Code'){
+                        $label = "Spare Battery 1 - Code";
+                    }else if($act->field == 'POUSB1Amper'){
+                        $label = "Spare Battery 1 - Amper";
+                    }else if($act->field == 'POUSB1Volt'){
+                        $label = "Spare Battery 1 - Volt";
+                    }else if($act->field == 'POUSB1CCable'){
+                        $label = "Spare Battery 1 - C Cable";
+                    }else if($act->field == 'POUSB1CTable'){
+                        $label = "Spare Battery 1 - C Table";
+                    }else if($act->field == 'POUwSpareBat2'){
+                        $label = "Unit with Spare Battery 2";
+                    }else if($act->field == 'POUSB2Brand'){
+                        $label = "Spare Battery 2 - Brand";
+                    }else if($act->field == 'POUSB2BatType'){
+                        $label = "Spare Battery 2 - Battery Type";
+                    }else if($act->field == 'POUSB2SerialNum'){
+                        $label = "Spare Battery 2 - Serial Number";
+                    }else if($act->field == 'POUSB2Code'){
+                        $label = "Spare Battery 2 - Code";
+                    }else if($act->field == 'POUSB2Amper'){
+                        $label = "Spare Battery 2 - Amper";
+                    }else if($act->field == 'POUSB2Volt'){
+                        $label = "Spare Battery 2 - Volt";
+                    }else if($act->field == 'POUSB2CCable'){
+                        $label = "Spare Battery 2 - C Cable";
+                    }else if($act->field == 'POUSB2CTable'){
+                        $label = "Spare Battery 2 - C Table";
+                    }else if($act->field == 'POUCBrand'){
+                        $label = "Charger - Brand";
+                    }else if($act->field == 'POUCModel'){
+                        $label = "Charger - Model";
+                    }else if($act->field == 'POUCSerialNum'){
+                        $label = "Charger - Serial Number";
+                    }else if($act->field == 'POUCCode'){
+                        $label = "Charger - Code";
+                    }else if($act->field == 'POUCAmper'){
+                        $label = "Charger - Amper";
+                    }else if($act->field == 'POUCVolt'){
+                        $label = "Charger - Volt";
+                    }else if($act->field == 'POUCInput'){
+                        $label = "Charger - Input";
+                    }else{
+                        $label = $act->field;
                     }
     
                     if($act->action == "ADD"){

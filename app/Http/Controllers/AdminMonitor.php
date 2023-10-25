@@ -2329,6 +2329,25 @@ class AdminMonitor extends Controller
                     }
 
                 $POU->POURemarks = strtoupper($request->POURemarks);
+                    $dirtyAttributes = $POU->getDirty();
+            
+                    foreach($dirtyAttributes as $attribute => $newValue){
+                        $oldValue = $POU->getOriginal($attribute);
+            
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+    
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDe;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 $POU->update();
             }else{
                 $POU = UnitPullOut::find($POUIDe);
@@ -2449,7 +2468,26 @@ class AdminMonitor extends Controller
                         $POU->POUCustAddress = "";
                     }
                 $POU->POURemarks = strtoupper($request->POURemarks);
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->update();
+
+                    foreach($dirtyAttributes as $attribute => $newValue){
+                        $oldValue = $POU->getOriginal($attribute);
+            
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDe;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 
                 $POUBData = [
                     'POUBABrand' => strtoupper($request->POUBABrand),
@@ -2509,6 +2547,29 @@ class AdminMonitor extends Controller
                     $POUBData['POUSB2CCable'] = strtoupper($request->POUSB2CCable);
                     $POUBData['POUSB2CTable'] = strtoupper($request->POUSB2CTable);
                 }
+
+                    $POUB = UnitPullOutBat::where('POUID', $POUIDe)->first();
+                    $dirtyAttributesPOUB = array_intersect_key($POUBData, $POUB->getOriginal());
+
+                    foreach ($dirtyAttributesPOUB as $attribute => $newValue) {
+                        $oldValue = $POUB->getOriginal($attribute);
+
+                        if ($oldValue != $newValue) {
+                            $field = ucwords(str_replace('_', ' ', $attribute));
+                    
+                            $newLog = new ActivityLog();
+                            $newLog->table = 'Pullout Table';
+                            $newLog->table_key = $POUIDe;
+                            $newLog->action = 'UPDATE';
+                            $newLog->description = $POU->POUModel; // Make sure this is the correct model name
+                            $newLog->field = $field;
+                            $newLog->before = $oldValue;
+                            $newLog->after = $newValue;
+                            $newLog->user_id = Auth::user()->id;
+                            $newLog->ipaddress = request()->ip();
+                            $newLog->save();
+                        }
+                    }
                 
                 UnitPullOutBat::where('POUID', $POUIDe)->update($POUBData);
             }
