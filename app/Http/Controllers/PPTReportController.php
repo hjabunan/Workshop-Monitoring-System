@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\BayArea;
 use App\Models\CannibalizedParts;
 use App\Models\CannibalizedUnit;
@@ -18,6 +19,7 @@ use App\Models\UnitPullOutBat;
 use App\Models\UnitWorkshop;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\Csv\Writer;
 
@@ -2388,7 +2390,25 @@ class PPTReportController extends Controller
                 $POU->POUTransferBay = "";
                 $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->save();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POU->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
             }else{
                 $POU = new UnitPullOut();
                 $POU->isBrandNew = 0;
@@ -2516,7 +2536,25 @@ class PPTReportController extends Controller
                 $POU->POUTransferBay = "";
                 $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->save();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POU->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
 
                 $POUB = new UnitPullOutBat();
                 $POUB->POUID = $POU->id;
@@ -2579,6 +2617,24 @@ class PPTReportController extends Controller
                 $POUB->POUCAmper = strtoupper($request->POUCAmper);
                 $POUB->POUCVolt = strtoupper($request->POUCVolt);
                 $POUB->POUCInput = strtoupper($request->POUCInput);
+                $dirtyAttributes = $POUB->getDirty();
+    
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POUB->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 $POUB->save();
             }
         }else{
@@ -2702,6 +2758,25 @@ class PPTReportController extends Controller
                     }
 
                 $POU->POURemarks = $request->POURemarks;
+                    $dirtyAttributes = $POU->getDirty();
+            
+                    foreach($dirtyAttributes as $attribute => $newValue){
+                        $oldValue = $POU->getOriginal($attribute);
+            
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDe;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 $POU->update();
             }else{
                 $POU = UnitPullOut::find($POUIDe);
@@ -2822,7 +2897,26 @@ class PPTReportController extends Controller
                         $POU->POUCustAddress = "";
                     }
                 $POU->POURemarks = $request->POURemarks;
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->update();
+
+                    foreach($dirtyAttributes as $attribute => $newValue){
+                        $oldValue = $POU->getOriginal($attribute);
+            
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDe;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POU->POUModel;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 
                 $POUBData = [
                     'POUBABrand' => strtoupper($request->POUBABrand),
@@ -2882,6 +2976,29 @@ class PPTReportController extends Controller
                     $POUBData['POUSB2CCable'] = strtoupper($request->POUSB2CCable);
                     $POUBData['POUSB2CTable'] = strtoupper($request->POUSB2CTable);
                 }
+
+                    $POUB = UnitPullOutBat::where('POUID', $POUIDe)->first();
+                    $dirtyAttributesPOUB = array_intersect_key($POUBData, $POUB->getOriginal());
+
+                    foreach ($dirtyAttributesPOUB as $attribute => $newValue) {
+                        $oldValue = $POUB->getOriginal($attribute);
+
+                        if ($oldValue != $newValue) {
+                            $field = ucwords(str_replace('_', ' ', $attribute));
+                    
+                            $newLog = new ActivityLog();
+                            $newLog->table = 'Pullout Table';
+                            $newLog->table_key = $POUIDe;
+                            $newLog->action = 'UPDATE';
+                            $newLog->description = $POU->POUModel; // Make sure this is the correct model name
+                            $newLog->field = $field;
+                            $newLog->before = $oldValue;
+                            $newLog->after = $newValue;
+                            $newLog->user_id = Auth::user()->id;
+                            $newLog->ipaddress = request()->ip();
+                            $newLog->save();
+                        }
+                    }
                 
                 UnitPullOutBat::where('POUID', $POUIDe)->update($POUBData);
             }
