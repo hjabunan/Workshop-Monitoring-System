@@ -51,7 +51,7 @@ class PPTReportController extends Controller
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                WHERE unit_workshops.WSDelTransfer = 0 AND unit_workshops.WSStatus <= 4
+                                WHERE unit_workshops.WSDelTransfer = 0
                             ');
         
         $scl = DB::TABLE('stagings')->get();
