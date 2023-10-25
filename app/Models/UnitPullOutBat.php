@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UnitPullOutBat extends Model
 {
     use HasFactory;
+
+    protected $table = 'unit_pull_out_bats';
 }

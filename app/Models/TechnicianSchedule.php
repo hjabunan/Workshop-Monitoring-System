@@ -10,4 +10,6 @@ class TechnicianSchedule extends Model
     use HasFactory;
     
     protected $fillable = ['techname','scheddate','baynum','sow','activ','fromDate','toDate'];
+
+    protected $table = 'technician_schedules';
 }

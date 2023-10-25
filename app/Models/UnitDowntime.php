@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UnitDowntime extends Model
 {
     use HasFactory;
+
+    protected $table = 'unit_downtimes';
 }

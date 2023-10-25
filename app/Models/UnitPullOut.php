@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UnitPullOut extends Model
 {
     use HasFactory;
+
+    protected $table = 'unit_pull_outs';
 }
