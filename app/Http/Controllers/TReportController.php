@@ -146,7 +146,7 @@ class TReportController extends Controller
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
                                     LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSStatus<=4 AND WSBayNum = ?',[$bay]
+                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                                 );
         
             $DTtable = '';
@@ -357,7 +357,7 @@ class TReportController extends Controller
                                     INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSStatus<=4 AND WSBayNum = ?',[$bay]
+                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                                 );
 
             if(count($workshop)>0){
