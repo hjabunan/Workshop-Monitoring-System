@@ -89,7 +89,7 @@
                 @if ($tab === "W5A")
                 <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="w5a" role="tabpanel" aria-labelledby="w5a-tab">
                     <div style="height: calc(100vh - 180px);" class="relative">
-                        <img src="{{ asset('images/ws - layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
+                        <img src="{{ asset('images/ws-layout.jpg') }}" class="absolute h-full m-auto left-1/2 -translate-x-1/2" alt="">
                     </div>
                     <div class="">
                         @foreach ($areas as $area)
@@ -123,7 +123,7 @@
                 @elseif ($tab === "W6")
                 <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="w6" role="tabpanel" aria-labelledby="w6-tab">
                     <div style="height: calc(100vh - 180px);" class="relative">
-                        <img src="{{ asset('images/ws - layout1.jpg') }}" class="absolute h-full left-1/2 -translate-x-1/2 z-30" alt="">
+                        <img src="{{ asset('images/ws-layout1.jpg') }}" class="absolute h-full left-1/2 -translate-x-1/2 z-30" alt="">
                     </div>
                     <div class="">
                         @foreach ($areas as $area)
