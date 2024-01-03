@@ -202,6 +202,7 @@
                                 </ul>
                             @endif
                             <div class="py-2">
+                                <a href="{{route('activity-logs.index')}}" class="block px-4 py-2 hover:bg-gray-100">Activity Logs</a>
                                 {{-- <a href="{{route('activity.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled-link">Activity</a> --}}
                                 <a href="{{route('area.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bay/Area</a>
                                 <a href="{{route('category.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Category</a>
@@ -213,7 +214,17 @@
                                 <a href="{{route('technician.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technician</a>
                             </div>
                         </div>
-                    </li>
+                    </li> 
+                @else
+                <li>
+                    <button id="dropdownDividerButtonc" data-dropdown-toggle="dropdownDividerc" class="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto" type="button">System Management <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdownDividerc" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                        <div class="py-2">
+                            <a href="{{route('activity-logs.index')}}" class="block px-4 py-2 hover:bg-gray-100">Activity Logs</a>
+                        </div>
+                    </div>
+                </li> 
                 @endif
 {{-- End System Management --}}
             </ul>
