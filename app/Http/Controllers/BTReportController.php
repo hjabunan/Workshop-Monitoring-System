@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\BayArea;
+use App\Models\CannibalizedParts;
+use App\Models\CannibalizedUnit;
+use App\Models\DRMonitoring;
+use App\Models\DRParts;
 use App\Models\Parts;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitBrandNew;
@@ -16,6 +21,7 @@ use App\Models\UnitPullOutBat;
 use App\Models\UnitWorkshop;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use League\Csv\Writer;
@@ -49,7 +55,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                WHERE unit_workshops.WSDelTransfer=0
+                                WHERE unit_workshops.WSDelTransfer=0 and unit_workshops.is_deleted=0 and unit_pull_outs.is_deleted=0
                             ');
         
         $scl = DB::TABLE('stagings')->get();
@@ -57,29 +63,31 @@ class BTReportController extends Controller
         $reason = DB::TABLE('wms_reasons')->where('reason_status','=','1')->get();
 
 
-        $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());
-        $CUnitTEJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',2)->WHERE('WSStatus','<=',4)->count());
-        $CUnitTICC = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',3)->WHERE('WSStatus','<=',4)->count());
-        $CUnitTEC = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',4)->WHERE('WSStatus','<=',4)->count());
-        $CUnitTRT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',5)->WHERE('WSStatus','<=',4)->count());
-        $CUnitBTRT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',6)->WHERE('WSStatus','<=',4)->count());
-        $CUnitBTS = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',7)->WHERE('WSStatus','<=',4)->count());
-        $CUnitRTR = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',8)->WHERE('WSStatus','<=',4)->count());
-        $CUnitRS = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',9)->WHERE('WSStatus','<=',4)->count());
-        $CUnitST = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',10)->WHERE('WSStatus','<=',4)->count());
-        $CUnitPPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',11)->WHERE('WSStatus','<=',4)->count());
-        $CUnitOPC = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',12)->WHERE('WSStatus','<=',4)->count());
-        $CUnitHPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',13)->WHERE('WSStatus','<=',4)->count());
-        $CUnitTotal = (DB::TABLE('unit_workshops')->WHERE('WSUnitType','!=',"")->WHERE('WSStatus','<=',4)->count());
+        $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitTEJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',2)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitTICC = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',3)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitTEC = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',4)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitTRT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',5)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitBTRT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',6)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitBTS = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',7)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitRTR = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',8)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitRS = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',9)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitST = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',10)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitPPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',11)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitOPC = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',12)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitHPT = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',13)->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
+        $CUnitTotal = (DB::TABLE('unit_workshops')->WHERE('WSUnitType','!=',"")->WHERE('WSStatus','<=',4)->WHERE('is_deleted',0)->count());
         
         return view('workshop-ms.bt-workshop.index',compact('bays', 'baysT', 'sectionT', 'workshop', 'scl', 'reason', 'CUnitTICJ','CUnitTEJ','CUnitTICC','CUnitTEC','CUnitTRT','CUnitBTRT','CUnitBTS','CUnitRTR','CUnitRS','CUnitST','CUnitPPT','CUnitOPC','CUnitHPT','CUnitTotal'));
     }
     
     public function getEvents(Request $request){
         $events = DB::table('technician_schedules')
-                    ->select('technician_schedules.id as TID','baynum','name','scopeofwork','activity', 'scheddate','time_start','time_end','technician_schedules.status as TStatus','remarks')
+                    ->select('technician_schedules.id as TID','JONumber','baynum','name','scopeofwork','activity', 'scheddate','time_start','time_end','technician_schedules.status as TStatus','remarks')
                     ->leftJoin('wms_technicians','wms_technicians.id','techid')
                     ->where('baynum', '=', $request->bay)
+                    ->where('JONumber', '=', $request->JON)
+                    ->where('technician_schedules.is_deleted', '=', 0)
                     ->get();
         
         $formattedEvents = [];
@@ -95,6 +103,7 @@ class BTReportController extends Controller
 
             $formattedEvents[] = [
                 'id' => $event->TID,
+                'jonum' => $event->JONumber,
                 'baynum' => $event->baynum,
                 'technician' =>$event->name,
                 'scheddate' => $event->scheddate,
@@ -120,10 +129,10 @@ class BTReportController extends Controller
         $date = $request->output;
 
         $DT = 0;
-        $WSf = (DB::TABLE('unit_workshops')->WHERE('WSBayNum',$bay)->where('WSDelTransfer', 0)->first());
+        $WSf = (DB::TABLE('unit_workshops')->WHERE('WSBayNum',$bay)->where('WSDelTransfer', 0)->where('is_deleted', 0)->first());
         if($WSf != null){
             $WSIDf =$WSf->id;
-            $DT = (DB::TABLE('unit_downtimes')->WHERE('DTJONum',$WSIDf)->get())->count();
+            $DT = (DB::TABLE('unit_downtimes')->WHERE('DTJONum',$WSIDf)->where('is_deleted', 0)->get())->count();
         }
 
         
@@ -146,7 +155,7 @@ class BTReportController extends Controller
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     INNER JOIN unit_downtimes on unit_workshops.id = unit_downtimes.DTJONum
                                     LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
+                                    WHERE unit_workshops.is_deleted = 0 AND unit_confirms.is_deleted = 0 AND unit_downtimes.is_deleted = 0 AND unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
                                 );
         
             $DTtable = '';
@@ -229,7 +238,7 @@ class BTReportController extends Controller
                     $TechICharge = DB::SELECT('SELECT DISTINCT(techid), wms_technicians.initials as TInitials  
                                                 FROM technician_schedules 
                                                 INNER JOIN wms_technicians on techid=wms_technicians.id 
-                                                WHERE baynum=?',[$request->bay]);
+                                                WHERE technician_schedules.is_deleted=0 AND baynum=? AND JONumber=?',[$request->bay,$WSIDf]);
 
                         if(count($TechICharge)>0){
                             foreach ($TechICharge as $TIC) {
@@ -246,11 +255,12 @@ class BTReportController extends Controller
                     $TechSchedule = DB::TABLE('technician_schedules')->WHERE('baynum','=',$request->bay)
                                                                     ->WHERE('scheddate','=',$date)
                                                                     ->WHERE('status','!=',3)
+                                                                    ->WHERE('is_deleted',0)
                                                                     ->first();
                     
                         if($TechSchedule != null){
-                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=','']])->count();
-                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
+                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
+                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
                             $result = array(
                                             'TransferDate' => $WS->POUTransferDate,
@@ -298,8 +308,8 @@ class BTReportController extends Controller
                                 
                             );
                         }else{
-                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=','']])->count();
-                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
+                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
+                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
                             $result = array(
                                             'TransferDate' => $WS->POUTransferDate,
@@ -360,7 +370,7 @@ class BTReportController extends Controller
                                     INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                     INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                     LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                    WHERE unit_workshops.WSDelTransfer = 0 AND WSBayNum = ?',[$bay]
+                                    WHERE unit_workshops.WSDelTransfer = 0 AND unit_workshops.is_deleted = 0 AND unit_confirms.is_deleted = 0 AND WSBayNum = ?',[$bay]
                                 );
 
             if(count($workshop)>0){
@@ -368,7 +378,7 @@ class BTReportController extends Controller
                     $TechICharge = DB::SELECT('SELECT DISTINCT(techid), wms_technicians.initials as TInitials  
                                                 FROM technician_schedules 
                                                 INNER JOIN wms_technicians on techid=wms_technicians.id 
-                                                WHERE baynum=?',[$request->bay]);
+                                                WHERE technician_schedules.is_deleted=0 AND baynum=? AND JONumber=?',[$request->bay,$WSIDf]);
 
                     $technicians = '';
                         if(count($TechICharge)>0){
@@ -386,11 +396,12 @@ class BTReportController extends Controller
                     $TechSchedule = DB::TABLE('technician_schedules')->WHERE('baynum','=',$bay)
                                                                     ->WHERE('scheddate','=',$date)
                                                                     ->WHERE('status','!=',3)
+                                                                    ->WHERE('is_deleted',0)
                                                                     ->first();
                     
                         if($TechSchedule != null){
-                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=','']])->count();
-                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
+                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
+                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
                             $result = array(
                                             'TransferDate' => $WS->POUTransferDate,
@@ -430,8 +441,8 @@ class BTReportController extends Controller
                                 
                             );
                         }else{
-                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=','']])->count();
-                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=','']])->count();
+                            $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
+                            $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$WS->WSID],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
                             $result = array(
                                             'TransferDate' => $WS->POUTransferDate,
@@ -475,6 +486,8 @@ class BTReportController extends Controller
     }
 
     public function saveBayData(Request $request){
+        $POUB = UnitPullOut::where('id', $request->UnitInfoPOUID)->WHERE('is_deleted',0)->first();
+        $WSB = UnitWorkshop::where('id', $request->UnitInfoJON)->WHERE('is_deleted',0)->latest()->first();
         UnitWorkshop::where('id', $request->UnitInfoJON)
                     ->update([
                         'WSToA' => $request->UnitInfoToA,
@@ -482,6 +495,38 @@ class BTReportController extends Controller
                         'WSUnitType' => $request->UnitInfoUType,
                         'WSRemarks' => $request->WSRemarks,
                     ]);
+
+            $updates = DB::table('unit_workshops')
+            ->where('id', $request->UnitInfoJON)
+            ->WHERE('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+            
+                $oldValue = $WSB->$field;
+            
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+            
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $request->UnitInfoJON;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
 
         $result='';
         $CUnitTICJ = (DB::TABLE('unit_workshops')->WHERE('WSUnitType',1)->WHERE('WSStatus','<=',4)->count());
@@ -622,6 +667,8 @@ class BTReportController extends Controller
     }
 
     public function saveTargetActivity(Request $request){
+        $POUB = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+        $WSB = UnitWorkshop::where('id', $request->JONum)->where('is_deleted',0)->latest()->first();
         UnitWorkshop::where('id', $request->JONum)
                     ->update([
                         'WSATIDS' => $request->TIStart,
@@ -629,50 +676,233 @@ class BTReportController extends Controller
                         'WSATRDS' => $request->TRStart,
                         'WSATRDE' => $request->TREnd,
                     ]);
+
+            $updates = DB::table('unit_workshops')
+            ->where('id', $request->JONum)
+            ->where('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+            
+                $oldValue = $WSB->$field;
+            
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+            
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $request->JONum;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     }
 
     public function updateIDS(Request $request){
+        $POUB = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+        $WSB = UnitWorkshop::where('id', $request->JONum)->where('is_deleted',0)->latest()->first();
         UnitWorkshop::where('id', $request->JONum)
                         ->update([
                             'WSAAIDS' => $request->AIDStart,
-                            // 'WSStatus' => 2,
                         ]);
+
+            $updates = DB::table('unit_workshops')
+            ->where('id', $request->JONum)
+            ->where('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+        
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue = $WSB->$field;
+        
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $request->JONum;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     }
 
     public function updateIDE(Request $request){
+        $POUB = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+        $WSB = UnitWorkshop::where('id', $request->JONum)->where('is_deleted',0)->latest()->first();
         UnitWorkshop::where('id', $request->JONum)
                         ->update([
                             'WSAAIDE' => $request->AIDEnd,
                         ]);
+
+            $updates = DB::table('unit_workshops')
+            ->where('id', $request->JONum)
+            ->where('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+        
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue = $WSB->$field;
+        
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $request->JONum;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     }
 
     public function updateRDS(Request $request){
+        $POUB = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+        $WSB = UnitWorkshop::where('id', $request->JONum)->where('is_deleted',0)->latest()->first();
         UnitWorkshop::where('id', $request->JONum)
                         ->update([
                             'WSAARDS' => $request->ARDStart,
-                            // 'WSStatus' => 3,
                         ]);
+
+            $updates = DB::table('unit_workshops')
+            ->where('id', $request->JONum)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+        
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue = $WSB->$field;
+        
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $request->JONum;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     }
 
     public function updateRDE(Request $request){
+        $POUB = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+        $WSB = UnitWorkshop::where('id', $request->JONum)->where('is_deleted',0)->latest()->first();
         UnitWorkshop::where('id', $request->JONum)
                         ->update([
                             'WSAARDE' => $request->ARDEnd,
-                            // 'WSStatus' => 4,
                         ]);
+
+            $updates = DB::table('unit_workshops')
+            ->where('id', $request->JONum)
+            ->where('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+        
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue = $WSB->$field;
+        
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $request->JONum;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     }
 
     public function resetActual(Request $request){
+        $POUB = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
         $WS = UnitWorkshop::find($request->JONum);
         $WS->WSAAIDS = '';
         $WS->WSAAIDE = '';
         $WS->WSAARDS = '';
         $WS->WSAARDE = '';
-        // $WS->WSStatus = 1;
+            $dirtyAttributes = $WS->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $WS->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Workshop Table';
+                $newLog->table_key = $request->JONum;
+                $newLog->action = 'UPDATE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
         $WS->update();
     }
 
     public function saveDowntime(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         if($request->DTID == ''){
             $downtime = new UnitDowntime();
             $downtime->DTJONum = $request->JONum;
@@ -681,7 +911,25 @@ class BTReportController extends Controller
             $downtime->DTReason = $request->DTReason;
             $downtime->DTRemarks = strtoupper($request->DTRemarks);
             $downtime->DTTDays = $request->DTTDays;
+                $dirtyAttributes = $downtime->getDirty();
             $downtime->save();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $downtime->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Downtime Table';
+                    $newLog->table_key = $downtime->id;
+                    $newLog->action = 'ADD';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
         }else{
             $downtime = UnitDowntime::find($request->DTID);
             $downtime->DTJONum = $request->JONum;
@@ -690,11 +938,29 @@ class BTReportController extends Controller
             $downtime->DTReason = $request->DTReason;
             $downtime->DTRemarks = strtoupper($request->DTRemarks);
             $downtime->DTTDays = $request->DTTDays;
+                $dirtyAttributes = $downtime->getDirty();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $downtime->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Downtime Table';
+                    $newLog->table_key = $request->DTID;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
             $downtime->update();
         }
 
         $result ='';
-        $DTime = DB::SELECT('SELECT * FROM unit_downtimes WHERE DTJONum=?',[$request->JONum]);
+        $DTime = DB::SELECT('SELECT * FROM unit_downtimes WHERE DTJONum=? AND is_deleted=0',[$request->JONum]);
 
         $DTtable = '';
         $totalDTTDays = 0;
@@ -797,7 +1063,7 @@ class BTReportController extends Controller
     }
 
     public function getDowntime(Request $request){
-        $downtime = DB::TABLE('unit_downtimes')->WHERE('id', $request->DTID)->first();
+        $downtime = DB::TABLE('unit_downtimes')->WHERE('id', $request->DTID)->WHERE('is_deleted', 0)->first();
 
         $result = array(
             'DTID' => $downtime->id,
@@ -811,11 +1077,31 @@ class BTReportController extends Controller
     }
 
     public function deleteDowntime(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->first();
         $DT = UnitDowntime::find($request->DTID);
-        $DT->delete();
+        $DT->is_deleted = 1;
+            $dirtyAttributes = $DT->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $DT->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Downtime Table';
+                $newLog->table_key = $request->DTID;
+                $newLog->action = 'DELETE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
+        $DT->update();
 
         $result ='';
-        $DTime = DB::SELECT('SELECT * FROM unit_downtimes WHERE DTJONum=?',[$request->JONum]);
+        $DTime = DB::SELECT('SELECT * FROM unit_downtimes WHERE DTJONum=? AND is_deleted=0',[$request->JONum]);
 
         $DTtable = '';
         $totalDTTDays = 0;
@@ -925,8 +1211,8 @@ class BTReportController extends Controller
         $result = '';
 
         $result1 = '';
-        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled=""',[$request->JONum]);
-        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=','']])->count();
+        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled="" AND is_deleted=?',[$request->JONum,0]);
+        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo1)>0){
             foreach($partinfo1 as $PI1){
@@ -976,8 +1262,8 @@ class BTReportController extends Controller
         }
 
         $result2 = '';
-        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!=""',[$request->JONum]);
-        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=','']])->count();
+        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!="" AND is_deleted=?',[$request->JONum,0]);
+        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo2)>0){
             foreach($partinfo2 as $PI2){
@@ -1032,6 +1318,7 @@ class BTReportController extends Controller
     }
     
     public function savePI(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->PIJONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         if($request ->PIID == null){
             $partinfo = new UnitParts();
             $partinfo->PIJONum = $request->PIJONum;
@@ -1046,7 +1333,25 @@ class BTReportController extends Controller
             $partinfo->PIReason = $request->PIReason;
             $partinfo->PIDateInstalled = '';
             $partinfo->PIRemarks = '';
+                $dirtyAttributes = $partinfo->getDirty();
             $partinfo->save();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $partinfo->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Unit Parts Info Table';
+                    $newLog->table_key = $partinfo->id;
+                    $newLog->action = 'ADD';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
         }else{
             $partinfo = UnitParts::find($request->PIID);
             $partinfo->PIJONum = $request->PIJONum;
@@ -1061,14 +1366,32 @@ class BTReportController extends Controller
             $partinfo->PIReason = $request->PIReason;
             $partinfo->PIDateInstalled = '';
             $partinfo->PIRemarks = '';
+                $dirtyAttributes = $partinfo->getDirty();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $partinfo->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Unit Parts Info Table';
+                    $newLog->table_key = $request->PIID;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
             $partinfo->update();
         }
         
         $result = '';
 
         $result1 = '';
-        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled=""',[$request->PIJONum]);
-        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->PIJONum],['PIDateInstalled','=','']])->count();
+        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled="" AND is_deleted=0',[$request->PIJONum]);
+        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->PIJONum],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo1)>0){
             foreach($partinfo1 as $PI1){
@@ -1118,8 +1441,8 @@ class BTReportController extends Controller
         }
 
         $result2 = '';
-        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!=""',[$request->PIJONum]);
-        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->PIJONum],['PIDateInstalled','!=','']])->count();
+        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!="" AND is_deleted=0',[$request->PIJONum]);
+        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->PIJONum],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo2)>0){
             foreach($partinfo2 as $PI2){
@@ -1166,9 +1489,7 @@ class BTReportController extends Controller
     }
 
     public function getPInfo(Request $request){
-        $pinfo = UnitParts::with('part')->where('id', $request->PIID)->first();
-
-        // $pinfo = DB::TABLE('unit_parts')->WHERE('id', $request->PIID)->first();
+        $pinfo = UnitParts::with('part')->where('id', $request->PIID)->WHERE('is_deleted',0)->first();
 
         $result = '';
 
@@ -1188,14 +1509,34 @@ class BTReportController extends Controller
     }
 
     public function deletePI(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         $partinfo = UnitParts::find($request->PIID);
-        $partinfo->delete();
+        $partinfo->is_deleted = 1;
+            $dirtyAttributes = $partinfo->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $partinfo->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Unit Parts Info Table';
+                $newLog->table_key = $request->PIID;
+                $newLog->action = 'DELETE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
+        $partinfo->update();
         
         $result = '';
 
         $result1 = '';
-        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled=""',[$request->JONum]);
-        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=','']])->count();
+        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled="" AND is_deleted=0',[$request->JONum]);
+        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo1)>0){
             foreach($partinfo1 as $PI1){
@@ -1245,8 +1586,8 @@ class BTReportController extends Controller
         }
 
         $result2 = '';
-        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!=""',[$request->JONum]);
-        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=','']])->count();
+        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!="" AND is_deleted=0',[$request->JONum]);
+        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo2)>0){
             foreach($partinfo2 as $PI2){
@@ -1293,18 +1634,37 @@ class BTReportController extends Controller
     }
 
     public function installPI(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         $partinfo = UnitParts::find($request->PIID);
         $partinfo->PIPartNum = $request->PartNum;
         $partinfo->PIDescription = $request->Description;
         $partinfo->PIPrice = $request->Price;
         $partinfo->PIDateInstalled = $request->PIDateInstalled;
+            $dirtyAttributes = $partinfo->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $partinfo->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Unit Parts Info Table';
+                $newLog->table_key = $request->PIID;
+                $newLog->action = 'UPDATE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
         $partinfo->update();
 
         $result = '';
 
         $result1 = '';
-        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled=""',[$request->JONum]);
-        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=','']])->count();
+        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled="" AND is_deleted=0',[$request->JONum]);
+        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo1)>0){
             foreach($partinfo1 as $PI1){
@@ -1354,8 +1714,8 @@ class BTReportController extends Controller
         }
 
         $result2 = '';
-        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!=""',[$request->JONum]);
-        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=','']])->count();
+        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!="" AND is_deleted=0',[$request->JONum]);
+        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo2)>0){
             foreach($partinfo2 as $PI2){
@@ -1402,14 +1762,34 @@ class BTReportController extends Controller
     }
 
     public function deleteIParts(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         $RevertParts = UnitParts::find($request->id);
-        $RevertParts->delete();
+        $RevertParts->is_deleted = 1;
+            $dirtyAttributes = $RevertParts->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $RevertParts->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Unit Parts Info Table';
+                $newLog->table_key = $request->id;
+                $newLog->action = 'DELETE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
+        $RevertParts->update();
 
         $result = '';
 
         $result1 = '';
-        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled=""',[$request->JONum]);
-        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=','']])->count();
+        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled="" AND is_deleted=0',[$request->JONum]);
+        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo1)>0){
             foreach($partinfo1 as $PI1){
@@ -1459,8 +1839,8 @@ class BTReportController extends Controller
         }
 
         $result2 = '';
-        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!=""',[$request->JONum]);
-        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=','']])->count();
+        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!="" AND is_deleted=0',[$request->JONum]);
+        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo2)>0){
             foreach($partinfo2 as $PI2){
@@ -1507,15 +1887,34 @@ class BTReportController extends Controller
     }
 
     public function revertParts(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         $RevertParts = UnitParts::find($request->id);
         $RevertParts->PIDateInstalled = '';
+            $dirtyAttributes = $RevertParts->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $RevertParts->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Unit Parts Info Table';
+                $newLog->table_key = $request->id;
+                $newLog->action = 'UPDATE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
         $RevertParts->update();
 
         $result = '';
 
         $result1 = '';
-        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled=""',[$request->JONum]);
-        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=','']])->count();
+        $partinfo1 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled="" AND is_deleted=0',[$request->JONum]);
+        $partcount1 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo1)>0){
             foreach($partinfo1 as $PI1){
@@ -1565,8 +1964,8 @@ class BTReportController extends Controller
         }
 
         $result2 = '';
-        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!=""',[$request->JONum]);
-        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=','']])->count();
+        $partinfo2 = DB::SELECT('SELECT * from unit_parts where PIJONum=? and PIDateInstalled!="" AND is_deleted=0',[$request->JONum]);
+        $partcount2 = DB::TABLE('unit_parts')->WHERE([['PIJONum','=',$request->JONum],['PIDateInstalled','!=',''],['is_deleted','=','0']])->count();
 
         if(count($partinfo2)>0){
             foreach($partinfo2 as $PI2){
@@ -1707,17 +2106,53 @@ class BTReportController extends Controller
     public function saveActivity(Request $request){
         $bay = $request->bay;
         $date = $request->output;
+        
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->JONum)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
 
+        $tesc = TechnicianSchedule::where('id', $request->UnitTSID)->latest()->first();
         TechnicianSchedule::where('id', $request->UnitTSID)
         ->update([
             'status' => $request->UnitActivityStatus,
             'remarks' => $request->UnitInfoRemarks,
         ]);
 
+            $updates = DB::table('technician_schedules')
+                        ->where('id', $request->UnitTSID)
+                        ->where('is_deleted', 0)
+                        ->select('*')
+                        ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+        
+            foreach ($updates as $field => $newValue) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue = $tesc->$field;
+        
+                if ($oldValue !== $newValue) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Tech. Schedule Table';
+                    $newLog->table_key = $request->UnitTSID;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
+
         $result = '';
         $TechSchedule = DB::TABLE('technician_schedules')->WHERE('baynum','=',$bay)
                                                         ->WHERE('scheddate','=',$date)
                                                         ->WHERE('status','!=',3)
+                                                        ->WHERE('is_deleted',0)
                                                         ->first();
                                                         
         if ($TechSchedule === null) {
@@ -1739,6 +2174,9 @@ class BTReportController extends Controller
     }
 
     public function saveTActivity(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->TAJONumber)->first();
+        $tesc = TechnicianSchedule::where('id', $request->TAID)->latest()->first();
+
         TechnicianSchedule::where('id', $request->TAID)
         ->update([
             'time_start' => $request->TASTime,
@@ -1746,13 +2184,75 @@ class BTReportController extends Controller
             'status' => $request->TAStatus,
             'remarks' => $request->TARemarks,
         ]);
+        $updates = DB::table('technician_schedules')
+                    ->where('id', $request->TAID)
+                    ->where('is_deleted', 0)
+                    ->select('*')
+                    ->first();
+
+        $excludedFields = ['id', 'created_at', 'updated_at'];
+    
+        foreach ($updates as $field => $newValue) {
+            if (in_array($field, $excludedFields)) {
+                continue;
+            }
+    
+            $oldValue = $tesc->$field;
+    
+            if ($oldValue !== $newValue) {
+                $field = ucwords(str_replace('_', ' ', $field));
+    
+                $newLog = new ActivityLog();
+                $newLog->table = 'Tech. Schedule Table';
+                $newLog->table_key = $request->TAID;
+                $newLog->action = 'UPDATE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress = request()->ip();
+                $newLog->save();
+            }
+        }
     }
 
     public function saveRemarks(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.id', $request->WSJONum)->first();
+        $uparts = UnitParts::where('PIJONum', $request->WSJONum)->latest()->first();
+
         UnitParts::where('PIJONum', $request->WSJONum)
         ->update([
             'PIRemarks' => $request->URemarks,
         ]);
+        
+        $updates = DB::table('unit_parts')
+                    ->where('PIJONum', $request->WSJONum)
+                    ->where('is_deleted', '0')
+                    ->get();
+
+        foreach ($updates as $updatedRecord) {
+            $field = 'PIRemarks';
+
+            $newValue = $updatedRecord->PIRemarks;
+            $oldValue = $uparts->PIRemarks;
+
+            if ($oldValue !== $newValue) {
+                $field = ucwords(str_replace('_', ' ', $field));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Unit Parts Info Table';
+                $newLog->table_key = $updatedRecord->id;
+                $newLog->action = 'UPDATE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress = request()->ip();
+                $newLog->save();
+            }
+        }
     }
 
     public function getTransferData(Request $request){
@@ -1771,6 +2271,7 @@ class BTReportController extends Controller
         }
 
         $result = array(
+            'TransferDate' => $WorkShop->POUTransferDate,
             'TransferStatus' => $WorkShop->POUStatus,
             'TransferArea' => $WorkShop->POUTransferArea,
             'TransferBay' => $bayres,
@@ -1781,7 +2282,9 @@ class BTReportController extends Controller
     }
 
     public function saveTransferUnit(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.WSPOUID', $request->POUIDx)->where('unit_workshops.is_deleted',0)->where('unit_pull_outs.is_deleted',0)->first();
         if($request->input('Radio_Transfer') == 1){
+            $CUnit = UnitConfirm::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
             UnitConfirm::WHERE('POUID', $request->POUIDx)
                         ->UPDATE([
                             'CUTransferStatus' => $request->UnitStatus,
@@ -1789,7 +2292,39 @@ class BTReportController extends Controller
                             'CUTransferBay' => $request->UnitBay,
                             'CUTransferRemarks' => $request->UnitRemarksT,
                         ]);
-     
+                $updates1 = DB::table('unit_confirms')->where('is_deleted',0)
+                ->where('POUID', $request->POUIDx)
+                ->select('*')
+                ->first();
+
+                $excludedFields = ['id', 'created_at', 'updated_at'];
+
+                foreach ($updates1 as $field => $newValue) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+            
+                    $oldValue = $CUnit->$field;
+            
+                    if ($oldValue !== $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+            
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Confirm Table';
+                        $newLog->table_key = $CUnit->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
+        
+            // -----------------------------------------------------------------------------------------------------------------------//
+            $POUnit = UnitPullOut::WHERE('id',$request->POUIDx)->where('is_deleted',0)->latest()->first();
             UnitPullOut::WHERE('id', $request->POUIDx)
                         ->UPDATE([
                             'POUStatus' => $request->UnitStatus,
@@ -1798,6 +2333,34 @@ class BTReportController extends Controller
                             'POUTransferDate' => $request->UnitTransferDate,
                             'POUTransferRemarks' => $request->UnitRemarksT,
                         ]);
+                $updates2 = DB::table('unit_pull_outs')
+                ->where('id', $request->POUIDx)
+                ->select('*')
+                ->first();
+
+                foreach ($updates2 as $field => $newValue1) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+            
+                    $oldValue1 = $POUnit->$field;
+            
+                    if ($oldValue1 !== $newValue1) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+            
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POUnit->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue1;
+                        $newLog->after = $newValue1;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
     
                 if($request->UnitArea == 7){
                     $ToA = "3";
@@ -1808,19 +2371,81 @@ class BTReportController extends Controller
                 }else{
                     $ToA = "2";
                 }
-    
+
+            // -----------------------------------------------------------------------------------------------------------------------//
+            $WS = UnitWorkshop::WHERE('WSPOUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
             UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
                         ->UPDATE([
                             'WSToA' => $ToA,
                             'WSBayNum' => $request->UnitBay,
                             'WSStatus' => $request->UnitStatus,
                         ]);
+                $updates3 = DB::table('unit_workshops')
+                ->where('WSPOUID', $request->POUIDx)
+                ->where('is_deleted', 0)
+                ->select('*')
+                ->first();
+
+                foreach ($updates3 as $field => $newValue2) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+            
+                    $oldValue2 = $WS->$field;
+            
+                    if ($oldValue2 !== $newValue2) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+            
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Workshop Table';
+                        $newLog->table_key = $WS->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue2;
+                        $newLog->after = $newValue2;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
     
+            // -----------------------------------------------------------------------------------------------------------------------//    
+            $TS = TechnicianSchedule::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
             TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
                                 ->UPDATE([
                                     'baynum' => $request->UnitBay,
                                 ]);
-    
+                $updates4 = DB::table('technician_schedules')
+                ->where('POUID', $request->POUIDx)
+                ->where('is_deleted',0)
+                ->select('*')
+                ->first();
+
+                foreach ($updates4 as $field => $newValue3) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+            
+                    $oldValue3 = $TS->$field;
+            
+                    if ($oldValue3 !== $newValue3) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+            
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Tech. Schedule Table';
+                        $newLog->table_key = $TS->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue3;
+                        $newLog->after = $newValue3;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
+            // -----------------------------------------------------------------------------------------------------------------------// 
             BayArea::WHERE('id',$request->BayID)
                     ->UPDATE([
                         'category' => 1
@@ -1831,15 +2456,79 @@ class BTReportController extends Controller
                         'category' => 2
                     ]);
         }else{
+            $CUnit = UnitConfirm::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
             UnitConfirm::WHERE('POUID', $request->POUIDx)
                         ->UPDATE([
                             'CUDelTransfer' => 1,
                         ]);
+                $updates1 = DB::table('unit_confirms')
+                ->where('POUID', $request->POUIDx)
+                ->WHERE('is_deleted',0)
+                ->select('*')
+                ->first();
+
+                $excludedFields = ['id', 'created_at', 'updated_at'];
+
+                foreach ($updates1 as $field => $newValue) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+            
+                    $oldValue = $CUnit->$field;
+            
+                    if ($oldValue !== $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+            
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Confirm Table';
+                        $newLog->table_key = $CUnit->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
     
+            // ---------------------------------------------- //    
+            $WS = UnitWorkshop::WHERE('WSPOUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
             UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)
                         ->UPDATE([
                             'WSDelTransfer' => 1,
                         ]);
+                $updates3 = DB::table('unit_workshops')
+                ->where('WSPOUID', $request->POUIDx)
+                ->where('is_deleted',0)
+                ->select('*')
+                ->first();
+
+                foreach ($updates3 as $field => $newValue2) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+            
+                    $oldValue2 = $WS->$field;
+            
+                    if ($oldValue2 !== $newValue2) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+            
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Workshop Table';
+                        $newLog->table_key = $WS->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue2;
+                        $newLog->after = $newValue2;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
+            // ---------------------------------------------- //
 
                 $currentDate = Carbon::now();
                 $formattedDate = $currentDate->format('m/d/Y');
@@ -1849,7 +2538,25 @@ class BTReportController extends Controller
             $DU->DUTransferDate = $formattedDate;
             $DU->DURemarks = strtoupper($request->UnitDelRemarksT);
             $DU->DUDelDate = $request->UnitDelDate;
+                $dirtyAttributes = $DU->getDirty();
             $DU->save();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $DU->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Delivered Units Table';
+                    $newLog->table_key = $DU->id;
+                    $newLog->action = 'ADD';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
     
             BayArea::WHERE('id',$request->BayID)
                     ->UPDATE([
@@ -1869,16 +2576,16 @@ class BTReportController extends Controller
         $bay = DB::SELECT('SELECT * FROM wms_bay_areas WHERE category="1" and status="1" ORDER BY wms_bay_areas.id');
         $bayR = DB::SELECT('SELECT * FROM wms_bay_areas WHERE status="1" ORDER BY wms_bay_areas.id');
 
-        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2 AND is_PPT=0');
+        $bnunit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=1 AND POUBrand=2 AND is_PPT=0 AND is_deleted=0');
         
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0 AND is_deleted=0');
 
         $cunit = DB::SELECT('SELECT unit_confirms.id, unit_confirms.POUID, unit_confirms.CUTransferDate, unit_confirms.CUTransferRemarks, unit_confirms.CUTransferStatus, unit_confirms.CUTransferArea, unit_confirms.CUTransferBay,
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, 
                             unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
-                            WHERE unit_confirms.CUDelTransfer=0 AND unit_pull_outs.POUBrand = 2 AND is_PPT=0
+                            WHERE unit_confirms.CUDelTransfer=0 AND unit_pull_outs.POUBrand = 2 AND is_PPT=0 and unit_confirms.is_deleted=0 and unit_pull_outs.is_deleted=0
                             ');
 
         $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDelDate,
@@ -1888,7 +2595,7 @@ class BTReportController extends Controller
                             FROM unit_deliveries
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_deliveries.POUID
                             INNER JOIN unit_confirms on unit_deliveries.POUID = unit_confirms.POUID
-                            WHERE unit_pull_outs.POUBrand = 2 AND is_PPT=0
+                            WHERE unit_pull_outs.POUBrand = 2 AND is_PPT=0 and unit_confirms.is_deleted=0 and unit_pull_outs.is_deleted=0
                             ');
 
         $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
@@ -1926,7 +2633,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0
+                                WHERE unit_workshops.isBrandNew=0 AND unit_workshops.WSDelTransfer=0 AND unit_workshops.is_deleted=0 AND unit_pull_outs.is_deleted=0
                         ');
 
         return view('workshop-ms.bt-workshop.report',compact('brand','section','technician','bay','bayR','bnunit','pounit','cunit','dunit','canunit','drmon','workshop'));
@@ -1947,7 +2654,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
+                                WHERE unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0 AND unit_workshops.is_deleted=0 AND unit_pull_outs.is_deleted=0
                         ');
         }else if($brand == 'BrandToyota'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1960,7 +2667,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
+                                WHERE unit_pull_outs.POUBrand = 1 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0 AND unit_workshops.is_deleted=0 AND unit_pull_outs.is_deleted=0
                                 ');
         }else if($brand == 'BrandBT'){
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1973,7 +2680,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
+                                WHERE unit_pull_outs.POUBrand = 2 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0 AND unit_workshops.is_deleted=0 AND unit_pull_outs.is_deleted=0
                         ');
         }else{
             $workshop = DB::SELECT('SELECT unit_workshops.WSPOUID, unit_workshops.WSBayNum, unit_workshops.WSToA, unit_workshops.WSStatus, unit_workshops.WSUnitType,
@@ -1986,7 +2693,7 @@ class BTReportController extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_pull_outs.POUBrand = 3 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0
+                                WHERE unit_pull_outs.POUBrand = 354657 AND unit_workshops.isBrandNew = 0 AND unit_workshops.WSDelTransfer=0 AND is_PPT=0 AND unit_workshops.is_deleted=0 AND unit_pull_outs.is_deleted=0
                         ');
         }
 
@@ -2044,13 +2751,13 @@ class BTReportController extends Controller
 
         $result = '';
         if($UStatus == 'pouRadioPOU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'pouRadioCU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_confirms ON unit_pull_outs.id = unit_confirms.POUID WHERE isBrandNew=0 AND POUBrand=2 AND CUDelTransfer=0 AND is_PPT=0');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_confirms ON unit_pull_outs.id = unit_confirms.POUID WHERE isBrandNew=0 AND POUBrand=2 AND CUDelTransfer=0 AND is_PPT=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'pouRadioDU'){
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_deliveries ON unit_pull_outs.id = unit_deliveries.POUID WHERE isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs INNER JOIN unit_deliveries ON unit_pull_outs.id = unit_deliveries.POUID WHERE isBrandNew=0 AND POUBrand=2 AND is_PPT=0 AND unit_pull_outs.is_deleted=0 AND CUDelTransfer=1');
         }else{
-            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+            $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE isBrandNew=0 AND POUBrand=2 AND is_PPT=0 AND is_deleted=0');
         }
 
         if(count($pounit)>0){
@@ -2396,7 +3103,25 @@ class BTReportController extends Controller
                 $POU->POUTransferBay = "";
                 $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->save();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POU->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
             }else{
                 $POU = new UnitPullOut();
                 $POU->isBrandNew = 0;
@@ -2523,7 +3248,25 @@ class BTReportController extends Controller
                 $POU->POUTransferBay = "";
                 $POU->POUTransferDate = "";
                 $POU->POUTransferRemarks = "";
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->save();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POU->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
 
                 $POUB = new UnitPullOutBat();
                 $POUB->POUID = $POU->id;
@@ -2586,6 +3329,24 @@ class BTReportController extends Controller
                 $POUB->POUCAmper = strtoupper($request->POUCAmper);
                 $POUB->POUCVolt = strtoupper($request->POUCVolt);
                 $POUB->POUCInput = strtoupper($request->POUCInput);
+                    $dirtyAttributes = $POUB->getDirty();
+        
+                    foreach ($dirtyAttributes as $attribute => $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+                        $newValue = $POUB->getAttribute($attribute);
+                        
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $POU->id;
+                        $newLog->action = 'ADD';
+                        $newLog->description = $POU->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = null;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 $POUB->save();
             }
         }else{
@@ -2709,6 +3470,25 @@ class BTReportController extends Controller
                     }
 
                 $POU->POURemarks = $request->POURemarks;
+                    $dirtyAttributes = $POU->getDirty();
+            
+                    foreach($dirtyAttributes as $attribute => $newValue){
+                        $oldValue = $POU->getOriginal($attribute);
+            
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDe;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POU->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 $POU->update();
             }else{
                 $POU = UnitPullOut::find($POUIDe);
@@ -2829,7 +3609,26 @@ class BTReportController extends Controller
                         $POU->POUCustAddress = "";
                     }
                 $POU->POURemarks = $request->POURemarks;
+                    $dirtyAttributes = $POU->getDirty();
                 $POU->update();
+
+                    foreach($dirtyAttributes as $attribute => $newValue){
+                        $oldValue = $POU->getOriginal($attribute);
+            
+                        $field = ucwords(str_replace('_', ' ', $attribute));
+
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDe;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POU->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress =  request()->ip();
+                        $newLog->save();
+                    }
                 
                 $POUBData = [
                     'POUBABrand' => strtoupper($request->POUBABrand),
@@ -2890,12 +3689,34 @@ class BTReportController extends Controller
                     $POUBData['POUSB2CTable'] = strtoupper($request->POUSB2CTable);
                 }
                 
+                    $POUB = UnitPullOutBat::where('POUID', $POUIDe)->where('is_deleted',0)->first();
+                    $dirtyAttributesPOUB = array_intersect_key($POUBData, $POUB->getOriginal());
+
+                    foreach ($dirtyAttributesPOUB as $attribute => $newValue) {
+                        $oldValue = $POUB->getOriginal($attribute);
+
+                        if ($oldValue != $newValue) {
+                            $field = ucwords(str_replace('_', ' ', $attribute));
+                    
+                            $newLog = new ActivityLog();
+                            $newLog->table = 'Pullout Table';
+                            $newLog->table_key = $POUIDe;
+                            $newLog->action = 'UPDATE';
+                            $newLog->description = $POU->POUSerialNum;
+                            $newLog->field = $field;
+                            $newLog->before = $oldValue;
+                            $newLog->after = $newValue;
+                            $newLog->user_id = Auth::user()->id;
+                            $newLog->ipaddress = request()->ip();
+                            $newLog->save();
+                        }
+                    }
                 UnitPullOutBat::where('POUID', $POUIDe)->update($POUBData);
             }
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0 and is_deleted=0');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -2968,7 +3789,8 @@ class BTReportController extends Controller
                                 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 
                                 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthers', 'unit_pull_outs.POUAccOthersDetail', 
                                 'unit_pull_outs.POUTechnician1', 'unit_pull_outs.POUTechnician2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks')
-                        ->WHERE('unit_pull_outs.id', $request->id)
+                                ->WHERE('unit_pull_outs.id', $request->id)
+                                ->WHERE('unit_pull_outs.is_deleted', 0)
                         ->first();
 
                     $result = array(
@@ -3008,6 +3830,7 @@ class BTReportController extends Controller
                                                 ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUwAttachment', 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthers', 'unit_pull_outs.POUAccOthersDetail', 'unit_pull_outs.POUTechnician1', 'unit_pull_outs.POUTechnician2', 'unit_pull_outs.POUSalesman', 'unit_pull_outs.POUCustomer', 'unit_pull_outs.POUCustAddress', 'unit_pull_outs.POURemarks', 'unit_pull_out_bats.id as BatID', 'unit_pull_out_bats.POUID as BatPOUID', 'unit_pull_out_bats.POUBABrand', 'unit_pull_out_bats.POUBABatType', 'unit_pull_out_bats.POUBASerialNum', 'unit_pull_out_bats.POUBACode', 'unit_pull_out_bats.POUBAAmper', 'unit_pull_out_bats.POUBAVolt', 'unit_pull_out_bats.POUBACCable', 'unit_pull_out_bats.POUBACTable', 'unit_pull_out_bats.POUwSpareBat1', 'unit_pull_out_bats.POUSB1Brand', 'unit_pull_out_bats.POUSB1BatType', 'unit_pull_out_bats.POUSB1SerialNum', 'unit_pull_out_bats.POUSB1Code', 'unit_pull_out_bats.POUSB1Amper', 'unit_pull_out_bats.POUSB1Volt', 'unit_pull_out_bats.POUSB1CCable', 'unit_pull_out_bats.POUSB1CTable', 'unit_pull_out_bats.POUwSpareBat2', 'unit_pull_out_bats.POUSB2Brand', 'unit_pull_out_bats.POUSB2BatType', 'unit_pull_out_bats.POUSB2SerialNum', 'unit_pull_out_bats.POUSB2Code', 'unit_pull_out_bats.POUSB2Amper', 'unit_pull_out_bats.POUSB2Volt', 'unit_pull_out_bats.POUSB2CCable', 'unit_pull_out_bats.POUSB2CTable', 'unit_pull_out_bats.POUCBrand', 'unit_pull_out_bats.POUCModel', 'unit_pull_out_bats.POUCSerialNum', 'unit_pull_out_bats.POUCCode', 'unit_pull_out_bats.POUCAmper', 'unit_pull_out_bats.POUCVolt', 'unit_pull_out_bats.POUCInput')
                                                 ->join('unit_pull_out_bats', 'unit_pull_outs.id', '=', 'unit_pull_out_bats.POUID')
                                                 ->WHERE('unit_pull_outs.id', $request->id)
+                                                ->WHERE('unit_pull_outs.is_deleted', 0)
                                                 ->first();
 
                 $result = array(
@@ -3082,16 +3905,56 @@ class BTReportController extends Controller
     public function deletePOU(Request $request){
         if($request->unittype == 1){
             $POU = UnitPullOut::find($request->id);
-            $POU->delete();
+            $POU->is_deleted = 1;
+                $dirtyAttributes = $POU->getDirty();
+                $POUB = UnitPullOut::where('id', $request->id)->first();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $POU->getOriginal($attribute);
+        
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Pullout Table';
+                    $newLog->table_key = $request->id;
+                    $newLog->action = 'DELETE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
+            $POU->update();
         }else{
             $POU = UnitPullOut::find($request->id);
-            $POU->delete();
+            $POU->is_deleted = 1;
+                $dirtyAttributes = $POU->getDirty();
+                $POUB = UnitPullOut::where('id', $request->id)->first();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $POU->getOriginal($attribute);
+        
+                    $field = ucwords(str_replace('_', ' ', $attribute));
 
-            UnitPullOutBat::WHERE('POUID', $request->id)->DELETE();
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Pullout Table';
+                    $newLog->table_key = $request->id;
+                    $newLog->action = 'DELETE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
+            $POU->update();
+
+            // UnitPullOutBat::WHERE('POUID', $request->id)->DELETE();
         }
 
         $result = "";
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0 AND is_deleted=0');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3181,7 +4044,25 @@ class BTReportController extends Controller
         $CU->CUTransferStatus = $request->POUStatus;
         $CU->CUTransferArea	= $request->POUArea;
         $CU->CUTransferBay = $request->POUBay;
+            $dirtyAttributes = $CU->getDirty();
         $CU->save();
+            $POUB = UnitPullOut::where('id', $request->POUIDx)->first();
+            foreach($dirtyAttributes as $attribute => $newValue){
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Confirm Table';
+                $newLog->table_key = $CU->id;
+                $newLog->action = 'ADD';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = null;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
 
         if($request->POUArea == 7){
             $ToA = "3";
@@ -3211,8 +4092,24 @@ class BTReportController extends Controller
         $WS->WSAARDS = "";
         $WS->WSAARDE = "";
         $WS->WSRemarks = "";
-        // $WS->WSStatus = "1";
+            $dirtyAttributes = $WS->getDirty();
         $WS->save();
+            foreach($dirtyAttributes as $attribute => $newValue){
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Workshop Table';
+                $newLog->table_key = $WS->id;
+                $newLog->action = 'ADD';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = null;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
 
         UnitPullOut::WHERE('id', $request->POUIDx)
                     ->UPDATE([
@@ -3223,11 +4120,44 @@ class BTReportController extends Controller
                         'POUTransferRemarks' => strtoupper($request->POURemarksT)
                         ]);
 
+            $updates = DB::table('unit_pull_outs')
+                ->where('id', $request->POUIDx)
+                ->where('is_deleted',0)
+                ->select('*')
+                ->first();
+
+
+                $excludedFields = ['id', 'created_at', 'updated_at'];
+
+                foreach ($updates as $field => $newValue) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+                
+                    $oldValue = $POUB->$field;
+                
+                    if ($oldValue !== $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+                
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->POUIDx;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
+
         BayArea::WHERE('id', $request->POUBay)
                 ->UPDATE(['category' => "2"]);
 
         $result = '';
-        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0');
+        $pounit = DB::SELECT('SELECT * FROM unit_pull_outs WHERE POUStatus="" AND POUTransferArea="" AND POUTransferBay="" AND isBrandNew=0 AND POUBrand=2 AND is_PPT=0 AND is_deleted=0');
 
         if(count($pounit)>0){
             foreach ($pounit as $POU) {
@@ -3293,6 +4223,7 @@ class BTReportController extends Controller
 
     // CONFIRM UNITS
     public function deleteCU(Request $request){
+        $POUB = UnitPullOut::where('id', $request->id)->WHERE('is_deleted',0)->first();
         UnitPullOut::WHERE('id', $request->id)
                     ->UPDATE([
                         'POUStatus' => "",
@@ -3301,20 +4232,107 @@ class BTReportController extends Controller
                         'POUTransferDate' => "",
                         'POUTransferRemarks' => ""
                         ]);
+
+            $updates = DB::table('unit_pull_outs')
+                ->where('id', $request->id)
+                ->select('*')
+                ->first();
+
+                $excludedFields = ['id', 'created_at', 'updated_at'];
+
+                foreach ($updates as $field => $newValue) {
+                    if (in_array($field, $excludedFields)) {
+                        continue;
+                    }
+                
+                    $oldValue = $POUB->$field;
+                
+                    if ($oldValue !== $newValue) {
+                        $field = ucwords(str_replace('_', ' ', $field));
+                
+                        $newLog = new ActivityLog();
+                        $newLog->table = 'Pullout Table';
+                        $newLog->table_key = $request->id;
+                        $newLog->action = 'UPDATE';
+                        $newLog->description = $POUB->POUSerialNum;
+                        $newLog->field = $field;
+                        $newLog->before = $oldValue;
+                        $newLog->after = $newValue;
+                        $newLog->user_id = Auth::user()->id;
+                        $newLog->ipaddress = request()->ip();
+                        $newLog->save();
+                    }
+                }
         
         BayArea::WHERE('id', $request->cubay)
         ->UPDATE(['category' => "1"]);
 
-        DB::TABLE('unit_confirms')->WHERE('POUID', $request->id)->DELETE();
-        DB::TABLE('unit_workshops')->WHERE('WSPOUID', $request->id)->DELETE();
-        DB::TABLE('technician_schedules')->WHERE('POUID', $request->id)->DELETE();
+        // DB::TABLE('unit_confirms')->WHERE('POUID', $request->id)->DELETE();
+        $CUB = UnitConfirm::where('POUID', $request->id)->WHERE('is_deleted',0)->latest()->first();
+        DB::table('unit_confirms')->where('POUID', $request->id)
+            ->update([
+                'is_deleted' => 1,
+            ]);
+
+            $deletedUnitConfirmLog = new ActivityLog();
+            $deletedUnitConfirmLog->table = 'Confirm Table';
+            $deletedUnitConfirmLog->table_key = $CUB->id; // Assuming request->id is the key
+            $deletedUnitConfirmLog->action = 'DELETE';
+            $deletedUnitConfirmLog->description = $POUB->POUSerialNum; // Replace with the appropriate field
+            $deletedUnitConfirmLog->field = 'is_deleted';
+            $deletedUnitConfirmLog->before = 0; // The old value before deletion
+            $deletedUnitConfirmLog->after = 1; // The new value after deletion
+            $deletedUnitConfirmLog->user_id = Auth::user()->id;
+            $deletedUnitConfirmLog->ipaddress = request()->ip();
+            $deletedUnitConfirmLog->save();
+
+        // DB::TABLE('unit_workshops')->WHERE('WSPOUID', $request->id)->DELETE();
+
+        $WSB = UnitWorkshop::where('WSPOUID', $request->id)->WHERE('is_deleted',0)->latest()->first();
+        DB::TABLE('unit_workshops')->WHERE('WSPOUID', $request->id)
+            ->UPDATE([
+                'is_deleted' => 1,
+            ]);
+
+            $deletedUnitConfirmLog = new ActivityLog();
+            $deletedUnitConfirmLog->table = 'Workshop Table';
+            $deletedUnitConfirmLog->table_key = $WSB->id; // Assuming request->id is the key
+            $deletedUnitConfirmLog->action = 'DELETE';
+            $deletedUnitConfirmLog->description = $POUB->POUSerialNum; // Replace with the appropriate field
+            $deletedUnitConfirmLog->field = 'is_deleted';
+            $deletedUnitConfirmLog->before = 0; // The old value before deletion
+            $deletedUnitConfirmLog->after = 1; // The new value after deletion
+            $deletedUnitConfirmLog->user_id = Auth::user()->id;
+            $deletedUnitConfirmLog->ipaddress = request()->ip();
+            $deletedUnitConfirmLog->save();
+
+        // DB::TABLE('technician_schedules')->WHERE('POUID', $request->id)->DELETE();
+        $TSRecords  = TechnicianSchedule::where('POUID', $request->id)->WHERE('is_deleted',0)->latest()->get();
+        foreach ($TSRecords as $TS) {
+            DB::TABLE('technician_schedules')->WHERE('POUID', $request->id)
+            ->UPDATE([
+                'is_deleted' => 1,
+                ]);
+                
+                $deletedUnitTSLog = new ActivityLog();
+                $deletedUnitTSLog->table = 'Tech. Schedule Table';
+                $deletedUnitTSLog->table_key = $TS->id; // Assuming request->id is the key
+                $deletedUnitTSLog->action = 'DELETE';
+                $deletedUnitTSLog->description = $POUB->POUSerialNum; // Replace with the appropriate field
+                $deletedUnitTSLog->field = 'is_deleted';
+                $deletedUnitTSLog->before = 0; // The old value before deletion
+                $deletedUnitTSLog->after = 1; // The new value after deletion
+                $deletedUnitTSLog->user_id = Auth::user()->id;
+                $deletedUnitTSLog->ipaddress = request()->ip();
+                $deletedUnitTSLog->save();
+        }
 
         $result = "";
         $cunit = DB::SELECT('SELECT unit_confirms.id, unit_confirms.POUID, unit_confirms.CUTransferDate, unit_confirms.CUTransferRemarks, unit_confirms.CUTransferStatus, unit_confirms.CUTransferArea, unit_confirms.CUTransferBay,
                             unit_pull_outs.POUUnitType, unit_pull_outs.POUCode, unit_pull_outs.POUModel, unit_pull_outs.POUSerialNum, unit_pull_outs.POUMastHeight, unit_pull_outs.POUClassification, unit_pull_outs.POURemarks, unit_pull_outs.POUStatus, unit_pull_outs.POUTransferRemarks
                             FROM unit_confirms
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_confirms.POUID
-                            WHERE unit_pull_outs.POUBrand = 2 AND unit_confirms.CUDElTransfer = 0 AND is_PPT=0
+                            WHERE unit_pull_outs.POUBrand = 2 AND unit_confirms.CUDElTransfer = 0 AND is_PPT=0 and unit_confirms.is_deleted=0
                         ');
         if(count($cunit)>0){
             foreach ($cunit as $CU) {
@@ -3390,37 +4408,37 @@ class BTReportController extends Controller
 
         $result = '';
         if($UStatus == 'cuAllStatus'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuWFRU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=1 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=1 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuURU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=2 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=2 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuUGU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=3 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=3 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuSeU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=4 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=4 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuFScU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=5 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=5 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuFSaU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=6 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=6 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuWP'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=7 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=7 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuWBO'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=8 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=8 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuWSB'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=9 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=9 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuStU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=10 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=10 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuRU'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=11 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=11 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuWFM'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=12 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=12 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuWFP'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=13 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=13 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else if($UStatus == 'cuDP'){
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=14 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUTransferStatus=14 AND CUDelTransfer=0 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }else{
-            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=1 AND POUBrand=2 AND is_PPT=0');
+            $cunit = DB::SELECT('SELECT * FROM unit_confirms LEFT JOIN unit_pull_outs on unit_confirms.POUID = unit_pull_outs.id WHERE CUDelTransfer=1 AND POUBrand=2 AND is_PPT=0 AND unit_confirms.is_deleted=0 AND unit_pull_outs.is_deleted=0');
         }
         
         if(count($cunit)>0){
@@ -3543,22 +4561,107 @@ class BTReportController extends Controller
 
     // DELIVERED UNITS
     public function deleteDU(Request $request){
+        $POUB = UnitWorkshop::leftJoin('unit_pull_outs','unit_pull_outs.id','unit_workshops.WSPOUID')->where('unit_workshops.WSPOUID', $request->id)->where('unit_workshops.is_deleted', 0)->where('unit_pull_outs.is_deleted', 0)->first();
+        $CUnit = UnitConfirm::WHERE('POUID',$request->id)->WHERE('is_deleted',0)->latest()->first();
         UnitConfirm::WHERE('POUID', $request->id)
                     ->UPDATE([
                         'CUDelTransfer' => 0,
                     ]);
+            $updates1 = DB::table('unit_confirms')
+            ->where('POUID', $request->id)
+            ->WHERE('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields = ['id', 'created_at', 'updated_at'];
+
+            foreach ($updates1 as $field => $newValue1) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue1 = $CUnit->$field;
+        
+                if ($oldValue1 !== $newValue1) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Confirm Table';
+                    $newLog->table_key = $CUnit->id;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue1;
+                    $newLog->after = $newValue1;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     
+        $WS = UnitWorkshop::WHERE('WSPOUID',$request->id)->WHERE('is_deleted',0)->latest()->first();
         UnitWorkshop::WHERE('WSPOUID', $request->id)
                     ->UPDATE([
                         'WSDelTransfer' => 0,
                     ]);
+            $updates2 = DB::table('unit_workshops')
+            ->where('WSPOUID', $request->id)
+            ->where('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            foreach ($updates2 as $field => $newValue2) {
+                if (in_array($field, $excludedFields)) {
+                    continue;
+                }
+        
+                $oldValue2 = $WS->$field;
+        
+                if ($oldValue2 !== $newValue2) {
+                    $field = ucwords(str_replace('_', ' ', $field));
+        
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Workshop Table';
+                    $newLog->table_key = $WS->id;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue2;
+                    $newLog->after = $newValue2;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
     
         BayArea::WHERE('id',$request->cubay)
                 ->UPDATE([
                     'category' => 2
                 ]);
 
-        DB::TABLE('unit_deliveries')->WHERE('id', $request->duid)->DELETE();
+        // DB::TABLE('unit_deliveries')->WHERE('id', $request->duid)->DELETE();
+        $DelvUnit = UnitDelivery::WHERE('id',$request->duid)->where('is_deleted',0)->latest()->first();
+        $delunit = UnitDelivery::find($request->duid);
+        $delunit->is_deleted = 1;
+            $dirtyAttributes = $delunit->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $delunit->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Delivered Units Table';
+                $newLog->table_key = $DelvUnit->id;
+                $newLog->action = 'DELETE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
+        $delunit->update();
 
         $result = "";
         $dunit = DB::SELECT('SELECT unit_deliveries.id, unit_deliveries.POUID, unit_deliveries.DUTransferDate, unit_deliveries.DURemarks, unit_deliveries.DUDelDate,
@@ -3568,7 +4671,7 @@ class BTReportController extends Controller
                             FROM unit_deliveries
                             INNER JOIN unit_pull_outs on unit_pull_outs.id = unit_deliveries.POUID
                             INNER JOIN unit_confirms on unit_deliveries.POUID = unit_confirms.POUID
-                            WHERE unit_pull_outs.POUBrand = 2
+                            WHERE unit_pull_outs.POUBrand = 2 and unit_deliveries.is_deleted = 0 AND unit_pull_outs.is_deleted = 0 AND unit_confirms.is_deleted = 0
                         ');
 
         if(count($dunit)>0){
@@ -5145,5 +6248,988 @@ class BTReportController extends Controller
         return response($csvContent)
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'attachment; filename="data.csv"');
+    }
+
+    // CANNIBALIZED UNIT
+    public function saveCanUnit(Request $request){
+        $id = $request->CanUnitID;
+
+        if($id == null){
+            $CanUnit = new CannibalizedUnit();
+            $CanUnit->CanUnitCONum = strtoupper($request->CanUnitCONum);
+            $CanUnit->CanUnitBrand = strtoupper($request->CanUnitBrand);
+            $CanUnit->CanUnitStatus = strtoupper($request->CanUnitStatus);
+            $CanUnit->CanUnitDate = strtoupper($request->CanUnitDate);
+            $CanUnit->CanUnitCFModelNum = strtoupper($request->CanUnitCFModelNum);
+            $CanUnit->CanUnitCFSerialNum = strtoupper($request->CanUnitCFSerialNum);
+            $CanUnit->CanUnitCFRentalCode = strtoupper($request->CanUnitCFRentalCode);
+            $CanUnit->CanUnitCFSection = strtoupper($request->CanUnitCFSection);
+            $CanUnit->CanUnitCFPIC = strtoupper($request->CanUnitCFPIC);
+            $CanUnit->CanUnitCFPrepBy = strtoupper($request->CanUnitCFPrepBy);
+            $CanUnit->CanUnitCFPrepDate = strtoupper($request->CanUnitCFPrepDate);
+            $CanUnit->CanUnitCFStartTime = strtoupper($request->CanUnitCFStartTime);
+            $CanUnit->CanUnitCFEndTime = strtoupper($request->CanUnitCFEndTime);
+            $CanUnit->CanUnitITModelNum = strtoupper($request->CanUnitITModelNum);
+            $CanUnit->CanUnitITSerialNum = strtoupper($request->CanUnitITSerialNum);
+            $CanUnit->CanUnitITRentalCode = strtoupper($request->CanUnitITRentalCode);
+            $CanUnit->CanUnitITCustomer = strtoupper($request->CanUnitITCustomer);
+            $CanUnit->CanUnitITCustAddress = strtoupper($request->CanUnitITCustAddress);
+            $CanUnit->CanUnitITCustArea = strtoupper($request->CanUnitITCustArea);
+            $CanUnit->CanUnitITSupMRI = strtoupper($request->CanUnitITSupMRI);
+            $CanUnit->CanUnitITSupSTO = strtoupper($request->CanUnitITSupSTO);
+            $CanUnit->CanUnitITRecBy = strtoupper($request->CanUnitITRecBy);
+            $CanUnit->CanUnitCPrepBy = strtoupper($request->CanUnitCPrepBy);
+            $CanUnit->CanUnitRPRetBy = strtoupper($request->CanUnitRPRetBy);
+            $CanUnit->CanUnitRPRetDate = strtoupper($request->CanUnitRPRetDate);
+            $CanUnit->CanUnitRPRecBy = strtoupper($request->CanUnitRPRecBy);
+            $CanUnit->CanUnitDocRefNum = strtoupper($request->CanUnitDocRefNum);
+            $CanUnit->save();
+
+            for($i = 1; $i <= 10; $i++){
+                $CanPartStatus = 'CanPartStatus'.$i;
+                $partnum = 'CanUnitPartNum'.$i;
+                $desc = 'CanUnitDescription'.$i;
+                $quantt = 'CanUnitQuantity'.$i;
+                $remarks = 'CanUnitRemarks'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($CanPartStatus)){
+                    $PartStat = $request->input($CanPartStatus);
+                } else {
+                    $PartStat = $request->CanUnitStatus;
+                }
+                $CanPart = new CannibalizedParts();
+                $CanPart->CanPartDate = $request->CanUnitDate;
+                $CanPart->CanPartCUID = $CanUnit->id;
+                $CanPart->CanPartPartNum = strtoupper($request->$partnum);
+                $CanPart->CanPartDescription = strtoupper($request->$desc);
+                $CanPart->CanPartQuantity = strtoupper($request->$quantt);
+                $CanPart->CanPartRemarks = strtoupper($request->$remarks);
+                $CanPart->CanPartStatus = strtoupper($PartStat);
+                $CanPart->save();
+            }
+        }else{
+            $CanUnit = CannibalizedUnit::find($id);
+            $CanUnit->CanUnitCONum = strtoupper($request->CanUnitCONum);
+            $CanUnit->CanUnitBrand = strtoupper($request->CanUnitBrand);
+            $CanUnit->CanUnitStatus = strtoupper($request->CanUnitStatus);
+            $CanUnit->CanUnitDate = strtoupper($request->CanUnitDate);
+            $CanUnit->CanUnitCFModelNum = strtoupper($request->CanUnitCFModelNum);
+            $CanUnit->CanUnitCFSerialNum = strtoupper($request->CanUnitCFSerialNum);
+            $CanUnit->CanUnitCFRentalCode = strtoupper($request->CanUnitCFRentalCode);
+            $CanUnit->CanUnitCFSection = strtoupper($request->CanUnitCFSection);
+            $CanUnit->CanUnitCFPIC = strtoupper($request->CanUnitCFPIC);
+            $CanUnit->CanUnitCFPrepBy = strtoupper($request->CanUnitCFPrepBy);
+            $CanUnit->CanUnitCFPrepDate = strtoupper($request->CanUnitCFPrepDate);
+            $CanUnit->CanUnitCFStartTime = strtoupper($request->CanUnitCFStartTime);
+            $CanUnit->CanUnitCFEndTime = strtoupper($request->CanUnitCFEndTime);
+            $CanUnit->CanUnitITModelNum = strtoupper($request->CanUnitITModelNum);
+            $CanUnit->CanUnitITSerialNum = strtoupper($request->CanUnitITSerialNum);
+            $CanUnit->CanUnitITRentalCode = strtoupper($request->CanUnitITRentalCode);
+            $CanUnit->CanUnitITCustomer = strtoupper($request->CanUnitITCustomer);
+            $CanUnit->CanUnitITCustAddress = strtoupper($request->CanUnitITCustAddress);
+            $CanUnit->CanUnitITCustArea = strtoupper($request->CanUnitITCustArea);
+            $CanUnit->CanUnitITSupMRI = strtoupper($request->CanUnitITSupMRI);
+            $CanUnit->CanUnitITSupSTO = strtoupper($request->CanUnitITSupSTO);
+            $CanUnit->CanUnitITRecBy = strtoupper($request->CanUnitITRecBy);
+            $CanUnit->CanUnitCPrepBy = strtoupper($request->CanUnitCPrepBy);
+            $CanUnit->CanUnitRPRetBy = strtoupper($request->CanUnitRPRetBy);
+            $CanUnit->CanUnitRPRetDate = strtoupper($request->CanUnitRPRetDate);
+            $CanUnit->CanUnitRPRecBy = strtoupper($request->CanUnitRPRecBy);
+            $CanUnit->CanUnitDocRefNum = strtoupper($request->CanUnitDocRefNum);
+            $CanUnit->update();
+
+            for($i = 1; $i <= 10; $i++){
+                $CanPartStatus = 'CanPartStatus'.$i;
+                $partnum = 'CanUnitPartNum'.$i;
+                $desc = 'CanUnitDescription'.$i;
+                $quantt = 'CanUnitQuantity'.$i;
+                $remarks = 'CanUnitRemarks'.$i;
+                $PartCUID = 'CanUnitID'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($CanPartStatus)){
+                    $PartStat = $request->input($CanPartStatus);
+                } else {
+                    $PartStat = $request->CanUnitStatus;
+                }
+
+                if($request->$PartCUID == null){
+                    $CanPart = new CannibalizedParts();
+                    $CanPart->CanPartDate = strtoupper($request->CanUnitDate);
+                    $CanPart->CanPartCUID = strtoupper($CanUnit->id);
+                    $CanPart->CanPartPartNum = strtoupper($request->$partnum);
+                    $CanPart->CanPartDescription = strtoupper($request->$desc);
+                    $CanPart->CanPartQuantity = strtoupper($request->$quantt);
+                    $CanPart->CanPartRemarks = strtoupper($request->$remarks);
+                    $CanPart->CanPartStatus = strtoupper($PartStat);
+                    $CanPart->save();
+                }
+                else{
+                    DB::table('cannibalized_parts')
+                        ->where('id', $request->$PartCUID)
+                        ->update([
+                            'CanPartPartNum' => strtoupper($request->$partnum),
+                            'CanPartDescription' => strtoupper($request->$desc),
+                            'CanPartQuantity' => strtoupper($request->$quantt),
+                            'CanPartRemarks' => strtoupper($request->$remarks),
+                            'CanPartStatus' => strtoupper($PartStat),
+                        ]);
+                }
+            }
+        }
+
+        $result = '';
+        $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getCanParts(Request $request){
+        $CanUnit = CannibalizedUnit::where('id',$request->CanUnitID)->first();
+        $CanParts = CannibalizedParts::where('CanPartCUID',$request->CanUnitID)->get();
+
+        $result1 = '';
+        $i = 1;
+        foreach ($CanParts as $CP) {
+
+            if($i == 1){
+                $btn = '<button id="addCanUnitDIVX" class="addCanUnitDIVX"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>';
+            }else{
+                $btn = '';
+            }
+
+            $result1 .= '
+                    <div id="$CanUnitPartsContent'.$i.'" class="grid grid-cols-10 gap-2 mt-1">
+                        <div class="col-span-3 grid grid-cols-8 gap-2">
+                            <div class="col-span-3">
+                            <select name="CanUnitStatus'.$i.'" id="CanUnitStatus'.$i.'" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 text-center">
+                                <option value="" selected></option>
+                                <option value="1" '.($CP->CanPartStatus == 1 ? 'selected' : '').'>CLOSED</option>
+                                <option value="2" '.($CP->CanPartStatus == 2 ? 'selected' : '').'>PENDING</option>
+                                <option value="3" '.($CP->CanPartStatus == 3 ? 'selected' : '').'>NOT FOR RETURN</option>
+                                <option value="4" '.($CP->CanPartStatus == 4 ? 'selected' : '').'>CANCELLED</option>
+                            </select>
+                            </div>
+                            <div class="col-span-5">
+                                <input type="text" id="CanUnitPartNum'.$i.'" name="CanUnitPartNum'.$i.'" value="'.$CP->CanPartPartNum.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                        </div>
+                        <div class="col-span-2">
+                            <input type="text" id="CanUnitDescription'.$i.'" name="CanUnitDescription'.$i.'" value="'.$CP->CanPartDescription.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="col-span-1">
+                            <input type="text" id="CanUnitQuantity'.$i.'" name="CanUnitQuantity'.$i.'" value="'.$CP->CanPartQuantity.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="col-span-3">
+                            <input type="text" id="CanUnitRemarks'.$i.'" name="CanUnitRemarks'.$i.'" value="'.$CP->CanPartRemarks.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                        </div>
+                        <div class="">
+                            <input type="hidden" id="CanUnitID'.$i.'" name="CanUnitID'.$i.'" value="'.$CP->id.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            '.$btn.'
+                        </div>
+                    </div>
+            ';
+            $i++;
+        }
+        
+        $result = array(
+            'CanUnitID' => $CanUnit->id,
+            'CanUnitCONum' => $CanUnit->CanUnitCONum,
+            'CanUnitBrand' => $CanUnit->CanUnitBrand,
+            'CanUnitStatus' => $CanUnit->CanUnitStatus,
+            'CanUnitDate' => $CanUnit->CanUnitDate,
+            'CanUnitCFModelNum' => $CanUnit->CanUnitCFModelNum,
+            'CanUnitCFSerialNum' => $CanUnit->CanUnitCFSerialNum,
+            'CanUnitCFRentalCode' => $CanUnit->CanUnitCFRentalCode,
+            'CanUnitCFSection' => $CanUnit->CanUnitCFSection,
+            'CanUnitCFPIC' => $CanUnit->CanUnitCFPIC,
+            'CanUnitCFPrepBy' => $CanUnit->CanUnitCFPrepBy,
+            'CanUnitCFPrepDate' => $CanUnit->CanUnitCFPrepDate,
+            'CanUnitCFStartTime' => $CanUnit->CanUnitCFStartTime,
+            'CanUnitCFEndTime' => $CanUnit->CanUnitCFEndTime,
+            'CanUnitITModelNum' => $CanUnit->CanUnitITModelNum,
+            'CanUnitITSerialNum' => $CanUnit->CanUnitITSerialNum,
+            'CanUnitITRentalCode' => $CanUnit->CanUnitITRentalCode,
+            'CanUnitITCustomer' => $CanUnit->CanUnitITCustomer,
+            'CanUnitITCustAddress' => $CanUnit->CanUnitITCustAddress,
+            'CanUnitITCustArea' => $CanUnit->CanUnitITCustArea,
+            'CanUnitITSupMRI' => $CanUnit->CanUnitITSupMRI,
+            'CanUnitITSupSTO' => $CanUnit->CanUnitITSupSTO,
+            'CanUnitITRecBy' => $CanUnit->CanUnitITRecBy,
+            'CanUnitCPrepBy' => $CanUnit->CanUnitCPrepBy,
+            'CanUnitRPRetBy' => $CanUnit->CanUnitRPRetBy,
+            'CanUnitRPRetDate' => $CanUnit->CanUnitRPRetDate,
+            'CanUnitRPRecBy' => $CanUnit->CanUnitRPRecBy,
+            'CanUnitDocRefNum' => $CanUnit->CanUnitDocRefNum,
+            'cuparts' => $result1,
+
+        );
+
+        return json_encode($result);
+    }
+
+    public function deleteCanUnit(Request $request){
+        $canunitid = $request->canunitid;
+        $canpartid = $request->canpartid;
+
+        if((DB::TABLE('cannibalized_parts')->WHERE('CanPartCUID',$canunitid)->count()) == 1){
+
+            $DCUnit1 = CannibalizedUnit::find($request->canunitid);
+            $DCUnit1->delete();
+
+            DB::TABLE('cannibalized_parts')->WHERE('CanPartCUID',$canunitid)->delete();
+        }else{
+            DB::TABLE('cannibalized_parts')->WHERE('id',$canpartid)->delete();
+        }
+
+        $result = '';
+        $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getCanUnitStatus(Request $request){
+        $id = $request->id;
+        
+        $result = '';
+        if($id == "CanUnitALL"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitClosed"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 1
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitPending"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 2
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else if($id == "CanUnitNFR"){
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 3
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }else{
+            $canunit = DB::SELECT('SELECT cannibalized_units.id as CanUnitID, cannibalized_units.CanUnitCONum, cannibalized_units.CanUnitBrand, cannibalized_units.CanUnitStatus, cannibalized_units.CanUnitDate, 
+                                    cannibalized_units.CanUnitCFModelNum, cannibalized_units.CanUnitCFSerialNum, cannibalized_units.CanUnitCFRentalCode, cannibalized_units.CanUnitCFSection, cannibalized_units.CanUnitCFPIC, 
+                                    cannibalized_units.CanUnitCFPrepBy, cannibalized_units.CanUnitCFPrepDate, cannibalized_units.CanUnitCFStartTime, cannibalized_units.CanUnitCFEndTime, cannibalized_units.CanUnitITModelNum, 
+                                    cannibalized_units.CanUnitITSerialNum, cannibalized_units.CanUnitITRentalCode, cannibalized_units.CanUnitITCustomer, cannibalized_units.CanUnitITCustAddress as CustAddress, 
+                                    cannibalized_units.CanUnitITCustArea, cannibalized_units.CanUnitITSupMRI, cannibalized_units.CanUnitITSupSTO, cannibalized_units.CanUnitITRecBy, cannibalized_units.CanUnitCPrepBy, 
+                                    cannibalized_units.CanUnitRPRetBy, cannibalized_units.CanUnitRPRetDate, cannibalized_units.CanUnitRPRecBy, cannibalized_units.CanUnitDocRefNum,
+                                    cannibalized_parts.id as CanPartID, cannibalized_parts.CanPartDate, cannibalized_parts.CanPartPartNum, cannibalized_parts.CanPartDescription, cannibalized_parts.CanPartQuantity, cannibalized_parts.CanPartRemarks,
+                                    wms_sections.name as SecName
+                                FROM cannibalized_units
+                                INNER JOIN cannibalized_parts ON cannibalized_units.id = cannibalized_parts.CanPartCUID
+                                INNER JOIN wms_sections ON wms_sections.id = cannibalized_units.CanUnitCFSection
+                                INNER JOIN wms_technicians ON wms_technicians.id = cannibalized_units.CanUnitCFPIC
+                                WHERE cannibalized_parts.CanPartStatus = 4
+                                ORDER BY cast(CanPartCUID as int), CanPartPartNum ASC
+                            ');
+        }
+
+        if (count($canunit) > 0){
+            foreach($canunit as $CUnit){
+                $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-4 p-1">
+                            <button type="button" class="btnCanUnitEdit" id="btnCanUnitEdit" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnCanUnitDelete" id="btnCanUnitDelete" data-canunitid="'.$CUnit->CanUnitID.'" data-partid="'.$CUnit->CanPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCONum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->SecName.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitITCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center">
+                            '.$CUnit->CanUnitCFPrepBy.'
+                        </td>
+                        <td class="hidden">
+                            '.$CUnit->CanUnitStatus.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    // DR MONITORING
+    public function saveDRMon(Request $request){
+        $MonID = $request->DRMonID;
+
+        if($MonID == null){
+            $DRM = new DRMonitoring();
+            $DRM->DRMonStatus = strtoupper($request->DRMonStatus);
+            $DRM->DRMonDate = $request->DRMonDate;
+            $DRM->DRMonCustomer = strtoupper($request->DRMonCustomer);
+            $DRM->DRMonCustAddress = strtoupper($request->DRMonCustAddress);
+            $DRM->DRMonSupplier = strtoupper($request->DRMonSupplier);
+            $DRM->DRMonPRNum = strtoupper($request->DRMonPRNum);
+            $DRM->LDRMonCode = strtoupper($request->LDRMonCode);
+            $DRM->LDRMonModel = strtoupper($request->LDRMonModel);
+            $DRM->LDRMonSerial = strtoupper($request->LDRMonSerial);
+            $DRM->LDRMonDRNum = strtoupper($request->LDRMonDRNum);
+            $DRM->LDRMonPUDate = $request->LDRMonPUDate;
+            $DRM->LDRMonReqBy = strtoupper($request->LDRMonReqBy);
+            $DRM->RDRMonQNum = strtoupper($request->RDRMonQNum);
+            $DRM->RDRMonQDate = $request->RDRMonQDate;
+            $DRM->RDRMonBSNum = strtoupper($request->RDRMonBSNum);
+            $DRM->RDRMonDRNum = strtoupper($request->RDRMonDRNum);
+            $DRM->RDRMonRetDate = $request->RDRMonRetDate;
+            $DRM->RDRMonRecBy = strtoupper($request->RDRMonRecBy);
+            $DRM->save();
+
+            for($i = 1; $i <= 10; $i++){
+                $DRMonCB = 'DRMonCB'.$i;
+                $partnum = 'DRMonPartNum'.$i;
+                $desc = 'DRMonDescription'.$i;
+                $quantt = 'DRMonQuantity'.$i;
+                $purpose = 'DRMonPurpose'.$i;
+                $remarks = 'DRMonRemarks'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($DRMonCB)){
+                    $PartStat = $request->input($DRMonCB);
+                } else {
+                    $PartStat = $request->DRMonStatus;
+                }
+                
+                $DRP = new DRParts();
+                $DRP->DRPartDate = $request->DRMonDate;
+                $DRP->DRPartMonID = $DRM->id;
+                $DRP->DRPartPartNum = strtoupper($request->$partnum);
+                $DRP->DRPartDescription = strtoupper($request->$desc);
+                $DRP->DRPartQuantity = strtoupper($request->$quantt);
+                $DRP->DRPartPurpose = strtoupper($request->$purpose);
+                $DRP->DRPartRemarks = strtoupper($request->$remarks);
+                $DRP->DRPartStatus = strtoupper($PartStat);
+                $DRP->save();
+            }
+        }else{
+            $DRM = DRMonitoring::find($MonID);
+            $DRM->DRMonStatus = strtoupper($request->DRMonStatus);
+            $DRM->DRMonDate = $request->DRMonDate;
+            $DRM->DRMonCustomer = strtoupper($request->DRMonCustomer);
+            $DRM->DRMonCustAddress = strtoupper($request->DRMonCustAddress);
+            $DRM->DRMonSupplier = strtoupper($request->DRMonSupplier);
+            $DRM->DRMonPRNum = strtoupper($request->DRMonPRNum);
+            $DRM->LDRMonCode = strtoupper($request->LDRMonCode);
+            $DRM->LDRMonModel = strtoupper($request->LDRMonModel);
+            $DRM->LDRMonSerial = strtoupper($request->LDRMonSerial);
+            $DRM->LDRMonDRNum = strtoupper($request->LDRMonDRNum);
+            $DRM->LDRMonPUDate = $request->LDRMonPUDate;
+            $DRM->LDRMonReqBy = strtoupper($request->LDRMonReqBy);
+            $DRM->RDRMonQNum = strtoupper($request->RDRMonQNum);
+            $DRM->RDRMonQDate = $request->RDRMonQDate;
+            $DRM->RDRMonBSNum = strtoupper($request->RDRMonBSNum);
+            $DRM->RDRMonDRNum = strtoupper($request->RDRMonDRNum);
+            $DRM->RDRMonRetDate = $request->RDRMonRetDate;
+            $DRM->RDRMonRecBy = strtoupper($request->RDRMonRecBy);
+            $DRM->update();
+
+            for($i = 1; $i <= 10; $i++){
+                $DRMonCB = 'DRMonCB'.$i;
+                $partnum = 'DRMonPartNum'.$i;
+                $desc = 'DRMonDescription'.$i;
+                $quantt = 'DRMonQuantity'.$i;
+                $purpose = 'DRMonPurpose'.$i;
+                $remarks = 'DRMonRemarks'.$i;
+                $DRMonID = 'DRMonID'.$i;
+    
+                if ($request->$partnum == null){
+                    break;
+                }
+
+                if($request->has($DRMonCB)){
+                    $PartStat = $request->input($DRMonCB);
+                } else {
+                    $PartStat = $request->DRMonStatus;
+                }
+
+                if($request->$DRMonID == null){
+                    $DRP = new DRParts();
+                    $DRP->DRPartDate = $request->DRMonDate;
+                    $DRP->DRPartMonID = $DRM->id;
+                    $DRP->DRPartPartNum = strtoupper($request->$partnum);
+                    $DRP->DRPartDescription = strtoupper($request->$desc);
+                    $DRP->DRPartQuantity = strtoupper($request->$quantt);
+                    $DRP->DRPartPurpose = strtoupper($request->$purpose);
+                    $DRP->DRPartRemarks = strtoupper($request->$remarks);
+                    $DRP->DRPartStatus = strtoupper($PartStat);
+                    $DRP->save();
+                }
+                else{
+                    DB::table('d_r_parts')
+                        ->where('id', $request->$DRMonID)
+                        ->update([
+                            'DRPartPartNum' => strtoupper($request->$partnum),
+                            'DRPartDescription' => strtoupper($request->$desc),
+                            'DRPartQuantity' => strtoupper($request->$quantt),
+                            'DRPartPurpose' => strtoupper($request->$purpose),
+                            'DRPartRemarks' => strtoupper($request->$remarks),
+                            'DRPartStatus' => strtoupper($PartStat),
+                        ]);
+                }
+            }
+        }
+
+        $result = '';
+        $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                            d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                            d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                            d_r_monitorings.RDRMonRecBy,
+                            d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                            FROM d_r_monitorings
+                            INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                            ORDER BY DRPartMonID, DRPartPartNum
+                        ');
+        if(count($drmon)>0){
+            foreach ($drmon as $DRM) {
+                if($DRM->DRPartStatus == 1){
+                    $DRStat = "PENDING";
+                }else if($DRM->DRPartStatus == 2){
+                    $DRStat = "ONGOING";
+                }else if($DRM->DRPartStatus == 3){
+                    $DRStat = "CANCELLED";
+                }else{
+                    $DRStat = "DONE";
+                }
+
+                $result .='
+                    <tr class="bg-white border-b hover:bg-gray-200">
+                        <td class="w-6 p-1">
+                            <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                            <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                        </td>
+                        <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonDate.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->LDRMonCode.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRPartPartNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRPartDescription.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonCustomer.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonCustAddress.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->DRMonSupplier.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->LDRMonDRNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRM->LDRMonDRNum.'
+                        </td>
+                        <td class="px-1 py-0.5 text-center text-xs">
+                            '.$DRStat.'
+                        </td>
+                    </tr>
+                ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                ';
+        }
+        echo $result;
+    }
+
+    public function getDRParts(Request $request){
+        $drmon = DRMonitoring::WHERE('id',$request->DRMonID)->first();
+
+        $drmonP = DRParts::WHERE('DRPartMonID',$request->DRMonID)->get();
+
+        $result2 = '';
+        $i = 1;
+        foreach ($drmonP as $DRM) {
+
+            if($i == 1){
+                $btn = '<button id="addDRMonDIVX" class="addDRMonDIVX"><svg width="24px" height="24px" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #699f4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M1080,270a30,30,0,1,1,30-30A30,30,0,0,1,1080,270Zm14-34h-10V226a4,4,0,0,0-8,0v10h-10a4,4,0,0,0,0,8h10v10a4,4,0,0,0,8,0V244h10A4,4,0,0,0,1094,236Z" id="add" transform="translate(-1050 -210)"></path></g></svg></button>';
+            }else{
+                $btn = '';
+            }
+
+            if($DRM->DRPartStatus == 3){
+                $CB = '<input id="DRMonCB'.$i.'" name="DRMonCB'.$i.'" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" checked>';
+            }else{
+                $CB = '<input id="DRMonCB'.$i.'" name="DRMonCB'.$i.'" value="3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">';
+            }
+
+            $result2 .= '
+                        <div id="DRMonPartsContent'.$i.'" class="grid grid-cols-12 gap-2 mt-1">
+                            <div class="col-span-2 grid grid-cols-12">
+                                <div class="">
+                                    '.$CB.'
+                                </div>
+                                <div class=""></div>
+                                <div class="col-span-10">
+                                    <input type="text" id="DRMonPartNum'.$i.'" name="DRMonPartNum'.$i.'" value="'.$DRM->DRPartPartNum.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                </div>
+                            </div>
+                            <div class="col-span-3">
+                                <input type="text" id="DRMonDescription'.$i.'" name="DRMonDescription'.$i.'" value="'.$DRM->DRPartDescription.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="col-span-1">
+                                <input type="text" id="DRMonQuantity'.$i.'" name="DRMonQuantity'.$i.'" value="'.$DRM->DRPartQuantity.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="col-span-2">
+                                <input type="text" id="DRMonPurpose'.$i.'" name="DRMonPurpose'.$i.'" value="'.$DRM->DRPartPurpose.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="col-span-3">
+                                <input type="text" id="DRMonRemarks'.$i.'" name="DRMonRemarks'.$i.'" value="'.$DRM->DRPartRemarks.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                            </div>
+                            <div class="">
+                                <input type="hidden" id="DRMonID'.$i.'" name="DRMonID'.$i.'" value="'.$DRM->id.'" class="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full text-center py-1" >
+                                '.$btn.'
+                            </div>
+                        </div>
+            ';
+            $i++;
+        }
+        
+        $result = array(
+            'DRMonID' => $drmon->id,
+            'DRMonDate' => $drmon->DRMonDate,
+            'DRMonStatus' => $drmon->DRMonStatus,
+            'DRMonCustomer' => $drmon->DRMonCustomer,
+            'DRMonCustAddress' => $drmon->DRMonCustAddress,
+            'DRMonSupplier' => $drmon->DRMonSupplier,
+            'DRMonPRNum' => $drmon->DRMonPRNum,
+            'LDRMonCode' => $drmon->LDRMonCode,
+            'LDRMonModel' => $drmon->LDRMonModel,
+            'LDRMonSerial' => $drmon->LDRMonSerial,
+            'LDRMonDRNum' => $drmon->LDRMonDRNum,
+            'LDRMonPUDate' => $drmon->LDRMonPUDate,
+            'LDRMonReqBy' => $drmon->LDRMonReqBy,
+            'RDRMonQNum' => $drmon->RDRMonQNum,
+            'RDRMonQDate' => $drmon->RDRMonQDate,
+            'RDRMonBSNum' => $drmon->RDRMonBSNum,
+            'RDRMonDRNum' => $drmon->RDRMonDRNum,
+            'RDRMonRetDate' => $drmon->RDRMonRetDate,
+            'RDRMonRecBy' => $drmon->RDRMonRecBy,
+            'drparts' => $result2,
+
+        );
+        return json_encode($result);
+    }
+    
+    public function deleteDRMon(Request $request){
+        $drmonid = $request->drmonid;
+        $drpartid = $request->drpartid;
+
+        if((DRParts::WHERE('DRPartMonID',$drmonid)->count()) == 1){
+            $DRMon = DRMonitoring::find($drmonid);
+            $DRMon->delete();
+            
+            DB::TABLE('d_r_parts')->WHERE('DRPartMonID',$drmonid)->delete();
+        }else{
+            DB::TABLE('d_r_parts')->WHERE('id',$drpartid)->delete();
+        }
+
+        $result = '';
+        $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                            FROM d_r_monitorings
+                            INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                            ORDER BY DRPartMonID, DRPartPartNum
+                    ');
+
+        if (count($drmon) > 0){
+            foreach($drmon as $DRM){
+                if($DRM->DRPartStatus == 1){
+                    $DRStat = "PENDING";
+                }else if($DRM->DRPartStatus == 2){
+                    $DRStat = "PARTIAL";
+                }else if($DRM->DRPartStatus == 3){
+                    $DRStat = "CLOSED";
+                }else{
+                    $DRStat = "CANCELLED";
+                }
+                $result .='
+                            <tr class="bg-white border-b hover:bg-gray-200">
+                                <td class="w-6 p-1">
+                                    <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                    <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                </td>
+                                <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonDate.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonCode.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartPartNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartDescription.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustomer.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustAddress.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonSupplier.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRStat.'
+                                </td>
+                            </tr>
+                        ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                    ';
+        }
+        echo $result;
+    }
+
+    public function getDRMonStatus(Request $request){
+        $id = $request->id;
+
+        $result = '';
+        if($id == "DRMonALL"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else if($id == "DRMonPending"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 1
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else if($id == "DRMonOnGoing"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 2
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else if($id == "DRMonCancelled"){
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 3
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }else{
+            $drmon = DB::SELECT('SELECT d_r_monitorings.id as DRMonID, d_r_monitorings.DRMonStatus, d_r_monitorings.DRMonDate, d_r_monitorings.DRMonCustomer, d_r_monitorings.DRMonCustAddress, d_r_monitorings.DRMonSupplier,
+                                d_r_monitorings.DRMonPRNum, d_r_monitorings.LDRMonCode, d_r_monitorings.LDRMonModel, d_r_monitorings.LDRMonSerial, d_r_monitorings.LDRMonDRNum, d_r_monitorings.LDRMonPUDate, 
+                                d_r_monitorings.LDRMonReqBy, d_r_monitorings.RDRMonQNum, d_r_monitorings.RDRMonQDate, d_r_monitorings.RDRMonBSNum, d_r_monitorings.RDRMonDRNum, d_r_monitorings.RDRMonRetDate,
+                                d_r_monitorings.RDRMonRecBy,
+                                d_r_parts.id as DRPartID, d_r_parts.DRPartMonID, d_r_parts.DRPartPartNum, d_r_parts.DRPartDescription, d_r_parts.DRPartQuantity, d_r_parts.DRPartPurpose, d_r_parts.DRPartRemarks, d_r_parts.DRPartStatus
+                                FROM d_r_monitorings
+                                INNER JOIN d_r_parts on d_r_monitorings.id = d_r_parts.DRPartMonID
+                                WHERE d_r_parts.DRPartStatus = 4
+                                ORDER BY cast(DRPartMonID as int), DRPartPartNum ASC
+                            ');
+        }
+
+        if (count($drmon) > 0){
+            foreach($drmon as $DRM){
+                if($DRM->DRPartStatus == 1){
+                    $DRStat = "PENDING";
+                }else if($DRM->DRPartStatus == 2){
+                    $DRStat = "PARTIAL";
+                }else if($DRM->DRPartStatus == 3){
+                    $DRStat = "CLOSED";
+                }else{
+                    $DRStat = "CANCELLED";
+                }
+                $result .='
+                            <tr class="bg-white border-b hover:bg-gray-200">
+                                <td class="w-6 p-1">
+                                    <button type="button" class="btnDRMonEdit" id="btnDRMonEdit" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M823.3 938.8H229.4c-71.6 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h297c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7h-297c-24.5 0-44.4 19.9-44.4 44.4V809c0 24.5 19.9 44.4 44.4 44.4h593.9c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v297c0 71.6-58.2 129.8-129.8 129.8z" fill="#3688FF"/><path d="M483 756.5c-1.8 0-3.5-0.1-5.3-0.3l-134.5-16.8c-19.4-2.4-34.6-17.7-37-37l-16.8-134.5c-1.6-13.1 2.9-26.2 12.2-35.5l374.6-374.6c51.1-51.1 134.2-51.1 185.3 0l26.3 26.3c24.8 24.7 38.4 57.6 38.4 92.7 0 35-13.6 67.9-38.4 92.7L513.2 744c-8.1 8.1-19 12.5-30.2 12.5z m-96.3-97.7l80.8 10.1 359.8-359.8c8.6-8.6 13.4-20.1 13.4-32.3 0-12.2-4.8-23.7-13.4-32.3L801 218.2c-17.9-17.8-46.8-17.8-64.6 0L376.6 578l10.1 80.8z" fill="#5F6379"/></svg></button>
+                                    <button type="button" class="btnDRMonDelete" id="btnDRMonDelete" data-drmonid="'.$DRM->DRMonID.'" data-drpartid="'.$DRM->DRPartID.'"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#ff3838"/><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"/></svg></button>
+                                </td>
+                                <td scope="row" class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonDate.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonCode.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartPartNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRPartDescription.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustomer.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonCustAddress.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->DRMonSupplier.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRM->LDRMonDRNum.'
+                                </td>
+                                <td class="px-1 py-0.5 text-center text-xs">
+                                    '.$DRStat.'
+                                </td>
+                            </tr>
+                        ';
+            }
+        }else{
+            $result .='
+                        <tr class="bg-white border-b hover:bg-gray-200">
+                            <td class="px-1 py-0.5 col-span-7 text-center items-center">
+                                No data.
+                            </td>
+                        </tr>
+                    ';
+        }
+        echo $result;
     }
 }

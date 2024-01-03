@@ -116,60 +116,56 @@
                                 </form>
                                     <hr class="mt-2 mb-2">
                                     <div style="height: calc(100vh - 25em);" class="gap-1 overflow-y-auto">
-                                        <div class="col-span-3 text-xs gap-1 text-center">
-                                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                                <table class="w-full text-sm text-left text-gray-500">
-                                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                                        <tr>
-                                                            <th scope="col" class="px-6 py-2">
-                                                                Technician
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-2">
-                                                                Bay Number
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-2">
-                                                                JO Number
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-2">
-                                                                Date
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-2">
-                                                                Scope of Work
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-2">
-                                                                Activity
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="techTable" class="overflow-y-auto">
-                                                        @foreach ($techsched as $techscheds)
-                                                        <tr class="techTable bg-white border-b hover:bg-gray-300">
-                                                            <td scope="row" class="px-6 py-1 font-medium text-gray-900 whitespace-nowrap">
-                                                                <span data-id="{{$techscheds->id}}">
-                                                                    {{$techscheds->techname}}
-                                                                </span>
-                                                            </td>
-                                                            <td class="px-6 py-1">
-                                                                {{$techscheds->bayname}}
-                                                            </td>
-                                                            <td class="px-6 py-1">
-                                                                {{$techscheds->JONumber}}
-                                                            </td>
-                                                            <td class="px-6 py-1">
-                                                                {{$techscheds->scheddate}}
-                                                            </td>
-                                                            <td class="px-6 py-1">
-                                                                {{$techscheds->scopeofwork}}
-                                                            </td>
-                                                            <td class="px-6 py-1">
-                                                                {{$techscheds->activity}}
-                                                            </td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        <table class="w-full text-sm text-left text-gray-500">
+                                            <thead class="text-xs text-gray-700 uppercase bg-white" style="position: sticky; top: 0;">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-2">
+                                                        Technician
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-2">
+                                                        Bay Number
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-2">
+                                                        JO Number
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-2">
+                                                        Date
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-2">
+                                                        Scope of Work
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-2">
+                                                        Activity
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="techTable" class="">
+                                                @foreach ($techsched as $techscheds)
+                                                <tr class="techTable bg-white border-b hover:bg-gray-300">
+                                                    <td class="px-6 py-1">
+                                                        <span data-id="{{$techscheds->id}}">
+                                                            {{$techscheds->techname}}
+                                                        </span>
+                                                    </td>
+                                                    <td class="px-6 py-1">
+                                                        {{$techscheds->bayname}}
+                                                    </td>
+                                                    <td class="px-6 py-1">
+                                                        {{$techscheds->JONumber}}
+                                                    </td>
+                                                    <td class="px-6 py-1">
+                                                        {{$techscheds->scheddate}}
+                                                    </td>
+                                                    <td class="px-6 py-1">
+                                                        {{$techscheds->scopeofwork}}
+                                                    </td>
+                                                    <td class="px-6 py-1">
+                                                        {{$techscheds->activity}}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <hr class="mt-2 mb-2">
                                     <div class="grid grid-cols-8 gap-1">
@@ -484,6 +480,7 @@
                         document.getElementById('formSched').reset();
                         $('#TSPOUID').val('');
                         $('#TSID').val('');
+                        $('#TSJONum').val('');
 
                         $("#success-modal").removeClass("hidden");
                         $("#success-modal").addClass("flex");
@@ -526,14 +523,18 @@
 
             jQuery(document).on( "click", "#deleteSchedule", function(){
                 var TSID = $('#TSID').val();
+                var TSPOUID = $('#TSPOUID').val();
                 var _token = $('input[name="_token"]').val();
                 
                 $.ajax({
                     url:"{{ route('admin_monitoring.tech_schedule.deleteSchedule') }}",
                     method:"POST",
                     dataType: 'json',
-                    data:{ TSID: TSID, _token: _token, },
+                    data:{ TSID: TSID, TSPOUID: TSPOUID, _token: _token, },
                     success:function(result){
+                        $('#TSJONum').val('');
+                        $('#TSPOUID').val('');
+                        $('#TSID').val('');
                         $('#techTable').html(result)
                         document.getElementById('formSched').reset();
 

@@ -1566,6 +1566,7 @@
                             @csrf
                             <div class="grid gap-4 mb-4 md:grid-cols-2">
                                 <input type="hidden" class="" id="TAID" name="TAID">
+                                <input type="hidden" class="" id="TAJONumber" name="TAJONumber">
                                 <input type="hidden" class="" id="TABayNum">
                                 <div>
                                     <label for="TAStatus" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -1706,6 +1707,7 @@
             // 
                 jQuery(document).on("click", "#activity-tab", function(){
                     var bay = $('#UnitBayNum').val();
+                    var JON = $('#UnitInfoJON').val();
                     var _token = $('input[name="_token"]').val();
                     
                     var calendarEl = document.getElementById('calendar');
@@ -1727,7 +1729,7 @@
                             $.ajax({
                             url: '{{ route('t-workshop.getEvents') }}',
                             type: 'GET',
-                            data: { bay: bay, _token: _token,},
+                            data: { bay: bay, JON: JON, _token: _token,},
                             success: function(response) {
                                 successCallback(response);
                             },
@@ -1742,6 +1744,7 @@
                             
                             if (eventDate.toDateString() <= today.toDateString()) {
                                 var eventId = info.event.id;
+                                var jonum = info.event.extendedProps.jonum;
                                 var baynum = info.event.extendedProps.baynum;
                                 var technician = info.event.extendedProps.technician;
                                 var scheddate = info.event.extendedProps.scheddate;
@@ -1754,6 +1757,7 @@
 
                                 $('#modalTechAct').removeClass('hidden');
                                 $('#TAID').val(eventId);
+                                $('#TAJONumber').val(jonum);
                                 $('#TABayNum').val(baynum);
                                 $('#TATechnician').val(technician);
                                 $('#TASchedDate').val(scheddate);
@@ -2220,12 +2224,13 @@
                     var TRStart = $("#TRepairDStart").val();
                     var TREnd = $("#TRepairDEnd").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('t-workshop.saveTargetActivity') }}",
                         method: "POST",
-                        data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, _token: _token,},
+                        data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $("#TUpdate").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
@@ -2296,12 +2301,13 @@
                 jQuery(document).on( "click", "#updateIDS", function(){
                     var AIDStart = $("#ActualIDStart").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('t-workshop.updateIDS') }}",
                         method: "POST",
-                        data: {AIDStart: AIDStart, JONum: JONum, _token: _token,},
+                        data: {AIDStart: AIDStart, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualIDStart').addClass('pointer-events-none');
                             $("#updateIDS").hide();
@@ -2398,12 +2404,13 @@
                 jQuery(document).on( "click", "#updateIDE", function(){
                     var AIDEnd = $("#ActualIDEnd").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('t-workshop.updateIDE') }}",
                         method: "POST",
-                        data: {AIDEnd: AIDEnd, JONum: JONum, _token: _token,},
+                        data: {AIDEnd: AIDEnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualIDEnd').addClass('pointer-events-none');
                             $("#updateIDE").hide();
@@ -2437,12 +2444,13 @@
                 jQuery(document).on( "click", "#updateRDS", function(){
                     var ARDStart = $("#ActualRDStart").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('t-workshop.updateRDS') }}",
                         method: "POST",
-                        data: {ARDStart: ARDStart, JONum: JONum, _token: _token,},
+                        data: {ARDStart: ARDStart, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualRDStart').addClass('pointer-events-none');
                             $("#updateRDS").hide();
@@ -2466,12 +2474,13 @@
                 jQuery(document).on( "click", "#updateRDE", function(){
                     var ARDEnd = $("#ActualRDEnd").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('t-workshop.updateRDE') }}",
                         method: "POST",
-                        data: {ARDEnd: ARDEnd, JONum: JONum, _token: _token,},
+                        data: {ARDEnd: ARDEnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualRDEnd').addClass('pointer-events-none');
                             $("#updateRDE").hide();
@@ -2571,12 +2580,13 @@
             // Reset Dates on Actual
                 jQuery(document).on( "click", "#AReset", function(){
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('t-workshop.resetActual') }}",
                         method: "POST",
-                        data: {JONum: JONum, _token: _token,},
+                        data: {JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $("#ActualIDStart").removeClass("pointer-events-none");
                             $("#ActualIDEnd").removeClass("pointer-events-none");
@@ -3661,7 +3671,7 @@
                 jQuery(document).on( "click", "#saveTActivity", function(){
                     $(this).prop("disabled", true);
                     $.ajax({
-                        url:"{{ route('bt-workshop.saveTActivity') }}",
+                        url:"{{ route('t-workshop.saveTActivity') }}",
                         method: "POST",
                         data: $('#formActivityInfo').serialize(),
                         success: function(result) {
@@ -3671,6 +3681,7 @@
                             $("#modalTechAct").addClass("hidden");
 
                             var bay = $('#TABayNum').val();
+                            var JON = $('#UnitInfoJON').val();
                             var _token = $('input[name="_token"]').val();
 
                             var calendarEl = document.getElementById('calendar');
@@ -3692,7 +3703,7 @@
                                     $.ajax({
                                     url: '{{ route('t-workshop.getEvents') }}',
                                     type: 'GET',
-                                    data: { bay: bay, _token: _token,},
+                                    data: { bay: bay, JON: JON, _token: _token,},
                                     success: function(response) {
                                         successCallback(response);
                                     },

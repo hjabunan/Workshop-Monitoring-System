@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\TechnicianSchedule;
+use App\Models\UnitPullOut;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\Csv\Writer;
 use Symfony\Component\HttpFoundation\Test\Constraint\RequestAttributeValueSame;
@@ -16,7 +19,7 @@ class TechnicianScheduleController extends Controller
                                 FROM technician_schedules
                                 INNER JOIN wms_technicians on wms_technicians.id = technician_schedules.techid
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = technician_schedules.baynum
-                                WHERE technician_schedules.status=1 OR technician_schedules.status=2
+                                WHERE technician_schedules.is_deleted=0 AND technician_schedules.status=1 OR technician_schedules.status=2
                         ');
                         
         $techschedX = DB::select('SELECT technician_schedules.id, technician_schedules.techid, wms_technicians.id AS techid1, wms_technicians.initials AS techname, technician_schedules.baynum, technician_schedules.JONumber,
@@ -24,16 +27,19 @@ class TechnicianScheduleController extends Controller
                                 FROM technician_schedules
                                 INNER JOIN wms_technicians on wms_technicians.id = technician_schedules.techid
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = technician_schedules.baynum
+                                WHERE technician_schedules.is_deleted=0
                                 ');
 
         $tech = DB::SELECT('SELECT id, name, initials FROM wms_technicians WHERE status="1"');
 
-        $bay = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSBayNum, wms_bay_areas.id as BayID, wms_bay_areas.area_name FROM unit_workshops INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum WHERE isBrandNew=0 AND WSDelTransfer = 0' );
+        $bay = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSBayNum, wms_bay_areas.id as BayID, wms_bay_areas.area_name FROM unit_workshops INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum WHERE isBrandNew=0 AND WSDelTransfer = 0 AND unit_workshops.is_deleted=0' );
 
         return view('workshop-ms.admin_monitoring.tech_schedule',compact('techsched','tech','bay','techschedX'));
     }
 
-    public function saveSchedule(Request $request){ 
+    public function saveSchedule(Request $request){
+        $POUB = UnitPullOut::where('id', $request->TSPOUID)->first();
+        $tesc = TechnicianSchedule::where('id', $request->TSID)->first();
         if($request->TSID == ''){
             $techsched = new TechnicianSchedule();
             $techsched->techid = strtoupper($request->TSName);
@@ -44,7 +50,25 @@ class TechnicianScheduleController extends Controller
             $techsched->scopeofwork = strtoupper($request->TSSoW);
             $techsched->activity = strtoupper($request->TSActivity);
             $techsched->remarks = '';
+                $dirtyAttributes = $techsched->getDirty();
             $techsched->save();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $techsched->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Tech. Schedule Table';
+                    $newLog->table_key = $techsched->id;
+                    $newLog->action = 'ADD';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
         }else{
             $techsched = TechnicianSchedule::find($request->TSID);
             $techsched->techid = strtoupper($request->TSName);
@@ -55,6 +79,24 @@ class TechnicianScheduleController extends Controller
             $techsched->scopeofwork = strtoupper($request->TSSoW);
             $techsched->activity = strtoupper($request->TSActivity);
             $techsched->remarks = '';
+                $dirtyAttributes = $techsched->getDirty();
+                foreach($dirtyAttributes as $attribute => $newValue){
+                    $oldValue = $techsched->getOriginal($attribute);
+
+                    $field = ucwords(str_replace('_', ' ', $attribute));
+
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Tech. Schedule Table';
+                    $newLog->table_key = $request->TSID;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress =  request()->ip();
+                    $newLog->save();
+                }
             $techsched->update();
         }
 
@@ -66,7 +108,7 @@ class TechnicianScheduleController extends Controller
                                     FROM technician_schedules 
                                     INNER JOIN wms_technicians on techid=wms_technicians.id
                                     INNER JOIN wms_bay_areas on baynum=wms_bay_areas.id
-                                    WHERE technician_schedules.status=1 OR technician_schedules.status=2
+                                    WHERE technician_schedules.is_deleted=0 AND technician_schedules.status=1 OR technician_schedules.status=2
                                 ');
 
         if(count($techschedule)>0){
@@ -125,18 +167,39 @@ class TechnicianScheduleController extends Controller
     }
 
     public function deleteSchedule(Request $request){
+        $POUB = UnitPullOut::where('id', $request->TSPOUID)->first();
+        $tesc = TechnicianSchedule::where('id', $request->TSID)->first();
         $techsched = TechnicianSchedule::find($request->TSID);
-        $techsched->delete();
+        $techsched->is_deleted = 1;
+            $dirtyAttributes = $techsched->getDirty();
+            foreach($dirtyAttributes as $attribute => $newValue){
+                $oldValue = $techsched->getOriginal($attribute);
+
+                $field = ucwords(str_replace('_', ' ', $attribute));
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Tech. Schedule Table';
+                $newLog->table_key = $request->TSID;
+                $newLog->action = 'DELETE';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = $field;
+                $newLog->before = $oldValue;
+                $newLog->after = $newValue;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
+            }
+        $techsched->update();
 
         $result = '';
 
-        $techschedule = DB::SELECT('SELECT technician_schedules.id, technician_schedules.techid, wms_technicians.initials AS techname, technician_schedules.baynum,
+        $techschedule = DB::SELECT('SELECT technician_schedules.id, technician_schedules.techid, wms_technicians.initials AS techname, technician_schedules.baynum, technician_schedules.JONumber,
                                     technician_schedules.scheddate, technician_schedules.scopeofwork, technician_schedules.activity, technician_schedules.status as TSStatus,
                                     wms_technicians.initials, wms_bay_areas.area_name
                                     FROM technician_schedules 
                                     INNER JOIN wms_technicians on techid=wms_technicians.id
                                     INNER JOIN wms_bay_areas on baynum=wms_bay_areas.id
-                                    WHERE technician_schedules.status="1"
+                                    WHERE technician_schedules.is_deleted=0 AND technician_schedules.status="1" OR technician_schedules.status="2"
                                 ');
 
         if(count($techschedule)>0){
@@ -150,6 +213,9 @@ class TechnicianScheduleController extends Controller
                                 </td>
                                 <td class="px-6 py-1">
                                         '.$TS->area_name.'
+                                </td>
+                                <td class="px-6 py-1">
+                                        '.$TS->JONumber.'
                                 </td>
                                 <td class="px-6 py-1">
                                         '.$TS->scheddate.'
@@ -182,7 +248,7 @@ class TechnicianScheduleController extends Controller
                                     FROM technician_schedules 
                                     INNER JOIN wms_technicians on techid=wms_technicians.id
                                     INNER JOIN wms_bay_areas on baynum=wms_bay_areas.id
-                                    WHERE technician_schedules.status="1" AND technician_schedules.scheddate BETWEEN ? AND ?', [$request->fromDate, $request->toDate]
+                                    WHERE technician_schedules.status="1" AND is_deleted=0 AND technician_schedules.scheddate BETWEEN ? AND ?', [$request->fromDate, $request->toDate]
                             );
         $result = '';
 
@@ -232,7 +298,7 @@ class TechnicianScheduleController extends Controller
                                     FROM technician_schedules 
                                     INNER JOIN wms_technicians on techid=wms_technicians.id
                                     INNER JOIN wms_bay_areas on baynum=wms_bay_areas.id
-                                    WHERE technician_schedules.status="1"'
+                                    WHERE technician_schedules.status="1" AND is_deleted=0'
                             );
         $result = '';
 

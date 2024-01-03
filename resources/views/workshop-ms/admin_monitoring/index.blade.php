@@ -2166,6 +2166,7 @@
                             @csrf
                             <div class="grid gap-4 mb-4 md:grid-cols-2">
                                 <input type="hidden" class="" id="TAID" name="TAID">
+                                <input type="hidden" class="" id="TAJONumber" name="TAJONumber">
                                 <input type="hidden" class="" id="TABayNum">
                                 <div>
                                     <label for="TAStatus" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -2204,11 +2205,11 @@
                                 </div>
                                 <div>
                                     <label for="TASoW" class="block mb-2 text-sm font-medium text-gray-900">Scope of Work</label>
-                                    <input type="text" id="TASoW" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                    <input type="text" id="TASoW" name="TASoW" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 </div>
                                 <div>
                                     <label for="TAActivity" class="block mb-2 text-sm font-medium text-gray-900">Activity</label>
-                                    <input type="text" id="TAActivity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pointer-events-none">
+                                    <input type="text" id="TAActivity" name="TAActivity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="TARemarks" class="block mb-2 text-sm font-medium text-gray-900">Remarks</label>
@@ -2285,6 +2286,7 @@
             // 
                 jQuery(document).on("click", "#activity-tab", function(){
                     var bay = $('#UnitBayNum').val();
+                    var JON = $('#UnitInfoJON').val();
                     var _token = $('input[name="_token"]').val();
                     
                     var calendarEl = document.getElementById('calendar');
@@ -2306,7 +2308,7 @@
                             $.ajax({
                             url: '{{ route('admin-monitoring.getEvents') }}',
                             type: 'GET',
-                            data: { bay: bay, _token: _token,},
+                            data: { bay: bay, JON: JON, _token: _token,},
                             success: function(response) {
                                 successCallback(response);
                             },
@@ -2321,6 +2323,7 @@
                             
                             if (eventDate.toDateString() <= today.toDateString()) {
                                 var eventId = info.event.id;
+                                var jonum = info.event.extendedProps.jonum;
                                 var baynum = info.event.extendedProps.baynum;
                                 var technician = info.event.extendedProps.technician;
                                 var scheddate = info.event.extendedProps.scheddate;
@@ -2333,6 +2336,7 @@
 
                                 $('#modalTechAct').removeClass('hidden');
                                 $('#TAID').val(eventId);
+                                $('#TAJONumber').val(jonum);
                                 $('#TABayNum').val(baynum);
                                 $('#TATechnician').val(technician);
                                 $('#TASchedDate').val(scheddate);
@@ -2798,12 +2802,13 @@
                     var TRStart = $("#TRepairDStart").val();
                     var TREnd = $("#TRepairDEnd").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('admin-monitoring.saveTargetActivity') }}",
                         method: "POST",
-                        data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, _token: _token,},
+                        data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $("#TUpdate").prop("disabled", false);
                             $("#success-modal").removeClass("hidden");
@@ -2870,94 +2875,96 @@
                 });
             
             // Save Date of Inspection Start
-                jQuery(document).on( "click", "#TUpdate", function(){
-                    $(this).prop("disabled", true);
-                    var TIStart = $("#TInspectDStart").val();
-                    var TIEnd = $("#TInspectDEnd").val();
-                    var TRStart = $("#TRepairDStart").val();
-                    var TREnd = $("#TRepairDEnd").val();
-                    var JONum = $('#UnitInfoJON').val();
-                    var _token = $('input[name="_token"]').val();
+                // jQuery(document).on( "click", "#TUpdate", function(){
+                //     $(this).prop("disabled", true);
+                //     var TIStart = $("#TInspectDStart").val();
+                //     var TIEnd = $("#TInspectDEnd").val();
+                //     var TRStart = $("#TRepairDStart").val();
+                //     var TREnd = $("#TRepairDEnd").val();
+                //     var JONum = $('#UnitInfoJON').val();
+                //     var PulloutID = $('#UnitInfoPOUID').val();
+                //     var _token = $('input[name="_token"]').val();
 
-                    $.ajax({
-                        url:"{{ route('admin-monitoring.saveTargetActivity') }}",
-                        method: "POST",
-                        data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, _token: _token,},
-                        success: function(result) {
-                            $("#TUpdate").prop("disabled", false);
-                            $("#success-modal").removeClass("hidden");
-                            $("#success-modal").addClass("flex");
+                //     $.ajax({
+                //         url:"{{ route('admin-monitoring.saveTargetActivity') }}",
+                //         method: "POST",
+                //         data: {TIStart: TIStart, TIEnd: TIEnd, TRStart: TRStart, TREnd: TREnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
+                //         success: function(result) {
+                //             $("#TUpdate").prop("disabled", false);
+                //             $("#success-modal").removeClass("hidden");
+                //             $("#success-modal").addClass("flex");
                             
-                                // Create the Chart for PlanvActualChart
-                                    var planTotalDays = $("#TTotalDays").val();
-                                    var actualTotalDays = $("#ATotalDays").val();
-                                    var ctx = document.getElementById("PlanvActualChart").getContext("2d");
-                                    var PlanvActualChart = new Chart(ctx, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: ["Target Total Days", "Actual Total Days"],
-                                            datasets: [{
-                                                data: [planTotalDays, actualTotalDays],
-                                                backgroundColor: [
-                                                'rgba(255, 99, 132, 5)',
-                                                'rgba(54, 162, 235, 5)',
-                                                ],
-                                                borderColor: [
-                                                'rgba(255, 99, 132, 1)',
-                                                'rgba(54, 162, 235, 1)',
-                                                ],
-                                                borderWidth: 1
-                                            }]
-                                        },
-                                        options: {
-                                            legend: {
-                                                display: false
-                                            },
-                                            scales: {
-                                                yAxes: [{
-                                                    ticks: {
-                                                        beginAtZero: true
-                                                    }
-                                                }]
-                                            }
-                                        }
-                                    });
+                //                 // Create the Chart for PlanvActualChart
+                //                     var planTotalDays = $("#TTotalDays").val();
+                //                     var actualTotalDays = $("#ATotalDays").val();
+                //                     var ctx = document.getElementById("PlanvActualChart").getContext("2d");
+                //                     var PlanvActualChart = new Chart(ctx, {
+                //                         type: 'bar',
+                //                         data: {
+                //                             labels: ["Target Total Days", "Actual Total Days"],
+                //                             datasets: [{
+                //                                 data: [planTotalDays, actualTotalDays],
+                //                                 backgroundColor: [
+                //                                 'rgba(255, 99, 132, 5)',
+                //                                 'rgba(54, 162, 235, 5)',
+                //                                 ],
+                //                                 borderColor: [
+                //                                 'rgba(255, 99, 132, 1)',
+                //                                 'rgba(54, 162, 235, 1)',
+                //                                 ],
+                //                                 borderWidth: 1
+                //                             }]
+                //                         },
+                //                         options: {
+                //                             legend: {
+                //                                 display: false
+                //                             },
+                //                             scales: {
+                //                                 yAxes: [{
+                //                                     ticks: {
+                //                                         beginAtZero: true
+                //                                     }
+                //                                 }]
+                //                             }
+                //                         }
+                //                     });
 
-                                    if ($('#TTotalDays').val() != 0 && $('#ATotalDays').val() != 0){
-                                        var percent1 = ((planTotalDays/actualTotalDays) * 100);
-                                        var percent2 = ((actualTotalDays/planTotalDays) * 100);
+                //                     if ($('#TTotalDays').val() != 0 && $('#ATotalDays').val() != 0){
+                //                         var percent1 = ((planTotalDays/actualTotalDays) * 100);
+                //                         var percent2 = ((actualTotalDays/planTotalDays) * 100);
 
-                                        $('#WERPercentage').val(percent1.toFixed(2)+'%');
-                                        $('#TDPPercentage').val(percent2.toFixed(2)+'%');
-                                    }else if($('#TTotalDays').val() != 0 && $('#ATotalDays').val() == 0){
-                                        $('#WERPercentage').val(100+'%');
-                                        $('#TDPPercentage').val(0+'%');
-                                    }else if($('#TTotalDays').val() == 0 && $('#ATotalDays').val() != 0){
-                                        $('#WERPercentage').val(0+'%');
-                                        $('#TDPPercentage').val(100+'%');
-                                    }else{
-                                        $('#WERPercentage').val(0+'%');
-                                        $('#TDPPercentage').val(0+'%');
-                                    }
-                        },
-                        error: function(error){
-                            $("#TUpdate").prop("disabled", false);
-                            $("#failed-modal").removeClass("hidden");
-                            $("#failed-modal").addClass("flex");
-                        }
-                    });
-                });
+                //                         $('#WERPercentage').val(percent1.toFixed(2)+'%');
+                //                         $('#TDPPercentage').val(percent2.toFixed(2)+'%');
+                //                     }else if($('#TTotalDays').val() != 0 && $('#ATotalDays').val() == 0){
+                //                         $('#WERPercentage').val(100+'%');
+                //                         $('#TDPPercentage').val(0+'%');
+                //                     }else if($('#TTotalDays').val() == 0 && $('#ATotalDays').val() != 0){
+                //                         $('#WERPercentage').val(0+'%');
+                //                         $('#TDPPercentage').val(100+'%');
+                //                     }else{
+                //                         $('#WERPercentage').val(0+'%');
+                //                         $('#TDPPercentage').val(0+'%');
+                //                     }
+                //         },
+                //         error: function(error){
+                //             $("#TUpdate").prop("disabled", false);
+                //             $("#failed-modal").removeClass("hidden");
+                //             $("#failed-modal").addClass("flex");
+                //         }
+                //     });
+                // });
 
             // Save Date of Inspection Start
                 jQuery(document).on( "click", "#updateIDS", function(){
                     var AIDStart = $("#ActualIDStart").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('admin-monitoring.updateIDS') }}",
                         method: "POST",
-                        data: {AIDStart: AIDStart, JONum: JONum, _token: _token,},
+                        data: {AIDStart: AIDStart, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualIDStart').addClass('pointer-events-none');
                             $("#updateIDS").hide();
@@ -3054,12 +3061,13 @@
                 jQuery(document).on( "click", "#updateIDE", function(){
                     var AIDEnd = $("#ActualIDEnd").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('admin-monitoring.updateIDE') }}",
                         method: "POST",
-                        data: {AIDEnd: AIDEnd, JONum: JONum, _token: _token,},
+                        data: {AIDEnd: AIDEnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualIDEnd').addClass('pointer-events-none');
                             $("#updateIDE").hide();
@@ -3093,12 +3101,13 @@
                 jQuery(document).on( "click", "#updateRDS", function(){
                     var ARDStart = $("#ActualRDStart").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('admin-monitoring.updateRDS') }}",
                         method: "POST",
-                        data: {ARDStart: ARDStart, JONum: JONum, _token: _token,},
+                        data: {ARDStart: ARDStart, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualRDStart').addClass('pointer-events-none');
                             $("#updateRDS").hide();
@@ -3122,12 +3131,13 @@
                 jQuery(document).on( "click", "#updateRDE", function(){
                     var ARDEnd = $("#ActualRDEnd").val();
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('admin-monitoring.updateRDE') }}",
                         method: "POST",
-                        data: {ARDEnd: ARDEnd, JONum: JONum, _token: _token,},
+                        data: {ARDEnd: ARDEnd, JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $('#ActualRDEnd').addClass('pointer-events-none');
                             $("#updateRDE").hide();
@@ -3227,12 +3237,13 @@
             // Reset Dates on Actual
                 jQuery(document).on( "click", "#AReset", function(){
                     var JONum = $('#UnitInfoJON').val();
+                    var PulloutID = $('#UnitInfoPOUID').val();
                     var _token = $('input[name="_token"]').val();
 
                     $.ajax({
                         url:"{{ route('admin-monitoring.resetActual') }}",
                         method: "POST",
-                        data: {JONum: JONum, _token: _token,},
+                        data: {JONum: JONum, PulloutID: PulloutID, _token: _token,},
                         success: function(result) {
                             $("#ActualIDStart").removeClass("pointer-events-none");
                             $("#ActualIDEnd").removeClass("pointer-events-none");
@@ -4292,6 +4303,30 @@
                     });
                 });
 
+            // Save Remarks
+                jQuery(document).on( "click", "#updateRemarks", function(){
+                    $(this).prop("disabled", true);
+                    var WSJONum = $('#UnitInfoJON').val();
+                    var URemarks = $('#PIRemarks').val();
+                    var _token = $('input[name="_token"]').val();
+
+                    $.ajax({
+                        url: "{{ route('admin-monitoring.saveRemarks') }}",
+                        type: "POST",
+                        data: {WSJONum: WSJONum, URemarks: URemarks, _token: _token,},
+                        success: function(result) {
+                            $("#updateRemarks").prop("disabled", false);
+                            $("#success-modal").removeClass("hidden");
+                            $("#success-modal").addClass("flex");
+                        },
+                        error: function(error){
+                            $("#updateRemarks").prop("disabled", false);
+                            $("#failed-modal").removeClass("hidden");
+                            $("#failed-modal").addClass("flex");
+                        }
+                    });
+                });
+
             // View Technician Schedule
                 jQuery(document).on( "click", "#viewSchedule", function(){
                     var bay = $('#UnitBayNum').val();
@@ -4324,6 +4359,7 @@
                             $("#modalTechAct").addClass("hidden");
 
                             var bay = $('#TABayNum').val();
+                            var JON = $('#UnitInfoJON').val();
                             var _token = $('input[name="_token"]').val();
 
                             var calendarEl = document.getElementById('calendar');
@@ -4343,9 +4379,9 @@
                                 displayEventTime: false,
                                 events: function(info, successCallback) {
                                     $.ajax({
-                                    url: '{{ route('bt-workshop.getEvents') }}',
+                                    url: '{{ route('admin-monitoring.getEvents') }}',
                                     type: 'GET',
-                                    data: { bay: bay, _token: _token,},
+                                    data: { bay: bay, JON: JON, _token: _token,},
                                     success: function(response) {
                                         successCallback(response);
                                     },
@@ -4360,6 +4396,7 @@
                                     
                                     if (eventDate.toDateString() <= today.toDateString()) {
                                         var eventId = info.event.id;
+                                        var jonum = info.event.extendedProps.jonum;
                                         var baynum = info.event.extendedProps.baynum;
                                         var technician = info.event.extendedProps.technician;
                                         var scheddate = info.event.extendedProps.scheddate;
@@ -4372,6 +4409,7 @@
 
                                         $('#modalTechAct').removeClass('hidden');
                                         $('#TAID').val(eventId);
+                                        $('#TAJONumber').val(jonum);
                                         $('#TABayNum').val(baynum);
                                         $('#TATechnician').val(technician);
                                         $('#TASchedDate').val(scheddate);
@@ -4447,7 +4485,7 @@
                                 displayEventTime: false,
                                 events: function(info, successCallback) {
                                     $.ajax({
-                                    url: '{{ route('bt-workshop.getEvents') }}',
+                                    url: '{{ route('admin-monitoring.getEvents') }}',
                                     type: 'GET',
                                     data: { bay: bay, _token: _token,},
                                     success: function(response) {
@@ -4522,6 +4560,7 @@
                         success: function(result) {
                             $('#POUIDx').val(WSPOUID);
                             $('#BayID').val(UnitBayNum);
+                            $('#UnitTransferDate').val(result.TransferDate);
                             $('#UnitStatus').val(result.TransferStatus);
                             $('#UnitArea').val(result.TransferArea);
                             $('#UnitBay').html(result.TransferBay);
