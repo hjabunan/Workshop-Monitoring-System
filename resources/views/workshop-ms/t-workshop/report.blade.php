@@ -2064,7 +2064,7 @@
                                 <div class="grid grid-cols-3">
                                     <div class="grid grid-cols-3 items-center">
                                         <div id="label" class="">
-                                            <label for="POUUnitType" class="block text-sm font-medium text-gray-900">Unit Type:</label>
+                                            <label for="POUUnitType" class="block text-sm font-medium text-gray-900">Unit:</label>
                                         </div>
                                         <div id="input" class="col-span-2 uppercase mr-1">
                                             <select name="POUUnitType" id="POUUnitType" class="block w-full p-1.5 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-center text-sm">
@@ -2133,6 +2133,34 @@
                                                     <option value="3">CLASS C</option>
                                                     <option value="4">CLASS D</option>
                                                 </select>
+                                            </div>
+                                            <div id="label" class="mt-2">
+                                                <label for="POUUnitType2" class="block text-sm font-medium text-gray-900">Unit Type:</label>
+                                            </div>
+                                            <div id="input" class="col-span-2 mr-1 mt-2">
+                                                <div class="">
+                                                    <select id="POUUnitType2" name="POUUnitType2" class="border border-gray-300 text-center text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
+                                                        <option value="" selected disabled></option>
+                                                        <option value="1">TOYOTA IC JAPAN</option>
+                                                        <option value="2">TOYOTA ELECTRIC JAPAN</option>
+                                                        <option value="3">TOYOTA IC CHINA</option>
+                                                        <option value="4">TOYOTA ELECTRIC CHINA</option>
+                                                        <option value="5">TOYOTA REACH TRUCK</option>
+                                                        <option value="6">BT REACH TRUCK</option>
+                                                        <option value="7">BT STACKER</option>
+                                                        <option value="8">RAYMOND REACH TRUCK</option>
+                                                        <option value="9">RAYMOND STACKER</option>
+                                                        <option value="10">STACKER TAILIFT</option>
+                                                        <option value="11">PPT</option>
+                                                        <option value="12">OPC</option>
+                                                        <option value="13">HPT</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class=""></div>
+                                            <div id="label" class="">
+                                            </div>
+                                            <div id="input" class="col-span-2 mr-1">
                                             </div>
                                             <div id="label" class="mt-2">
                                                 <label for="POUModel" class="block text-sm font-medium text-gray-900">Model:</label>
@@ -3441,7 +3469,7 @@
                 $('#savePullOut').on( "click", function(){
                     $(this).prop("disabled", true);
                     if($('#POUUnitType').val() == 1){
-                        if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUCustomer').val() == '' || $('#POUCustAddress').val() == '' || $('#POURemarks').val() == '' ){
+                        if ($('#POUBrand').val() == '' || $('#POUUnitType2').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUCustomer').val() == '' || $('#POUCustAddress').val() == '' || $('#POURemarks').val() == '' ){
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                             $("#savePullOut").prop("disabled", false);
@@ -3449,7 +3477,7 @@
                             $('#savePullOutH').click();
                         }
                     }else{
-                        if ($('#POUBrand').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUCustomer').val() == '' || $('#POUCustAddress').val() == '' || $('#POUBABrand').val() == '' || $('#POUBABatType').val() == '' || $('#POUBASerialNum').val() == '' || $('#POUBACode').val() == '' || $('#POUBAAmper').val() == '' || $('#POUBAVolt').val() == '' || $('#POUCBrand').val() == '' || $('#POUCModel').val() == '' || $('#POUCSerialNum').val() == '' || $('#POUCCode').val() == '' || $('#POUCAmper').val() == '' || $('#POUCVolt').val() == '' || $('#POUCInput').val() == '' || $('#POURemarks').val() == '' ){
+                        if ($('#POUBrand').val() == '' || $('#POUUnitType2').val() == '' || $('#POUClassification').val() == '' || $('#POUModel').val() == '' || $('#POUSerialNum').val() == '' || $('#POUCode').val() == '' || $('#POUMastType').val() == '' || $('#POUMastHeight').val() == '' || $('#POUForkSize').val() == '' || $('#POUTechnician1').val() == '' || $('#POUCustomer').val() == '' || $('#POUCustAddress').val() == '' || $('#POUBABrand').val() == '' || $('#POUBABatType').val() == '' || $('#POUBASerialNum').val() == '' || $('#POUBACode').val() == '' || $('#POUBAAmper').val() == '' || $('#POUBAVolt').val() == '' || $('#POUCBrand').val() == '' || $('#POUCModel').val() == '' || $('#POUCSerialNum').val() == '' || $('#POUCCode').val() == '' || $('#POUCAmper').val() == '' || $('#POUCVolt').val() == '' || $('#POUCInput').val() == '' || $('#POURemarks').val() == '' ){
                             $("#failed-modal").removeClass("hidden");
                             $("#failed-modal").addClass("flex");
                             $("#savePullOut").prop("disabled", false);
@@ -3527,6 +3555,7 @@
                                     $('#POUUnitType').val(result.POUUnitType);
                                     $("#BatteryDetails-tab, #ChargerDetails-tab").show();
                                 }
+                            $('#POUUnitType2').val(result.POUUnitType2);
                             $('#POUArrivalDate').val(result.POUArrivalDate);
                             $('#POUBrand').val(result.POUBrand);
                             $('#POUClassification').val(result.POUClassification);
@@ -3688,6 +3717,7 @@
                                     $('#POUUnitType').val(result.POUUnitType);
                                     $("#BatteryDetails-tab, #ChargerDetails-tab").show();
                                 }
+                            $('#POUUnitType2').val(result.POUUnitType2);
                             $('#POUArrivalDate').val(result.POUArrivalDate);
                             $('#POUBrand').val(result.POUBrand);
                             $('#POUClassification').val(result.POUClassification);
@@ -3981,6 +4011,7 @@
                                     $('#POUUnitType').val(result.POUUnitType);
                                     $("#BatteryDetails-tab, #ChargerDetails-tab").show();
                                 }
+                            $('#POUUnitType2').val(result.POUUnitType2);
                             $('#POUArrivalDate').val(result.POUArrivalDate);
                             $('#POUBrand').val(result.POUBrand);
                             $('#POUClassification').val(result.POUClassification);
@@ -4146,6 +4177,7 @@
                                     $('#POUUnitType').val(result.POUUnitType);
                                     $("#BatteryDetails-tab, #ChargerDetails-tab").show();
                                 }
+                            $('#POUUnitType2').val(result.POUUnitType2);
                             $('#POUArrivalDate').val(result.POUArrivalDate);
                             $('#POUBrand').val(result.POUBrand);
                             $('#POUClassification').val(result.POUClassification);

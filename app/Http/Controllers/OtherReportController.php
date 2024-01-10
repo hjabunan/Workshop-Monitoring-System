@@ -46,7 +46,7 @@ class OtherReportController extends Controller
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
                                 LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
-                                WHERE unit_workshops.WSDelTransfer = 0 and unit_workshops.is_deleted=0 and unit_pull_outs.is_deleted=0
+                                WHERE unit_workshops.WSDelTransfer = 0 and unit_workshops.is_deleted=0 and unit_pull_outs.is_deleted=0 and unit_confirms.is_deleted=0
                                 -- AND unit_workshops.WSStatus <= 4
                             ');
         
@@ -503,6 +503,43 @@ class OtherReportController extends Controller
                     $newLog->action = 'UPDATE';
                     $newLog->description = $POUB->POUSerialNum;
                     $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
+
+            UnitPullOut::where('id', $request->UnitInfoPOUID)
+            ->update([
+                'POUUnitType2' => $request->UnitInfoUType,
+            ]);
+
+            $updates1 = DB::table('unit_pull_outs')
+            ->where('id', $request->UnitInfoPOUID)
+            ->WHERE('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields1 = ['id', 'created_at', 'updated_at'];
+
+            foreach ($updates1 as $field1 => $newValue) {
+                if (in_array($field1, $excludedFields1)) {
+                    continue;
+                }
+            
+                $oldValue = $POUB->$field1;
+            
+                if ($oldValue !== $newValue) {
+                    $field1 = ucwords(str_replace('_', ' ', $field1));
+            
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Pullout Table';
+                    $newLog->table_key = $POUB->id;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field1;
                     $newLog->before = $oldValue;
                     $newLog->after = $newValue;
                     $newLog->user_id = Auth::user()->id;

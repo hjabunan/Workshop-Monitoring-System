@@ -49,11 +49,13 @@ class ActivityLogsController extends Controller
                     if($act->field == 'IsBrandNew'){
                         $label = "Brand New Unit";
                     }else if($act->field == 'POUUnitType'){
-                        $label = "Unit Type";
+                        $label = "Unit";
                     }else if($act->field == 'POUArrivalDate'){
                         $label = "Arrival Date";
                     }else if($act->field == 'POUBrand'){
                         $label = "Brand";
+                    }else if($act->field == 'POUUnitType2'){
+                        $label = "Unit Type";
                     }else if($act->field == 'POUClassification'){
                         $label = "Classification";
                     }else if($act->field == 'POUModel'){
@@ -329,6 +331,34 @@ class ActivityLogsController extends Controller
                                     }
                             }else if($act->field == "POUBrand"){
                                 $value = DB::table('brands')->where('id',$act->after)->first()->name;
+                            }else if($act->field == "POUUnitType2"){
+                                    if($act->after == 1){
+                                        $value = "TOYOTA IC JAPAN";
+                                    }else if($act->after == 2){
+                                        $value = "TOYOTA ELECTRIC JAPAN";
+                                    }else if($act->after == 3){
+                                        $value = "TOYOTA IC CHINA";
+                                    }else if($act->after == 4){
+                                        $value = "TOYOTA ELECTRIC CHINA";
+                                    }else if($act->after == 5){
+                                        $value = "TOYOTA REACH TRUCK";
+                                    }else if($act->after == 6){
+                                        $value = "BT REACH TRUCK";
+                                    }else if($act->after == 7){
+                                        $value = "BT STACKER";
+                                    }else if($act->after == 8){
+                                        $value = "RAYMOND REACH TRUCK";
+                                    }else if($act->after == 9){
+                                        $value = "RAYMOND STACKER";
+                                    }else if($act->after == 10){
+                                        $value = "STACKER TAILIFT";
+                                    }else if($act->after == 11){
+                                        $value = "PPT";
+                                    }else if($act->after == 12){
+                                        $value = "OPH";
+                                    }else{
+                                        $value = "HPT";
+                                    }
                             }else if($act->field == "POUClassification"){
                                 if($act->after == 1){
                                     $value = "CLASS A";
@@ -810,6 +840,34 @@ class ActivityLogsController extends Controller
                                         }
                                 }else if($act->field == "POUBrand"){
                                     $valueB = DB::table('brands')->where('id',$act->before)->first()->name;
+                                }else if($act->field == "POUUnitType2"){
+                                        if($act->before == 1){
+                                            $valueB = "TOYOTA IC JAPAN";
+                                        }else if($act->before == 2){
+                                            $valueB = "TOYOTA ELECTRIC JAPAN";
+                                        }else if($act->before == 3){
+                                            $valueB = "TOYOTA IC CHINA";
+                                        }else if($act->before == 4){
+                                            $valueB = "TOYOTA ELECTRIC CHINA";
+                                        }else if($act->before == 5){
+                                            $valueB = "TOYOTA REACH TRUCK";
+                                        }else if($act->before == 6){
+                                            $valueB = "BT REACH TRUCK";
+                                        }else if($act->before == 7){
+                                            $valueB = "BT STACKER";
+                                        }else if($act->before == 8){
+                                            $valueB = "RAYMOND REACH TRUCK";
+                                        }else if($act->before == 9){
+                                            $valueB = "RAYMOND STACKER";
+                                        }else if($act->before == 10){
+                                            $valueB = "STACKER TAILIFT";
+                                        }else if($act->before == 11){
+                                            $valueB = "PPT";
+                                        }else if($act->before == 12){
+                                            $valueB = "OPH";
+                                        }else{
+                                            $valueB = "HPT";
+                                        }
                                 }else if($act->field == "POUClassification"){
                                     if($act->before == 1){
                                         $valueB = "CLASS A";
@@ -1255,7 +1313,7 @@ class ActivityLogsController extends Controller
                                     $valueB = $act->before;
                                 }
 
-                        // before
+                        // AFTER
                             // USER
                                 if($act->field == "Role"){
                                     if($act->after == 0){
@@ -1282,6 +1340,34 @@ class ActivityLogsController extends Controller
                                         }
                                 }else if($act->field == "POUBrand"){
                                     $valueA = DB::table('brands')->where('id',$act->after)->first()->name;
+                                }else if($act->field == "POUUnitType2"){
+                                        if($act->after == 1){
+                                            $valueA = "TOYOTA IC JAPAN";
+                                        }else if($act->after == 2){
+                                            $valueA = "TOYOTA ELECTRIC JAPAN";
+                                        }else if($act->after == 3){
+                                            $valueA = "TOYOTA IC CHINA";
+                                        }else if($act->after == 4){
+                                            $valueA = "TOYOTA ELECTRIC CHINA";
+                                        }else if($act->after == 5){
+                                            $valueA = "TOYOTA REACH TRUCK";
+                                        }else if($act->after == 6){
+                                            $valueA = "BT REACH TRUCK";
+                                        }else if($act->after == 7){
+                                            $valueA = "BT STACKER";
+                                        }else if($act->after == 8){
+                                            $valueA = "RAYMOND REACH TRUCK";
+                                        }else if($act->after == 9){
+                                            $valueA = "RAYMOND STACKER";
+                                        }else if($act->after == 10){
+                                            $valueA = "STACKER TAILIFT";
+                                        }else if($act->after == 11){
+                                            $valueA = "PPT";
+                                        }else if($act->after == 12){
+                                            $valueA = "OPH";
+                                        }else{
+                                            $valueA = "HPT";
+                                        }
                                 }else if($act->field == "POUClassification"){
                                     if($act->after == 1){
                                         $valueA = "CLASS A";
@@ -1772,11 +1858,13 @@ class ActivityLogsController extends Controller
                         if($act->field == 'IsBrandNew'){
                             $label = "Brand New Unit";
                         }else if($act->field == 'POUUnitType'){
-                            $label = "Unit Type";
+                            $label = "Unit";
                         }else if($act->field == 'POUArrivalDate'){
                             $label = "Arrival Date";
                         }else if($act->field == 'POUBrand'){
                             $label = "Brand";
+                        }else if($act->field == 'POUUnitType2'){
+                            $label = "Unit Type";
                         }else if($act->field == 'POUClassification'){
                             $label = "Classification";
                         }else if($act->field == 'POUModel'){
@@ -2038,13 +2126,41 @@ class ActivityLogsController extends Controller
                                     }
                             // Unit - PULLOUT
                                 }else if($act->field == "POUUnitType"){
-                                        if($act->after == 1){
-                                            $value = "DIESEL/GASOLINE/LPG";
-                                        }else{
-                                            $value = "BATTERY";
-                                        }
+                                    if($act->after == 1){
+                                        $value = "DIESEL/GASOLINE/LPG";
+                                    }else{
+                                        $value = "BATTERY";
+                                    }
                                 }else if($act->field == "POUBrand"){
                                     $value = DB::table('brands')->where('id',$act->after)->first()->name;
+                                }else if($act->field == "POUUnitType2"){
+                                    if($act->after == 1){
+                                        $value = "TOYOTA IC JAPAN";
+                                    }else if($act->after == 2){
+                                        $value = "TOYOTA ELECTRIC JAPAN";
+                                    }else if($act->after == 3){
+                                        $value = "TOYOTA IC CHINA";
+                                    }else if($act->after == 4){
+                                        $value = "TOYOTA ELECTRIC CHINA";
+                                    }else if($act->after == 5){
+                                        $value = "TOYOTA REACH TRUCK";
+                                    }else if($act->after == 6){
+                                        $value = "BT REACH TRUCK";
+                                    }else if($act->after == 7){
+                                        $value = "BT STACKER";
+                                    }else if($act->after == 8){
+                                        $value = "RAYMOND REACH TRUCK";
+                                    }else if($act->after == 9){
+                                        $value = "RAYMOND STACKER";
+                                    }else if($act->after == 10){
+                                        $value = "STACKER TAILIFT";
+                                    }else if($act->after == 11){
+                                        $value = "PPT";
+                                    }else if($act->after == 12){
+                                        $value = "OPH";
+                                    }else{
+                                        $value = "HPT";
+                                    }
                                 }else if($act->field == "POUClassification"){
                                     if($act->after == 1){
                                         $value = "CLASS A";
@@ -2519,13 +2635,41 @@ class ActivityLogsController extends Controller
                                             $valueB = "Yes";
                                         }
                                     }else if($act->field == "POUUnitType"){
-                                            if($act->before == 1){
-                                                $valueB = "DIESEL/GASOLINE/LPG";
-                                            }else{
-                                                $valueB = "BATTERY";
-                                            }
+                                        if($act->before == 1){
+                                            $valueB = "DIESEL/GASOLINE/LPG";
+                                        }else{
+                                            $valueB = "BATTERY";
+                                        }
                                     }else if($act->field == "POUBrand"){
                                         $valueB = DB::table('brands')->where('id',$act->before)->first()->name;
+                                    }else if($act->field == "POUUnitType2"){
+                                        if($act->before == 1){
+                                            $valueB = "TOYOTA IC JAPAN";
+                                        }else if($act->before == 2){
+                                            $valueB = "TOYOTA ELECTRIC JAPAN";
+                                        }else if($act->before == 3){
+                                            $valueB = "TOYOTA IC CHINA";
+                                        }else if($act->before == 4){
+                                            $valueB = "TOYOTA ELECTRIC CHINA";
+                                        }else if($act->before == 5){
+                                            $valueB = "TOYOTA REACH TRUCK";
+                                        }else if($act->before == 6){
+                                            $valueB = "BT REACH TRUCK";
+                                        }else if($act->before == 7){
+                                            $valueB = "BT STACKER";
+                                        }else if($act->before == 8){
+                                            $valueB = "RAYMOND REACH TRUCK";
+                                        }else if($act->before == 9){
+                                            $valueB = "RAYMOND STACKER";
+                                        }else if($act->before == 10){
+                                            $valueB = "STACKER TAILIFT";
+                                        }else if($act->before == 11){
+                                            $valueB = "PPT";
+                                        }else if($act->before == 12){
+                                            $valueB = "OPH";
+                                        }else{
+                                            $valueB = "HPT";
+                                        }
                                     }else if($act->field == "POUClassification"){
                                         if($act->before == 1){
                                             $valueB = "CLASS A";
@@ -2991,13 +3135,41 @@ class ActivityLogsController extends Controller
                                         }
                                 // Unit - PULLOUT
                                     }else if($act->field == "POUUnitType"){
-                                            if($act->after == 1){
-                                                $valueA = "DIESEL/GASOLINE/LPG";
-                                            }else{
-                                                $valueA = "BATTERY";
-                                            }
+                                        if($act->after == 1){
+                                            $valueA = "DIESEL/GASOLINE/LPG";
+                                        }else{
+                                            $valueA = "BATTERY";
+                                        }
                                     }else if($act->field == "POUBrand"){
                                         $valueA = DB::table('brands')->where('id',$act->after)->first()->name;
+                                    }else if($act->field == "POUUnitType2"){
+                                        if($act->after == 1){
+                                            $valueA = "TOYOTA IC JAPAN";
+                                        }else if($act->after == 2){
+                                            $valueA = "TOYOTA ELECTRIC JAPAN";
+                                        }else if($act->after == 3){
+                                            $valueA = "TOYOTA IC CHINA";
+                                        }else if($act->after == 4){
+                                            $valueA = "TOYOTA ELECTRIC CHINA";
+                                        }else if($act->after == 5){
+                                            $valueA = "TOYOTA REACH TRUCK";
+                                        }else if($act->after == 6){
+                                            $valueA = "BT REACH TRUCK";
+                                        }else if($act->after == 7){
+                                            $valueA = "BT STACKER";
+                                        }else if($act->after == 8){
+                                            $valueA = "RAYMOND REACH TRUCK";
+                                        }else if($act->after == 9){
+                                            $valueA = "RAYMOND STACKER";
+                                        }else if($act->after == 10){
+                                            $valueA = "STACKER TAILIFT";
+                                        }else if($act->after == 11){
+                                            $valueA = "PPT";
+                                        }else if($act->after == 12){
+                                            $valueA = "OPH";
+                                        }else{
+                                            $valueA = "HPT";
+                                        }
                                     }else if($act->field == "POUClassification"){
                                         if($act->after == 1){
                                             $valueA = "CLASS A";
@@ -3483,11 +3655,13 @@ class ActivityLogsController extends Controller
                         if($act->field == 'IsBrandNew'){
                             $label = "Brand New Unit";
                         }else if($act->field == 'POUUnitType'){
-                            $label = "Unit Type";
+                            $label = "Unit";
                         }else if($act->field == 'POUArrivalDate'){
                             $label = "Arrival Date";
                         }else if($act->field == 'POUBrand'){
                             $label = "Brand";
+                        }else if($act->field == 'POUUnitType2'){
+                            $label = "Unit Type";
                         }else if($act->field == 'POUClassification'){
                             $label = "Classification";
                         }else if($act->field == 'POUModel'){
@@ -3749,13 +3923,41 @@ class ActivityLogsController extends Controller
                                     }
                             // Unit - PULLOUT
                                 }else if($act->field == "POUUnitType"){
-                                        if($act->after == 1){
-                                            $value = "DIESEL/GASOLINE/LPG";
-                                        }else{
-                                            $value = "BATTERY";
-                                        }
+                                    if($act->after == 1){
+                                        $value = "DIESEL/GASOLINE/LPG";
+                                    }else{
+                                        $value = "BATTERY";
+                                    }
                                 }else if($act->field == "POUBrand"){
                                     $value = DB::table('brands')->where('id',$act->after)->first()->name;
+                                }else if($act->field == "POUUnitType2"){
+                                    if($act->after == 1){
+                                        $value = "TOYOTA IC JAPAN";
+                                    }else if($act->after == 2){
+                                        $value = "TOYOTA ELECTRIC JAPAN";
+                                    }else if($act->after == 3){
+                                        $value = "TOYOTA IC CHINA";
+                                    }else if($act->after == 4){
+                                        $value = "TOYOTA ELECTRIC CHINA";
+                                    }else if($act->after == 5){
+                                        $value = "TOYOTA REACH TRUCK";
+                                    }else if($act->after == 6){
+                                        $value = "BT REACH TRUCK";
+                                    }else if($act->after == 7){
+                                        $value = "BT STACKER";
+                                    }else if($act->after == 8){
+                                        $value = "RAYMOND REACH TRUCK";
+                                    }else if($act->after == 9){
+                                        $value = "RAYMOND STACKER";
+                                    }else if($act->after == 10){
+                                        $value = "STACKER TAILIFT";
+                                    }else if($act->after == 11){
+                                        $value = "PPT";
+                                    }else if($act->after == 12){
+                                        $value = "OPH";
+                                    }else{
+                                        $value = "HPT";
+                                    }
                                 }else if($act->field == "POUClassification"){
                                     if($act->after == 1){
                                         $value = "CLASS A";
@@ -4230,13 +4432,41 @@ class ActivityLogsController extends Controller
                                             $valueB = "Yes";
                                         }
                                     }else if($act->field == "POUUnitType"){
-                                            if($act->before == 1){
-                                                $valueB = "DIESEL/GASOLINE/LPG";
-                                            }else{
-                                                $valueB = "BATTERY";
-                                            }
+                                        if($act->before == 1){
+                                            $valueB = "DIESEL/GASOLINE/LPG";
+                                        }else{
+                                            $valueB = "BATTERY";
+                                        }
                                     }else if($act->field == "POUBrand"){
                                         $valueB = DB::table('brands')->where('id',$act->before)->first()->name;
+                                    }else if($act->field == "POUUnitType2"){
+                                        if($act->before == 1){
+                                            $valueB = "TOYOTA IC JAPAN";
+                                        }else if($act->before == 2){
+                                            $valueB = "TOYOTA ELECTRIC JAPAN";
+                                        }else if($act->before == 3){
+                                            $valueB = "TOYOTA IC CHINA";
+                                        }else if($act->before == 4){
+                                            $valueB = "TOYOTA ELECTRIC CHINA";
+                                        }else if($act->before == 5){
+                                            $valueB = "TOYOTA REACH TRUCK";
+                                        }else if($act->before == 6){
+                                            $valueB = "BT REACH TRUCK";
+                                        }else if($act->before == 7){
+                                            $valueB = "BT STACKER";
+                                        }else if($act->before == 8){
+                                            $valueB = "RAYMOND REACH TRUCK";
+                                        }else if($act->before == 9){
+                                            $valueB = "RAYMOND STACKER";
+                                        }else if($act->before == 10){
+                                            $valueB = "STACKER TAILIFT";
+                                        }else if($act->before == 11){
+                                            $valueB = "PPT";
+                                        }else if($act->before == 12){
+                                            $valueB = "OPH";
+                                        }else{
+                                            $valueB = "HPT";
+                                        }
                                     }else if($act->field == "POUClassification"){
                                         if($act->before == 1){
                                             $valueB = "CLASS A";
@@ -4702,13 +4932,41 @@ class ActivityLogsController extends Controller
                                         }
                                 // Unit - PULLOUT
                                     }else if($act->field == "POUUnitType"){
-                                            if($act->after == 1){
-                                                $valueA = "DIESEL/GASOLINE/LPG";
-                                            }else{
-                                                $valueA = "BATTERY";
-                                            }
+                                        if($act->after == 1){
+                                            $valueA = "DIESEL/GASOLINE/LPG";
+                                        }else{
+                                            $valueA = "BATTERY";
+                                        }
                                     }else if($act->field == "POUBrand"){
                                         $valueA = DB::table('brands')->where('id',$act->after)->first()->name;
+                                    }else if($act->field == "POUUnitType2"){
+                                        if($act->after == 1){
+                                            $valueA = "TOYOTA IC JAPAN";
+                                        }else if($act->after == 2){
+                                            $valueA = "TOYOTA ELECTRIC JAPAN";
+                                        }else if($act->after == 3){
+                                            $valueA = "TOYOTA IC CHINA";
+                                        }else if($act->after == 4){
+                                            $valueA = "TOYOTA ELECTRIC CHINA";
+                                        }else if($act->after == 5){
+                                            $valueA = "TOYOTA REACH TRUCK";
+                                        }else if($act->after == 6){
+                                            $valueA = "BT REACH TRUCK";
+                                        }else if($act->after == 7){
+                                            $valueA = "BT STACKER";
+                                        }else if($act->after == 8){
+                                            $valueA = "RAYMOND REACH TRUCK";
+                                        }else if($act->after == 9){
+                                            $valueA = "RAYMOND STACKER";
+                                        }else if($act->after == 10){
+                                            $valueA = "STACKER TAILIFT";
+                                        }else if($act->after == 11){
+                                            $valueA = "PPT";
+                                        }else if($act->after == 12){
+                                            $valueA = "OPH";
+                                        }else{
+                                            $valueA = "HPT";
+                                        }
                                     }else if($act->field == "POUClassification"){
                                         if($act->after == 1){
                                             $valueA = "CLASS A";

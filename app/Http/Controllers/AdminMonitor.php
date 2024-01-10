@@ -10,6 +10,7 @@ use App\Models\ConfirmUnits;
 use App\Models\DRMonitoring;
 use App\Models\DRParts;
 use App\Models\Parts;
+use App\Models\PullOutUnits;
 use App\Models\TechnicianSchedule;
 use App\Models\UnitConfirm;
 use App\Models\UnitDelivery;
@@ -51,7 +52,7 @@ class AdminMonitor extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
-                                WHERE unit_workshops.WSDelTransfer = 0 and unit_workshops.is_deleted=0 and unit_pull_outs.is_deleted=0
+                                WHERE unit_workshops.WSDelTransfer = 0 and unit_workshops.is_deleted=0 and unit_pull_outs.is_deleted=0 and unit_confirms.is_deleted=0
                             ');
         
         $scl = DB::TABLE('stagings')->get();
@@ -515,6 +516,43 @@ class AdminMonitor extends Controller
                     $newLog->action = 'UPDATE';
                     $newLog->description = $POUB->POUSerialNum;
                     $newLog->field = $field;
+                    $newLog->before = $oldValue;
+                    $newLog->after = $newValue;
+                    $newLog->user_id = Auth::user()->id;
+                    $newLog->ipaddress = request()->ip();
+                    $newLog->save();
+                }
+            }
+
+        UnitPullOut::where('id', $request->UnitInfoPOUID)
+            ->update([
+                'POUUnitType2' => $request->UnitInfoUType,
+            ]);
+
+            $updates1 = DB::table('unit_pull_outs')
+            ->where('id', $request->UnitInfoPOUID)
+            ->WHERE('is_deleted',0)
+            ->select('*')
+            ->first();
+
+            $excludedFields1 = ['id', 'created_at', 'updated_at'];
+
+            foreach ($updates1 as $field1 => $newValue) {
+                if (in_array($field1, $excludedFields1)) {
+                    continue;
+                }
+            
+                $oldValue = $POUB->$field1;
+            
+                if ($oldValue !== $newValue) {
+                    $field1 = ucwords(str_replace('_', ' ', $field1));
+            
+                    $newLog = new ActivityLog();
+                    $newLog->table = 'Pullout Table';
+                    $newLog->table_key = $POUB->id;
+                    $newLog->action = 'UPDATE';
+                    $newLog->description = $POUB->POUSerialNum;
+                    $newLog->field = $field1;
                     $newLog->before = $oldValue;
                     $newLog->after = $newValue;
                     $newLog->user_id = Auth::user()->id;
@@ -2926,6 +2964,7 @@ class AdminMonitor extends Controller
                 $POU = new UnitPullOut();
                 $POU->isBrandNew = 0;
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
+                $POU->POUUnitType2 = strtoupper($request->POUUnitType2);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
                 $POU->POUClassification = strtoupper($request->POUClassification);
@@ -3071,6 +3110,7 @@ class AdminMonitor extends Controller
                 $POU = new UnitPullOut();
                 $POU->isBrandNew = 0;
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
+                $POU->POUUnitType2 = strtoupper($request->POUUnitType2);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
                 $POU->POUClassification = strtoupper($request->POUClassification);
@@ -3298,6 +3338,7 @@ class AdminMonitor extends Controller
             if($PUnitType == 1){
                 $POU = UnitPullOut::find($POUIDe);
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
+                $POU->POUUnitType2 = strtoupper($request->POUUnitType2);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
                 $POU->POUClassification = strtoupper($request->POUClassification);
@@ -3435,9 +3476,55 @@ class AdminMonitor extends Controller
                         $newLog->save();
                     }
                 $POU->update();
+
+                $unitWorkshop = UnitWorkshop::where('WSPOUID', $POUIDe)->first();
+
+                if($unitWorkshop){
+                    $POUBx = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+                    $WSB = UnitWorkshop::where('WSPOUID', $POUIDe)->where('is_deleted',0)->latest()->first();
+
+                    UnitWorkshop::where('WSPOUID', $POUIDe)
+                        ->update([
+                            'WSUnitType' => $request->POUUnitType2,
+                        ]);
+
+                    $updates2 = DB::table('unit_workshops')
+                    ->where('WSPOUID', $POUIDe)
+                    ->where('is_deleted',0)
+                    ->select('*')
+                    ->first();
+        
+                    $excludedFields = ['id', 'created_at', 'updated_at'];
+
+                    foreach ($updates2 as $field => $newValue1) {
+                        if (in_array($field, $excludedFields)) {
+                            continue;
+                        }
+                
+                        $oldValue1 = $WSB->$field;
+                
+                        if ($oldValue1 !== $newValue1) {
+                            $field = ucwords(str_replace('_', ' ', $field));
+                
+                            $newLog = new ActivityLog();
+                            $newLog->table = 'Workshop Table';
+                            $newLog->table_key = $WSB->id;
+                            $newLog->action = 'UPDATE';
+                            $newLog->description = $POU->POUSerialNum;
+                            $newLog->field = $field;
+                            $newLog->before = $oldValue1;
+                            $newLog->after = $newValue1;
+                            $newLog->user_id = Auth::user()->id;
+                            $newLog->ipaddress = request()->ip();
+                            $newLog->save();
+                        }
+                    }
+                }
+
             }else{
                 $POU = UnitPullOut::find($POUIDe);
                 $POU->POUUnitType = strtoupper($request->POUUnitType);
+                $POU->POUUnitType2 = strtoupper($request->POUUnitType2);
                 $POU->POUArrivalDate = strtoupper($request->POUArrivalDate);
                 $POU->POUBrand = strtoupper($request->POUBrand);
                 $POU->POUClassification = strtoupper($request->POUClassification);
@@ -3574,6 +3661,51 @@ class AdminMonitor extends Controller
                         $newLog->ipaddress =  request()->ip();
                         $newLog->save();
                     }
+
+                    $unitWorkshop = UnitWorkshop::where('WSPOUID', $POUIDe)->first();
+    
+                    if($unitWorkshop){
+                        $POUBx = UnitPullOut::where('id', $request->PulloutID)->where('is_deleted',0)->first();
+                        $WSB = UnitWorkshop::where('WSPOUID', $POUIDe)->where('is_deleted',0)->latest()->first();
+    
+                        UnitWorkshop::where('WSPOUID', $POUIDe)
+                            ->update([
+                                'WSUnitType' => $request->POUUnitType2,
+                            ]);
+    
+                        $updates2 = DB::table('unit_workshops')
+                        ->where('WSPOUID', $POUIDe)
+                        ->where('is_deleted',0)
+                        ->select('*')
+                        ->first();
+            
+                        $excludedFields = ['id', 'created_at', 'updated_at'];
+    
+                        foreach ($updates2 as $field => $newValue1) {
+                            if (in_array($field, $excludedFields)) {
+                                continue;
+                            }
+                    
+                            $oldValue1 = $WSB->$field;
+                    
+                            if ($oldValue1 !== $newValue1) {
+                                $field = ucwords(str_replace('_', ' ', $field));
+                    
+                                $newLog = new ActivityLog();
+                                $newLog->table = 'Workshop Table';
+                                $newLog->table_key = $WSB->id;
+                                $newLog->action = 'UPDATE';
+                                $newLog->description = $POU->POUSerialNum;
+                                $newLog->field = $field;
+                                $newLog->before = $oldValue1;
+                                $newLog->after = $newValue1;
+                                $newLog->user_id = Auth::user()->id;
+                                $newLog->ipaddress = request()->ip();
+                                $newLog->save();
+                            }
+                        }
+                    }
+    
                 
                 $POUBData = [
                     'POUBABrand' => strtoupper($request->POUBABrand),
@@ -3730,7 +3862,7 @@ class AdminMonitor extends Controller
     public function getPOUData(Request $request){
         if($request->utype == 1){
             $pounit = DB::TABLE('unit_pull_outs')
-                        ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 
+                        ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUUnitType2', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 'unit_pull_outs.POUClassification', 'unit_pull_outs.POUModel', 
                                 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 'unit_pull_outs.POUwAttachment', 
                                 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 
                                 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 'unit_pull_outs.POUAccStLight', 'unit_pull_outs.POUAccOthers', 'unit_pull_outs.POUAccOthersDetail', 
@@ -3742,6 +3874,7 @@ class AdminMonitor extends Controller
                     $result = array(
                         'POUnitIDx' => $pounit->POUnitIDx,
                         'POUUnitType' => $pounit->POUUnitType,
+                        'POUUnitType2' => $pounit->POUUnitType2,
                         'POUArrivalDate' => $pounit->POUArrivalDate,
                         'POUBrand' => $pounit->POUBrand,
                         'POUClassification' => $pounit->POUClassification,
@@ -3773,7 +3906,7 @@ class AdminMonitor extends Controller
                 );
         }else{
             $pounit = DB::TABLE('unit_pull_outs')
-                                                ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 'unit_pull_outs.POUClassification', 
+                                                ->select('unit_pull_outs.id as POUnitIDx','unit_pull_outs.POUUnitType', 'unit_pull_outs.POUUnitType2', 'unit_pull_outs.POUArrivalDate', 'unit_pull_outs.POUBrand', 'unit_pull_outs.POUClassification', 
                                                 'unit_pull_outs.POUModel', 'unit_pull_outs.POUSerialNum', 'unit_pull_outs.POUCode', 'unit_pull_outs.POUMastType', 'unit_pull_outs.POUMastHeight', 'unit_pull_outs.POUForkSize', 
                                                 'unit_pull_outs.POUwAttachment', 'unit_pull_outs.POUAttType', 'unit_pull_outs.POUAttModel', 'unit_pull_outs.POUAttSerialNum', 'unit_pull_outs.POUwAccesories', 
                                                 'unit_pull_outs.POUAccISite', 'unit_pull_outs.POUAccLiftCam', 'unit_pull_outs.POUAccRedLight', 'unit_pull_outs.POUAccBlueLight', 'unit_pull_outs.POUAccFireExt', 
@@ -3794,6 +3927,7 @@ class AdminMonitor extends Controller
                 $result = array(
                     'POUnitIDx' => $pounit->POUnitIDx,
                     'POUUnitType' => $pounit->POUUnitType,
+                    'POUUnitType2' => $pounit->POUUnitType2,
                     'POUArrivalDate' => $pounit->POUArrivalDate,
                     'POUBrand' => $pounit->POUBrand,
                     'POUClassification' => $pounit->POUClassification,
@@ -4031,7 +4165,9 @@ class AdminMonitor extends Controller
             $ToA = "2";
         }else{
             $ToA = "2";
-        }        
+        }
+
+        $POUUnitType2 = UnitPullOut::where('id', $request->POUIDx)->pluck('POUUnitType2')->first();
 
         $WS = new UnitWorkshop();
         $WS->isBrandNew = 0;
@@ -4039,7 +4175,7 @@ class AdminMonitor extends Controller
         $WS->WSBayNum = $request->POUBay;
         $WS->WSToA = $ToA;
         $WS->WSStatus = $request->POUStatus;
-        $WS->WSUnitType = "";
+        $WS->WSUnitType = $POUUnitType2;
         $WS->WSVerifiedBy = "";
         $WS->WSUnitCondition = "2";
         $WS->WSATIDS = "";
