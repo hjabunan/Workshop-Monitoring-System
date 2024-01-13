@@ -82,7 +82,7 @@
                                         <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BayJ-tab" data-tabs-target="#BayJ" type="button" role="tab" aria-controls="BayJ" aria-selected="false">J Bays</button>
                                     </li>
                                     <li role="presentation">
-                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BayJ-tab" data-tabs-target="#BayJ" type="button" role="tab" aria-controls="BayJ" aria-selected="false">Temporary Bays</button>
+                                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="BayTemp-tab" data-tabs-target="#BayTemp" type="button" role="tab" aria-controls="BayTemp" aria-selected="false">Temporary Bays</button>
                                     </li>
                                 </ul>
                             </div>
@@ -1974,6 +1974,214 @@
                                                         @endforeach
                                         
                                                         @if ($x == 1)
+                                                            @foreach ($workshop as $WS)
+                                                                @if ($WS->WSBayNum == $bay->id)
+                                                                    {{-- CLASS AND STATUS --}}
+                                                                        @if($WS->POUClassification == 1)
+                                                                            @php
+                                                                                $Classification = "CLASS A";
+                                                                            @endphp
+                                                                        @elseif($WS->POUClassification == 2)
+                                                                            @php
+                                                                                $Classification = "CLASS B";
+                                                                            @endphp
+                                                                        @elseif($WS->POUClassification == 3)
+                                                                            @php
+                                                                                $Classification = "CLASS C";
+                                                                            @endphp
+                                                                        @elseif($WS->POUClassification == 4)
+                                                                            @php
+                                                                                $Classification = "CLASS D";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Classification = "";
+                                                                            @endphp
+                                                                        @endif
+                                        
+                                                                        @if($WS->WSStatus == 1)
+                                                                            @php
+                                                                                $Status = "WAITING FOR REPAIR UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 2)
+                                                                            @php
+                                                                                $Status = "UNDER REPAIR UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 3)
+                                                                            @php
+                                                                                $Status = "USED GOOD UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 4)
+                                                                            @php
+                                                                                $Status = "SERVICE UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 5)
+                                                                            @php
+                                                                                $Status = "FOR SCRAP UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 6)
+                                                                            @php
+                                                                                $Status = "FOR SALE UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 7)
+                                                                            @php
+                                                                                $Status = "WAITING PARTS";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 8)
+                                                                            @php
+                                                                                $Status = "WAITING BACK ORDER";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 9)
+                                                                            @php
+                                                                                $Status = "WAITING SPARE BATT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 10)
+                                                                            @php
+                                                                                $Status = "STOCK UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 11)
+                                                                            @php
+                                                                                $Status = "RESERVED UNIT";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 12)
+                                                                            @php
+                                                                                $Status = "WAITING FOR MCI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 13)
+                                                                            @php
+                                                                                $Status = "WAITING FOR PDI";
+                                                                            @endphp
+                                                                        @elseif($WS->WSStatus == 14)
+                                                                            @php
+                                                                                $Status = "DONE PDI (WFD)";
+                                                                            @endphp
+                                                                        @else
+                                                                            @php
+                                                                                $Status = "VACANT";
+                                                                            @endphp
+                                                                        @endif
+                                                                        @php
+                                                                            $TransDate = $WS->POUTransferDate;
+                                                                            $dateToday = date('m/d/Y');
+                                                                            
+                                                                            $dateTimeTransDate = new DateTime($TransDate);
+                                                                            $dateTimeToday = new DateTime($dateToday);
+            
+                                                                            
+                                                                            $interval = $dateTimeTransDate->diff($dateTimeToday);
+            
+                                                                            
+                                                                            $diffInDays = $interval->days;
+            
+                                                                            foreach ($scl as $legend) {
+                                                                                if ($diffInDays >= $legend->stg_dayin && $diffInDays <= $legend->stg_dayout){
+                                                                                    $color = $legend->stg_color;
+                                                                                }
+                                                                            }
+                                                                        @endphp
+                                                                    <div class="">
+                                                                        <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block {{$color}} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
+                                                                            <div class=""><label class="font-medium text-lg ">{{$bay->area_name}}</label></div>
+                                                                            <input type="hidden" id="hddnJONum" value="{{$WS->WSID}}">
+                                                                            <input type="hidden" id="hddnTransferDate" value="{{$WS->POUTransferDate}}">
+                                                                            <div class="grid grid-cols-7 text-xs">
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Class:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
+                                                                                    <div class=""><label class="">{{$Classification}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Code:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
+                                                                                    <div class=""><label class="">{{$WS->POUCode}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
+                                                                                    <div class=""><label class="">{{$WS->POUSerialNum}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Model:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
+                                                                                    <div class=""><label class="">{{$WS->POUModel}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
+                                                                                    <div class=""><label class="">{{$WS->POUMastHeight}}</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-3 text-white text-left">
+                                                                                    <div class=""><label class="font-medium">Status:</label></div>
+                                                                                </div>
+                                                                                <div class="col-span-4 text-left font-bold">
+                                                                                    <div class="text-[10px]"><label class="">{{$Status}}</label></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            <div class="">
+                                                                <div data-modal-target="modalUR" data-modal-toggle="modalUR" data-id="{{$bay->id}}" data-bayname="{{$bay->area_name}}" class="btnBay block bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center w-full" style="cursor: pointer;">
+                                                                    <div class=""><label class="font-medium text-lg">{{$bay->area_name}}</label></div>
+                                                                    <input type="hidden" id="hddnJONum" value="0">
+                                                                    <div class="grid grid-cols-7 text-xs">
+                                                                        <div class="col-span-3 text-gray-500 text-left">
+                                                                            <div class=""><label class="font-medium">Code:</label></div>
+                                                                            <div class=""><label class="font-medium">Brand:</label></div>
+                                                                            <div class=""><label class="font-medium">Status:</label></div>
+                                                                            <div class=""><label class="font-medium">Serial Number:</label></div>
+                                                                            <div class=""><label class="font-medium">Model:</label></div>
+                                                                            <div class=""><label class="font-medium">Mast Height:</label></div>
+                                                                        </div>
+                                                                        <div class="col-span-4">
+                                                                            <div class=""><label class=""></label></div>
+                                                                            <div class=""><label class=""></label></div>
+                                                                            <div class=""><label class=""></label></div>
+                                                                            <div class=""><label class=""></label></div>
+                                                                            <div class=""><label class=""></label></div>
+                                                                            <div class=""><label class=""></label></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden p-1.5 rounded-lg" id="BayTemp" role="tabpanel" aria-labelledby="BayTemp-tab">
+                                    <div class="">
+                                        <div class="grid grid-cols-4 content-start gap-1 mr-2">
+                                            @foreach ($bays as $bay)
+                                                @if ($bay->section == 14)
+                                                    @php
+                                                        $bayname_parts = explode(' ', $bay->area_name);
+                                                        $last_part = end($bayname_parts);
+                                                    @endphp
+                                                    @if (substr($last_part, -4) === 'TEMP')
+                                                        @php
+                                                            $x = 0;
+                                                        @endphp
+                                                        @foreach($workshop as $WS)
+                                                            @if ($WS->WSBayNum == $bay->id)
+                                                                @php
+                                                                    $x = 1;
+                                                                    break;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                        
+                                                        @if ($x == 1)
+                                                        <p>Last Part: <?php echo $last_part; ?></p>
                                                             @foreach ($workshop as $WS)
                                                                 @if ($WS->WSBayNum == $bay->id)
                                                                     {{-- CLASS AND STATUS --}}
