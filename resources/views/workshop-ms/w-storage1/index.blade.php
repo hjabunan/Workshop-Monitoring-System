@@ -2776,37 +2776,6 @@
         <button type="button" id="btnPOUTransferH" class="btnPOUTransferH hidden" data-modal-target="modalTransferUnit" data-modal-toggle="modalTransferUnit"></button>
     <script>
         $(document).ready(function(){
-            // Color Changing
-                // $(".btnBay").each(function() {
-                //     var hddnJONum = $(this).find("#hddnJONum").val();
-                //     var hddnTransferDate = $(this).find("#hddnTransferDate").val();
-                //     if (hddnJONum == 0) {
-                //         $(this).addClass("bg-gray-500");
-                //     } else {
-                //         // For Running Days
-                //         var startDate = new Date(hddnTransferDate);
-                //             var today = new Date();
-                //             var todayDate = today; 
-                //             var rdays = 0;
-                //             while (startDate <= todayDate) {
-                //                 var dayOfWeek = startDate.getDay();
-                //                 if (dayOfWeek !== 0) {
-                //                 rdays++;
-                //                 }
-                //                 startDate.setDate(startDate.getDate() + 1);
-                //             }
-
-                //             if(rdays <= 90){
-                //                 $(this).addClass("bg-green-500");
-                //             } else if (rdays > 90 && rdays <= 180) {
-                //                 $(this).addClass("bg-blue-500");
-                //             } else if (rdays > 180 && rdays <= 270) {
-                //                 $(this).addClass("bg-yellow-500");
-                //             } else if (rdays >= 300) {
-                //                 $(this).addClass("bg-red-500");
-                //             }
-                //     }
-                // });
                 
             // Get Capacity
                 var CUnitTICJ = <?php echo $CUnitTICJ; ?>;

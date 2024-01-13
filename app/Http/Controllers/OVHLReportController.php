@@ -2415,38 +2415,41 @@ class OVHLReportController extends Controller
     
             // -----------------------------------------------------------------------------------------------------------------------//    
             $TS = TechnicianSchedule::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
-            TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
-                                ->UPDATE([
-                                    'baynum' => $request->UnitBay,
-                                ]);
-                $updates4 = DB::table('technician_schedules')
-                ->where('POUID', $request->POUIDx)
-                ->where('is_deleted',0)
-                ->select('*')
-                ->first();
-
-                foreach ($updates4 as $field => $newValue3) {
-                    if (in_array($field, $excludedFields)) {
-                        continue;
-                    }
             
-                    $oldValue3 = $TS->$field;
-            
-                    if ($oldValue3 !== $newValue3) {
-                        $field = ucwords(str_replace('_', ' ', $field));
-            
-                        $newLog = new ActivityLog();
-                        $newLog->table = 'Tech. Schedule Table';
-                        $newLog->table_key = $TS->id;
-                        $newLog->action = 'UPDATE';
-                        $newLog->description = $POUB->POUSerialNum;
-                        $newLog->field = $field;
-                        $newLog->before = $oldValue3;
-                        $newLog->after = $newValue3;
-                        $newLog->user_id = Auth::user()->id;
-                        $newLog->ipaddress = request()->ip();
-                        $newLog->save();
-                    }
+                if ($TS) {
+                    TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
+                                        ->UPDATE([
+                                            'baynum' => $request->UnitBay,
+                                        ]);
+                        $updates4 = DB::table('technician_schedules')
+                        ->where('POUID', $request->POUIDx)
+                        ->where('is_deleted',0)
+                        ->select('*')
+                        ->first();
+        
+                        foreach ($updates4 as $field => $newValue3) {
+                            if (in_array($field, $excludedFields)) {
+                                continue;
+                            }
+                    
+                            $oldValue3 = $TS->$field;
+                    
+                            if ($oldValue3 !== $newValue3) {
+                                $field = ucwords(str_replace('_', ' ', $field));
+                    
+                                $newLog = new ActivityLog();
+                                $newLog->table = 'Tech. Schedule Table';
+                                $newLog->table_key = $TS->id;
+                                $newLog->action = 'UPDATE';
+                                $newLog->description = $POUB->POUSerialNum;
+                                $newLog->field = $field;
+                                $newLog->before = $oldValue3;
+                                $newLog->after = $newValue3;
+                                $newLog->user_id = Auth::user()->id;
+                                $newLog->ipaddress = request()->ip();
+                                $newLog->save();
+                            }
+                        }
                 }
             // -----------------------------------------------------------------------------------------------------------------------// 
             BayArea::WHERE('id',$request->BayID)
@@ -2531,7 +2534,50 @@ class OVHLReportController extends Controller
                         $newLog->save();
                     }
                 }
-            // ---------------------------------------------- //
+            // -----------------------------------------------------------------------------------------------------------------------//  
+            $TS = TechnicianSchedule::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
+
+                if ($TS) {
+                    TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
+                                        ->UPDATE([
+                                            'baynum' => $request->UnitBay,
+                                        ]);
+                        $updates4 = DB::table('technician_schedules')
+                        ->where('POUID', $request->POUIDx)
+                        ->where('is_deleted',0)
+                        ->select('*')
+                        ->first();
+        
+                        foreach ($updates4 as $field => $newValue3) {
+                            if (in_array($field, $excludedFields)) {
+                                continue;
+                            }
+                    
+                            $oldValue3 = $TS->$field;
+                    
+                            if ($oldValue3 !== $newValue3) {
+                                $field = ucwords(str_replace('_', ' ', $field));
+                    
+                                $newLog = new ActivityLog();
+                                $newLog->table = 'Tech. Schedule Table';
+                                $newLog->table_key = $TS->id;
+                                $newLog->action = 'UPDATE';
+                                $newLog->description = $POUB->POUSerialNum;
+                                $newLog->field = $field;
+                                $newLog->before = $oldValue3;
+                                $newLog->after = $newValue3;
+                                $newLog->user_id = Auth::user()->id;
+                                $newLog->ipaddress = request()->ip();
+                                $newLog->save();
+                            }
+                        }
+                }
+            // -----------------------------------------------------------------------------------------------------------------------//  
+    
+            BayArea::WHERE('id',$request->BayID)
+            ->UPDATE([
+                'category' => 1
+            ]);
 
                 $currentDate = Carbon::now();
                 $formattedDate = $currentDate->format('m/d/Y');

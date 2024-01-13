@@ -52,6 +52,7 @@ class AdminMonitor extends Controller
                                 INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum
                                 INNER JOIN wms_technicians on wms_technicians.id = unit_pull_outs.POUTechnician1
                                 INNER JOIN brands on brands.id = unit_pull_outs.POUBrand
+                                LEFT JOIN unit_confirms on unit_confirms.POUID = unit_workshops.WSPOUID
                                 WHERE unit_workshops.WSDelTransfer = 0 and unit_workshops.is_deleted=0 and unit_pull_outs.is_deleted=0 and unit_confirms.is_deleted=0
                             ');
         
@@ -2507,38 +2508,41 @@ class AdminMonitor extends Controller
                 }
             // -----------------------------------------------------------------------------------------------------------------------//    
             $TS = TechnicianSchedule::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
-            TechnicianSchedule::WHERE('POUID', $request->POUIDx)
-                                ->UPDATE([
-                                    'baynum' => $request->UnitBay,
-                                ]);
-                $updates4 = DB::table('technician_schedules')
-                ->where('POUID', $request->POUIDx)
-                ->where('is_deleted',0)
-                ->select('*')
-                ->first();
 
-                foreach ($updates4 as $field => $newValue3) {
-                    if (in_array($field, $excludedFields)) {
-                        continue;
-                    }
-            
-                    $oldValue3 = $TS->$field;
-            
-                    if ($oldValue3 !== $newValue3) {
-                        $field = ucwords(str_replace('_', ' ', $field));
-            
-                        $newLog = new ActivityLog();
-                        $newLog->table = 'Tech. Schedule Table';
-                        $newLog->table_key = $TS->id;
-                        $newLog->action = 'UPDATE';
-                        $newLog->description = $POUB->POUSerialNum;
-                        $newLog->field = $field;
-                        $newLog->before = $oldValue3;
-                        $newLog->after = $newValue3;
-                        $newLog->user_id = Auth::user()->id;
-                        $newLog->ipaddress = request()->ip();
-                        $newLog->save();
-                    }
+                if ($TS) {
+                    TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
+                                        ->UPDATE([
+                                            'baynum' => $request->UnitBay,
+                                        ]);
+                        $updates4 = DB::table('technician_schedules')
+                        ->where('POUID', $request->POUIDx)
+                        ->where('is_deleted',0)
+                        ->select('*')
+                        ->first();
+        
+                        foreach ($updates4 as $field => $newValue3) {
+                            if (in_array($field, $excludedFields)) {
+                                continue;
+                            }
+                    
+                            $oldValue3 = $TS->$field;
+                    
+                            if ($oldValue3 !== $newValue3) {
+                                $field = ucwords(str_replace('_', ' ', $field));
+                    
+                                $newLog = new ActivityLog();
+                                $newLog->table = 'Tech. Schedule Table';
+                                $newLog->table_key = $TS->id;
+                                $newLog->action = 'UPDATE';
+                                $newLog->description = $POUB->POUSerialNum;
+                                $newLog->field = $field;
+                                $newLog->before = $oldValue3;
+                                $newLog->after = $newValue3;
+                                $newLog->user_id = Auth::user()->id;
+                                $newLog->ipaddress = request()->ip();
+                                $newLog->save();
+                            }
+                        }
                 }
             // -----------------------------------------------------------------------------------------------------------------------//    
             BayArea::WHERE('id',$request->BayID)
@@ -2588,42 +2592,51 @@ class AdminMonitor extends Controller
                     }
                 }
 
-            // ---------------------------------------------- //    
-            $WS = UnitWorkshop::WHERE('WSPOUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
-            UnitWorkshop::WHERE('WSPOUID', $request->POUIDx)->WHERE('is_deleted',0)
-                        ->UPDATE([
-                            'WSDelTransfer' => 1,
-                        ]);
-                $updates3 = DB::table('unit_workshops')
-                ->where('WSPOUID', $request->POUIDx)
-                ->where('is_deleted',0)
-                ->select('*')
-                ->first();
+            // -----------------------------------------------------------------------------------------------------------------------//  
+            $TS = TechnicianSchedule::WHERE('POUID',$request->POUIDx)->WHERE('is_deleted',0)->latest()->first();
 
-                foreach ($updates3 as $field => $newValue2) {
-                    if (in_array($field, $excludedFields)) {
-                        continue;
-                    }
-            
-                    $oldValue2 = $WS->$field;
-            
-                    if ($oldValue2 !== $newValue2) {
-                        $field = ucwords(str_replace('_', ' ', $field));
-            
-                        $newLog = new ActivityLog();
-                        $newLog->table = 'Workshop Table';
-                        $newLog->table_key = $WS->id;
-                        $newLog->action = 'UPDATE';
-                        $newLog->description = $POUB->POUSerialNum;
-                        $newLog->field = $field;
-                        $newLog->before = $oldValue2;
-                        $newLog->after = $newValue2;
-                        $newLog->user_id = Auth::user()->id;
-                        $newLog->ipaddress = request()->ip();
-                        $newLog->save();
-                    }
+                if ($TS) {
+                    TechnicianSchedule::WHERE('JONumber', $request->UnitInfoJON)
+                                        ->UPDATE([
+                                            'baynum' => $request->UnitBay,
+                                        ]);
+                        $updates4 = DB::table('technician_schedules')
+                        ->where('POUID', $request->POUIDx)
+                        ->where('is_deleted',0)
+                        ->select('*')
+                        ->first();
+        
+                        foreach ($updates4 as $field => $newValue3) {
+                            if (in_array($field, $excludedFields)) {
+                                continue;
+                            }
+                    
+                            $oldValue3 = $TS->$field;
+                    
+                            if ($oldValue3 !== $newValue3) {
+                                $field = ucwords(str_replace('_', ' ', $field));
+                    
+                                $newLog = new ActivityLog();
+                                $newLog->table = 'Tech. Schedule Table';
+                                $newLog->table_key = $TS->id;
+                                $newLog->action = 'UPDATE';
+                                $newLog->description = $POUB->POUSerialNum;
+                                $newLog->field = $field;
+                                $newLog->before = $oldValue3;
+                                $newLog->after = $newValue3;
+                                $newLog->user_id = Auth::user()->id;
+                                $newLog->ipaddress = request()->ip();
+                                $newLog->save();
+                            }
+                        }
                 }
-            // ---------------------------------------------- //
+            // -----------------------------------------------------------------------------------------------------------------------//  
+    
+            BayArea::WHERE('id',$request->BayID)
+            ->UPDATE([
+                'category' => 1
+            ]);
+            
                 $currentDate = Carbon::now();
                 $formattedDate = $currentDate->format('m/d/Y');
 
