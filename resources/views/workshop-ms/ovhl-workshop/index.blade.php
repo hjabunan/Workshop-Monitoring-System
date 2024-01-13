@@ -2733,6 +2733,58 @@
                                     $('#ATotalDays').val('');
                                 }
 
+                                // Create the Chart for PlanvActualChart
+                                var planTotalDays = $("#TTotalDays").val();
+                                    var actualTotalDays = $("#ATotalDays").val();
+                                    var ctx = document.getElementById("PlanvActualChart").getContext("2d");
+                                    var PlanvActualChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ["Target Total Days", "Actual Total Days"],
+                                            datasets: [{
+                                                data: [planTotalDays, actualTotalDays],
+                                                backgroundColor: [
+                                                'rgba(255, 99, 132, 5)',
+                                                'rgba(54, 162, 235, 5)',
+                                                ],
+                                                borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            legend: {
+                                                display: false
+                                            },
+                                            scales: {
+                                                yAxes: [{
+                                                    ticks: {
+                                                        beginAtZero: true
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+
+                                    if ($('#TTotalDays').val() != 0 && $('#ATotalDays').val() != 0){
+                                        var percent1 = ((planTotalDays/actualTotalDays) * 100);
+                                        var percent2 = ((actualTotalDays/planTotalDays) * 100);
+
+                                        $('#WERPercentage').val(percent1.toFixed(2)+'%');
+                                        $('#TDPPercentage').val(percent2.toFixed(2)+'%');
+                                    }else if($('#TTotalDays').val() != 0 && $('#ATotalDays').val() == 0){
+                                        $('#WERPercentage').val(100+'%');
+                                        $('#TDPPercentage').val(0+'%');
+                                    }else if($('#TTotalDays').val() == 0 && $('#ATotalDays').val() != 0){
+                                        $('#WERPercentage').val(0+'%');
+                                        $('#TDPPercentage').val(100+'%');
+                                    }else{
+                                        $('#WERPercentage').val(0+'%');
+                                        $('#TDPPercentage').val(0+'%');
+                                    }
+
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                         },
@@ -2827,6 +2879,59 @@
                             }else{
                                 $('#ATotalDays').val('');
                             }
+
+                                // Create the Chart for PlanvActualChart
+                                var planTotalDays = $("#TTotalDays").val();
+                                    var actualTotalDays = $("#ATotalDays").val();
+                                    var ctx = document.getElementById("PlanvActualChart").getContext("2d");
+                                    var PlanvActualChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ["Target Total Days", "Actual Total Days"],
+                                            datasets: [{
+                                                data: [planTotalDays, actualTotalDays],
+                                                backgroundColor: [
+                                                'rgba(255, 99, 132, 5)',
+                                                'rgba(54, 162, 235, 5)',
+                                                ],
+                                                borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            legend: {
+                                                display: false
+                                            },
+                                            scales: {
+                                                yAxes: [{
+                                                    ticks: {
+                                                        beginAtZero: true
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+
+                                    if ($('#TTotalDays').val() != 0 && $('#ATotalDays').val() != 0){
+                                        var percent1 = ((planTotalDays/actualTotalDays) * 100);
+                                        var percent2 = ((actualTotalDays/planTotalDays) * 100);
+
+                                        $('#WERPercentage').val(percent1.toFixed(2)+'%');
+                                        $('#TDPPercentage').val(percent2.toFixed(2)+'%');
+                                    }else if($('#TTotalDays').val() != 0 && $('#ATotalDays').val() == 0){
+                                        $('#WERPercentage').val(100+'%');
+                                        $('#TDPPercentage').val(0+'%');
+                                    }else if($('#TTotalDays').val() == 0 && $('#ATotalDays').val() != 0){
+                                        $('#WERPercentage').val(0+'%');
+                                        $('#TDPPercentage').val(100+'%');
+                                    }else{
+                                        $('#WERPercentage').val(0+'%');
+                                        $('#TDPPercentage').val(0+'%');
+                                    }
+
                             $("#success-modal").removeClass("hidden");
                             $("#success-modal").addClass("flex");
                         },
