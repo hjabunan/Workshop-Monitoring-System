@@ -104,6 +104,7 @@
                                         <div class="content-start">
                                             <div class="">
                                                 <button type="button" id="saveSchedule" name="saveSchedule" class="text-white bg-green-600 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-1/2">SAVE</button>
+                                                <button type="button" id="saveScheduleH" name="saveScheduleH" class="hidden text-white bg-green-600 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-1/2">SAVE</button>
                                             </div>
                                             <div class="mt-1">
                                                 <button type="button" id="deleteSchedule" name="deleteSchedule" class="text-white bg-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-1/2">DELETE</button>
@@ -468,7 +469,26 @@
                 $("#failed-modal").addClass("hidden");
             });
 
-            jQuery(document).on( "click", "#saveSchedule", function(){
+        // Save Schedule 
+            $('#saveSchedule').on( "click", function(){
+                var dropdown1 = document.getElementById("TSName");
+                var selectedValue1 = dropdown1.value;
+
+                
+                var dropdown2 = document.getElementById("TSBayNum");
+                var selectedValue2 = dropdown2.value; 
+
+                if (selectedValue1 === '' || selectedValue2 === '' || $('#TSJONum').val() === '' || $('#TSSoW').val() === '' || $('#TSActivity').val() === ''){
+                    $("#failed-modal").removeClass("hidden");
+                    $("#failed-modal").addClass("flex");
+                    $('#saveScheduleH').prop("disabled", false);
+                } else {
+                    $('#saveScheduleH').click();
+                }
+            });
+
+            // jQuery(document).on( "click", "#saveScheduleH", function(){
+            $('#saveScheduleH').on( "click", function(){
                 
                 $.ajax({
                     url:"{{ route('admin_monitoring.tech_schedule.saveSchedule') }}",
