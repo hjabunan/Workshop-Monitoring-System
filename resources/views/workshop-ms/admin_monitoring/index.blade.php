@@ -2320,8 +2320,11 @@
                         eventClick: function(info) {
                             var today = new Date();
                             var eventDate = new Date(info.event.start);
-                            
-                            if (eventDate.toDateString() <= today.toDateString()) {
+
+                            var formattedToday = today.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+                            var formattedEventDate = eventDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+
+                            if (formattedEventDate >= formattedToday) {
                                 var eventId = info.event.id;
                                 var jonum = info.event.extendedProps.jonum;
                                 var baynum = info.event.extendedProps.baynum;

@@ -248,7 +248,7 @@ class TechnicianScheduleController extends Controller
                                     FROM technician_schedules 
                                     INNER JOIN wms_technicians on techid=wms_technicians.id
                                     INNER JOIN wms_bay_areas on baynum=wms_bay_areas.id
-                                    WHERE technician_schedules.status="1" AND is_deleted=0 AND technician_schedules.scheddate BETWEEN ? AND ?', [$request->fromDate, $request->toDate]
+                                    WHERE technician_schedules.status="1" AND technician_schedules.is_deleted=0 AND technician_schedules.scheddate BETWEEN ? AND ?', [$request->fromDate, $request->toDate]
                             );
         $result = '';
 
