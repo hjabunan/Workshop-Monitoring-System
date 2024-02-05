@@ -9,15 +9,15 @@ class ActivityLogsController extends Controller
 {
     public function index(){
         $logs = DB::table('wms_activity_logs')
-        ->select('table', 'table_key', 'action', 'description', 'field', 'before', 'after', 'name','wms_activity_logs.created_at','wms_activity_logs.updated_at')
+        ->select('table', 'table_key', 'action', 'description', 'field', 'before', 'after', 'name', 'ipaddress','wms_activity_logs.created_at','wms_activity_logs.updated_at')
         ->leftJoin('wms_users', 'wms_activity_logs.user_id', 'wms_users.id')
         ->whereIn('wms_activity_logs.id', function ($query) {
             $query->select(DB::raw('MIN(id)'))
                 ->from('wms_activity_logs')
                 ->groupBy('table_key','table');
         })
+        ->where('description','6495121')
         ->orderBy('wms_activity_logs.created_at', 'desc')
-        ->take(100)
         ->paginate(25);
 
         return view('system-management.activity-logs.index', compact('logs'));
@@ -25,7 +25,7 @@ class ActivityLogsController extends Controller
 
     public function getLogs(Request $request){
         $activity = DB::table('wms_activity_logs')
-                ->select('table', 'table_key', 'action', 'description', 'field', 'before', 'after', 'name','wms_activity_logs.created_at','wms_activity_logs.updated_at')
+                ->select('table', 'table_key', 'action', 'description', 'field', 'before', 'after', 'name', 'ipaddress','wms_activity_logs.created_at','wms_activity_logs.updated_at')
                 ->leftJoin('wms_users', 'wms_activity_logs.user_id', 'wms_users.id')
                 ->where('table_key',$request->tableKey)
                 ->where('table',$request->tableX)
