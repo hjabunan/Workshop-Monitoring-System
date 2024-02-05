@@ -17,6 +17,7 @@ class ActivityLogsController extends Controller
                 ->groupBy('table_key','table');
         })
         ->orderBy('wms_activity_logs.created_at', 'desc')
+        ->take(100)
         ->paginate(25);
 
         return view('system-management.activity-logs.index', compact('logs'));
