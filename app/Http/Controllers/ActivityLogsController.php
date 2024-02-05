@@ -16,7 +16,6 @@ class ActivityLogsController extends Controller
                 ->from('wms_activity_logs')
                 ->groupBy('table_key','table');
         })
-        ->where('description','6495121')
         ->orderBy('wms_activity_logs.created_at', 'desc')
         ->paginate(25);
 
