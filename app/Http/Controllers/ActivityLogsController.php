@@ -507,7 +507,7 @@ class ActivityLogsController extends Controller
                                 if($act->after == null ){
                                     $value = "-";
                                 }else{
-                                    $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                    $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                 }
                             }else if($act->field == "POUTransferDate"){
                                 if($act->after == null ){
@@ -674,7 +674,7 @@ class ActivityLogsController extends Controller
                                 if($act->after == null ){
                                     $value = "-";
                                 }else{
-                                    $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                    $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                 }
                             }else if($act->field == "CUDelTransfer"){
                                 if($act->after == 1 ){
@@ -687,7 +687,7 @@ class ActivityLogsController extends Controller
                                 if($act->after == null ){
                                     $value = "-";
                                 }else{
-                                    $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                    $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                 }
                             }else if($act->field == "WSToA"){
                                 if($act->after == 1){
@@ -1016,7 +1016,7 @@ class ActivityLogsController extends Controller
                                     if($act->before == null ){
                                         $valueB = "-";
                                     }else{
-                                        $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                        $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                     }
                                 }else if($act->field == "POUTransferDate"){
                                     if($act->before == null ){
@@ -1183,7 +1183,7 @@ class ActivityLogsController extends Controller
                                     if($act->before == null ){
                                         $valueB = "-";
                                     }else{
-                                        $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                        $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                     }
                                 }else if($act->field == "CUDelTransfer"){
                                     if($act->before == 1 ){
@@ -1196,7 +1196,7 @@ class ActivityLogsController extends Controller
                                     if($act->before == null ){
                                         $valueB = "-";
                                     }else{
-                                        $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                        $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                     }
                                 }else if($act->field == "WSToA"){
                                     if($act->before == 1){
@@ -1516,7 +1516,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $valueA = "-";
                                     }else{
-                                        $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "POUTransferDate"){
                                     if($act->after == null ){
@@ -1683,7 +1683,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $valueA = "-";
                                     }else{
-                                        $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "CUDelTransfer"){
                                     if($act->after == 1 ){
@@ -1696,7 +1696,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $valueA = "-";
                                     }else{
-                                        $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "WSToA"){
                                     if($act->after == 1){
@@ -2309,7 +2309,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $value = "-";
                                     }else{
-                                        $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "POUTransferDate"){
                                     if($act->after == null ){
@@ -2476,7 +2476,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $value = "-";
                                     }else{
-                                        $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "CUDelTransfer"){
                                     if($act->after == 1 ){
@@ -2489,7 +2489,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $value = "-";
                                     }else{
-                                        $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "WSToA"){
                                     if($act->after == 1){
@@ -2818,7 +2818,7 @@ class ActivityLogsController extends Controller
                                         if($act->before == null ){
                                             $valueB = "-";
                                         }else{
-                                            $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                            $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                         }
                                     }else if($act->field == "POUTransferDate"){
                                         if($act->before == null ){
@@ -2985,7 +2985,7 @@ class ActivityLogsController extends Controller
                                         if($act->before == null ){
                                             $valueB = "-";
                                         }else{
-                                            $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                            $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                         }
                                     }else if($act->field == "CUDelTransfer"){
                                         if($act->before == 1 ){
@@ -2998,7 +2998,7 @@ class ActivityLogsController extends Controller
                                         if($act->before == null ){
                                             $valueB = "-";
                                         }else{
-                                            $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                            $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                         }
                                     }else if($act->field == "WSToA"){
                                         if($act->before == 1){
@@ -3318,7 +3318,7 @@ class ActivityLogsController extends Controller
                                         if($act->after == null ){
                                             $valueA = "-";
                                         }else{
-                                            $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                            $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                         }
                                     }else if($act->field == "POUTransferDate"){
                                         if($act->after == null ){
@@ -3485,7 +3485,7 @@ class ActivityLogsController extends Controller
                                         if($act->after == null ){
                                             $valueA = "-";
                                         }else{
-                                            $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                            $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                         }
                                     }else if($act->field == "CUDelTransfer"){
                                         if($act->after == 1 ){
@@ -3498,7 +3498,7 @@ class ActivityLogsController extends Controller
                                         if($act->after == null ){
                                             $valueA = "-";
                                         }else{
-                                            $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                            $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                         }
                                     }else if($act->field == "WSToA"){
                                         if($act->after == 1){
@@ -4106,7 +4106,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $value = "-";
                                     }else{
-                                        $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "POUTransferDate"){
                                     if($act->after == null ){
@@ -4273,7 +4273,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $value = "-";
                                     }else{
-                                        $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "CUDelTransfer"){
                                     if($act->after == 1 ){
@@ -4286,7 +4286,7 @@ class ActivityLogsController extends Controller
                                     if($act->after == null ){
                                         $value = "-";
                                     }else{
-                                        $value = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                        $value = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                     }
                                 }else if($act->field == "WSToA"){
                                     if($act->after == 1){
@@ -4615,7 +4615,7 @@ class ActivityLogsController extends Controller
                                         if($act->before == null ){
                                             $valueB = "-";
                                         }else{
-                                            $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                            $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                         }
                                     }else if($act->field == "POUTransferDate"){
                                         if($act->before == null ){
@@ -4782,7 +4782,7 @@ class ActivityLogsController extends Controller
                                         if($act->before == null ){
                                             $valueB = "-";
                                         }else{
-                                            $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                            $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                         }
                                     }else if($act->field == "CUDelTransfer"){
                                         if($act->before == 1 ){
@@ -4795,7 +4795,7 @@ class ActivityLogsController extends Controller
                                         if($act->before == null ){
                                             $valueB = "-";
                                         }else{
-                                            $valueB = DB::table('bay_areas')->where('id',$act->before)->first()->area_name;
+                                            $valueB = DB::table('wms_bay_areas')->where('id',$act->before)->first()->area_name;
                                         }
                                     }else if($act->field == "WSToA"){
                                         if($act->before == 1){
@@ -5115,7 +5115,7 @@ class ActivityLogsController extends Controller
                                         if($act->after == null ){
                                             $valueA = "-";
                                         }else{
-                                            $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                            $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                         }
                                     }else if($act->field == "POUTransferDate"){
                                         if($act->after == null ){
@@ -5282,7 +5282,7 @@ class ActivityLogsController extends Controller
                                         if($act->after == null ){
                                             $valueA = "-";
                                         }else{
-                                            $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                            $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                         }
                                     }else if($act->field == "CUDelTransfer"){
                                         if($act->after == 1 ){
@@ -5295,7 +5295,7 @@ class ActivityLogsController extends Controller
                                         if($act->after == null ){
                                             $valueA = "-";
                                         }else{
-                                            $valueA = DB::table('bay_areas')->where('id',$act->after)->first()->area_name;
+                                            $valueA = DB::table('wms_bay_areas')->where('id',$act->after)->first()->area_name;
                                         }
                                     }else if($act->field == "WSToA"){
                                         if($act->after == 1){
