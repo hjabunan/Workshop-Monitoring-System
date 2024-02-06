@@ -951,6 +951,20 @@ class OtherReportController extends Controller
                     $newLog->ipaddress =  request()->ip();
                     $newLog->save();
                 }
+                
+                $areaName = BayArea::where('id', $POUB->WSBayNum)->value('area_name');
+
+                $newLog = new ActivityLog();
+                $newLog->table = 'Downtime Table';
+                $newLog->table_key = $downtime->id;
+                $newLog->action = 'ADD';
+                $newLog->description = $POUB->POUSerialNum;
+                $newLog->field = 'Bay Area';
+                $newLog->before = null;
+                $newLog->after = $areaName;
+                $newLog->user_id = Auth::user()->id;
+                $newLog->ipaddress =  request()->ip();
+                $newLog->save();
         }else{
             $downtime = UnitDowntime::find($request->DTID);
             $downtime->DTJONum = $request->JONum;
