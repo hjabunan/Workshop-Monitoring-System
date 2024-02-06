@@ -10,4 +10,8 @@ class ActivityLog extends Model
     use HasFactory;
 
     protected $table = "wms_activity_logs";
+
+    public function userDetails() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
