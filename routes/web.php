@@ -674,6 +674,7 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         // Logs
             Route::get('/system-management/activity-logs', [ActivityLogsController::class, 'index'])->name('activity-logs.index');
             Route::GET('/system-management/activity-logs/getLogs', [ActivityLogsController::class, 'getLogs'])->name('activity-logs.getLogs');
+            Route::get('/system-management/activity-logs/{search}', [ActivityLogsController::class, 'search']);
 
         // User Management
             Route::get('/system-management/user', [UserController::class, 'index'])->name('user.index');

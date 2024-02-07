@@ -9,25 +9,29 @@ use Illuminate\Support\Facades\DB;
 class ActivityLogsController extends Controller
 {
     public function index(){
+        
+        $search = '';
+
         // $logs = DB::table('wms_activity_logs')
-            // ->select('table', 'table_key', 'action', 'description', 'field', 'before', 'after', 'name', 'ipaddress','wms_activity_logs.created_at','wms_activity_logs.updated_at')
-            // ->leftJoin('wms_users', 'wms_activity_logs.user_id', 'wms_users.id')
-            // ->whereIn('wms_activity_logs.id', function ($query) {
-            //     $query->select(DB::raw('MIN(id)'))
-            //         ->from('wms_activity_logs')
-            //         ->groupBy('table_key','table');
-            // })
-            // ->orderBy('wms_activity_logs.created_at', 'desc')
+        //     ->select('table', 'table_key', 'action', 'description', 'field', 'before', 'after', 'name', 'ipaddress','wms_activity_logs.created_at','wms_activity_logs.updated_at')
+        //     ->leftJoin('wms_users', 'wms_activity_logs.user_id', 'wms_users.id')
+        //     ->whereIn('wms_activity_logs.id', function ($query) {
+        //         $query->select(DB::raw('MIN(id)'))
+        //             ->from('wms_activity_logs')
+        //             ->groupBy('table_key','table');
+        //     })
+        //     ->orderBy('wms_activity_logs.created_at', 'desc')
         // ->paginate(25);
 
         $logs = ActivityLog::with('userDetails')
             ->select('table', 'table_key', 'description', 'user_id')
             ->orderBy('wms_activity_logs.created_at', 'desc')
             ->distinct()
-            ->paginate(25);
+            // ->groupBy('table', 'table_key', 'description', 'user_id')
+            ->simplePaginate(25);
 
 
-        return view('system-management.activity-logs.index', compact('logs'));
+        return view('system-management.activity-logs.index', compact('search','logs'));
     }
 
     public function getLogs(Request $request){
@@ -51,8 +55,8 @@ class ActivityLogsController extends Controller
                 $cdate = $act->created_at;
             }
 
-// FIRST ENTRY
-            if ($ndate == $cdate) {
+        // FIRST ENTRY
+        if ($ndate == $cdate) {
                 // Unit - PULLOUT
                     if($act->field == 'IsBrandNew'){
                         $label = "Brand New Unit";
@@ -1832,7 +1836,7 @@ class ActivityLogsController extends Controller
                     $additionalClass = "bg-red-300";
                     $content .= 'Deleted.';
                 }
-            // 
+                // 
                 $action = $act->action;
             }
             
@@ -5438,5 +5442,18 @@ class ActivityLogsController extends Controller
             $x++;
         }
         return response()->json($result);
+    }
+
+    public function search($search){
+        $search = $search;
+
+        $logs = ActivityLog::with('userDetails')
+            ->select('table', 'table_key', 'description', 'user_id')
+            ->whereRaw("CONCAT_WS(' ', description) LIKE '%{$search}%'")
+            ->orderBy('wms_activity_logs.created_at', 'desc')
+            ->distinct()
+            ->simplePaginate();
+                    
+        return view('system-management.activity-logs.index', compact('search','logs'));
     }
 }
