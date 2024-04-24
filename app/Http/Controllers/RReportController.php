@@ -3871,7 +3871,7 @@ class RReportController extends Controller
                     $POUBData['POUSB2CTable'] = strtoupper($request->POUSB2CTable);
                 }
                 
-                $POUB = UnitPullOutBat::where('POUID', $POUIDe)->where('is_deleted',0)->first();
+                $POUB = UnitPullOutBat::where('POUID', $POUIDe)->first();
                 $dirtyAttributesPOUB = array_intersect_key($POUBData, $POUB->getOriginal());
 
                 foreach ($dirtyAttributesPOUB as $attribute => $newValue) {

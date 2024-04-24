@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ActivityLogsController;
 use App\Http\Controllers\AdminMonitor;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BayAreaController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BTReportController;
@@ -96,11 +97,11 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
-        Route::GET('/area/edit/{tab}/{id}', [AreaController::class, 'edit']);
-        Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
-        Route::POST('/area/updateC', [AreaController::class, 'updateC'])->name('area.updateC');
-        Route::POST('/area/update/{id}', [AreaController::class, 'update']);
+        // Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
+        // Route::GET('/area/edit/{tab}/{id}', [AreaController::class, 'edit']);
+        // Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
+        // Route::POST('/area/updateC', [AreaController::class, 'updateC'])->name('area.updateC');
+        // Route::POST('/area/update/{id}', [AreaController::class, 'update']);
     });
 
 // START OF WORKSHOP MONITORING SYSTEM
