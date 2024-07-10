@@ -32,7 +32,10 @@ class TechnicianScheduleController extends Controller
 
         $tech = DB::SELECT('SELECT id, name, initials FROM wms_technicians WHERE status="1"');
 
-        $bay = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSBayNum, wms_bay_areas.id as BayID, wms_bay_areas.area_name FROM unit_workshops INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum WHERE isBrandNew=0 AND WSDelTransfer = 0 AND unit_workshops.is_deleted=0' );
+        $bay = DB::SELECT('SELECT unit_workshops.id as WSID, unit_workshops.WSBayNum, wms_bay_areas.id as BayID, wms_bay_areas.area_name 
+                            FROM unit_workshops INNER JOIN wms_bay_areas on wms_bay_areas.id = unit_workshops.WSBayNum 
+                            WHERE isBrandNew=0 AND WSDelTransfer = 0 AND unit_workshops.is_deleted=0 
+                            ORDER BY wms_bay_areas.area_name' );
 
         return view('workshop-ms.admin_monitoring.tech_schedule',compact('techsched','tech','bay','techschedX'));
     }
