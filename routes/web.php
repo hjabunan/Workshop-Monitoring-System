@@ -97,11 +97,11 @@ Route::GET('/get-sname', [DashboardController::class, 'getSName'])->name('dashbo
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        // Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
-        // Route::GET('/area/edit/{tab}/{id}', [AreaController::class, 'edit']);
-        // Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
-        // Route::POST('/area/updateC', [AreaController::class, 'updateC'])->name('area.updateC');
-        // Route::POST('/area/update/{id}', [AreaController::class, 'update']);
+        Route::POST('/area/add', [AreaController::class, 'add'])->name('area.add');
+        Route::GET('/area/edit/{tab}/{id}', [AreaController::class, 'edit']);
+        Route::POST('/area/delete', [AreaController::class, 'delete'])->name('area.delete');
+        Route::POST('/area/updateC', [AreaController::class, 'updateC'])->name('area.updateC');
+        Route::POST('/area/update/{id}', [AreaController::class, 'update']);
     });
 
 // START OF WORKSHOP MONITORING SYSTEM
