@@ -14,11 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('departments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name');
-            $table->string('is_deleted')->default('0');
-            $table->string('is_active')->default('1');
-            $table->string('key');
+            $table->tinyInteger('is_active')->default('1');
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,7 @@ class DepartmentController extends Controller
         ]);
         $deptname = new Department;
         $deptname->name = strtoupper($request->deptname);
+        $deptname->key = Str::uuid();
         $deptname->save();
 
         return redirect()->route('department.index');
@@ -48,7 +50,7 @@ class DepartmentController extends Controller
 
         $department0 = Department::find($id);
         $department0->name = strtoupper($request->deptname);
-        $department0->status = strtoupper($request->status);
+        $department0->is_active = strtoupper($request->status);
         $department0->update();
 
         return redirect()->route('department.index');
